@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('branch_ledgers', function (Blueprint $table) {
             $table->id();
             $table->string('branch_code', 20)->unique();
-            $table->foreignId('gl_id')->constrained('general_ledger')->onDelete('cascade');
+            $table->foreignId('gl_id')->constrained('general_ledgers')->onDelete('cascade');
             $table->date('open_date')->notNull();
             $table->decimal('open_balance', 12, 2)->notNull();
             $table->decimal('balance', 12, 2)->notNull();
