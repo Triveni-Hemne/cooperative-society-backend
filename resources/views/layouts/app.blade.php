@@ -15,10 +15,10 @@
     @include('layouts.header')
 
     <div class="row" style="height: 81vh; margin: 0px;">
-        <div class="col-3 bg-primary">
+        <div class="col-2 p-0">
             @include('layouts.sidebar')
         </div>
-        <div class="col bg-danger">
+        <div class="col bg-danger p-0">
             @yield('content')
         </div>
     </div>
