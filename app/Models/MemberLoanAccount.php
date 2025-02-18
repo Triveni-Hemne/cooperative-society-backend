@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 class MemberLoanAccount extends Model
 {
-   use HasFactory;
+  use HasFactory;
 
     protected $fillable = [
         'ledger_id',
@@ -37,16 +37,23 @@ class MemberLoanAccount extends Model
         'insurance_date',
     ];
 
-    public function member()
-    {
-        return $this->belongsTo(Member::class, 'member_id');
-    }
-
+    /**
+     * Relationships
+     */
+    
+    // Belongs to General Ledger
     public function ledger()
     {
-        return $this->belongsTo(GeneralLedger::class, 'ledger_id');
+        return $this->belongsTo(GeneralLedger::class);
     }
 
+    // Belongs to Member
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
+    }
+
+    // Guarantors (nullable)
     public function guarantor1()
     {
         return $this->belongsTo(Member::class, 'guarantor1_id');
@@ -60,5 +67,27 @@ class MemberLoanAccount extends Model
     public function guarantor3()
     {
         return $this->belongsTo(Member::class, 'guarantor3_id');
+    }
+
+    /**
+     * Accessors & Mutators (if needed)
+     */
+    
+    // Convert open balance to float
+    public function getOpenBalanceAttribute($value)
+    {
+        return (float) $value;
+    }
+
+    // Convert balance to float
+    public function getBalanceAttribute($value)
+    {
+        return (float) $value;
+    }
+
+    // Convert interest rate to float
+    public function getInterestRateAttribute($value)
+    {
+        return (float) $value;
     }
 }

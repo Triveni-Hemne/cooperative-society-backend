@@ -9,34 +9,13 @@ class BankInvestment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'ledger_id',
-        'account_id',
-        'name',
-        'investment_type',
-        'interest_rate',
-        'opening_date',
-        'opening_balance',
-        'current_balance',
-        'maturity_date',
-        'deposit_term_days',
-        'months',
-        'years',
-        'fd_amount',
-        'monthly_deposit',
-        'rd_term_months',
+        'deopsite_account_id',
+        'fd_term_months',
         'maturity_amount',
-        'interest',
-        'interest_receivable',
-        'interest_frequency',
     ];
 
-    public function ledger()
+   public function depositAccount()
     {
-        return $this->belongsTo(ScheduleLedger::class, 'ledger_id');
-    }
-
-    public function account()
-    {
-        return $this->belongsTo(Account::class, 'account_id');
+        return $this->belongsTo(MemberDepoAccount::class, 'deopsite_account_id');
     }
 }
