@@ -22,8 +22,10 @@ return new class extends Migration
             $table->date('date')->notNull();
             $table->string('receipt_id', 50)->unique()->nullable();
             $table->string('payment_id', 50)->nullable();
-            $table->foreignId('ledger_id')->constrained('schedule_ledgers')->onDelete('cascade');
+            $table->foreignId('ledger_id')->constrained('general_ledgers')->onDelete('cascade');
             $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('set null');
+            $table->foreignId('member_depo_account_id')->nullable()->constrained('member_depo_accounts')->onDelete('set null');
+            $table->foreignId('member_loan_account_id')->nullable()->constrained('member_loan_accounts')->onDelete('set null');
             $table->date('from_date')->nullable();
             $table->date('to_date')->nullable();
             $table->decimal('opening_balance', 12, 2)->notNull();

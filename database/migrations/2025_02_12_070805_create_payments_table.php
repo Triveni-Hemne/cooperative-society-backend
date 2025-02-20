@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('member_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('account_id')->constrained('accounts')->onDelete('cascade');
-            $table->decimal('amount', 12, 2);
-            $table->date('payment_date');
+            $table->foreignId('member_id')->nullable()->constrained('members')->onDelete('cascade');
+            $table->foreignId('member_depo_account_id')->nullable()->constrained('member_depo_accounts')->onDelete('cascade');
+            $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('cascade');
+            $table->foreignId('member_loan_account_id')->nullable()->constrained('member_loan_accounts')->onDelete('cascade');
+            $table->decimal('amount', 12, 2)->notNull();
+            $table->date('payment_date')->notNull();
             $table->enum('method', ['Cash', 'Bank Transfer', 'Cheque']);
             $table->enum('status', ['Pending', 'Completed', 'Failed'])->default('Pending');
             $table->timestamps();

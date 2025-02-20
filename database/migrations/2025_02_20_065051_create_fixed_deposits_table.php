@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('branches', function (Blueprint $table) {
+        Schema::create('fixed_deposits', function (Blueprint $table) {
             $table->id();
-            $table->string('branch_code', 20)->unique();
-            $table->string('name', 100);
-            $table->text('location');
-            $table->foreignId('manager_id')->constrained('employees')->onDelete('cascade');
+            $table->foreignId('deposit_account_id')->constrained('member_depo_accounts')->onDelete('cascade');
+            $table->integer('fd_term_months');
+            $table->decimal('maturity_amount', 10, 2)->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('branches');
+        Schema::dropIfExists('fixed_deposits');
     }
 };

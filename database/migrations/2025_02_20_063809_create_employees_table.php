@@ -13,20 +13,21 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('member_id')->constrained('members')->onDelete('cascade');
             $table->string('emp_code', 50)->unique();
             $table->foreignId('designation_id')->constrained('designations')->onDelete('cascade');
-            $table->decimal('salary', 10, 2)->default(0);
+            $table->decimal('salary', 10, 2);
             $table->decimal('other_allowance', 10, 2)->nullable();
-            $table->foreignId('division_id')->constrained('divisions')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('subdivision_id')->nullable()->constrained('subdivisions')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('center_id')->nullable()->constrained('centers')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('division_id')->constrained('divisions')->onDelete('cascade');
+            $table->foreignId('subdivision_id')->constrained('subdivisions')->onDelete('cascade');
+            $table->foreignId('center_id')->constrained('centers')->onDelete('cascade');
             $table->date('joining_date');
             $table->date('transfer_date')->nullable();
             $table->date('retirement_date')->nullable();
             $table->string('gpf_no', 50)->unique()->nullable();
             $table->decimal('hra', 10, 2)->nullable();
             $table->decimal('da', 10, 2)->nullable();
-            $table->enum('status', ['Active', 'Inactive', 'Retired'])->default('Active');
+            $table->enum('status', ['Active', 'Inactive', 'Retired']);
             $table->timestamps();
         });
     }

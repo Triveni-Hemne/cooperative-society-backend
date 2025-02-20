@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('standing_instructions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('credit_ledger_id')->constrained('schedule_ledgers')->onDelete('cascade');
-            $table->foreignId('credit_account_id')->constrained('accounts')->onDelete('cascade');
-            $table->decimal('credit_transfer', 12, 2);
-            $table->foreignId('debit_ledger_id')->constrained('schedule_ledgers')->onDelete('cascade');
-            $table->foreignId('debit_account_id')->constrained('accounts')->onDelete('cascade');
-            $table->decimal('debit_transfer', 12, 2);
+            $table->foreignId('credit_ledger_id')->nullable()->constrained('general_ledgers')->onDelete('cascade');
+            $table->foreignId('credit_account_id')->nullable()->constrained('accounts')->onDelete('cascade');
+            $table->decimal('credit_transfer', 12, 2)->nullable();
+            $table->foreignId('debit_ledger_id')->nullable()->constrained('general_ledgers')->onDelete('cascade');
+            $table->foreignId('debit_account_id')->nullable()->constrained('accounts')->onDelete('cascade');
+            $table->decimal('debit_transfer', 12, 2)->nullable();
             $table->date('date');
             $table->enum('frequency', ['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Yearly']);
             $table->integer('no_of_times');

@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('directors', function (Blueprint $table) {
             $table->id();
             $table->foreignId('member_id')->constrained('members')->onDelete('cascade');
-            $table->string('name', 255);
-            $table->string('email', 255)->unique();
+            $table->string('name');
+            $table->string('naav');
+            $table->string('email')->unique();
             $table->string('contact_no', 20);
             $table->foreignId('designation_id')->constrained('designations')->onDelete('cascade');
             $table->enum('status', ['Active', 'Inactive'])->default('Active');

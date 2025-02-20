@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('dividend_amount', 10, 2)->nullable();
             $table->decimal('monthly_deposit', 10, 2)->notNull();
             $table->decimal('demand', 10, 2)->nullable();
+            $table->enum('type', ['Share', 'Dividend', 'Deposit']);
             $table->timestamps();
         });
     }

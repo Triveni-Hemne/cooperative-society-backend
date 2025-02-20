@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('bank_investments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ledger_id')->constrained('schedule_ledgers')->onDelete('cascade');
-            $table->foreignId('account_id')->constrained('accounts')->onDelete('cascade');
+            $table->foreignId('ledger_id')->constrained('general_ledgers')->onDelete('cascade');
+            $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('cascade');
+            $table->foreignId('depo_account_id')->nullable()->constrained('member_depo_accounts')->onDelete('cascade');
             $table->string('name');
             $table->enum('investment_type', ['FD', 'RD', 'Other']);
             $table->decimal('interest_rate', 5, 2)->default(0.00);

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('date')->notNull();
             $table->string('receipt_id', 50)->unique()->nullable();
             $table->string('payment_id', 50)->unique()->nullable();
-            $table->foreignId('ledger_id')->constrained('schedule_ledgers')->onDelete('cascade');
+            $table->foreignId('ledger_id')->constrained('general_ledgers')->onDelete('cascade');
             $table->decimal('opening_balance', 12, 2)->notNull();
             $table->decimal('current_balance', 12, 2)->notNull();
             $table->text('narration')->nullable();

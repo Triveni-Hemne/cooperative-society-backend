@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('deposit_nominees', function (Blueprint $table) {
+        Schema::create('installment_transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('deposit_account_id')->constrained('member_depo_accounts')->onDelete('cascade');
-            $table->string('name', 255)->notNull();
-            $table->integer('age')->nullable();
-            $table->enum('gender', ['Male', 'Female', 'Other']);
-            $table->string('relation', 100)->notNull();
-            $table->string('nominee_image', 255)->nullable();
+            $table->integer('installment_no');
+            $table->decimal('amount_paid', 10, 2);
+            $table->date('payment_date');
+            $table->decimal('interest_earned', 10, 2)->nullable();
+            $table->decimal('total_balance', 12, 2);
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('deposit_nominees');
+        Schema::dropIfExists('installment_transactions');
     }
 };

@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('installment_transactions', function (Blueprint $table) {
+        Schema::create('savings_accounts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('deposit_account_id')->constrained('member_depo_accounts')->onDelete('cascade');
-            $table->integer('installment_no')->notNull();
-            $table->decimal('amount_paid', 10, 2)->notNull();
-            $table->date('payment_date')->notNull();
-            $table->decimal('interest_earned', 10, 2)->nullable();
-            $table->decimal('total_balance', 12, 2)->notNull();
+            $table->decimal('balance', 15, 2)->default(0.00);
+            $table->decimal('interest_rate', 5, 2)->default(3.50)->comment('Annual Interest Rate (%)');
+            $table->enum('status', ['Active', 'Dormant', 'Closed'])->default('Active');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('installment_transactions');
+        Schema::dropIfExists('savings_accounts');
     }
 };
