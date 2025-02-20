@@ -9,25 +9,16 @@ class MemberFinancial extends Model
     use HasFactory;
 
     protected $fillable = [
-        'member_id',
-        'director_id',
-        'share_amount',
-        'welfare_fund',
-        'page_no',
-        'current_balance',
-        'monthly_balance',
-        'dividend_amount',
-        'monthly_deposit',
-        'demand',
+        'member_id', 'director_id', 'share_amount', 'welfare_fund', 'page_no',
+        'current_balance', 'monthly_balance', 'dividend_amount', 'monthly_deposit',
+        'demand', 'type'
     ];
 
-    public function member()
-    {
+    public function member() {
         return $this->belongsTo(Member::class, 'member_id');
     }
 
-    public function director()
-    {
-        return $this->belongsTo(User::class, 'director_id');
+    public function director() {
+        return $this->belongsTo(Member::class, 'director_id');
     }
 }

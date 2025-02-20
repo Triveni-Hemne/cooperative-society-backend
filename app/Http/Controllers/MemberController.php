@@ -33,19 +33,18 @@ class MemberController extends Controller
     {
         $validated = $request->validate([
             'member_id' => 'required|string|max:50|unique:members,member_id',
-            'emp_ac_id' => 'nullable|exists:employees,id',
-            'department_id' => 'nullable|exists:departments,id',
+            'subcaste_id' => 'nullable|exists:subcaste,id',
             'name' => 'required|string|max:255',
             'dob' => 'required|date',
-            'gender' => ['required', Rule::in(['Male', 'Female', 'Other'])],
-            'age' => 'required|integer|min:1',
+            'gender' => 'required|in:Male,Female,Other',
+            'age' => 'required|integer|min:0',
             'date_of_joining' => 'nullable|date',
             'religion' => 'nullable|string|max:100',
-            'category' => ['required', Rule::in(['ST', 'OBC', 'General', 'NT'])],
+            'category' => 'required|in:ST,OBC,General,NT',
             'caste' => 'required|string|max:100',
             'm_reg_no' => 'nullable|string|max:50',
             'pan_no' => 'nullable|string|max:20',
-            'status' => ['required', Rule::in(['Active', 'Inactive'])],
+            'status' => 'required|in:Active,Inactive'
         ]);
 
         $member = Member::create($validated);
@@ -77,20 +76,19 @@ class MemberController extends Controller
         $member = Member::findOrFail($id);
 
         $validated = $request->validate([
-            'member_id' => 'required|string|max:50|unique:members,member_id,' . $id,
-            'emp_ac_id' => 'nullable|exists:employees,id',
-            'department_id' => 'nullable|exists:departments,id',
+            'member_id' => 'required|string|max:50|unique:members,member_id',
+            'subcaste_id' => 'nullable|exists:subcaste,id',
             'name' => 'required|string|max:255',
             'dob' => 'required|date',
-            'gender' => ['required', Rule::in(['Male', 'Female', 'Other'])],
-            'age' => 'required|integer|min:1',
+            'gender' => 'required|in:Male,Female,Other',
+            'age' => 'required|integer|min:0',
             'date_of_joining' => 'nullable|date',
             'religion' => 'nullable|string|max:100',
-            'category' => ['required', Rule::in(['ST', 'OBC', 'General', 'NT'])],
+            'category' => 'required|in:ST,OBC,General,NT',
             'caste' => 'required|string|max:100',
             'm_reg_no' => 'nullable|string|max:50',
             'pan_no' => 'nullable|string|max:20',
-            'status' => ['required', Rule::in(['Active', 'Inactive'])],
+            'status' => 'required|in:Active,Inactive'
         ]);
 
         $member->update($validated);

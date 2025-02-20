@@ -32,6 +32,7 @@ class DivisionController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'naav' => 'nullable|string|max:255',
             'description' => 'nullable|string',
         ]);
 
@@ -65,6 +66,7 @@ class DivisionController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'naav' => 'nullable|string|max:255',
             'description' => 'nullable|string',
         ]);
 

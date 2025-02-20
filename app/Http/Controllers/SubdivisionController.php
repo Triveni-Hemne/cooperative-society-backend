@@ -32,7 +32,8 @@ class SubdivisionController extends Controller
     {
         $validated = $request->validate([
             'division_id' => 'required|exists:divisions,id',
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:100',
+            'naav' => 'required|string|max:100',
             'address' => 'nullable|string',
             'description' => 'nullable|string',
         ]);
@@ -63,17 +64,19 @@ class SubdivisionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $subdivision = Subdivision::findOrFail($id);
+        $subdivision = Subdivision::find($id);
+        if (!$subdivision) return response()->json(['message' => 'Not Found'], 404);
 
-        $validated = $request->validate([
-            'division_id' => 'required|exists:divisions,id',
-            'name' => 'required|string|max:255',
+        $request->validate([
+            'division_id' => 'exists:divisions,id',
+            'name' => 'string|max:100',
+            'naav' => 'string|max:100',
             'address' => 'nullable|string',
             'description' => 'nullable|string',
         ]);
 
-        $subdivision->update($validated);
-        return response()->json(['message' => 'Subdivision updated successfully', 'subdivision' => $subdivision]);
+        $subdivision->update($request->all());
+        return response()->json($subdivision, 200);
     }
 
     /**

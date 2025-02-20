@@ -31,9 +31,26 @@ class BankInvestmentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'deopsite_account_id' => 'required|exists:member_depo_accounts,id',
-            'fd_term_months' => 'required|integer|min:1',
-            'maturity_amount' => 'nullable|numeric|min:0',
+            'ledger_id' => 'required|exists:ledgers,id',
+            'account_id' => 'nullable|exists:accounts,id',
+            'depo_account_id' => 'nullable|exists:deposit_accounts,id',
+            'name' => 'required|string|max:255',
+            'investment_type' => 'required|in:FD,RD,Other',
+            'interest_rate' => 'required|numeric|min:0',
+            'opening_date' => 'required|date',
+            'opening_balance' => 'required|numeric|min:0',
+            'current_balance' => 'required|numeric|min:0',
+            'maturity_date' => 'required|date',
+            'deposit_term_days' => 'nullable|integer',
+            'months' => 'nullable|integer',
+            'years' => 'nullable|integer',
+            'fd_amount' => 'nullable|numeric|min:0',
+            'monthly_deposit' => 'nullable|numeric|min:0',
+            'rd_term_months' => 'nullable|integer',
+            'maturity_amount' => 'required|numeric|min:0',
+            'interest' => 'required|numeric|min:0',
+            'interest_receivable' => 'required|numeric|min:0',
+            'interest_frequency' => 'nullable|string|max:255'
         ]);
         
         $bankInvestment = BankInvestment::create($request->all());
@@ -65,9 +82,22 @@ class BankInvestmentController extends Controller
         $bankInvestment = BankInvestment::findOrFail($id);
 
         $request->validate([
-            'deopsite_account_id' => 'sometimes|exists:member_depo_accounts,id',
-            'fd_term_months' => 'sometimes|integer|min:1',
-            'maturity_amount' => 'nullable|numeric|min:0',
+            'investment_type' => 'in:FD,RD,Other',
+            'interest_rate' => 'numeric|min:0',
+            'opening_date' => 'date',
+            'opening_balance' => 'numeric|min:0',
+            'current_balance' => 'numeric|min:0',
+            'maturity_date' => 'date',
+            'deposit_term_days' => 'nullable|integer',
+            'months' => 'nullable|integer',
+            'years' => 'nullable|integer',
+            'fd_amount' => 'nullable|numeric|min:0',
+            'monthly_deposit' => 'nullable|numeric|min:0',
+            'rd_term_months' => 'nullable|integer',
+            'maturity_amount' => 'numeric|min:0',
+            'interest' => 'numeric|min:0',
+            'interest_receivable' => 'numeric|min:0',
+            'interest_frequency' => 'nullable|string|max:255'
         ]);
 
         $bankInvestment->update($request->all());

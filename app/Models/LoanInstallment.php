@@ -16,11 +16,10 @@ class LoanInstallment extends Model
         'total_installments',
         'installment_amount',
         'installment_with_interest',
-        'total_installments_paid',
+        'total_installments_paid'
     ];
 
-    public function loan()
-    {
+    public function loan() {
         return $this->belongsTo(MemberLoanAccount::class, 'loan_id');
     }
 }

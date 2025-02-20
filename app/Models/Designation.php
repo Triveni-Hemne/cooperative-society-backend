@@ -9,8 +9,5 @@ class Designation extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'description',
-    ];
+    protected $fillable = ['name', 'naav', 'description'];
 }

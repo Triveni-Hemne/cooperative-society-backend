@@ -9,13 +9,10 @@ class LoanResolutionDetail extends Model
     use HasFactory;
 
     protected $fillable = [
-        'loan_id',
-        'resolution_no',
-        'resolution_date',
+        'loan_id', 'resolution_no', 'resolution_date'
     ];
 
-    public function loan()
-    {
+    public function loan() {
         return $this->belongsTo(MemberLoanAccount::class, 'loan_id');
     }
 }

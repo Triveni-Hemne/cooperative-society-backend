@@ -9,64 +9,24 @@ class MemberLoanAccount extends Model
   use HasFactory;
 
     protected $fillable = [
-        'ledger_id',
-        'member_id',
-        'acc_no',
-        'name',
-        'ac_start_date',
-        'open_balance',
-        'purpose',
-        'interest_rate',
-        'balance',
-        'priority',
-        'loan_amount',
-        'guarantor1_id',
-        'guarantor2_id',
-        'guarantor3_id',
-        'close_flag',
-        'add_to_demand',
-        'is_loss_asset',
-        'case_flag',
-        'page_no',
-        'interest',
-        'postage',
-        'insurance',
-        'open_interest',
-        'penal_interest',
-        'notice_fee',
-        'insurance_date',
+        'ledger_id', 'member_id', 'account_id', 'acc_no', 'loan_type', 'name',
+        'ac_start_date', 'open_balance', 'purpose', 'principal_amount', 'interest_rate',
+        'tenure', 'emi_amount', 'start_date', 'end_date', 'balance', 'priority',
+        'loan_amount', 'collateral_type', 'collateral_value', 'status', 'add_to_demand',
+        'is_loss_asset', 'case_flag', 'page_no', 'interest', 'postage', 'insurance',
+        'open_interest', 'penal_interest', 'notice_fee', 'insurance_date'
     ];
 
-    /**
-     * Relationships
-     */
-    
-    // Belongs to General Ledger
-    public function ledger()
-    {
-        return $this->belongsTo(GeneralLedger::class);
+    public function ledger() {
+        return $this->belongsTo(Ledger::class);
     }
 
-    // Belongs to Member
-    public function member()
-    {
+    public function member() {
         return $this->belongsTo(Member::class);
     }
 
-    // Guarantors (nullable)
-    public function guarantor1()
-    {
-        return $this->belongsTo(Member::class, 'guarantor1_id');
-    }
-
-    public function guarantor2()
-    {
-        return $this->belongsTo(Member::class, 'guarantor2_id');
-    }
-
-    public function guarantor3()
-    {
-        return $this->belongsTo(Member::class, 'guarantor3_id');
+    public function account() {
+        return $this->belongsTo(Account::class);
     }
 
     /**

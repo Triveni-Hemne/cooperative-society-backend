@@ -9,21 +9,12 @@ class GeneralLedger extends Model
     use HasFactory;
 
     protected $fillable = [
-        'schedule_id',
-        'name',
-        'balance',
-        'open_balance',
-        'min_amount',
-        'subsidiary',
-        'group',
-        'demand',
-        'type',
-        'gl_type',
-        'item_of',
+        'parent_ledger_id', 'name', 'type', 'balance', 'open_balance',
+        'min_amount', 'subsidiary', 'group', 'demand', 'type_detail',
+        'gl_type', 'item_of'
     ];
 
-    public function schedule()
-    {
-        return $this->belongsTo(ScheduleLedger::class, 'schedule_id');
+    public function parentLedger() {
+        return $this->belongsTo(GeneralLedger::class, 'parent_ledger_id');
     }
 }

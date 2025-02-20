@@ -20,26 +20,22 @@ class StandingInstruction extends Model
         'no_of_times',
         'bal_installment',
         'execution_date',
-        'amount',
+        'amount'
     ];
 
-    public function creditLedger()
-    {
-        return $this->belongsTo(ScheduleLedger::class, 'credit_ledger_id');
+    public function creditLedger() {
+        return $this->belongsTo(Ledger::class, 'credit_ledger_id');
     }
 
-    public function creditAccount()
-    {
+    public function creditAccount() {
         return $this->belongsTo(Account::class, 'credit_account_id');
     }
 
-    public function debitLedger()
-    {
-        return $this->belongsTo(ScheduleLedger::class, 'debit_ledger_id');
+    public function debitLedger() {
+        return $this->belongsTo(Ledger::class, 'debit_ledger_id');
     }
 
-    public function debitAccount()
-    {
+    public function debitAccount() {
         return $this->belongsTo(Account::class, 'debit_account_id');
     }
 }

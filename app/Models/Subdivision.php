@@ -9,10 +9,7 @@ class Subdivision extends Model
      use HasFactory;
 
     protected $fillable = [
-        'division_id',
-        'name',
-        'address',
-        'description',
+        'division_id', 'name', 'naav', 'address', 'description'
     ];
 
     public function division()

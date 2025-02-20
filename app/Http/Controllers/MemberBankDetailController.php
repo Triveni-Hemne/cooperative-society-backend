@@ -33,12 +33,12 @@ class MemberBankDetailController extends Controller
             'member_id' => 'required|exists:members,id',
             'bank_name' => 'required|string|max:255',
             'branch_name' => 'required|string|max:255',
-            'ifsc_code' => 'required|string|max:11',
+            'ifsc_code' => 'required|string|size:11',
             'bank_account_no' => 'required|string|max:50|unique:member_bank_details,bank_account_no',
             'proof_1_no' => 'nullable|string|max:50|unique:member_bank_details,proof_1_no',
             'proof_1_type' => 'nullable|string|max:50',
             'proof_2_no' => 'nullable|string|max:50|unique:member_bank_details,proof_2_no',
-            'proof_2_type' => 'nullable|string|max:50',
+            'proof_2_type' => 'nullable|string|max:50'
         ]);
 
         $bankDetail = MemberBankDetail::create($request->all());
@@ -80,14 +80,15 @@ class MemberBankDetailController extends Controller
         }
 
         $request->validate([
-            'bank_name' => 'sometimes|string|max:255',
-            'branch_name' => 'sometimes|string|max:255',
-            'ifsc_code' => 'sometimes|string|max:11',
-            'bank_account_no' => 'sometimes|string|max:50|unique:member_bank_details,bank_account_no,' . $id,
-            'proof_1_no' => 'nullable|string|max:50|unique:member_bank_details,proof_1_no,' . $id,
+            'member_id' => 'required|exists:members,id',
+            'bank_name' => 'required|string|max:255',
+            'branch_name' => 'required|string|max:255',
+            'ifsc_code' => 'required|string|size:11',
+            'bank_account_no' => 'required|string|max:50|unique:member_bank_details,bank_account_no',
+            'proof_1_no' => 'nullable|string|max:50|unique:member_bank_details,proof_1_no',
             'proof_1_type' => 'nullable|string|max:50',
-            'proof_2_no' => 'nullable|string|max:50|unique:member_bank_details,proof_2_no,' . $id,
-            'proof_2_type' => 'nullable|string|max:50',
+            'proof_2_no' => 'nullable|string|max:50|unique:member_bank_details,proof_2_no',
+            'proof_2_type' => 'nullable|string|max:50'
         ]);
 
         $bankDetail->update($request->all());

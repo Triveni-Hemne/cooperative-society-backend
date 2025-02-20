@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('day_begins', function (Blueprint $table) {
             $table->id();
             $table->date('date')->unique();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('member_id')->constrained('members')->onDelete('cascade');
             $table->enum('status', ['Open', 'Closed'])->default('Open');
             $table->timestamps();
         });

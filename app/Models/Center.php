@@ -8,15 +8,9 @@ class Center extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'subdivision_id',
-        'name',
-        'address',
-        'description',
-    ];
+    protected $fillable = ['subdivision_id', 'name', 'naav', 'address', 'description'];
 
-    public function subdivision()
-    {
+    public function subdivision() {
         return $this->belongsTo(Subdivision::class);
     }
 }

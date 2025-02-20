@@ -35,7 +35,7 @@ class MemberContactDetailController extends Controller
             'address' => 'required|string',
             'city' => 'required|string|max:100',
             'mobile_no' => 'required|string|max:15',
-            'phone_no' => 'nullable|string|max:15',
+            'phone_no' => 'nullable|string|max:15'
         ]);
 
         $contact = MemberContactDetail::create($validated);
@@ -71,7 +71,7 @@ class MemberContactDetailController extends Controller
             'address' => 'required|string',
             'city' => 'required|string|max:100',
             'mobile_no' => 'required|string|max:15',
-            'phone_no' => 'nullable|string|max:15',
+            'phone_no' => 'nullable|string|max:15'
         ]);
 
         $contact->update($validated);

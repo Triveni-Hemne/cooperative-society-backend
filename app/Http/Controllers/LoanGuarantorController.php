@@ -31,12 +31,12 @@ class LoanGuarantorController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'loan_id' => 'required|exists:member_loan_accounts,id',
+           'loan_id' => 'required|exists:member_loan_accounts,id',
             'member_id' => 'required|exists:members,id',
             'guarantor_type' => 'required|in:Primary,Secondary,Tertiary',
-            'status' => 'in:Active,Released',
+            'status' => 'required|in:Active,Released',
             'added_on' => 'required|date',
-            'released_on' => 'nullable|date|after_or_equal:added_on',
+            'released_on' => 'nullable|date',
         ]);
 
         $loanGuarantor = LoanGuarantor::create($request->all());
@@ -68,11 +68,9 @@ class LoanGuarantorController extends Controller
         $loanGuarantor = LoanGuarantor::findOrFail($id);
 
         $request->validate([
-            'loan_id' => 'sometimes|exists:member_loan_accounts,id',
-            'member_id' => 'sometimes|exists:members,id',
-            'guarantor_type' => 'sometimes|in:Primary,Secondary,Tertiary',
-            'status' => 'sometimes|in:Active,Released',
-            'released_on' => 'nullable|date|after_or_equal:added_on',
+            'guarantor_type' => 'in:Primary,Secondary,Tertiary',
+            'status' => 'in:Active,Released',
+            'released_on' => 'nullable|date',
         ]);
 
         $loanGuarantor->update($request->all());

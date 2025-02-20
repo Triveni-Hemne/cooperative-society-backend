@@ -31,9 +31,9 @@ class RecurringDepositController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'deopsite_account_id' => 'required|exists:member_depo_accounts,id',
+            'deposit_account_id' => 'required|exists:member_depo_accounts,id',
             'rd_term_months' => 'required|integer|min:1',
-            'maturity_amount' => 'nullable|numeric|min:0',
+            'maturity_amount' => 'nullable|numeric|min:0'
         ]);
 
         $recurringDeposit = RecurringDeposit::create($request->all());
@@ -65,9 +65,8 @@ class RecurringDepositController extends Controller
         $recurringDeposit = RecurringDeposit::findOrFail($id);
 
         $request->validate([
-            'deopsite_account_id' => 'sometimes|exists:member_depo_accounts,id',
-            'rd_term_months' => 'sometimes|integer|min:1',
-            'maturity_amount' => 'nullable|numeric|min:0',
+           'rd_term_months' => 'integer|min:1',
+            'maturity_amount' => 'nullable|numeric|min:0'
         ]);
 
         $recurringDeposit->update($request->all());

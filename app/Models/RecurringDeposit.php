@@ -9,13 +9,10 @@ class RecurringDeposit extends Model
      use HasFactory;
 
     protected $fillable = [
-        'deopsite_account_id',
-        'rd_term_months',
-        'maturity_amount',
+        'deposit_account_id', 'rd_term_months', 'maturity_amount'
     ];
 
-    public function depositAccount()
-    {
-        return $this->belongsTo(MemberDepoAccount::class, 'deopsite_account_id');
+    public function depositAccount() {
+        return $this->belongsTo(MemberDepoAccount::class, 'deposit_account_id');
     }
 }

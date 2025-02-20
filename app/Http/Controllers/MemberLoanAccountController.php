@@ -36,16 +36,25 @@ class MemberLoanAccountController extends Controller
     public function store(Request $request)
     {
       $request->validate([
-            'ledger_id' => 'required|exists:general_ledgers,id',
+            'ledger_id' => 'required|exists:ledgers,id',
             'member_id' => 'required|exists:members,id',
-            'acc_no' => 'required|string|max:50|unique:member_loan_accounts',
+            'account_id' => 'nullable|exists:accounts,id',
+            'loan_type' => 'required|in:Personal Loan,Home Loan,Auto Loan,Business Loan',
             'name' => 'required|string|max:255',
             'ac_start_date' => 'required|date',
-            'open_balance' => 'required|numeric',
-            'purpose' => 'required|in:Agriculture,Construction,Cottage,SSI Unit,Dairy',
-            'interest_rate' => 'required|numeric',
-            'balance' => 'required|numeric',
-            'loan_amount' => 'required|numeric',
+            'open_balance' => 'required|numeric|min:0',
+            'purpose' => 'required|in:Agriculture,Construction,Cottage,Small Scale Industry',
+            'principal_amount' => 'required|numeric|min:0',
+            'interest_rate' => 'required|numeric|min:0',
+            'tenure' => 'required|integer|min:1',
+            'emi_amount' => 'required|numeric|min:0',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'balance' => 'required|numeric|min:0',
+            'loan_amount' => 'required|numeric|min:0',
+            'collateral_type' => 'required|in:Gold,Property,Vehicle,None',
+            'collateral_value' => 'required|numeric|min:0',
+            'status' => 'required|in:Active,Closed,Defaulted',
         ]);
 
         MemberLoanAccount::create($request->all());
@@ -83,16 +92,12 @@ class MemberLoanAccountController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'ledger_id' => 'required|exists:general_ledgers,id',
-            'member_id' => 'required|exists:members,id',
-            'acc_no' => 'required|string|max:50|unique:member_loan_accounts,acc_no,' . $memberLoanAccount->id,
-            'name' => 'required|string|max:255',
-            'ac_start_date' => 'required|date',
-            'open_balance' => 'required|numeric',
-            'purpose' => 'required|in:Agriculture,Construction,Cottage,SSI Unit,Dairy',
-            'interest_rate' => 'required|numeric',
-            'balance' => 'required|numeric',
-            'loan_amount' => 'required|numeric',
+            'interest_rate' => 'numeric|min:0',
+            'tenure' => 'integer|min:1',
+            'balance' => 'numeric|min:0',
+            'loan_amount' => 'numeric|min:0',
+            'collateral_value' => 'numeric|min:0',
+            'status' => 'in:Active,Closed,Defaulted',
         ]);
 
         $memberLoanAccount->update($request->all());

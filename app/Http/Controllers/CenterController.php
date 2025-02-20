@@ -30,15 +30,16 @@ class CenterController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'subdivision_id' => 'required|exists:subdivisions,id',
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:100',
+            'naav' => 'required|string|max:100',
             'address' => 'nullable|string',
             'description' => 'nullable|string',
         ]);
 
-        $center = Center::create($validated);
-        return response()->json(['message' => 'Center created successfully', 'center' => $center], 201);
+        $center = Center::create($request->all());
+        return response()->json($center, 201);
     }
 
     /**
@@ -46,8 +47,19 @@ class CenterController extends Controller
      */
     public function show(string $id)
     {
-        $center = Center::with('subdivision')->findOrFail($id);
-        return response()->json($center);
+        $center = Center::find($id);
+        if (!$center) return response()->json(['message' => 'Not Found'], 404);
+
+        $request->validate([
+            'subdivision_id' => 'exists:subdivisions,id',
+            'name' => 'string|max:100',
+            'naav' => 'string|max:100',
+            'address' => 'nullable|string',
+            'description' => 'nullable|string',
+        ]);
+
+        $center->update($request->all());
+        return response()->json($center, 200);
     }
 
     /**
@@ -66,8 +78,9 @@ class CenterController extends Controller
        $center = Center::findOrFail($id);
 
         $validated = $request->validate([
-            'subdivision_id' => 'required|exists:subdivisions,id',
-            'name' => 'required|string|max:255',
+            'subdivision_id' => 'exists:subdivisions,id',
+            'name' => 'string|max:100',
+            'naav' => 'string|max:100',
             'address' => 'nullable|string',
             'description' => 'nullable|string',
         ]);

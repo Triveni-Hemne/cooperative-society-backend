@@ -32,9 +32,11 @@ class MemberDepoAccountController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'ledger_id' => 'required|exists:general_ledgers,id',
-            'member_id' => 'required|exists:members,id',
-            'acc_no' => 'required|string|unique:member_depo_accounts,acc_no',
+           'ledger_id' => 'nullable|exists:ledgers,id',
+            'account_id' => 'nullable|exists:accounts,id',
+            'member_id' => 'nullable|exists:members,id',
+            'acc_no' => 'required|string|max:50|unique:member_depo_accounts',
+            'deposit_type' => 'required|in:Savings,Fixed Deposit,Recurring Deposit',
             'name' => 'required|string|max:255',
             'interest_rate' => 'required|numeric|min:0',
             'ac_start_date' => 'required|date',
@@ -45,13 +47,13 @@ class MemberDepoAccountController extends Controller
             'agent_id' => 'nullable|exists:agents,id',
             'page_no' => 'nullable|string|max:50',
             'installment_type' => 'nullable|in:Monthly,Quarterly,Yearly',
-            'installment_amount' => 'required|numeric|min:0',
+            'installment_amount' => 'nullable|numeric|min:0',
             'total_installments' => 'nullable|integer|min:0',
             'total_payable_amount' => 'nullable|numeric|min:0',
-            'total_installments_paid' => 'nullable|integer|min:0',
+            'total_installments_paid' => 'integer|min:0',
             'account_closing_date' => 'nullable|date',
             'interest_payable' => 'nullable|numeric|min:0',
-            'open_interest' => 'nullable|numeric|min:0',
+            'open_interest' => 'nullable|numeric|min:0'
         ]);
 
         $account = MemberDepoAccount::create($request->all());
@@ -83,26 +85,28 @@ class MemberDepoAccountController extends Controller
         $account = MemberDepoAccount::findOrFail($id);
 
         $request->validate([
-            'ledger_id' => 'sometimes|exists:general_ledgers,id',
-            'member_id' => 'sometimes|exists:members,id',
-            'acc_no' => 'sometimes|string|unique:member_depo_accounts,acc_no,' . $id,
-            'name' => 'sometimes|string|max:255',
-            'interest_rate' => 'sometimes|numeric|min:0',
-            'ac_start_date' => 'sometimes|date',
-            'open_balance' => 'sometimes|numeric|min:0',
-            'balance' => 'sometimes|numeric|min:0',
-            'closing_flag' => 'sometimes|boolean',
-            'add_to_demand' => 'sometimes|boolean',
+            'ledger_id' => 'nullable|exists:ledgers,id',
+            'account_id' => 'nullable|exists:accounts,id',
+            'member_id' => 'nullable|exists:members,id',
+            'acc_no' => 'required|string|max:50|unique:member_depo_accounts',
+            'deposit_type' => 'required|in:Savings,Fixed Deposit,Recurring Deposit',
+            'name' => 'required|string|max:255',
+            'interest_rate' => 'required|numeric|min:0',
+            'ac_start_date' => 'required|date',
+            'open_balance' => 'required|numeric|min:0',
+            'balance' => 'required|numeric|min:0',
+            'closing_flag' => 'boolean',
+            'add_to_demand' => 'boolean',
             'agent_id' => 'nullable|exists:agents,id',
             'page_no' => 'nullable|string|max:50',
             'installment_type' => 'nullable|in:Monthly,Quarterly,Yearly',
-            'installment_amount' => 'sometimes|numeric|min:0',
+            'installment_amount' => 'nullable|numeric|min:0',
             'total_installments' => 'nullable|integer|min:0',
             'total_payable_amount' => 'nullable|numeric|min:0',
-            'total_installments_paid' => 'nullable|integer|min:0',
+            'total_installments_paid' => 'integer|min:0',
             'account_closing_date' => 'nullable|date',
             'interest_payable' => 'nullable|numeric|min:0',
-            'open_interest' => 'nullable|numeric|min:0',
+            'open_interest' => 'nullable|numeric|min:0'
         ]);
 
         $account->update($request->all());

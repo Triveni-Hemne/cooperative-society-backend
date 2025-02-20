@@ -31,16 +31,15 @@ class MemberFinancialController extends Controller
     public function store(Request $request)
     {
        $request->validate([
-            'member_id' => 'required|exists:members,id',
-            'director_id' => 'required|exists:users,id',
-            'share_amount' => 'required|numeric|min:0',
+          'share_amount' => 'numeric|min:0',
             'welfare_fund' => 'nullable|numeric|min:0',
             'page_no' => 'nullable|string|max:50',
-            'current_balance' => 'required|numeric|min:0',
-            'monthly_balance' => 'required|numeric|min:0',
+            'current_balance' => 'numeric|min:0',
+            'monthly_balance' => 'numeric|min:0',
             'dividend_amount' => 'nullable|numeric|min:0',
-            'monthly_deposit' => 'required|numeric|min:0',
+            'monthly_deposit' => 'numeric|min:0',
             'demand' => 'nullable|numeric|min:0',
+            'type' => 'in:Share,Dividend,Deposit'
         ]);
 
         $financial = MemberFinancial::create($request->all());
@@ -72,16 +71,15 @@ class MemberFinancialController extends Controller
          $financial = MemberFinancial::findOrFail($id);
 
         $request->validate([
-            'member_id' => 'sometimes|exists:members,id',
-            'director_id' => 'sometimes|exists:users,id',
-            'share_amount' => 'sometimes|numeric|min:0',
+            'share_amount' => 'numeric|min:0',
             'welfare_fund' => 'nullable|numeric|min:0',
             'page_no' => 'nullable|string|max:50',
-            'current_balance' => 'sometimes|numeric|min:0',
-            'monthly_balance' => 'sometimes|numeric|min:0',
+            'current_balance' => 'numeric|min:0',
+            'monthly_balance' => 'numeric|min:0',
             'dividend_amount' => 'nullable|numeric|min:0',
-            'monthly_deposit' => 'sometimes|numeric|min:0',
+            'monthly_deposit' => 'numeric|min:0',
             'demand' => 'nullable|numeric|min:0',
+            'type' => 'in:Share,Dividend,Deposit'
         ]);
 
         $financial->update($request->all());

@@ -32,18 +32,25 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-         $validated = $request->validate([
+        $request->validate([
             'name' => 'required|string|max:100',
             'email' => 'nullable|email|unique:users,email|max:100',
-            'password' => 'required|string|min:6',
-            'role' => ['required', Rule::in(['Director', 'Admin', 'Employee', 'Agent'])],
-            'status' => ['required', Rule::in(['Active', 'Inactive'])],
+            'password' => 'required|min:6',
+            'role' => 'required|in:Director,Admin,Employee,Agent',
+            'status' => 'required|in:Active,Inactive',
+            'member_id' => 'nullable|exists:members,id',
         ]);
 
-        $validated['password'] = Hash::make($validated['password']);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+            'status' => $request->status,
+            'member_id' => $request->member_id,
+        ]);
 
-        $user = User::create($validated);
-        return response()->json(['message' => 'User created successfully', 'user' => $user], 201);
+        return response()->json($user, 201);
     }
 
     /**
@@ -68,24 +75,28 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-       $user = User::findOrFail($id);
+       $user = User::find($id);
+        if (!$user) return response()->json(['message' => 'User not found'], 404);
 
-        $validated = $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => ['nullable', 'email', Rule::unique('users')->ignore($user->id), 'max:100'],
-            'password' => 'nullable|string|min:6',
-            'role' => ['required', Rule::in(['Director', 'Admin', 'Employee', 'Agent'])],
-            'status' => ['required', Rule::in(['Active', 'Inactive'])],
+        $request->validate([
+            'name' => 'string|max:100',
+            'email' => 'email|max:100|unique:users,email,' . $id,
+            'password' => 'nullable|min:6',
+            'role' => 'in:Director,Admin,Employee,Agent',
+            'status' => 'in:Active,Inactive',
+            'member_id' => 'nullable|exists:members,id',
         ]);
 
-        if ($request->filled('password')) {
-            $validated['password'] = Hash::make($validated['password']);
-        } else {
-            unset($validated['password']);
-        }
+        $user->update([
+            'name' => $request->name ?? $user->name,
+            'email' => $request->email ?? $user->email,
+            'password' => $request->password ? Hash::make($request->password) : $user->password,
+            'role' => $request->role ?? $user->role,
+            'status' => $request->status ?? $user->status,
+            'member_id' => $request->member_id ?? $user->member_id,
+        ]);
 
-        $user->update($validated);
-        return response()->json(['message' => 'User updated successfully', 'user' => $user]);
+        return response()->json($user, 200);
     }
 
     /**

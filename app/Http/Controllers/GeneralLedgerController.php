@@ -32,17 +32,18 @@ class GeneralLedgerController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'schedule_id' => 'required|exists:schedule_ledgers,id',
-            'name' => 'required|string|max:255',
+            'parent_ledger_id' => 'nullable|exists:general_ledgers,id',
+            'name' => 'string|max:255',
+            'type' => 'in:Assets,Liability,Income,Expense',
             'balance' => 'numeric|min:0',
             'open_balance' => 'numeric|min:0',
             'min_amount' => 'numeric|min:0',
             'subsidiary' => 'boolean',
             'group' => 'nullable|string|max:255',
             'demand' => 'boolean',
-            'type' => ['required', Rule::in(['Bank', 'Loan', 'Investment', 'Member', 'Deposit'])],
-            'gl_type' => ['required', Rule::in(['Asset', 'Liability', 'Income', 'Expense'])],
-            'item_of' => 'nullable|string|max:255',
+            'type_detail' => 'in:Bank,Loan,Investment,Member,Deposit',
+            'gl_type' => 'in:Asset,Liability,Income,Expense',
+            'item_of' => 'nullable|string|max:255'
         ]);
 
         $generalLedger = GeneralLedger::create($validated);
@@ -74,17 +75,18 @@ class GeneralLedgerController extends Controller
         $generalLedger = GeneralLedger::findOrFail($id);
 
         $validated = $request->validate([
-            'schedule_id' => 'required|exists:schedule_ledgers,id',
-            'name' => 'required|string|max:255',
+            'parent_ledger_id' => 'nullable|exists:general_ledgers,id',
+            'name' => 'string|max:255',
+            'type' => 'in:Assets,Liability,Income,Expense',
             'balance' => 'numeric|min:0',
             'open_balance' => 'numeric|min:0',
             'min_amount' => 'numeric|min:0',
             'subsidiary' => 'boolean',
             'group' => 'nullable|string|max:255',
             'demand' => 'boolean',
-            'type' => ['required', Rule::in(['Bank', 'Loan', 'Investment', 'Member', 'Deposit'])],
-            'gl_type' => ['required', Rule::in(['Asset', 'Liability', 'Income', 'Expense'])],
-            'item_of' => 'nullable|string|max:255',
+            'type_detail' => 'in:Bank,Loan,Investment,Member,Deposit',
+            'gl_type' => 'in:Asset,Liability,Income,Expense',
+            'item_of' => 'nullable|string|max:255'
         ]);
 
         $generalLedger->update($validated);

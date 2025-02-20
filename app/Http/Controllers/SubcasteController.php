@@ -31,7 +31,8 @@ class SubcasteController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:100',
+            'naav' => 'required|string|max:100',
             'description' => 'nullable|string',
         ]);
 
@@ -64,7 +65,8 @@ class SubcasteController extends Controller
        $subcaste = Subcaste::findOrFail($id);
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:100',
+            'naav' => 'required|string|max:100',
             'description' => 'nullable|string',
         ]);
 
