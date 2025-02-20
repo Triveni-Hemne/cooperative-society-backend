@@ -6,9 +6,6 @@
     <input type="search" placeholder="Search Here..." class="w-50 px-3 py-1 rounded">
 
     <div>
-        <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Launch demo modal
-        </button> -->
         <a href="#" class="d-flex justify-content-between gap-2 text-decoration-none d-flex align-items-center"
             data-bs-toggle="modal" data-bs-target="#exampleModal">
             <p style="width: 30px; height: 30px"

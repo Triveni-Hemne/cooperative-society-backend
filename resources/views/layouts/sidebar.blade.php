@@ -260,7 +260,6 @@
                 </div>
             </div>
         </div>
-
         <!-- House Keeping Menu -->
         <div class="accordion-item bg-transparent border-0 my-item">
             <h2 class="accordion-header">

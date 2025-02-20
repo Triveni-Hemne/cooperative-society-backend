@@ -15,18 +15,23 @@
 </head>
 
 <body>
-    @include('layouts.header')
+    <div style="height: 15vh;">
+        @include('layouts.header')
+    </div>
 
-    <div class="row my-body" style="height: 81vh; margin: 0px;">
-        <div class="col-2 p-0 left">
+    <div class="d-flex  m-0 my-body w-100" style="height: 85vh;">
+        <div class="p-0" style="width: 18%">
             @include('layouts.sidebar')
         </div>
-        <div class="col px-5 py-3 h-100">
+        <div class="px-5 py-3" style="width: 82%; height: 100%;">
             @include('layouts.master.director.list')
         </div>
     </div>
 
     @yield('customeJs')
+
+    <!-- Search Filter -->
+    <script src="{{asset('/assets/js/searchFilter.js')}}"></script>
 </body>
 
 </html>

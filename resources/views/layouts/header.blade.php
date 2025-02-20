@@ -6,7 +6,7 @@
         <div class="profile">
             <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                 alt="profile">
-            <button type="button" class="btn btn-secondary ms-3">Logout</button>
+            <button type="button" class="btn ms-3 logout-btn">Logout</button>
         </div>
     </div>
 </header>
