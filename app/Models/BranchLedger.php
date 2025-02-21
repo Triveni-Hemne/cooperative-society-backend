@@ -9,17 +9,11 @@ class BranchLedger extends Model
     use HasFactory;
 
     protected $fillable = [
-        'branch_code',
-        'gl_id',
-        'open_date',
-        'open_balance',
-        'balance',
-        'balance_type',
-        'item_type'
+        'branch_code', 'gl_id', 'open_date', 'open_balance', 
+        'balance', 'balance_type', 'item_type'
     ];
 
-    public function generalLedger()
-    {
+    public function generalLedger() {
         return $this->belongsTo(GeneralLedger::class, 'gl_id');
     }
 }

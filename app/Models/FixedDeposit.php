@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-class InstallmentTransaction extends Model
+
+class FixedDeposit extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'deposit_account_id', 'installment_no', 'amount_paid',
-        'payment_date', 'interest_earned', 'total_balance'
+        'deposit_account_id', 'fd_term_months', 'maturity_amount'
     ];
 
     public function depositAccount() {

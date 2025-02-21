@@ -8,27 +8,24 @@ class Payment extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'member_id',
-        'account_id',
-        'amount',
-        'payment_date',
-        'method',
-        'status'
+   protected $fillable = [
+        'member_id', 'member_depo_account_id', 'account_id', 'member_loan_account_id',
+        'amount', 'payment_date', 'method', 'status'
     ];
 
-    protected $casts = [
-        'payment_date' => 'date',
-        'amount' => 'decimal:2',
-    ];
-
-    public function member()
-    {
+    public function member() {
         return $this->belongsTo(User::class, 'member_id');
     }
 
-    public function account()
-    {
+    public function depositAccount() {
+        return $this->belongsTo(Account::class, 'member_depo_account_id');
+    }
+
+    public function account() {
         return $this->belongsTo(Account::class, 'account_id');
+    }
+
+    public function loanAccount() {
+        return $this->belongsTo(Loan::class, 'member_loan_account_id');
     }
 }

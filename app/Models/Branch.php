@@ -8,15 +8,9 @@ class Branch extends Model
 {
      use HasFactory;
 
-    protected $fillable = [
-        'branch_code',
-        'name',
-        'location',
-        'manager_id'
-    ];
+    protected $fillable = ['branch_code', 'name', 'location', 'manager_id'];
 
-    public function manager()
-    {
+    public function manager() {
         return $this->belongsTo(Employee::class, 'manager_id');
     }
 }

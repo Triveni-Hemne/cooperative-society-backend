@@ -9,12 +9,8 @@ class DayEnd extends Model
     use HasFactory;
 
     protected $fillable = [
-        'date',
-        'opening_cash',
-        'total_credit_rs',
-        'total_credit_chalans',
-        'total_debit_rs',
-        'total_debit_challans'
+        'date', 'opening_cash', 'total_credit_rs', 
+        'total_credit_chalans', 'total_debit_rs', 'total_debit_challans'
     ];
 
     protected $casts = [

@@ -14,8 +14,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-      $employees = Employee::with('designation')->get();
-        return response()->json($employees);
+      return response()->json(Employee::with(['member', 'designation', 'division', 'subdivision', 'center'])->get(), 200);
     }
 
     /**
@@ -32,19 +31,20 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'emp_code' => 'required|string|max:50|unique:employees',
+            'member_id' => 'required|exists:members,id',
+            'emp_code' => 'required|string|max:50|unique:employees,emp_code',
             'designation_id' => 'required|exists:designations,id',
-            'salary' => 'nullable|numeric|min:0',
-            'other_allowance' => 'nullable|numeric|min:0',
+            'salary' => 'required|numeric',
+            'other_allowance' => 'nullable|numeric',
             'division_id' => 'required|exists:divisions,id',
-            'subdivision_id' => 'nullable|exists:subdivisions,id',
-            'center_id' => 'nullable|exists:centers,id',
+            'subdivision_id' => 'required|exists:subdivisions,id',
+            'center_id' => 'required|exists:centers,id',
             'joining_date' => 'required|date',
             'transfer_date' => 'nullable|date',
             'retirement_date' => 'nullable|date',
-            'gpf_no' => 'nullable|string|max:50|unique:employees',
-            'hra' => 'nullable|numeric|min:0',
-            'da' => 'nullable|numeric|min:0',
+            'gpf_no' => 'nullable|string|max:50|unique:employees,gpf_no',
+            'hra' => 'nullable|numeric',
+            'da' => 'nullable|numeric',
             'status' => 'required|in:Active,Inactive,Retired',
         ]);
 
@@ -77,20 +77,21 @@ class EmployeeController extends Controller
         $employee = Employee::findOrFail($id);
 
         $validated =  $request->validate([
-            'emp_code' => "required|string|max:50|unique:employees,emp_code,{$employee->id}",
-            'designation_id' => 'required|exists:designations,id',
-            'salary' => 'nullable|numeric|min:0',
-            'other_allowance' => 'nullable|numeric|min:0',
-            'division_id' => 'required|exists:divisions,id',
-            'subdivision_id' => 'nullable|exists:subdivisions,id',
-            'center_id' => 'nullable|exists:centers,id',
-            'joining_date' => 'required|date',
+            'member_id' => 'exists:members,id',
+            'emp_code' => 'string|max:50|unique:employees,emp_code,' . $id,
+            'designation_id' => 'exists:designations,id',
+            'salary' => 'numeric',
+            'other_allowance' => 'nullable|numeric',
+            'division_id' => 'exists:divisions,id',
+            'subdivision_id' => 'exists:subdivisions,id',
+            'center_id' => 'exists:centers,id',
+            'joining_date' => 'date',
             'transfer_date' => 'nullable|date',
             'retirement_date' => 'nullable|date',
-            'gpf_no' => "nullable|string|max:50|unique:employees,gpf_no,{$employee->id}",
-            'hra' => 'nullable|numeric|min:0',
-            'da' => 'nullable|numeric|min:0',
-            'status' => 'required|in:Active,Inactive,Retired',
+            'gpf_no' => 'nullable|string|max:50|unique:employees,gpf_no,' . $id,
+            'hra' => 'nullable|numeric',
+            'da' => 'nullable|numeric',
+            'status' => 'in:Active,Inactive,Retired',
         ]);
 
         $employee->update($validated);
