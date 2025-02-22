@@ -6,9 +6,6 @@
 @endsection
 
 @section('content')
-<!-- <div class="w-100 my-background">
-    <img class="img-fluid" src="{{asset('/assets/images/background.png')}}" alt="background image">
-</div> -->
 @endsection
 
 @section('customeJs')

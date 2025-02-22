@@ -15,65 +15,87 @@ body {
     height: 100%;
 }
 
+/* ---------- ScrollBar Style Start Here ---------- */
+::-webkit-scrollbar {
+    width: 10px; /* width of the entire scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: rgb(238, 238, 238); /* color of the tracking area */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(48, 48, 48); /* color of the scroll thumb */
+    border-radius: 20px; /* roundness of the scroll thumb */
+    border: 3px solid rgb(238, 238, 238); /* creates padding around scroll thumb */
+}
+/* ---------- ScrollBar Style Ends Here ---------- */
+
 .my-bg-primary {
     background-color: var(--tertiary-color);
 }
-.my-btn-bg {
-    background-color: #ff8c00 !important;
+
+/* Set fixed column width */
+th,
+td {
+    min-width: 150px; /* Adjust width as needed */
+    white-space: nowrap; /* Prevent text wrapping */
 }
-.my-dropdwn:hover .my-menu {
-    display: block;
-    margin-top: 0; /* remove the gap so it doesn't close */
+
+/* Ensure the table container allows horizontal scrolling */
+.border.overflow-auto {
+    overflow-x: auto; /* Enables horizontal scroll */
+    white-space: nowrap; /* Prevents wrapping inside cells */
 }
-.my-dropdwn {
+
+/* Profile */
+header .profile img {
+    width: 40px;
+    border-radius: 50%;
+}
+header .profile .logout-btn {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    transition: all cubic-bezier(0.19, 1, 0.22, 1) 0.3;
+}
+header .profile .logout-btn:hover {
+    background-color: #004697;
+}
+
+/* Sidebar Start Here */
+.sidebar {
+    height: 100%;
+    /* width: 250px; */
+    background-color: var(--tertiary-color);
+    padding: 10px;
+    overflow-y: auto;
+}
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+}
+.sidebar a:hover {
     background-color: var(--secondary-color);
-    padding: 0px 15px;
-    margin-right: 5px;
-}
-.my-dropdwn .nav-link {
     color: var(--primary-color);
 }
-.my-dropdwn:hover {
-    background-color: var(--primary-color);
-}
-.my-dropdwn:hover .nav-link {
+.accordion-button:not(.collapsed),
+.active-menu {
+    background-color: var(--primary-color) !important;
     color: var(--secondary-color);
 }
-.my-dropdwn .my-menu,
-.my-menu .my-menu-item-tgl {
-    background-color: var(--tertiary-color);
-    padding: 5px;
-}
-.my-dropdwn .my-menu-item,
-.my-menu .my-menu-item-tgl {
-    background-color: var(--secondary-color);
-    margin-bottom: 3px;
-}
-
-.my-menu .my-menu-item-tgl {
-    width: 150px;
-}
-.my-menu .my-menu-item-tgl:hover {
-    color: var(--secondary-color);
-    border: 1px solid var(--secondary-color);
-}
-
-.my-menu .dropend .my-menu-tgl {
+.my-menu-item a:hover,
+.my-item h2:hover {
     background-color: var(--primary-color);
-    padding: 5px;
+    color: var(--secondary-color);
 }
-.my-menu-tgl .dropdown-item {
-    background-color: var(--secondary-color);
-    margin-bottom: 3px;
+.my-submenu .dropdown-menu {
+    background-color: var(--primary-color);
 }
-
-.my-background {
-    height: 73.5vh;
-}
-.my-background img {
-    width: 100%;
-    height: 100%;
-}
+/* Sidebar Ends Here */
 
 /* Hero Text Font for Small Screen */
 @media (max-width: 1199.98px) {
@@ -84,7 +106,7 @@ body {
 
 /* ----------- Director Start Here ------------ */
 .my-model {
-    background-color: var(--tertiary-color);
+    background-color: var(--primary-color);
     border: 15px solid black;
 }
 /* ----------- Director End Here ------------ */
