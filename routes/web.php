@@ -30,6 +30,7 @@ use App\Http\Controllers\RecurringDepositController;
 use App\Http\Controllers\BankInvestmentController;
 use App\Http\Controllers\MemberLoanAccountController;
 use App\Http\Controllers\LoanGuarantorController;
+use App\Http\Controllers\DirectorController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -60,7 +61,7 @@ Route::get('/csrf-token', function () {
         Route::resource('designations', DesignationController::class);
         Route::resource('divisions', DivisionController::class);
         Route::resource('subdivisions', SubdivisionController::class);
-        Route::resource('centers', CenterController::class);
+        Route::resource('centers', CenterController::class)->names('centers');
         Route::resource('employees', EmployeeController::class);
         Route::resource('departments', DepartmentController::class);
         Route::Resource('members', MemberController::class);
@@ -83,6 +84,8 @@ Route::get('/csrf-token', function () {
         Route::resource('bank-investments', BankInvestmentController::class);
         Route::resource('member-loan-accounts', MemberLoanAccountController::class);
         Route::resource('loan-guarantors', LoanGuarantorController::class);
+        Route::resource('direcors', DirectorController::class)->names('directors');
+
 
     });
 // });

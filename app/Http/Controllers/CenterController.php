@@ -13,8 +13,9 @@ class CenterController extends Controller
      */
     public function index()
     {
-        $centers = Center::with('subdivision')->get();
-        return response()->json($centers);
+        // $centers = Center::with('subdivision')->get();
+        // return response()->json($centers);
+        return view('master.center.list');
     }
 
     /**

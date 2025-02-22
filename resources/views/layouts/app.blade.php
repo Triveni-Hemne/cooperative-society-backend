@@ -24,12 +24,15 @@
             @include('layouts.sidebar')
         </div>
         <div class="px-5 py-3" style="width: 82%; height: 100%;">
-            @include('layouts.master.schedule.list')
+             @yield('content')
         </div>
     </div>
 
     @yield('customeJs')
-
+  <!-- Bootstrap CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
     <!-- Search Filter -->
     <script src="{{asset('/assets/js/searchFilter.js')}}"></script>
 </body>

@@ -17,7 +17,7 @@
                     <a href="#">Director</a>
                     <a href="#">Division</a>
                     <a href="#">Sub Division</a>
-                    <a href="#">Center</a>
+                    <a href="{{route('centers.index')}}">Center</a>
                     <a href="#">Designation</a>
                     <a href="#">Subcaste</a>
                     <a href="#">Schedule Ledger</a>

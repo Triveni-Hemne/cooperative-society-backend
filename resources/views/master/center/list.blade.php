@@ -1,4 +1,12 @@
-<div style="height: 18%">
+@extends('layouts.app')
+@section('title', 'Cooperative Society Bank')
+
+@section('css')
+<link rel="stylesheet" href="{{asset('/assets/css/index.css')}}">
+@endsection
+
+@section('content')
+   <div style="height: 18%">
     <!-- Heading -->
     <div class="mb-4 heading">
         <h3>Center</h3>
@@ -88,7 +96,11 @@
 </div>
 
 <!-- Form Model -->
-@include('layouts.master.center.center')
+@include('master.center.center')
 
 <!-- Delete Confirmation Model -->
 @include('layouts.deleteModal')
+@endsection
+
+@section('customeJs')
+@endsection
