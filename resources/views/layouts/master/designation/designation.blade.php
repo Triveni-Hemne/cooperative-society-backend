@@ -1,8 +1,8 @@
-<div class="modal fade" id="divisionModal" tabindex="-1" aria-labelledby="divisionModalLabel" aria-hidden="true">
+<div class="modal fade" id="designationModal" tabindex="-1" aria-labelledby="designationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="divisionModalLabel">Add Division</h1>
+                <h1 class="modal-title fs-5" id="designationModalLabel">Add Designation</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -10,10 +10,10 @@
                     <div class="mx-auto p-5 my-model text-white">
                         <div class="row mb-3 row-cols-xl-4 g-3">
                             <div class="col w-auto ps-2 ps-xl-5 d-none d-xl-block">
-                                <label for="id">ID</label>
+                                <label for="id">Sr. No.</label>
                             </div>
                             <div class="col ms-0 ms-xl-5">
-                                <input id="id" class="w-100 px-2 py-1" type="text" placeholder="ID" disabled>
+                                <input id="id" class="w-100 px-2 py-1" type="text" placeholder="Sr. No." disabled>
                             </div>
                         </div>
 
@@ -37,21 +37,28 @@
 
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="description">Description</label>
+                                <label for="taluka">Taluka/Division</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <textarea id="description" placeholder="Description" class="w-100 px-2 py-1" rows="3"
-                                    style="resize:none"></textarea>
+                                <select id="taluka" class="w-100 px-2 py-1">
+                                    <option value="select">---------- Select ----------</option>
+                                    <option value="taluka1">M.R.V. DISTRIBUTION CO. LTD. BHANDARA</option>
+                                    <option value="taluka1">M.R.V. DISTRIBUTION CO. LTD. BHANDARA</option>
+                                    <option value="taluka1">M.R.V. DISTRIBUTION CO. LTD. BHANDARA</option>
+                                </select>
                             </div>
                         </div>
-
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="marathiDescription">वर्णन</label>
+                                <label for="sub-division">Sub Division</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <textarea id="marathiDescription" placeholder="वर्णन" class="w-100 px-2 py-1" rows="3"
-                                    style="resize:none"></textarea>
+                                <select id="sub-division" class="w-100 px-2 py-1">
+                                    <option value="select">---------- Select ----------</option>
+                                    <option value="taluka1">BHANDARA</option>
+                                    <option value="taluka1">BHANDARA</option>
+                                    <option value="taluka1">BHANDARA</option>
+                                </select>
                             </div>
                         </div>
                     </div>
