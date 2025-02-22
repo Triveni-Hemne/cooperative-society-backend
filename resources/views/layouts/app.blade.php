@@ -24,7 +24,7 @@
             @include('layouts.sidebar')
         </div>
         <div class="px-5 py-3" style="width: 82%; height: 100%;">
-            @include('layouts.master.schedule.list')
+            @include('layouts.master.general-ledger.list')
         </div>
     </div>
 
