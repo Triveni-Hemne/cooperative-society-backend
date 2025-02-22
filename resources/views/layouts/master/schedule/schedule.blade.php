@@ -1,8 +1,8 @@
-<div class="modal fade" id="divisionModal" tabindex="-1" aria-labelledby="divisionModalLabel" aria-hidden="true">
+<div class="modal fade" id="scheduleModal" tabindex="-1" aria-labelledby="scheduleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="divisionModalLabel">Add Division</h1>
+                <h1 class="modal-title fs-5" id="scheduleModalLabel">Add Schedule</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -32,26 +32,6 @@
                             </div>
                             <div class="col pe-0 pe-xl-5">
                                 <input id="marathiName" class="w-100 px-2 py-1" type="text" placeholder="नाव">
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="description">Description</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <textarea id="description" placeholder="Description" class="w-100 px-2 py-1" rows="3"
-                                    style="resize:none"></textarea>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="marathiDescription">वर्णन</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <textarea id="marathiDescription" placeholder="वर्णन" class="w-100 px-2 py-1" rows="3"
-                                    style="resize:none"></textarea>
                             </div>
                         </div>
                     </div>
