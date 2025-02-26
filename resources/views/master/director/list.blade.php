@@ -1,7 +1,15 @@
-<div style="height: 18%">
+@extends('layouts.app')
+@section('title', 'Cooperative Society Bank')
+
+@section('css')
+<link rel="stylesheet" href="{{asset('/assets/css/index.css')}}">
+@endsection
+
+@section('content')
+   <div style="height: 18%">
     <!-- Heading -->
     <div class="mb-4 heading">
-        <h3>Directors</h3>
+        <h3>director</h3>
     </div>
 
     <!-- Search Bar and Add New Button -->
@@ -10,7 +18,7 @@
 
         <div>
             <a href="#" class="d-flex justify-content-between gap-2 text-decoration-none d-flex align-items-center"
-                data-bs-toggle="modal" data-bs-target="#directorModal">
+                data-bs-toggle="modal" data-bs-target="#centerModal">
                 <p style="width: 30px; height: 30px"
                     class="bg-success rounded-circle d-flex justify-content-center align-items-center">
                     <i class="fa fa-plus text-white" style="font-size:20px"></i>
@@ -42,7 +50,7 @@
                     <td>@mdo</td>
                     <td>
                         <a href="#" class="text-decoration-none me-4" data-bs-toggle="modal"
-                            data-bs-target="#directorModal">
+                            data-bs-target="#centerModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
                         <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
@@ -88,7 +96,11 @@
 </div>
 
 <!-- Form Model -->
-@include('layouts.master.director.director')
+@include('master.director.director')
 
 <!-- Delete Confirmation Model -->
 @include('layouts.deleteModal')
+@endsection
+
+@section('customeJs')
+@endsection

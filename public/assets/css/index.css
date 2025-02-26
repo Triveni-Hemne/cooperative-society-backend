@@ -95,6 +95,10 @@ header .profile .logout-btn:hover {
 .my-submenu .dropdown-menu {
     background-color: var(--primary-color);
 }
+.active-side-link {
+    background-color: var(--secondary-color);
+    color: var(--primary-color) !important;
+}
 /* Sidebar Ends Here */
 
 /* Hero Text Font for Small Screen */

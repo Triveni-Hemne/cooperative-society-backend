@@ -13,7 +13,8 @@ class DirectorController extends Controller
      */
     public function index()
     {
-        return response()->json(Director::with(['member', 'designation'])->get(), 200);
+        // return response()->json(Director::with(['member', 'designation'])->get(), 200);
+        return view('master.director.list');
     }
 
     /**
