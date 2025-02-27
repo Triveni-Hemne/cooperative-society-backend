@@ -14,14 +14,14 @@
             </h2>
             <div id="category1" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
                 <div class="accordion-body">
-                    <a href="#">Director</a>
-                    <a href="#">Division</a>
-                    <a href="#">Sub Division</a>
-                    <a href="#">Center</a>
-                    <a href="#">Designation</a>
-                    <a href="#">Subcaste</a>
+                    <a href="{{route('directors.index')}}">Director</a>
+                    <a href="{{route('divisions.index')}}">Division</a>
+                    <a href="{{route('sub-divisions.index')}}">Sub Division</a>
+                    <a href="{{route('centers.index')}}">Center</a>
+                    <a href="{{route('designations.index')}}">Designation</a>
+                    <a href="{{route('subcastes.index')}}">Subcaste</a>
                     <a href="#">Schedule Ledger</a>
-                    <a href="#">General Ledger</a>
+                    <a href="{{route('general-ledgers.index')}}">General Ledger</a>
                 </div>
             </div>
         </div>
