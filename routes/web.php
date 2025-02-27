@@ -57,14 +57,14 @@ Route::get('/csrf-token', function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('user.dashboard');
         Route::get('/logout', [UserLoginController::class, 'logout'])->name('user.logout'); 
         
-        Route::resource('designations', DesignationController::class);
-        Route::resource('divisions', DivisionController::class);
-        Route::resource('subdivisions', SubdivisionController::class);
+        Route::resource('designations', DesignationController::class)->names('designations');
+        Route::resource('divisions', DivisionController::class)->names('divisions');
+        Route::resource('subdivisions', SubdivisionController::class)->names('sub-divisions');
         Route::resource('centers', CenterController::class)->names('centers');
         Route::resource('employees', EmployeeController::class);
         Route::resource('departments', DepartmentController::class);
         Route::Resource('members', MemberController::class);
-        Route::Resource('subcastes', SubcasteController::class);
+        Route::Resource('subcastes', SubcasteController::class)->names('subcastes');
         Route::resource('users', UserController::class);
         Route::resource('agents', AgentController::class);
         Route::resource('branches', BranchController::class);
@@ -82,7 +82,7 @@ Route::get('/csrf-token', function () {
         Route::resource('bank-investments', BankInvestmentController::class);
         Route::resource('member-loan-accounts', MemberLoanAccountController::class);
         Route::resource('loan-guarantors', LoanGuarantorController::class);
-        Route::resource('direcors', DirectorController::class)->names('directors');
+        Route::resource('directors', DirectorController::class)->names('directors');
 
 
     });

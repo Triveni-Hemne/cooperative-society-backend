@@ -15,13 +15,13 @@
             <div id="category1" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
                 <div class="accordion-body">
                     <a href="{{route('directors.index')}}" class="side-link">Director</a>
-                    <a href="/divisions" class="side-link">Division</a>
-                    <a href="/divisions" class="side-link">Sub Division</a>
+                    <a href="{{route('divisions.index')}}" class="side-link">Division</a>
+                    <a href="{{route('sub-divisions.index')}}" class="side-link">Sub Division</a>
                     <a href="{{route('centers.index')}}" class="side-link">Center</a>
-                    <a href="/divisions" class="side-link">Designation</a>
-                    <a href="/divisions" class="side-link">Subcaste</a>
-                    <a href="/divisions" class="side-link">Schedule Ledger</a>
-                    <a href="/divisions" class="side-link">General Ledger</a>
+                    <a href="{{route('designations.index')}}" class="side-link">Designation</a>
+                    <a href="{{route('subcastes.index')}}" class="side-link">Subcaste</a>
+                    <a href="#">Schedule Ledger</a>
+                    <a href="{{route('general-ledgers.index')}}" class="side-link">General Ledger</a>
                 </div>
             </div>
         </div>
@@ -35,12 +35,12 @@
             </h2>
             <div id="category2" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
                 <div class="accordion-body">
-                    <a href="#">Manage Member</a>
-                    <a href="#">Deposit Account Opening</a>
-                    <a href="#">Loan Account Opening</a>
-                    <a href="#">General Accounts</a>
-                    <a href="#">Bank Investment</a>
-                    <a href="#">Standing Instruction Master</a>
+                    <a href="#" class="side-link">Manage Member</a>
+                    <a href="#" class="side-link">Deposit Account Opening</a>
+                    <a href="#" class="side-link">Loan Account Opening</a>
+                    <a href="#" class="side-link">General Accounts</a>
+                    <a href="#" class="side-link">Bank Investment</a>
+                    <a href="#" class="side-link">Standing Instruction Master</a>
                 </div>
             </div>
         </div>
@@ -54,18 +54,18 @@
             </h2>
             <div id="category3" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
                 <div class="accordion-body">
-                    <a href="#">Day Begins</a>
-                    <a href="#">Voucher Entry</a>
-                    <a href="#">Transfer Entry</a>
-                    <a href="#">Clerk Entry</a>
-                    <a href="#">Passing Transactions</a>
-                    <a href="#">Standing Instruction Execution</a>
-                    <a href="#">Auto Transfer</a>
-                    <a href="#">Auto Transaction Entry</a>
-                    <a href="#">All Demand List Posting</a>
-                    <a href="#">Personal Demand Posting</a>
-                    <a href="#">Demand List General</a>
-                    <a href="#">Day Ends</a>
+                    <a href="#" class="side-link">Day Begins</a>
+                    <a href="#" class="side-link">Voucher Entry</a>
+                    <a href="#" class="side-link">Transfer Entry</a>
+                    <a href="#" class="side-link">Clerk Entry</a>
+                    <a href="#" class="side-link">Passing Transactions</a>
+                    <a href="#" class="side-link">Standing Instruction Execution</a>
+                    <a href="#" class="side-link">Auto Transfer</a>
+                    <a href="#" class="side-link">Auto Transaction Entry</a>
+                    <a href="#" class="side-link">All Demand List Posting</a>
+                    <a href="#" class="side-link">Personal Demand Posting</a>
+                    <a href="#" class="side-link">Demand List General</a>
+                    <a href="#" class="side-link">Day Ends</a>
                 </div>
             </div>
         </div>

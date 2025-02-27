@@ -14,7 +14,8 @@ class SubcasteController extends Controller
     public function index()
     {
        $subcastes = Subcaste::all();
-        return response()->json($subcastes);
+        // return response()->json($subcastes);
+        return view('master.subcaste.list');
     }
 
     /**

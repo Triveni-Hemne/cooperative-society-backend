@@ -9,7 +9,7 @@
 <div style="height: 18%">
     <!-- Heading -->
     <div class="mb-4 heading">
-        <h3>Designation</h3>
+        <h3>General Ledger</h3>
     </div>
 
     <!-- Search Bar and Add New Button -->
@@ -18,7 +18,7 @@
 
         <div>
             <a href="#" class="d-flex justify-content-between gap-2 text-decoration-none d-flex align-items-center"
-                data-bs-toggle="modal" data-bs-target="#designationModal">
+                data-bs-toggle="modal" data-bs-target="#generalLedgerModal">
                 <p style="width: 30px; height: 30px"
                     class="bg-success rounded-circle d-flex justify-content-center align-items-center">
                     <i class="fa fa-plus text-white" style="font-size:20px"></i>
@@ -50,7 +50,7 @@
                     <td>@mdo</td>
                     <td>
                         <a href="#" class="text-decoration-none me-4" data-bs-toggle="modal"
-                            data-bs-target="#designationModal">
+                            data-bs-target="#generalLedgerModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
                         <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
@@ -96,7 +96,7 @@
 </div>
 
 <!-- Form Model -->
-@include('master.designation.designation')
+@include('master.general-ledger.generalLedger')
 
 <!-- Delete Confirmation Model -->
 @include('layouts.deleteModal')

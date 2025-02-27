@@ -14,7 +14,8 @@ class DesignationController extends Controller
     public function index()
     {
        $designations = Designation::all();
-        return response()->json($designations);
+        // return response()->json($designations);
+        return view('master.designation.list');
     }
 
     /**

@@ -18,7 +18,7 @@
 
         <div>
             <a href="#" class="d-flex justify-content-between gap-2 text-decoration-none d-flex align-items-center"
-                data-bs-toggle="modal" data-bs-target="#centerModal">
+                data-bs-toggle="modal" data-bs-target="#directorModal">
                 <p style="width: 30px; height: 30px"
                     class="bg-success rounded-circle d-flex justify-content-center align-items-center">
                     <i class="fa fa-plus text-white" style="font-size:20px"></i>
@@ -100,6 +100,7 @@
 
 <!-- Delete Confirmation Model -->
 @include('layouts.deleteModal')
+
 @endsection
 
 @section('customeJs')

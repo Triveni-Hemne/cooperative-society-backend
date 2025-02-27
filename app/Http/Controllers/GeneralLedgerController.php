@@ -15,7 +15,8 @@ class GeneralLedgerController extends Controller
     public function index()
     {
         $generalLedgers = GeneralLedger::with('schedule')->get();
-        return response()->json($generalLedgers);
+        // return response()->json($generalLedgers);
+        return view('master.general-ledger.list');
     }
 
     /**

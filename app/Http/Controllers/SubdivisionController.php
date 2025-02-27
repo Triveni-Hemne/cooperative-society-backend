@@ -14,7 +14,8 @@ class SubdivisionController extends Controller
     public function index()
     {
         $subdivisions = Subdivision::with('division')->get();
-        return response()->json($subdivisions);
+        // return response()->json($subdivisions);
+        return view('master.sub-division.list');
     }
 
     /**

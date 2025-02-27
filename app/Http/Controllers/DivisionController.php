@@ -14,7 +14,8 @@ class DivisionController extends Controller
     public function index()
     {
          $divisions = Division::all();
-        return response()->json($divisions);
+        // return response()->json($divisions);
+        return view('master.division.list');
     }
 
     /**

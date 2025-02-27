@@ -1,3 +1,11 @@
+@extends('layouts.app')
+@section('title', 'Cooperative Society Bank')
+
+@section('css')
+<link rel="stylesheet" href="{{asset('/assets/css/index.css')}}">
+@endsection
+
+@section('content')
 <div style="height: 18%">
     <!-- Heading -->
     <div class="mb-4 heading">
@@ -88,7 +96,11 @@
 </div>
 
 <!-- Form Model -->
-@include('layouts.master.sub-division.subDivision')
+@include('master.sub-division.subDivision')
 
 <!-- Delete Confirmation Model -->
 @include('layouts.deleteModal')
+@endsection
+
+@section('customeJs')
+@endsection
