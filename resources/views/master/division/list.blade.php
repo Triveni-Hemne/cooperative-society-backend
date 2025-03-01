@@ -1,3 +1,5 @@
+@include('layouts.session')
+
 @extends('layouts.app')
 @section('title', 'Cooperative Society Bank')
 
@@ -11,13 +13,13 @@
     <div class="mb-4 heading">
         <h3>Division</h3>
     </div>
-
     <!-- Search Bar and Add New Button -->
     <div class="d-flex justify-content-between mb-3">
-        <input type="search" id="searchInput" placeholder="Search Here..." class="w-50 px-3 py-1 rounded">
+
+        <input type="search" id="searchInput" placeholder="Search Here..." class="w-50 px-3 py-1 rounded mb-3">
 
         <div>
-            <a href="#" class="d-flex justify-content-between gap-2 text-decoration-none d-flex align-items-center"
+            <a href="#" class="d-flex justify-content-between gap-2 text-decoration-none d-flex align-items-center add-btn"
                 data-bs-toggle="modal" data-bs-target="#divisionModal">
                 <p style="width: 30px; height: 30px"
                     class="bg-success rounded-circle d-flex justify-content-center align-items-center">
@@ -36,55 +38,38 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">नाव</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">वर्णन</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
+                 @if ($divisions->isNotEmpty())
+                 @php $i = 1; @endphp
+                 @foreach ($divisions as $division)
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <th scope="row" >{{$i}}</th>
+                    <td>{{$division->name}}</td>
+                    <td>{{$division->naav}}</td>
+                    <td>{{$division->description}}</td>
+                    <td>{{$division->marathi_description}}</td>
                     <td>
-                        <a href="#" class="text-decoration-none me-4" data-bs-toggle="modal"
+                        <a data-id="{{$i}}" data-name="{{$division->name}}" data-naav="{{$division->naav}}" data-description="{{$division->description}}" data-marathi_description="{{$division->marathi_description}}" data-route="{{ route('divisions.update', $division->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#divisionModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <a class="text-decoration-none" data-id="{{$i}}" data-route="{{ route('divisions.destroy', $division->id) }}" data-name="{{ $division->name }}" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
                         </a>
                     </td>
                 </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>
-                        <a href="#" class="text-decoration-none me-4">
-                            <i class="fa fa-edit text-primary" style="font-size:20px"></i>
-                        </a>
-                        <a href="#" class="text-decoration-none">
-                            <i class="fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                    <td>
-                        <a href="#" class="text-decoration-none me-4">
-                            <i class="fa fa-edit text-primary" style="font-size:20px"></i>
-                        </a>
-                        <a href="#" class="text-decoration-none">
-                            <i class="fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
-                    </td>
-                </tr>
+                 @php $i++ @endphp
+                 @endforeach
+                 @else
+                    <tr><td colspan="15" class="text-center"><h5>Data Not Found !</h5></td></tr>   
+                 @endif
             </tbody>
         </table>
     </div>
@@ -105,3 +90,51 @@
 
 @section('customeJs')
 @endsection
+{{-- Script to send data to the edit modal --}}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".edit-btn").forEach(button => {
+        button.addEventListener("click", function () {
+            let id = this.getAttribute("data-id");
+            let name = this.getAttribute("data-name");
+            let naav = this.getAttribute("data-naav");
+            let description = this.getAttribute("data-description");
+            let marathiDescription = this.getAttribute("data-marathi_description");
+            let route = this.getAttribute("data-route");
+
+            // Update modal title
+            document.getElementById("divisionModalLabel").textContent = "Edit Division";
+
+            // Populate form fields
+            document.getElementById("divisionId").value = id;
+            document.getElementById("name").value = name;
+            document.getElementById("marathiName").value = naav;
+            document.getElementById("description").value = description;
+            document.getElementById("marathiDescription").value = marathiDescription;
+
+            // Change form action to update route and set PUT method
+            let form = document.getElementById("divisionForm");
+            form.setAttribute("action", route);
+            document.getElementById("formMethod").value = "PUT";
+
+            // Change submit button text
+            document.querySelector("#divisionModal .btn-primary").textContent = "Update Division";
+
+        });
+    });
+
+    // Reset modal when it's closed
+    document.getElementById("divisionModal").addEventListener("hidden.bs.modal", function () {
+        let form = document.getElementById("divisionForm");
+
+        // Reset fields
+        form.reset();
+        document.getElementById("formMethod").value = "POST";
+        form.setAttribute("action", "{{ route('divisions.store') }}");
+
+        // Reset modal title & button text
+        document.getElementById("divisionModalLabel").textContent = "Add Division";
+        document.querySelector("#divisionModal .btn-primary").textContent = "Save Changes";
+    });
+});
+</script>

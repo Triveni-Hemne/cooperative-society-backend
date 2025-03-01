@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->string('member_id', 50)->unique();
-            $table->foreignId('subcaste_id')->nullable()->constrained('subcastes')->onDelete('set null');
             $table->string('name', 255);
             $table->date('dob');
             $table->enum('gender', ['Male', 'Female', 'Other']);
@@ -22,6 +21,7 @@ return new class extends Migration
             $table->date('date_of_joining')->nullable();
             $table->string('religion', 100)->nullable();
             $table->enum('category', ['ST', 'OBC', 'General', 'NT']);
+            $table->foreignId('subcaste_id')->nullable()->constrained('subcastes')->onDelete('set null');
             $table->string('caste', 100);
             $table->string('m_reg_no', 50)->nullable();
             $table->string('pan_no', 20)->nullable();

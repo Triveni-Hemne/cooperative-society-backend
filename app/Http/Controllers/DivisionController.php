@@ -13,9 +13,9 @@ class DivisionController extends Controller
      */
     public function index()
     {
-         $divisions = Division::all();
+         $divisions = Division::paginate(5);
         // return response()->json($divisions);
-        return view('master.division.list');
+        return view('master.division.list',compact('divisions'));
     }
 
     /**
@@ -35,10 +35,16 @@ class DivisionController extends Controller
             'name' => 'required|string|max:255',
             'naav' => 'nullable|string|max:255',
             'description' => 'nullable|string',
+            'marathi_description' => 'nullable|string',
         ]);
-
-        $division = Division::create($validated);
-        return response()->json(['message' => 'Division created successfully', 'division' => $division], 201);
+        
+        // return $request->all();
+        // $division = Division::create($validated);
+        // return response()->json([
+        //     'message' => 'Division created successfully',
+        //     'division' => $division
+        // ], 201, [], JSON_UNESCAPED_UNICODE); 
+        return redirect()->back()->with('success', 'Division created successfully!');
     }
 
     /**
@@ -63,16 +69,18 @@ class DivisionController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        
         $division = Division::findOrFail($id);
-
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'naav' => 'nullable|string|max:255',
             'description' => 'nullable|string',
+            'marathi_description' => 'nullable|string',
         ]);
-
+        
         $division->update($validated);
-        return response()->json(['message' => 'Division updated successfully', 'division' => $division]);
+        // return response()->json(['message' => 'Division updated successfully', 'division' => $division]);
+        return redirect()->back()->with('success','Division updated successfully!');
     }
 
     /**
@@ -82,6 +90,7 @@ class DivisionController extends Controller
     {
         $division = Division::findOrFail($id);
         $division->delete();
-        return response()->json(['message' => 'Division deleted successfully']);
+        return redirect()->back()->with('success', 'Division deleted successfully');
+        return $division;
     }
 }

@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->string('naav')->nullable();
-            $table->string('description');
+            $table->string('description')->nullable();
+            $table->string('marathi_description')->nullable();
             $table->timestamps();
         });
     }

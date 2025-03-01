@@ -1,7 +1,5 @@
 // !-- JavaScript to Keep Accordion Open Based on URL -->
 
-console.log("hello");
-
 const currentLocation = window.location.pathname;
 const menuLinks = document.querySelectorAll(".side-link");
 
