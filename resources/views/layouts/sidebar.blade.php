@@ -35,7 +35,7 @@
             </h2>
             <div id="category2" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
                 <div class="accordion-body">
-                    <a href="#">Manage Member</a>
+                    <a href="{{route('members.index')}}">Manage Member</a>
                     <a href="#">Deposit Account Opening</a>
                     <a href="#">Loan Account Opening</a>
                     <a href="#">General Accounts</a>

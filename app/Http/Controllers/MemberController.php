@@ -15,7 +15,8 @@ class MemberController extends Controller
     public function index()
     {
        $members = Member::with(['employee', 'department'])->get();
-        return response()->json($members);
+        // return response()->json($members);
+        return view('accounts.member.list');
     }
 
     /**

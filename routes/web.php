@@ -58,33 +58,33 @@ Route::get('/csrf-token', function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('user.dashboard');
         Route::get('/logout', [UserLoginController::class, 'logout'])->name('user.logout'); 
         
-        Route::resource('designations', DesignationController::class)->names('designations');
+        Route::resource('directors', DirectorController::class)->names('directors');
         Route::resource('divisions', DivisionController::class)->names('divisions');
         Route::resource('subdivisions', SubdivisionController::class)->names('sub-divisions');
         Route::resource('centers', CenterController::class)->names('centers');
-        Route::resource('employees', EmployeeController::class);
-        Route::resource('departments', DepartmentController::class);
-        Route::Resource('members', MemberController::class);
+        Route::resource('designations', DesignationController::class)->names('designations');
         Route::Resource('subcastes', SubcasteController::class)->names('subcastes');
-        Route::resource('users', UserController::class);
-        Route::resource('agents', AgentController::class);
-        Route::resource('branches', BranchController::class);
         // Route::resource('schedule-ledgers', ScheduleLedgerController::class);
         Route::resource('general-ledgers', GeneralLedgerController::class)->names('general-ledgers');
+        Route::Resource('members', MemberController::class)->names('members');
+        Route::resource('member-depo-accounts', MemberDepoAccountController::class);
+        Route::resource('member-loan-accounts', MemberLoanAccountController::class);
+        Route::resource('bank-investments', BankInvestmentController::class);
         Route::resource('member-nominees', MemberNomineeController::class);
         Route::resource('member-contact-details', MemberContactDetailController::class);
         Route::resource('member-bank-details', MemberBankDetailController::class);
+        Route::resource('employees', EmployeeController::class);
+        Route::resource('departments', DepartmentController::class);
+        Route::resource('users', UserController::class);
+        Route::resource('agents', AgentController::class);
+        Route::resource('branches', BranchController::class);
         Route::resource('accounts', AccountController::class);
         Route::resource('member-financials', MemberFinancialController::class);
-        Route::resource('member-depo-accounts', MemberDepoAccountController::class);
         Route::resource('deposit-nominees', DepositNomineeController::class);
         Route::resource('interest-ledgers', InterestLedgerController::class);
         Route::resource('installment-transactions', InstallmentTransactionController::class);
         Route::resource('recurring-deposits', RecurringDepositController::class);
-        Route::resource('bank-investments', BankInvestmentController::class);
-        Route::resource('member-loan-accounts', MemberLoanAccountController::class);
         Route::resource('loan-guarantors', LoanGuarantorController::class);
-        Route::resource('directors', DirectorController::class)->names('directors');
 
 
     });
