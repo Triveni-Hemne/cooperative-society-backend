@@ -16,10 +16,10 @@
                     <div class="mx-auto p-5 my-model text-white">
                         <div class="row mb-3 row-cols-xl-4 g-3">
                             <div class="col w-auto ps-2 ps-xl-5 d-none d-xl-block">
-                                <label for="id">ID</label>
+                                {{-- <label for="id">ID</label> --}}
                             </div>
                             <div class="col ms-0 ms-xl-5">
-                                <input id="id" name="id" class="w-100 px-2 py-1" type="text" placeholder="ID" disabled>
+                                {{-- <input id="id" name="id" class="w-100 px-2 py-1" type="text" placeholder="ID" disabled> --}}
                             </div>
                         </div>
 

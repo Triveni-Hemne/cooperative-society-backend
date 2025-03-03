@@ -37,6 +37,7 @@
         <table id="tableFilter" class="table table-striped">
             <thead>
                 <tr>
+                    <th scope="col">Sr.no</th>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">नाव</th>
@@ -51,6 +52,7 @@
                  @foreach ($divisions as $division)
                 <tr>
                     <th scope="row" >{{$i}}</th>
+                    <th>{{$division->id}}</th>
                     <td>{{$division->name}}</td>
                     <td>{{$division->naav}}</td>
                     <td>{{$division->description}}</td>
@@ -60,7 +62,7 @@
                             data-bs-target="#divisionModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a class="text-decoration-none" data-id="{{$i}}" data-route="{{ route('divisions.destroy', $division->id) }}" data-name="{{ $division->name }}" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <a class="text-decoration-none" data-id="{{$division->id}}" data-route="{{ route('divisions.destroy', $division->id) }}" data-name="{{ $division->name }}" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
                         </a>
                     </td>
@@ -76,7 +78,8 @@
 
     <!-- Pagination -->
     <div>
-        @include('layouts.pagination')
+       @include('layouts.pagination', ['paginationVariable' => 'divisions'])
+
     </div>
 </div>
 
