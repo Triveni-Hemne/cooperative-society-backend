@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Subdivision;
+use App\Models\Division;
 use App\Models\Center;
 
 class CenterController extends Controller
@@ -13,9 +15,11 @@ class CenterController extends Controller
      */
     public function index()
     {
-        // $centers = Center::with('subdivision')->get();
+        $centers = Center::with('subdivision')->paginate(5);
+        $subdivisions = Subdivision::with('division')->get();
+        $divisions = Division::all();
         // return response()->json($centers);
-        return view('master.center.list');
+        return view('master.center.list', compact('centers', 'subdivisions', 'divisions'));
     }
 
     /**
@@ -32,15 +36,18 @@ class CenterController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'division_id' => 'required|exists:divisions,id',
             'subdivision_id' => 'required|exists:subdivisions,id',
             'name' => 'required|string|max:100',
-            'naav' => 'required|string|max:100',
+            'naav' => 'nullable|string|max:100',
             'address' => 'nullable|string',
+            'marathi_address' => 'nullable|string',
             'description' => 'nullable|string',
+            'marathi_description' => 'nullable|string',
         ]);
-
         $center = Center::create($request->all());
-        return response()->json($center, 201);
+        // return response()->json($center, 201);
+        return redirect()->back()->with('success', 'Center created successfully');
     }
 
     /**
@@ -48,19 +55,7 @@ class CenterController extends Controller
      */
     public function show(string $id)
     {
-        $center = Center::find($id);
-        if (!$center) return response()->json(['message' => 'Not Found'], 404);
 
-        $request->validate([
-            'subdivision_id' => 'exists:subdivisions,id',
-            'name' => 'string|max:100',
-            'naav' => 'string|max:100',
-            'address' => 'nullable|string',
-            'description' => 'nullable|string',
-        ]);
-
-        $center->update($request->all());
-        return response()->json($center, 200);
     }
 
     /**
@@ -76,18 +71,22 @@ class CenterController extends Controller
      */
     public function update(Request $request, string $id)
     {
-       $center = Center::findOrFail($id);
-
+        $center = Center::findOrFail($id);
+        
         $validated = $request->validate([
-            'subdivision_id' => 'exists:subdivisions,id',
-            'name' => 'string|max:100',
-            'naav' => 'string|max:100',
+            'division_id' => 'required|exists:divisions,id',
+            'subdivision_id' => 'required|exists:subdivisions,id',
+            'name' => 'required|string|max:100',
+            'naav' => 'nullable|string|max:100',
             'address' => 'nullable|string',
+            'marathi_address' => 'nullable|string',
             'description' => 'nullable|string',
+            'marathi_description' => 'nullable|string',
         ]);
-
+        
+        // return $request->all();
         $center->update($validated);
-        return response()->json(['message' => 'Center updated successfully', 'center' => $center]);
+        return redirect()->back()->with('success', 'Center updated successfully');
     }
 
     /**
@@ -97,6 +96,6 @@ class CenterController extends Controller
     {
         $center = Center::findOrFail($id);
         $center->delete();
-        return response()->json(['message' => 'Center deleted successfully']);
+        return redirect()->back()->with('success', 'Center deleted successfully');
     }
 }

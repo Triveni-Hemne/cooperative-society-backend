@@ -58,7 +58,7 @@
                     <td>{{$division->description}}</td>
                     <td>{{$division->marathi_description}}</td>
                     <td>
-                        <a data-id="{{$i}}" data-name="{{$division->name}}" data-naav="{{$division->naav}}" data-description="{{$division->description}}" data-marathi_description="{{$division->marathi_description}}" data-route="{{ route('divisions.update', $division->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a data-id="{{$division->id}}" data-name="{{$division->name}}" data-naav="{{$division->naav}}" data-description="{{$division->description}}" data-marathi_description="{{$division->marathi_description}}" data-route="{{ route('divisions.update', $division->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#divisionModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
