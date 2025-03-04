@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Subdivision;
 use App\Models\Division;
+use Illuminate\Validation\Rule;
 
 class SubdivisionController extends Controller
 {
@@ -35,8 +36,8 @@ class SubdivisionController extends Controller
     {
         $validated = $request->validate([
             'division_id' => 'required|exists:divisions,id',
-            'name' => 'required|string|max:100',
-            'naav' => 'nullable|string|max:100',
+            'name' => 'required|string|max:100|unique:subdivisions,name',
+            'naav' => 'nullable|string|max:100|unique:subdivisions,naav',
             'address' => 'nullable|string',
             'marathi_address' => 'nullable|string',
             'description' => 'nullable|string',
@@ -75,8 +76,14 @@ class SubdivisionController extends Controller
         
         $request->validate([
             'division_id' => 'required|exists:divisions,id',
-            'name' => 'required|string|max:100',
-            'naav' => 'nullable|string|max:100',
+            'name' => [
+            'required','string','max:100',
+                Rule::unique('subdivisions', 'name')->ignore($request->id), // Ignore the current record
+            ],
+            'naav' => [
+                'nullable','string','max:100',
+                Rule::unique('subdivisions', 'naav')->ignore($request->id), // Ignore the current record
+            ],
             'address' => 'nullable|string',
             'marathi_address' => 'nullable|string',
             'description' => 'nullable|string',

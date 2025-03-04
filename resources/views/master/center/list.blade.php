@@ -87,7 +87,6 @@
     <!-- Pagination -->
     <div>
        @include('layouts.pagination', ['paginationVariable' => 'centers'])
-
     </div>
 </div>
 

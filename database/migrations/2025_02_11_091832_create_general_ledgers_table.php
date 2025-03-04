@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('general_ledgers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('parent_ledger_id')->nullable()->constrained('general_ledgers')->onDelete('cascade');
-            $table->string('name', 255);
+            $table->string('name', 255)->unique();
             $table->enum('type', ['Assets', 'Liability', 'Income', 'Expense']);
             $table->decimal('balance', 12, 2)->default(0.00);
             $table->decimal('open_balance', 12, 2)->default(0.00);

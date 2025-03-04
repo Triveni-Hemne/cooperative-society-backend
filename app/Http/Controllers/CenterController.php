@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Subdivision;
 use App\Models\Division;
 use App\Models\Center;
+use Illuminate\Validation\Rule;
 
 class CenterController extends Controller
 {
@@ -38,8 +39,8 @@ class CenterController extends Controller
         $request->validate([
             'division_id' => 'required|exists:divisions,id',
             'subdivision_id' => 'required|exists:subdivisions,id',
-            'name' => 'required|string|max:100',
-            'naav' => 'nullable|string|max:100',
+            'name' => 'required|string|max:100|unique:centers,name',
+            'naav' => 'nullable|string|max:100|unique:centers,naav',
             'address' => 'nullable|string',
             'marathi_address' => 'nullable|string',
             'description' => 'nullable|string',
@@ -76,8 +77,14 @@ class CenterController extends Controller
         $validated = $request->validate([
             'division_id' => 'required|exists:divisions,id',
             'subdivision_id' => 'required|exists:subdivisions,id',
-            'name' => 'required|string|max:100',
-            'naav' => 'nullable|string|max:100',
+            'name' => [
+            'required','string','max:100',
+                Rule::unique('centers', 'name')->ignore($request->id), // Ignore the current record
+            ],
+            'naav' => [
+               'nullable','string','max:100',
+                Rule::unique('centers', 'naav')->ignore($request->id), // Ignore the current record
+            ],
             'address' => 'nullable|string',
             'marathi_address' => 'nullable|string',
             'description' => 'nullable|string',

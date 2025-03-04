@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('subdivisions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('division_id')->constrained('divisions')->onDelete('cascade');
-            $table->string('name', 100);
-            $table->string('naav', 100)->nullable();
+            $table->string('name', 100)->unique();
+            $table->string('naav', 100)->nullable()->unique();
             $table->text('address')->nullable();
             $table->text('marathi_address')->nullable();
             $table->text('description')->nullable();

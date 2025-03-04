@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Designation;
-
+use App\Models\Subdivision;
+use App\Models\Center;
+use App\Models\Division;
+use Illuminate\Validation\Rule;
 class DesignationController extends Controller
 {
     /**
@@ -13,9 +16,11 @@ class DesignationController extends Controller
      */
     public function index()
     {
-       $designations = Designation::all();
-        // return response()->json($designations);
-        return view('master.designation.list');
+       $designations = Designation::with('subdivision')->paginate(5);
+        $subdivisions = Subdivision::all();
+        $divisions = Division::all();
+        $centers = Center::all();
+        return view('master.designation.list',compact('designations','subdivisions','divisions','centers'));
     }
 
     /**
@@ -31,14 +36,17 @@ class DesignationController extends Controller
      */
     public function store(Request $request)
     {
-       $validated = $request->validate([
-            'name' => 'required|string|max:100',
-            'naav' => 'required|string|max:100',
+        $validated = $request->validate([
+            'division_id' => 'required|exists:divisions,id',
+            'subdivision_id' => 'required|exists:subdivisions,id',
+            'center_id' => 'nullable|exists:centers,id',
+            'name' => 'required|string|max:100|unique:designations,name',
+            'naav' => 'nullable|string|max:100|unique:designations,naav',
             'description' => 'nullable|string',
         ]);
-
+        
         $designation = Designation::create($validated);
-        return response()->json(['message' => 'Designation created successfully', 'designation' => $designation], 201);
+        return redirect()->back()->with('success', 'Designation created successfully');
     }
 
     /**
@@ -65,14 +73,23 @@ class DesignationController extends Controller
     {
        $designation = Designation::findOrFail($id);
 
-        $validated = $request->validate([
-            'name' => 'required|string|max:100',
-            'naav' => 'required|string|max:100',
-            'description' => 'nullable|string',
+       $validated = $request->validate([
+           'division_id' => 'required|exists:divisions,id',
+           'subdivision_id' => 'required|exists:subdivisions,id',
+           'center_id' => 'nullable|exists:centers,id',
+           'name' => [
+            'required','string','max:100',
+                Rule::unique('designations', 'name')->ignore($request->id), // Ignore the current record
+            ],
+            'naav' => [
+                'nullable','string','max:100',
+                Rule::unique('designations', 'naav')->ignore($request->id), // Ignore the current record
+            ],
+           'description' => 'nullable|string',
         ]);
 
         $designation->update($validated);
-        return response()->json(['message' => 'Designation updated successfully', 'designation' => $designation]);
+        return  redirect()->back()->with('success', 'Designation updated successfully');
     }
 
     /**
@@ -82,6 +99,6 @@ class DesignationController extends Controller
     {
         $designation = Designation::findOrFail($id);
         $designation->delete();
-        return response()->json(['message' => 'Designation deleted successfully']);
+        return redirect()->back()->with('success', 'Designation deleted successfully');
     }
 }
