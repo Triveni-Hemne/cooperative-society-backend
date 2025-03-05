@@ -14,7 +14,9 @@ class BankInvestmentController extends Controller
     public function index()
     {
         $bankInvestments = BankInvestment::all();
-        return response()->json($bankInvestments);
+        // return response()->json($bankInvestments);
+        return view('accounts.bank-investment.list');
+
     }
 
     /**

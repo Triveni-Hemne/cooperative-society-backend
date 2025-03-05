@@ -36,11 +36,11 @@
             <div id="category2" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
                 <div class="accordion-body">
                     <a href="{{route('members.index')}}">Manage Member</a>
-                    <a href="#">Deposit Account Opening</a>
-                    <a href="#">Loan Account Opening</a>
-                    <a href="#">General Accounts</a>
-                    <a href="#">Bank Investment</a>
-                    <a href="#">Standing Instruction Master</a>
+                    <a href="{{route('member-depo-accounts.index')}}">Deposit Account Opening</a>
+                    <a href="{{route('member-loan-accounts.index')}}">Loan Account Opening</a>
+                    <a href="{{route('accounts.index')}}">General Accounts</a>
+                    <a href="{{route('bank-investments.index')}}">Bank Investment</a>
+                    <a href="{{route('standing-instructions.index')}}">Standing Instruction Master</a>
                 </div>
             </div>
         </div>

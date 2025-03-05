@@ -15,7 +15,9 @@ class MemberDepoAccountController extends Controller
     public function index()
     {
         $accounts = MemberDepoAccount::all();
-        return response()->json($accounts);
+        // return response()->json($accounts);
+        return view('accounts.deposit-acc-opening.list');
+
     }
 
     /**

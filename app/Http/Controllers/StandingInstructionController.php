@@ -13,7 +13,8 @@ class StandingInstructionController extends Controller
      */
     public function index()
     {
-        return response()->json(StandingInstruction::all(), 200);
+        // return response()->json(StandingInstruction::all(), 200);
+        return view('accounts.standing-instruction.list');
     }
 
     /**

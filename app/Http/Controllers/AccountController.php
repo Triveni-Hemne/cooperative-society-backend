@@ -14,7 +14,8 @@ class AccountController extends Controller
     public function index()
     {
         $accounts = Account::all();
-        return response()->json($accounts);
+        // return response()->json($accounts);
+        return view('accounts.general-acc.list');
     }
 
     /**

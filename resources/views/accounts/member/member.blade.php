@@ -624,35 +624,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-                        <!-- <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="taluka">Taluka/Division</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <select id="taluka" class="w-100 px-2 py-1">
-                                    <option value="select">---------- Select ----------</option>
-                                    <option value="taluka1">M.R.V. DISTRIBUTION CO. LTD. BHANDARA</option>
-                                    <option value="taluka1">M.R.V. DISTRIBUTION CO. LTD. BHANDARA</option>
-                                    <option value="taluka1">M.R.V. DISTRIBUTION CO. LTD. BHANDARA</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="sub-division">Sub Division</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <select id="sub-division" class="w-100 px-2 py-1">
-                                    <option value="select">---------- Select ----------</option>
-                                    <option value="taluka1">BHANDARA</option>
-                                    <option value="taluka1">BHANDARA</option>
-                                    <option value="taluka1">BHANDARA</option>
-                                </select>
-                            </div>
-                        </div> -->
                     </div>
                 </form>
             </div>
