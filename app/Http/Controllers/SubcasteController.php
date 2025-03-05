@@ -13,9 +13,9 @@ class SubcasteController extends Controller
      */
     public function index()
     {
-       $subcastes = Subcaste::all();
+       $subcastes = Subcaste::paginate(5);
         // return response()->json($subcastes);
-        return view('master.subcaste.list');
+        return view('master.subcaste.list',compact('subcastes'));
     }
 
     /**
@@ -33,12 +33,13 @@ class SubcasteController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:100',
-            'naav' => 'required|string|max:100',
+            'naav' => 'nullable|string|max:100',
             'description' => 'nullable|string',
+            'marathi_description' => 'nullable|string',
         ]);
-
+        
         $subcaste = Subcaste::create($validated);
-        return response()->json(['message' => 'Subcaste created successfully', 'subcaste' => $subcaste], 201);
+        return redirect()->back()->with('success', 'Subcaste created successfully');
     }
 
     /**
@@ -46,8 +47,7 @@ class SubcasteController extends Controller
      */
     public function show(string $id)
     {
-        $subcaste = Subcaste::findOrFail($id);
-        return response()->json($subcaste);
+       //
     }
 
     /**
@@ -67,12 +67,13 @@ class SubcasteController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:100',
-            'naav' => 'required|string|max:100',
+            'naav' => 'nullable|string|max:100',
             'description' => 'nullable|string',
+            'marathi_description' => 'nullable|string',
         ]);
 
         $subcaste->update($validated);
-        return response()->json(['message' => 'Subcaste updated successfully', 'subcaste' => $subcaste]);
+        return redirect()->back()->with('success', 'Subcaste updated successfully');
     }
 
     /**
@@ -82,6 +83,6 @@ class SubcasteController extends Controller
     {
        $subcaste = Subcaste::findOrFail($id);
         $subcaste->delete();
-        return response()->json(['message' => 'Subcaste deleted successfully']);
+        return redirect()->back()->with('success', 'Subcaste deleted successfully');
     }
 }

@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('subcastes', function (Blueprint $table) {
             $table->id();
             $table->string('name',100)->unique();
-            $table->string('naav',100)->unique();
+            $table->string('naav',100)->nullable();
             $table->text('description')->nullable();
+            $table->string('marathi_description')->nullable(); 
             $table->timestamps();
         });
     }

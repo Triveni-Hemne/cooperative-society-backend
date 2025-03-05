@@ -8,5 +8,5 @@ class Subcaste extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'naav', 'description'];
+    protected $fillable = ['name', 'naav', 'description','marathi_description'];
 }
