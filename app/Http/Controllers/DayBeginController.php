@@ -13,7 +13,8 @@ class DayBeginController extends Controller
      */
     public function index()
     {
-        return response()->json(DayBegin::all(), 200);
+        // return response()->json(DayBegin::all(), 200);
+        return view('transactions.day-begins.list');
     }
 
     /**

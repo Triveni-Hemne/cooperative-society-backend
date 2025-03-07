@@ -54,18 +54,19 @@
             </h2>
             <div id="category3" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
                 <div class="accordion-body">
-                    <a href="#">Day Begins</a>
-                    <a href="#">Voucher Entry</a>
-                    <a href="#">Transfer Entry</a>
-                    <a href="#">Clerk Entry</a>
-                    <a href="#">Passing Transactions</a>
-                    <a href="#">Standing Instruction Execution</a>
-                    <a href="#">Auto Transfer</a>
-                    <a href="#">Auto Transaction Entry</a>
-                    <a href="#">All Demand List Posting</a>
-                    <a href="#">Personal Demand Posting</a>
-                    <a href="#">Demand List General</a>
-                    <a href="#">Day Ends</a>
+                    <a href="{{route('day-begins.index')}}">Day Begins</a>
+                    <a href="{{route('voucher-entry.index')}}">Voucher Entry</a>
+                    <a href="{{route('transfer-entry.index')}}">Transfer Entry</a>
+                    <!-- <a href="#">Clerk Entry</a> -->
+                    <!-- <a href="#">Passing Transactions</a> -->
+                    <!-- <a href="#">Standing Instruction Execution</a> -->
+                    <!-- <a href="#">Auto Transfer</a> -->
+                    <!-- <a href="#">Auto Transaction Entry</a> -->
+                    <!-- <a href="#">All Demand List Posting</a> -->
+                    <!-- <a href="#">Personal Demand Posting</a> -->
+                    <!-- <a href="#">Demand List General</a> -->
+                    <a href="{{route('branch-ledger.index')}}">Branch Ledger</a>
+                    <a href="{{route('day-end.index')}}">Day Ends</a>
                 </div>
             </div>
         </div>
