@@ -13,7 +13,8 @@ class DayEndController extends Controller
      */
     public function index()
     {
-       return response()->json(DayEnd::all(), 200);
+    //    return response()->json(DayEnd::all(), 200);
+    return view('transactions.day-ends.list');
     }
 
     /**

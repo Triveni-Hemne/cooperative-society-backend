@@ -13,7 +13,8 @@ class TransferEntryController extends Controller
      */
     public function index()
     {
-         return response()->json(TransferEntry::all(), 200);
+        //  return response()->json(TransferEntry::all(), 200);
+        return view('transactions.transfer-entry.list');
     }
 
     /**

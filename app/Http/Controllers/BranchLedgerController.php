@@ -13,7 +13,8 @@ class BranchLedgerController extends Controller
      */
     public function index()
     {
-         return response()->json(BranchLedger::all(), 200);
+        //  return response()->json(BranchLedger::all(), 200);
+        return view('transactions.branch-ledger.list');
     }
 
     /**

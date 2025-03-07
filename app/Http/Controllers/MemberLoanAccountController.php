@@ -17,7 +17,8 @@ class MemberLoanAccountController extends Controller
     public function index()
     {
        $loanAccounts = MemberLoanAccount::with(['member', 'ledger'])->get();
-        return $loanAccounts;
+        // return $loanAccounts;
+        return view('accounts.loan-acc-opening.list');
     }
 
     /**

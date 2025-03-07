@@ -37,12 +37,12 @@
             </h2>
             <div id="category2" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
                 <div class="accordion-body">
-                    <a href="#" class="side-link">Manage Member</a>
-                    <a href="#" class="side-link">Deposit Account Opening</a>
-                    <a href="#" class="side-link">Loan Account Opening</a>
-                    <a href="#" class="side-link">General Accounts</a>
-                    <a href="#" class="side-link">Bank Investment</a>
-                    <a href="#" class="side-link">Standing Instruction Master</a>
+                    <a href="{{route('members.index')}}">Manage Member</a>
+                    <a href="{{route('member-depo-accounts.index')}}">Deposit Account Opening</a>
+                    <a href="{{route('member-loan-accounts.index')}}">Loan Account Opening</a>
+                    <a href="{{route('accounts.index')}}">General Accounts</a>
+                    <a href="{{route('bank-investments.index')}}">Bank Investment</a>
+                    <a href="{{route('standing-instructions.index')}}">Standing Instruction Master</a>
                 </div>
             </div>
         </div>
@@ -56,18 +56,19 @@
             </h2>
             <div id="category3" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
                 <div class="accordion-body">
-                    <a href="#" class="side-link">Day Begins</a>
-                    <a href="#" class="side-link">Voucher Entry</a>
-                    <a href="#" class="side-link">Transfer Entry</a>
-                    <a href="#" class="side-link">Clerk Entry</a>
-                    <a href="#" class="side-link">Passing Transactions</a>
-                    <a href="#" class="side-link">Standing Instruction Execution</a>
-                    <a href="#" class="side-link">Auto Transfer</a>
-                    <a href="#" class="side-link">Auto Transaction Entry</a>
-                    <a href="#" class="side-link">All Demand List Posting</a>
-                    <a href="#" class="side-link">Personal Demand Posting</a>
-                    <a href="#" class="side-link">Demand List General</a>
-                    <a href="#" class="side-link">Day Ends</a>
+                    <a href="{{route('day-begins.index')}}">Day Begins</a>
+                    <a href="{{route('voucher-entry.index')}}">Voucher Entry</a>
+                    <a href="{{route('transfer-entry.index')}}">Transfer Entry</a>
+                    <!-- <a href="#">Clerk Entry</a> -->
+                    <!-- <a href="#">Passing Transactions</a> -->
+                    <!-- <a href="#">Standing Instruction Execution</a> -->
+                    <!-- <a href="#">Auto Transfer</a> -->
+                    <!-- <a href="#">Auto Transaction Entry</a> -->
+                    <!-- <a href="#">All Demand List Posting</a> -->
+                    <!-- <a href="#">Personal Demand Posting</a> -->
+                    <!-- <a href="#">Demand List General</a> -->
+                    <a href="{{route('branch-ledger.index')}}">Branch Ledger</a>
+                    <a href="{{route('day-end.index')}}">Day Ends</a>
                 </div>
             </div>
         </div>

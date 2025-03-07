@@ -13,7 +13,8 @@ class VoucherEntryController extends Controller
      */
     public function index()
     {
-        return response()->json(VoucherEntry::all(), 200);
+        // return response()->json(VoucherEntry::all(), 200);
+        return view('transactions.voucher-entry.list');
     }
 
     /**
