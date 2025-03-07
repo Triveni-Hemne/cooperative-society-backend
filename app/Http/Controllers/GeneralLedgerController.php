@@ -14,9 +14,9 @@ class GeneralLedgerController extends Controller
      */
     public function index()
     {
-        $generalLedgers = GeneralLedger::with('schedule')->get();
+        $generalLedgers = GeneralLedger::paginate(5);
         // return response()->json($generalLedgers);
-        return view('master.general-ledger.list');
+        return view('master.general-ledger.list',compact('generalLedgers'));
     }
 
     /**
@@ -32,23 +32,34 @@ class GeneralLedgerController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request->all();   
         $validated = $request->validate([
             'parent_ledger_id' => 'nullable|exists:general_ledgers,id',
-            'name' => 'string|max:255',
-            'type' => 'in:Assets,Liability,Income,Expense',
-            'balance' => 'numeric|min:0',
-            'open_balance' => 'numeric|min:0',
-            'min_amount' => 'numeric|min:0',
-            'subsidiary' => 'boolean',
-            'group' => 'nullable|string|max:255',
-            'demand' => 'boolean',
-            'type_detail' => 'in:Bank,Loan,Investment,Member,Deposit',
-            'gl_type' => 'in:Asset,Liability,Income,Expense',
-            'item_of' => 'nullable|string|max:255'
+            'ledger_no' => 'required|unique:general_ledgers|max:50',
+            'name' => 'required|max:100',
+            'balance'=> 'required',
+            'balance_type' => 'required|in:Credit,Debit',
+            'open_balance'=>'required',
+            'open_balance_type' => 'required|in:Credit,Debit',
+            'min_balance' => 'required',
+            'min_balance_type' => 'required|in:Credit,Debit',
+            'interest_rate' => 'required',
+            'open_date' => 'required|date',
+            'gl_type' => 'required|in:Society,Store',
+            'penal_rate' => 'nullable',
+            'cd_ratio' => 'nullable',
+            'add_interest_to_balance' => 'nullable',
+            'item_of' => 'required',
+            'group' => 'nullable',
+            'subsidiary' => 'required',
+            'send_sms' => 'required',
+            'interest_type' => 'required|max:50',
+            'type' => 'nullable',
+            'demand' => 'nullable',
         ]);
 
         $generalLedger = GeneralLedger::create($validated);
-        return response()->json(['message' => 'General Ledger added successfully', 'generalLedger' => $generalLedger], 201);
+        return redirect()->back()->with('success',  'General Ledger added successfully', 'generalLedger');
     }
 
     /**
@@ -76,22 +87,40 @@ class GeneralLedgerController extends Controller
         $generalLedger = GeneralLedger::findOrFail($id);
 
         $validated = $request->validate([
-            'parent_ledger_id' => 'nullable|exists:general_ledgers,id',
-            'name' => 'string|max:255',
-            'type' => 'in:Assets,Liability,Income,Expense',
-            'balance' => 'numeric|min:0',
-            'open_balance' => 'numeric|min:0',
-            'min_amount' => 'numeric|min:0',
-            'subsidiary' => 'boolean',
-            'group' => 'nullable|string|max:255',
-            'demand' => 'boolean',
-            'type_detail' => 'in:Bank,Loan,Investment,Member,Deposit',
-            'gl_type' => 'in:Asset,Liability,Income,Expense',
-            'item_of' => 'nullable|string|max:255'
+            'parent_ledger_id' => [
+            'nullable','string','max:100',
+                Rule::unique('general_ledgers', 'id')->ignore($request->id), // Ignore the current record
+            ],
+            'ledger_no' => [
+            'required','string','max:100',
+                Rule::unique('general_ledgers', 'id')->ignore($request->id), // Ignore the current record
+            ],
+            //  'parent_ledger_id' => 'nullable|exists:general_ledgers,id',
+            // 'ledger_no' => 'required|unique:general_ledgers|max:50',
+            'name' => 'required|max:100',
+            'balance'=> 'required',
+            'balance_type' => 'required|in:Credit,Debit',
+            'open_balance'=>'required',
+            'open_balance_type' => 'required|in:Credit,Debit',
+            'min_balance' => 'required',
+            'min_balance_type' => 'required|in:Credit,Debit',
+            'interest_rate' => 'required',
+            'open_date' => 'required|date',
+            'gl_type' => 'required|in:Society,Store',
+            'penal_rate' => 'nullable',
+            'cd_ratio' => 'nullable',
+            'add_interest_to_balance' => 'nullable',
+            'item_of' => 'required',
+            'group' => 'nullable',
+            'subsidiary' => 'required',
+            'send_sms' => 'required',
+            'interest_type' => 'required|max:50',
+            'type' => 'nullable',
+            'demand' => 'nullable',
         ]);
 
         $generalLedger->update($validated);
-        return response()->json(['message' => 'General Ledger updated successfully', 'generalLedger' => $generalLedger]);
+        return redirect()->back()->with('success',  'General Ledger updated successfully', 'generalLedger');
 
     }
 
@@ -102,6 +131,6 @@ class GeneralLedgerController extends Controller
     {
         $generalLedger = GeneralLedger::findOrFail($id);
         $generalLedger->delete();
-        return response()->json(['message' => 'General Ledger deleted successfully']);
+        return redirect()->back()->with('success', 'General Ledger deleted successfully');
     }
 }

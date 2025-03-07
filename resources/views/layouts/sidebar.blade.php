@@ -20,7 +20,6 @@
                     <a href="{{route('centers.index')}}" class="side-link">Center</a>
                     <a href="{{route('designations.index')}}" class="side-link">Designation</a>
                     <a href="{{route('subcastes.index')}}" class="side-link">Subcaste</a>
-                    <a href="#">Schedule Ledger</a>
                     <a href="{{route('general-ledgers.index')}}" class="side-link">General Ledger</a>
                 </div>
             </div>
