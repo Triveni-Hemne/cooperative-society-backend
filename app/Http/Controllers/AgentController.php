@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Agent;
+use App\Models\User;
 use Illuminate\Validation\Rule;
 
 
@@ -15,8 +16,10 @@ class AgentController extends Controller
      */
     public function index()
     {
-       $agents = Agent::with('user')->get();
-        return response()->json($agents);
+       $agents = Agent::with('user')->paginate(5);
+        $users = User::all();
+        // return response()->json($centers);
+        return view('master.agent.list', compact('agents', 'users'));
     }
 
     /**
@@ -32,15 +35,15 @@ class AgentController extends Controller
      */
     public function store(Request $request)
     {
-       $validated = $request->validate([
+        $validated = $request->validate([
             'user_id' => 'required|exists:users,id|unique:agents,user_id',
             'agent_code' => 'required|string|max:50|unique:agents,agent_code',
-            'commition_rate' => 'required|numeric|min:0|max:100',
-            'status' => ['required', Rule::in(['Active', 'Inactive'])],
+            'commition_rate' => 'required|numeric|min:0',
+            // 'status' => ['required', Rule::in(['Active', 'Inactive'])],
         ]);
-
+        
         $agent = Agent::create($validated);
-        return response()->json(['message' => 'Agent added successfully', 'agent' => $agent], 201);
+        return redirect()->back()->with('success', 'Agent added successfully');
     }
 
     /**
@@ -66,16 +69,16 @@ class AgentController extends Controller
     public function update(Request $request, string $id)
     {
         $agent = Agent::findOrFail($id);
-
+        
         $validated = $request->validate([
             'user_id' => ['required', 'exists:users,id', Rule::unique('agents')->ignore($agent->id)],
             'agent_code' => ['required', 'string', 'max:50', Rule::unique('agents')->ignore($agent->id)],
             'commition_rate' => 'required|numeric|min:0|max:100',
-            'status' => ['required', Rule::in(['Active', 'Inactive'])],
+            // 'status' => ['required', Rule::in(['Active', 'Inactive'])],
         ]);
 
         $agent->update($validated);
-        return response()->json(['message' => 'Agent updated successfully', 'agent' => $agent]);
+        return redirect()->back()->with('success', 'Agent updated successfully');
     }
 
     /**
@@ -85,6 +88,6 @@ class AgentController extends Controller
     {
         $agent = Agent::findOrFail($id);
         $agent->delete();
-        return response()->json(['message' => 'Agent deleted successfully']);
+        redirect()->back()->with('success', 'Agent deleted successfully');
     }
 }
