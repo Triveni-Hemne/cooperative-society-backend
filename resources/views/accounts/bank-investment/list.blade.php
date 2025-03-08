@@ -91,7 +91,7 @@
 
     <!-- Pagination -->
     <div>
-        @include('layouts.pagination')
+        {{-- @include('layouts.pagination') --}}
     </div>
 </div>
 

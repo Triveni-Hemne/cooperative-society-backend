@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('member_depo_accounts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ledger_id')->nullable()->constrained('general_ledgers')->onDelete('cascade');
-            $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('cascade');
+            $table->string('images', 255)->nullable();
             $table->foreignId('member_id')->nullable()->constrained('members')->onDelete('cascade');
+            $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('cascade');
             $table->string('acc_no', 50)->unique();
             $table->enum('deposit_type', ['Savings', 'Fixed Deposit', 'Recurring Deposit']);
             $table->string('name', 255);

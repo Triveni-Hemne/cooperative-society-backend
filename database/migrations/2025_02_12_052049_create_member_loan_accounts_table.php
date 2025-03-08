@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('ledger_id')->constrained('general_ledgers')->onDelete('cascade');
             $table->foreignId('member_id')->constrained('members')->onDelete('cascade');
+            $table->string('images', 255)->nullable();
             $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('cascade');
             $table->string('acc_no', 50)->unique()->nullable();
             $table->enum('loan_type', ['Personal Loan', 'Home Loan', 'Auto Loan', 'Business Loan']);

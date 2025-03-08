@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('member_id')->constrained('members')->onDelete('cascade');
             $table->text('address');
+            $table->text('marathiAddress');
             $table->string('city', 100);
             $table->string('mobile_no', 15);
             $table->string('phone_no', 15)->nullable();

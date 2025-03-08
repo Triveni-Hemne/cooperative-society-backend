@@ -80,8 +80,7 @@
                                     <button class="nav-link w-100 text-info" id="share-tab" data-bs-toggle="tab"
                                         data-bs-target="#share-tab-pane" type="button" role="tab"
                                         aria-controls="share-tab-pane" aria-selected="false">Share Detail</button>
-                                </li>
-                            </ul>
+                                </li>                            </ul>
                             <div class="tab-content" id="myTabContent">
                                 <!-- Personal Details -->
                                 <div class="tab-pane fade show active py-3" id="personal-tab-pane" role="tabpanel"
@@ -121,6 +120,13 @@
                                                 placeholder="Mobile No.">
                                         </div>
                                         <div class="col-1 d-none d-xl-block">
+                                            <label for="mobNo" class="w-100">Phone No.</label>
+                                        </div>
+                                        <div class="col-3 pe-0 pe-xl-5">
+                                            <input id="mobNo" class="w-100 px-2 py-1" type="text"
+                                                placeholder="Mobile No.">
+                                        </div>
+                                        <div class="col-1 d-none d-xl-block">
                                             <label for="gender">Gender</label>
                                         </div>
                                         <div class="col-3 pe-0 pe-xl-5">
@@ -145,13 +151,6 @@
                                         <div class="col-2 pe-0 pe-xl-5">
                                             <input id="jainDate" class="w-100 px-2 py-1" type="date"
                                                 placeholder="Date of Joining">
-                                        </div>
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="memDate">Mem. ship Date</label>
-                                        </div>
-                                        <div class="col-2 pe-0 pe-xl-5">
-                                            <input id="memDate" class="w-100 px-2 py-1" type="date"
-                                                placeholder="Mem. ship Date">
                                         </div>
                                     </div>
 
