@@ -37,12 +37,12 @@
             </h2>
             <div id="category2" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
                 <div class="accordion-body">
-                    <a href="{{route('members.index')}}">Manage Member</a>
-                    <a href="{{route('member-depo-accounts.index')}}">Deposit Account Opening</a>
-                    <a href="{{route('member-loan-accounts.index')}}">Loan Account Opening</a>
-                    <a href="{{route('accounts.index')}}">General Accounts</a>
-                    <a href="{{route('bank-investments.index')}}">Bank Investment</a>
-                    <a href="{{route('standing-instructions.index')}}">Standing Instruction Master</a>
+                    <a href="{{route('members.index')}}" class="side-link">Manage Member</a>
+                    <a href="{{route('member-depo-accounts.index')}}" class="side-link">Deposit Account Opening</a>
+                    <a href="{{route('member-loan-accounts.index')}}" class="side-link">Loan Account Opening</a>
+                    <a href="{{route('accounts.index')}}" class="side-link">General Accounts</a>
+                    <a href="{{route('bank-investments.index')}}" class="side-link">Bank Investment</a>
+                    <a href="{{route('standing-instructions.index')}}" class="side-link">Standing Instruction Master</a>
                 </div>
             </div>
         </div>
@@ -56,9 +56,9 @@
             </h2>
             <div id="category3" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
                 <div class="accordion-body">
-                    <a href="{{route('day-begins.index')}}">Day Begins</a>
-                    <a href="{{route('voucher-entry.index')}}">Voucher Entry</a>
-                    <a href="{{route('transfer-entry.index')}}">Transfer Entry</a>
+                    <a href="{{route('day-begins.index')}}" class="side-link">Day Begins</a>
+                    <a href="{{route('voucher-entry.index')}}" class="side-link">Voucher Entry</a>
+                    <a href="{{route('transfer-entry.index')}}" class="side-link">Transfer Entry</a>
                     <!-- <a href="#">Clerk Entry</a> -->
                     <!-- <a href="#">Passing Transactions</a> -->
                     <!-- <a href="#">Standing Instruction Execution</a> -->
@@ -265,7 +265,7 @@
             </div>
         </div>
         <!-- House Keeping Menu -->
-        <div class="accordion-item bg-transparent border-0 my-item">
+        {{-- <div class="accordion-item bg-transparent border-0 my-item">
             <h2 class="accordion-header">
                 <button class="accordion-button bg-transparent text-white" type="button" data-bs-toggle="collapse"
                     data-bs-target="#category5">
@@ -291,19 +291,19 @@
                     <a href="#">Installment Amount Correction</a>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- Utilities Menu -->
-        <div class="accordion-item bg-transparent border-0 my-menu-item">
+        {{-- <div class="accordion-item bg-transparent border-0 my-menu-item">
             <a href="#" class="d-flex align-items-center ps-4 rounded-0">
                 Utilities
             </a>
-        </div>
+        </div> --}}
         <!-- Help Menu -->
-        <div class="accordion-item bg-transparent border-0 my-menu-item">
+        {{-- <div class="accordion-item bg-transparent border-0 my-menu-item">
             <a href="#" class="d-flex align-items-center ps-4 rounded-0">
                 Help
             </a>
-        </div>
+        </div> --}}
     </div>
 </nav>
 

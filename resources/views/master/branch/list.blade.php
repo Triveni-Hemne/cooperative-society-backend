@@ -11,7 +11,7 @@
 <div style="height: 18%">
     <!-- Heading -->
     <div class="mb-4 heading">
-        <h3>Designation</h3>
+        <h3>Branches</h3>
     </div>
 
     <!-- Search Bar and Add New Button -->
@@ -46,22 +46,22 @@
                 </tr>
             </thead>
             <tbody>
-                @if ($designations->isNotEmpty())
+                @if ($branches->isNotEmpty())
                  @php $i = 1; @endphp
-                 @foreach ($designations as $designation)
+                 @foreach ($branches as $branch)
                 <tr>
                     <th scope="row">{{$i}}</th>
-                    <td>{{$designation->id}}</td>
-                    <td>{{$designation->name}}</td>
-                    <td>{{$designation->naav}}</td>
-                    <td>{{$designation->division->name}}</td>
-                    <td>{{$designation->subdivision->name}}</td>
+                    <td>{{$branch->id}}</td>
+                    <td>{{$branch->name}}</td>
+                    <td>{{$branch->naav}}</td>
+                    <td>{{$branch->division->name}}</td>
+                    <td>{{$branch->subdivision->name}}</td>
                     <td>
-                        <a href="#" data-id="{{$designation->id }}" data-name="{{$designation->name ?? ''}}" data-naav="{{$designation->naav ?? ''}}" data-route="{{ route('designations.update', $designation->id) }}" data-division-id="{{$designation->division->id ?? ''}}" data-sub-division-id="{{$designation->subdivision->id ?? ''}}" data-center-id="{{$designation->center->id ?? ''}}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$branch->id }}" data-name="{{$branch->name ?? ''}}" data-naav="{{$branch->naav ?? ''}}" data-route="{{ route('designations.update', $designation->id) }}"  class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#designationModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" data-id="{{$designation->id }}" data-route="{{ route('designations.destroy', $designation->id) }}" data-name="{{ $designation->name ?? ''}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <a href="#" data-id="{{$branch->id }}" data-route="{{ route('branches.destroy', $branch->id) }}" data-name="{{ $branch->name ?? ''}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
                         </a>
                     </td>
@@ -77,12 +77,12 @@
 
     <!-- Pagination -->
     <div>
-       @include('layouts.pagination', ['paginationVariable' => 'designations'])
+       @include('layouts.pagination', ['paginationVariable' => 'branches'])
     </div>
 </div>
 
 <!-- Form Model -->
-@include('master.designation.designation')
+@include('master.branch.branch')
 
 <!-- Delete Confirmation Model -->
 @include('layouts.deleteModal')

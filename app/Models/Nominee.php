@@ -13,15 +13,15 @@ class Nominee extends Model
         'nominee_id',
         'member_id',
         'depo_acc_id',
-        'name',
-        'naav',
-        'age',
-        'gender',
+        'nominee_name',
+        'nominee_naav',
+        'nominee_age',
+        'nominee_gender',
         'relation',
         'nominee_image',
-        'address',
-        'marathi_address',
-        'adhar_no'
+        'nominee_address',
+        'nominee_marathi_address',
+        'nominee_adhar_no'
     ];
 
    /**

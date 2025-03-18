@@ -35,6 +35,7 @@
                                 @enderror
                             </div>
                         </div>
+                        @isset($generalLedgers) 
                         <div class="row mt-2">
                             @if ($generalLedgers->isNotEmpty())
                             <div class="col-2 ">
@@ -57,6 +58,7 @@
                                 </div>
                                 @endif
                         </div>
+                        @endisset
                         <div class="row mt-2">
                             <div class="col-2">
                                 <label for="balance">Balance</label>

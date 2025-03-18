@@ -14,6 +14,8 @@
                         <div class="alert alert-danger">{{Session::get('error')}}</div>
                     @endif
                     <div class="mx-auto p-5 my-model text-white">
+                        @isset($users) 
+                        @if ($users->isNotEmpty())
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="name">User</label>
@@ -34,6 +36,8 @@
                                 @enderror
                             </div>
                         </div>
+                        @endif
+                        @endisset
 
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">

@@ -39,6 +39,8 @@
                             </div>
                         </div>
 
+                       @isset($divisions) 
+                         @if ($divisions->isNotEmpty())
                          <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="division_id">Taluka/Division</label>
@@ -56,6 +58,10 @@
                                 </select>
                             </div>
                         </div>
+                        @endif
+                       @endisset
+                        @isset($subdivisions) 
+                        @if ($subdivisions->isNotEmpty())
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="subdivision_id">Sub Division</label>
@@ -73,6 +79,10 @@
                                 </select>
                             </div>
                         </div>
+                        @endif
+                        @endisset
+                        @isset($centers) 
+                        @if ($centers->isNotEmpty())
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="center_id">Center</label>
@@ -90,6 +100,8 @@
                                 </select>
                             </div>
                         </div>
+                        @endif
+                        @endisset
                     </div>
                 </div>
                 <div class="modal-footer">

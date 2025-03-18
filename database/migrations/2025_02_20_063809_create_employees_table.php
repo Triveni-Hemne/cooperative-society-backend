@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('member_id')->constrained('members')->onDelete('cascade');
             $table->string('emp_code', 50)->unique();
             $table->foreignId('designation_id')->constrained('designations')->onDelete('cascade');
             $table->decimal('salary', 10, 2);
@@ -27,7 +26,7 @@ return new class extends Migration
             $table->string('gpf_no', 50)->unique()->nullable();
             $table->decimal('hra', 10, 2)->nullable();
             $table->decimal('da', 10, 2)->nullable();
-            $table->enum('status', ['Active', 'Inactive', 'Retired']);
+            $table->enum('status', ['Active', 'Inactive', 'Retired'])->default('Active');
             $table->timestamps();
         });
     }

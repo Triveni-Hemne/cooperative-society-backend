@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('member_financials', function (Blueprint $table) {
             $table->id();
             $table->foreignId('member_id')->constrained('members')->onDelete('cascade');
-            $table->foreignId('director_id')->constrained('users')->onDelete('cascade'); // Assuming directors are stored in users table
+            $table->foreignId('director_id')->nullable()->constrained('users')->onDelete('cascade'); // Assuming directors are stored in users table
             $table->decimal('share_amount', 10, 2)->notNull();
             $table->decimal('welfare_fund', 10, 2)->nullable();
             $table->string('page_no', 50)->nullable();
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->decimal('monthly_balance', 10, 2)->notNull();
             $table->decimal('dividend_amount', 10, 2)->nullable();
             $table->decimal('monthly_deposit', 10, 2)->notNull();
-            $table->decimal('demand', 10, 2)->nullable();
+            $table->string('demand')->nullable();
             $table->enum('type', ['Share', 'Dividend', 'Deposit']);
             $table->timestamps();
         });

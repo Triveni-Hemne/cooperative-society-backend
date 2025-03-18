@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Branch;
+use App\Models\Employee;
 
 class BranchController extends Controller
 {
@@ -13,7 +14,9 @@ class BranchController extends Controller
      */
     public function index()
     {
-        return response()->json(Branch::with('manager')->orderBy('name')->get());
+        $branches = Branch::paginate(5);
+        $employees = Employee::all();
+        return view('master.branch.list', compact('branches','employees'));
     }
 
     /**

@@ -65,6 +65,8 @@
                                 <p class="errorMsg" style="color:red; display:none;">फक्त मराठी अक्षरे स्वीकारली जातील.</p>
                             </div>
                         </div>
+                         @isset($divisions)
+                         @if ($divisions->isNotEmpty())
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="division_id">Taluka/Division</label>
@@ -82,6 +84,10 @@
                                 </select>
                             </div>
                         </div>
+                        @endif
+                        @endisset
+                         @isset($subdivisions) 
+                         @if ($subdivisions->isNotEmpty())
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="subdivision_id">Sub Division</label>
@@ -99,6 +105,8 @@
                                 </select>
                             </div>
                         </div>
+                        @endif
+                         @endisset
                          <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="description">Description</label>

@@ -38,7 +38,7 @@ class AgentController extends Controller
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id|unique:agents,user_id',
             'agent_code' => 'required|string|max:50|unique:agents,agent_code',
-            'commition_rate' => 'required|numeric|min:0',
+            'commition_rate' => 'required|numeric|between:0,999.99',
             // 'status' => ['required', Rule::in(['Active', 'Inactive'])],
         ]);
         
@@ -73,7 +73,7 @@ class AgentController extends Controller
         $validated = $request->validate([
             'user_id' => ['required', 'exists:users,id', Rule::unique('agents')->ignore($agent->id)],
             'agent_code' => ['required', 'string', 'max:50', Rule::unique('agents')->ignore($agent->id)],
-            'commition_rate' => 'required|numeric|min:0|max:100',
+            'commition_rate' => 'required|numeric|between:0,999.99',
             // 'status' => ['required', Rule::in(['Active', 'Inactive'])],
         ]);
 

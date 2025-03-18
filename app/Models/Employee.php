@@ -11,7 +11,7 @@ class Employee extends Model
     protected $fillable = [
         'member_id', 'emp_code', 'designation_id', 'salary', 'other_allowance',
         'division_id', 'subdivision_id', 'center_id', 'joining_date', 
-        'transfer_date', 'retirement_date', 'gpf_no', 'hra', 'da', 'status'
+        'transfer_date', 'retirement_date', 'gpf_no', 'hra', 'da', 
     ];
 
     public function member() {
