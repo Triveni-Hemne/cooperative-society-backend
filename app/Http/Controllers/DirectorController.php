@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Director;
+use App\Models\Member;
+use App\Models\Designation;
+use Illuminate\Validation\Rule;
 
 class DirectorController extends Controller
 {
@@ -13,8 +16,10 @@ class DirectorController extends Controller
      */
     public function index()
     {
-        // return response()->json(Director::with(['member', 'designation'])->get(), 200);
-        return view('master.director.list');
+        $directors = Director::with(['member', 'designation'])->paginate(5);
+        $members = Member::all();
+        $designations = Designation::all();
+        return view('master.director.list',compact('directors','members','designations'));
     }
 
     /**
@@ -30,20 +35,20 @@ class DirectorController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'member_id' => 'required|exists:users,id',
+        $validated = $request->validate([
+            'member_id' => 'required|exists:members,id',
             'name' => 'required|string|max:255',
-            'naav' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:directors,email',
-            'contact_no' => 'required|string|max:20',
             'designation_id' => 'required|exists:designations,id',
-            'status' => 'required|in:Active,Inactive',
+            'contact_nos'=>'required|array|min:1',
+            'email' => 'nullable|email|unique:directors,email',
             'from_date' => 'required|date',
-            'to_date' => 'nullable|date'
+            'to_date' => 'nullable|date|after_or_equal:from_date',
         ]);
+            $validated['contact_nos'] = implode(',', $request->contact_nos); // Convert array to string
+            
+            Director::create($validated);
 
-        $director = Director::create($request->all());
-        return response()->json($director, 201);
+            return redirect()->back()->with('success', 'Director added successfully!');
     }
 
     /**
@@ -69,19 +74,22 @@ class DirectorController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $director = Director::find($id);
-        if (!$director) return response()->json(['message' => 'Director not found'], 404);
-
-        $request->validate([
-            'email' => 'string|email|max:255|unique:directors,email,' . $id,
-            'contact_no' => 'string|max:20',
-            'status' => 'in:Active,Inactive',
-            'from_date' => 'date',
-            'to_date' => 'nullable|date'
+        $director = Director::findOrFail($id);
+        $validated = $request->validate([
+            'member_id' => 'required|exists:members,id',
+            'name' => 'required|string|max:255',
+            'designation_id' => 'required|exists:designations,id',
+            'contact_nos' => 'required|array|min:1', // Ensure at least one number is provided
+            'email' => ['nullable', 'email', Rule::unique('directors', 'email')->ignore($director->id)],
+            'from_date' => 'required|date',
+            'to_date' => 'nullable|date|after_or_equal:from_date',
         ]);
+        
+        $validated['contact_nos'] = implode(',', $validated['contact_nos']); 
+        
+        $director->update($validated);
 
-        $director->update($request->all());
-        return response()->json($director, 200);
+       return redirect()->back()->with('success', 'Director updated successfully');
     }
 
     /**
@@ -93,6 +101,6 @@ class DirectorController extends Controller
         if (!$director) return response()->json(['message' => 'Director not found'], 404);
 
         $director->delete();
-        return response()->json(['message' => 'Director deleted'], 200);
+        return redirect()->back()->with('success', 'Director deleted successfully');
     }
 }

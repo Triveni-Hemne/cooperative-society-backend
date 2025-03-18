@@ -1,3 +1,5 @@
+@include('layouts.session')
+
 @extends('layouts.app')
 @section('title', 'Cooperative Society Bank')
 
@@ -35,63 +37,55 @@
         <table id="tableFilter" class="table table-striped">
             <thead>
                 <tr>
+                    <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">contact no. 1</th>
+                    <th scope="col">contact no. 2</th>
+                    <th scope="col">From</th>
+                    <th scope="col">To</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
+                @if ($directors->isNotEmpty())
+                 @php $i = 1; @endphp
+                 @foreach ($directors as $director)
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <th scope="row">{{$i}}</th>
+                    <td>{{$director->id}}</td>
+                    <td>{{$director->name}}</td>
+                    @foreach(explode(',', $director->contact_nos) as $contact)
+                        <td>{{ $contact }}</td>
+                    @endforeach
+                    <td>{{$director->from_date}}</td>
+                    <td>{{$director->to_date}}</td>
                     <td>
-                        <a href="#" class="text-decoration-none me-4" data-bs-toggle="modal"
-                            data-bs-target="#centerModal">
+                        <a href="#" data-id="{{$director->id }}" data-member-id="{{$director->member_id }}" data-name="{{$director->name}}" data-email="{{$director->email}}" data-designation-id="{{$director->designation_id}}"
+                            @foreach(explode(',', $director->contact_nos) as $index => $contact) 
+                                data-mob{{ $index }}="{{ trim($contact) }}" 
+                            @endforeach
+                             data-from-date="{{$director->from_date}}"  data-to-date="{{$director->to_date}}"  data-route="{{ route('directors.update', $director->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                            data-bs-target="#directorModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <a href="#" data-id="{{$director->id }}" data-route="{{ route('directors.destroy', $director->id) }}" data-name="{{$director->name}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
                         </a>
                     </td>
                 </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>
-                        <a href="#" class="text-decoration-none me-4">
-                            <i class="fa fa-edit text-primary" style="font-size:20px"></i>
-                        </a>
-                        <a href="#" class="text-decoration-none">
-                            <i class="fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                    <td>
-                        <a href="#" class="text-decoration-none me-4">
-                            <i class="fa fa-edit text-primary" style="font-size:20px"></i>
-                        </a>
-                        <a href="#" class="text-decoration-none">
-                            <i class="fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
-                    </td>
-                </tr>
+                @php $i++ @endphp
+                 @endforeach
+                 @else
+                    <tr><td colspan="15" class="text-center"><h5>Data Not Found !</h5></td></tr>   
+                 @endif
             </tbody>
         </table>
     </div>
 
     <!-- Pagination -->
     <div>
-        {{-- @include('layouts.pagination') --}}
+        @include('layouts.pagination', ['paginationVariable' => 'directors'])
     </div>
 </div>
 
@@ -105,3 +99,64 @@
 
 @section('customeJs')
 @endsection
+
+{{-- Script to send data to the edit modal --}}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".edit-btn").forEach(button => {
+        button.addEventListener("click", function () {
+            let id = this.getAttribute("data-id");
+            let memberId = this.getAttribute("data-member-id");
+            let name = this.getAttribute("data-name");
+            let email = this.getAttribute("data-email");
+            let designationId = this.getAttribute("data-designation-id");
+            let mob0 = this.getAttribute("data-mob0");
+            let mob1 = this.getAttribute("data-mob1");
+            let fromDate = this.getAttribute("data-from-date");
+            let toDate = this.getAttribute("data-to-date");
+            let route = this.getAttribute("data-route");
+
+            let modal = document.getElementById("directorModal");
+
+            // Update modal title
+            document.getElementById("directorModalLabel").textContent = "Edit Agent";
+
+            // Populate form fields
+            document.getElementById("directorId").value = id;
+            document.getElementById("memberId").value = memberId;
+            document.getElementById("name").value = name;
+            document.getElementById("email").value = email;
+            document.getElementById("designationId").value = designationId;
+            document.getElementById("mob0").value = mob0;
+            document.getElementById("mob1").value = mob1;
+            document.getElementById("fromDate").value = fromDate;
+            document.getElementById("toDate").value = toDate;
+            
+            // Change form action to update route and set PUT method
+            let form = document.getElementById("directorsForm");
+            form.setAttribute("action", route);
+            document.getElementById("formMethod").value = "PUT";
+
+            // Change submit button text
+            document.querySelector("#directorModal .btn-primary").textContent = "Update Director";
+        });
+    });
+
+    // Reset modal when it's closed
+    document.getElementById("directorModal").addEventListener("hidden.bs.modal", function () {
+        let form = document.getElementById("directorModalForm");
+
+        // Reset form fields
+        form.reset();
+        
+        // Reset method and form action
+        document.getElementById("formMethod").value = "POST";
+        form.setAttribute("action", "{{ route('directors.store') }}");
+
+        // Reset modal title & button text
+        document.getElementById("directorModalLabel").textContent = "Add Director";
+        document.querySelector("#directorModal .btn-primary").textContent = "Save Changes";
+    });
+});
+
+</script>
