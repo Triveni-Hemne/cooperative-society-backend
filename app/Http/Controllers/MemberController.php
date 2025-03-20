@@ -27,7 +27,7 @@ class MemberController extends Controller
     public function index()
     {
     //    $members = Member::paginate(5);
-       $members = Member::all();    
+       $members = Member::paginate(5);    
        $departments = Department::all();
        $subcates = Subcaste::all();
        $directors = Director::all();

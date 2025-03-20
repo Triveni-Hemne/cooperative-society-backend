@@ -103,9 +103,9 @@
                             <label for="mob1">Mobile No.</label>
                         </div>
                         <div class="col pe-0 pe-xl-5">
-                            <input name="contact_nos[]" id="mob1" class="w-100 px-2 py-1 @error('contact_nos.2') is-invalid @enderror"
-                                type="number" placeholder="Mobile No." value="{{ old('contact_nos.2') }}">
-                            @error('contact_nos.2') <span class="text-danger">{{ $message }}</span> @enderror
+                            <input name="contact_nos[]" id="mob1" class="w-100 px-2 py-1 @error('contact_nos.1') is-invalid @enderror"
+                                type="number" placeholder="Mobile No." value="{{ old('contact_nos.1') }}">
+                            @error('contact_nos.1') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
 

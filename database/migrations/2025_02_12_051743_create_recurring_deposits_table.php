@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('recurring_deposits', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('deopsite_account_id')->constrained('member_depo_accounts')->onDelete('cascade');
+            $table->foreignId('deposit_account_id')->constrained('member_depo_accounts')->onDelete('cascade');
             $table->integer('rd_term_months')->notNull();
+            $table->integer('open_interest')->notNull();
             $table->decimal('maturity_amount', 10, 2)->nullable();
             $table->timestamps();
         });

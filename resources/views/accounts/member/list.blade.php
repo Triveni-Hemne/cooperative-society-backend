@@ -158,7 +158,7 @@
 
     <!-- Pagination -->
     <div>
-         {{-- @include('layouts.pagination', ['paginationVariable' => 'members']) --}}
+         @include('layouts.pagination', ['paginationVariable' => 'members'])
     </div>
 </div>
 

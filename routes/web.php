@@ -91,7 +91,6 @@ Route::get('/csrf-token', function () {
         Route::resource('agents', AgentController::class);
         Route::resource('branches', BranchController::class);
         Route::resource('member-financials', MemberFinancialController::class);
-        Route::resource('deposit-nominees', DepositNomineeController::class);
         Route::resource('installment-transactions', InstallmentTransactionController::class);
         Route::resource('recurring-deposits', RecurringDepositController::class);
         Route::resource('loan-guarantors', LoanGuarantorController::class);

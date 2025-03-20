@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('member_id')->nullable()->constrained('members')->onDelete('cascade');
             $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('cascade');
             $table->string('acc_no', 50)->unique();
-            $table->enum('deposit_type', ['Savings', 'Fixed Deposit', 'Recurring Deposit']);
+            $table->enum('deposit_type', ['savings', 'fd', 'rd']);
             $table->string('name', 255);
             $table->decimal('interest_rate', 5, 2);
             $table->date('ac_start_date');
@@ -33,7 +33,7 @@ return new class extends Migration
             $table->integer('total_installments')->nullable();
             $table->decimal('total_payable_amount', 10, 2)->nullable();
             $table->integer('total_installments_paid')->default(0);
-            $table->date('account_closing_date')->nullable();
+            $table->date('acc_closing_date')->nullable();
             $table->decimal('interest_payable', 10, 2)->nullable();
             $table->decimal('open_interest', 10, 2)->nullable();
             $table->timestamps();
