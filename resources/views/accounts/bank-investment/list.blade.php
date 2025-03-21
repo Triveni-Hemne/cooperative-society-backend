@@ -6,26 +6,25 @@
 @endsection
 
 @section('content')
-<div style="height: 18%">
-    <!-- Heading -->
-    <div class="mb-4 heading">
+<div class="mb-3">
+    <div class="d-flex justify-content-between align-items-center">
+        <!-- Heading -->
         <h3>Bank Investment</h3>
+
+        <!-- Add New Button (Moves Above Sidebar in Small Screens) -->
+        <a href="#" class="d-flex gap-2 text-decoration-none align-items-center" data-bs-toggle="modal"
+            data-bs-target="#bankInvestmentModal">
+            <p class="bg-success rounded-circle d-flex justify-content-center align-items-center"
+                style="width: 30px; height: 30px;">
+                <i class="fa fa-plus text-white" style="font-size:20px"></i>
+            </p>
+            <p class="d-none d-md-block">Add New</p> <!-- Hidden on small screens -->
+        </a>
     </div>
 
-    <!-- Search Bar and Add New Button -->
-    <div class="d-flex justify-content-between mb-3">
-        <input type="search" id="searchInput" placeholder="Search Here..." class="w-50 px-3 py-1 rounded">
-
-        <div>
-            <a href="#" class="d-flex justify-content-between gap-2 text-decoration-none d-flex align-items-center"
-                data-bs-toggle="modal" data-bs-target="#bankInvestmentModal">
-                <p style="width: 30px; height: 30px"
-                    class="bg-success rounded-circle d-flex justify-content-center align-items-center">
-                    <i class="fa fa-plus text-white" style="font-size:20px"></i>
-                </p>
-                <p>Add New</p>
-            </a>
-        </div>
+    <!-- Search Bar -->
+    <div>
+        <input type="search" id="searchInput" placeholder="Search Here..." class="px-3 py-2 rounded search-bar">
     </div>
 </div>
 

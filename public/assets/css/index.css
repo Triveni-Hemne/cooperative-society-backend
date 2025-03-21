@@ -31,9 +31,33 @@ body {
 }
 /* ---------- ScrollBar Style Ends Here ---------- */
 
+/* ---------- Header Style Start Here ---------- */
 .my-bg-primary {
     background-color: var(--tertiary-color);
 }
+
+/* Hero Text Styling */
+.my-hero-text {
+    font-size: 1.5rem;
+    margin: auto;
+}
+
+/* Profile Image */
+.profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+/* Logout Button */
+.logout-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+/* ---------- Header Style Ends Here ---------- */
 
 /* Set fixed column width */
 th,
@@ -101,6 +125,30 @@ header .profile .logout-btn:hover {
 @media (max-width: 1199.98px) {
     .my-hero-text {
         font-size: 15px;
+    }
+}
+
+.search-bar {
+    width: 50%;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile {
+        margin-top: 10px;
+    }
+
+    .search-container {
+        width: 100%;
+    }
+
+    .search-bar {
+        width: 100%;
     }
 }
 
