@@ -1,3 +1,5 @@
+@include('layouts.session')
+
 @extends('layouts.app')
 @section('title', 'Cooperative Society Bank')
 
@@ -6,7 +8,7 @@
 @endsection
 
 @section('content')
-<div style="height: 18%">
+<div>
     <!-- Heading -->
     <div class="mb-4 heading">
         <h3>Loan Account Opening</h3>
@@ -43,6 +45,9 @@
                 </tr>
             </thead>
             <tbody>
+                 @if ($loanAccounts->isNotEmpty())
+                 @php $i = 1; @endphp
+                 @foreach ($loanAccounts as $account)
                 <tr>
                     <th scope="row">1</th>
                     <td>Mark</td>
@@ -58,40 +63,18 @@
                         </a>
                     </td>
                 </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>
-                        <a href="#" class="text-decoration-none me-4">
-                            <i class="fa fa-edit text-primary" style="font-size:20px"></i>
-                        </a>
-                        <a href="#" class="text-decoration-none">
-                            <i class="fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                    <td>
-                        <a href="#" class="text-decoration-none me-4">
-                            <i class="fa fa-edit text-primary" style="font-size:20px"></i>
-                        </a>
-                        <a href="#" class="text-decoration-none">
-                            <i class="fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
-                    </td>
-                </tr>
+                @php $i++ @endphp
+                 @endforeach
+                 @else
+                    <tr><td colspan="15" class="text-center"><h5>Data Not Found !</h5></td></tr>   
+                 @endif
             </tbody>
         </table>
     </div>
 
     <!-- Pagination -->
     <div>
-        {{-- @include('layouts.pagination') --}}
+            @include('layouts.pagination', ['paginationVariable' => 'loanAccounts'])
     </div>
 </div>
 

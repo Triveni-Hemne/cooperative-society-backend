@@ -13,6 +13,7 @@ class Nominee extends Model
         'nominee_id',
         'member_id',
         'depo_acc_id',
+        'loan_acc_id',
         'nominee_name',
         'nominee_naav',
         'nominee_age',
@@ -46,5 +47,10 @@ class Nominee extends Model
     public function depositAccount()
     {
         return $this->belongsTo(MemberDepoAccount::class, 'depo_acc_id');
+    }
+
+    public function loanAccount()
+    {
+        return $this->belongsTo(MemberLoanAccount::class, 'loan_acc_id');
     }
 }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('nominee_id')->nullable()->constrained('members')->onDelete('cascade'); // Nullable to prevent foreign key errors
             $table->foreignId('member_id')->nullable()->constrained('members')->onDelete('cascade'); //stores id of member if this nominee is of any member
             $table->foreignId('depo_acc_id')->nullable()->constrained('member_depo_accounts')->onDelete('cascade'); // stores id of depo.acc. if this nominee is of depo.acc
+            $table->foreignId('loan_acc_id')->nullable()->constrained('member_loan_accounts')->onDelete('cascade'); // stores id of loan.acc. if this nominee is of depo.acc
             $table->string('nominee_name', 255);
             $table->string('nominee_naav', 255)->nullable();
             $table->integer('nominee_age');

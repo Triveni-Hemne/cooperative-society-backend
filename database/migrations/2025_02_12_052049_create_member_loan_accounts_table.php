@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('member_loan_accounts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ledger_id')->constrained('general_ledgers')->onDelete('cascade');
-            $table->foreignId('member_id')->constrained('members')->onDelete('cascade');
+            $table->foreignId('member_id')->nullable()->constrained('members')->onDelete('cascade');
             $table->string('images', 255)->nullable();
             $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('cascade');
-            $table->string('acc_no', 50)->unique()->nullable();
-            $table->enum('loan_type', ['Personal Loan', 'Home Loan', 'Auto Loan', 'Business Loan']);
+            $table->string('acc_no', 50)->unique();
+            $table->enum('loan_type', ['Personal Loan', 'Home Loan', 'Auto Loan', 'Business Loan','Gold Loan']);
             $table->string('name', 255);
             $table->date('ac_start_date');
             $table->decimal('open_balance', 10, 2);
