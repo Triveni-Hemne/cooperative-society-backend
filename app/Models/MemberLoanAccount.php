@@ -29,6 +29,32 @@ class MemberLoanAccount extends Model
         return $this->belongsTo(Account::class);
     }
 
+    public function nominees()
+    {
+        return $this->hasMany(Nominee::class, 'loan_acc_id');
+    }
+
+    public function goldLoanDtl()
+    {
+        return $this->hasOne(GoldLoanDetail::class, 'loan_id'); 
+    }
+
+     public function loanGarantor()
+    {
+        return $this->hasOne(LoanGuarantor::class, 'loan_id'); 
+    }
+
+     public function loanInstallment()
+    {
+        return $this->hasOne(LoanInstallment::class, 'loan_id'); 
+    }
+
+     public function loanResolutionDtl()
+    {
+        return $this->hasOne(LoanResolutionDetail::class, 'loan_id'); 
+    }
+
+
     /**
      * Accessors & Mutators (if needed)
      */
