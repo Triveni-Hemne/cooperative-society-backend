@@ -72,7 +72,7 @@
         </div>
         <!-- Interest Menu -->
         <div class="accordion-item bg-transparent border-0 my-menu-item">
-            <a href="#" class="d-flex align-items-center ps-4 rounded-0">
+            <a href="{{route('interest.calculator')}}" class="d-flex align-items-center ps-4 rounded-0">
                 Interest
             </a>
         </div>
