@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DayBegin;
+use App\Models\Member;
 
 class DayBeginController extends Controller
 {
@@ -13,8 +14,9 @@ class DayBeginController extends Controller
      */
     public function index()
     {
-        // return response()->json(DayBegin::all(), 200);
-        return view('transactions.day-begins.list');
+        $dayBegins = DayBegin::paginate(5);
+        $members = Member::all();
+        return view('transactions.day-begins.list', compact('dayBegins','members'));
     }
 
     /**
@@ -35,9 +37,9 @@ class DayBeginController extends Controller
             'member_id' => 'required|exists:members,id',
             'status' => 'required|in:Open,Closed'
         ]);
-
+        
         $dayBegin = DayBegin::create($request->all());
-        return response()->json($dayBegin, 201);
+        return redirect()->back()->with('success', 'Day Bigin Created successfully');
     }
 
     /**
@@ -65,14 +67,16 @@ class DayBeginController extends Controller
     {
         $dayBegin = DayBegin::find($id);
         if (!$dayBegin) return response()->json(['message' => 'Not Found'], 404);
-
+        
         $request->validate([
             'date' => 'date',
+            'member_id' => 'required|exists:members,id',
             'status' => 'in:Open,Closed'
         ]);
-
+        
         $dayBegin->update($request->all());
-        return response()->json($dayBegin, 200);
+        return redirect()->back()->with('success', 'Day Bigin updated successfully');
+        return $request->all();
     }
 
     /**
@@ -84,6 +88,6 @@ class DayBeginController extends Controller
         if (!$dayBegin) return response()->json(['message' => 'Not Found'], 404);
 
         $dayBegin->delete();
-        return response()->json(['message' => 'Deleted Successfully'], 200);
+         return redirect()->back()->with('success', 'Day Bigin deleted successfully');
     }
 }
