@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\VoucherEntry;
+use App\Models\GeneralLedger;
+use App\Models\Account;
+use App\Models\MemberDepoAccount;
+use App\Models\MemberLoanAccount;
 
 class VoucherEntryController extends Controller
 {
@@ -13,8 +17,12 @@ class VoucherEntryController extends Controller
      */
     public function index()
     {
-        // return response()->json(VoucherEntry::all(), 200);
-        return view('transactions.voucher-entry.list');
+        $voucherEntries = VoucherEntry::paginate(5);
+        $ledgers = GeneralLedger::all();
+        $accounts = Account::all();
+        $depoAccounts = MemberDepoAccount::all();
+        $loanAccounts = MemberLoanAccount::all();
+        return view('transactions.voucher-entry.list', compact('voucherEntries', 'ledgers','accounts','depoAccounts','loanAccounts'));
     }
 
     /**
@@ -31,16 +39,16 @@ class VoucherEntryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'transaction_type' => 'required|in:Receipt,Payment,Journal,Deposit,Withdrawal,Expense,Contra',
-            'voucher_num' => 'nullable|string|max:50',
-            'token_number' => 'nullable|string|max:50',
-            'serial_no' => 'nullable|string|max:50',
+            'transaction_type' => 'required|in:Receipt,Payment,Journal, Deposit,Withdrawal,Expense,Contra',
+            'voucher_num' => 'nullable|string|max:50|unique:voucher_entries,voucher_num',
+            'token_number' => 'nullable|string|max:50|unique:voucher_entries,token_number',
+            'serial_no' => 'nullable|string|max:50|unique:voucher_entries,serial_no',
             'date' => 'required|date',
-            'receipt_id' => 'nullable|string|max:50',
-            'payment_id' => 'nullable|string|max:50',
-            'ledger_id' => 'required|exists:ledgers,id',
+            'receipt_id' => 'nullable|string|max:50|unique:voucher_entries,receipt_id',
+            'payment_id' => 'nullable|string|max:50|unique:voucher_entries,payment_id',
+            'ledger_id' => 'required|exists:general_ledgers,id',
             'account_id' => 'nullable|exists:accounts,id',
-            'member_depo_account_id' => 'nullable|exists:member_accounts,id',
+            'member_depo_account_id' => 'nullable|exists:member_depo_accounts,id',
             'member_loan_account_id' => 'nullable|exists:member_loan_accounts,id',
             'from_date' => 'nullable|date',
             'to_date' => 'nullable|date',
@@ -50,9 +58,9 @@ class VoucherEntryController extends Controller
             'm_narration' => 'nullable|string',
             'status' => 'required|in:Pending,Approved,Rejected'
         ]);
-
+        
         $voucherEntry = VoucherEntry::create($request->all());
-        return response()->json($voucherEntry, 201);
+        return redirect()->back()->with('success', 'Voucher Entry  acreated successfully');
     }
 
     /**
@@ -103,7 +111,7 @@ class VoucherEntryController extends Controller
         ]);
 
         $voucherEntry->update($request->all());
-        return response()->json($voucherEntry, 200);
+        return redirect()->back()->with('success', 'Voucher Entry updated successfully');
     }
 
     /**
@@ -115,6 +123,6 @@ class VoucherEntryController extends Controller
         if (!$voucherEntry) return response()->json(['message' => 'Voucher entry not found'], 404);
 
         $voucherEntry->delete();
-        return response()->json(['message' => 'Voucher entry deleted'], 200);
+        return redirect()->back()->with('success', 'Voucher Entry deleted successfully');
     }
 }

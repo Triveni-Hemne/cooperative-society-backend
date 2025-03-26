@@ -16,15 +16,15 @@ class VoucherEntry extends Model
     ];
 
     public function ledger() {
-        return $this->belongsTo(Ledger::class);
+        return $this->belongsTo(GeneralLedger::class);
     }
 
     public function account() {
-        return $this->belongsTo(Account::class);
+        return $this->belongsTo(Account::class, 'account_id');
     }
 
     public function memberDepositAccount() {
-        return $this->belongsTo(MemberAccount::class, 'member_depo_account_id');
+        return $this->belongsTo(MemberDepoAccount::class, 'member_depo_account_id');
     }
 
     public function memberLoanAccount() {
