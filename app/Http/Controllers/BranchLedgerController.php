@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BranchLedger;
+use App\Models\GeneralLedger;
 
 class BranchLedgerController extends Controller
 {
@@ -13,8 +14,9 @@ class BranchLedgerController extends Controller
      */
     public function index()
     {
-        //  return response()->json(BranchLedger::all(), 200);
-        return view('transactions.branch-ledger.list');
+        $branchLedgers = BranchLedger::paginate(5);
+        $ledgers = GeneralLedger::all();
+        return view('transactions.branch-ledger.list', compact('branchLedgers','ledgers'));
     }
 
     /**
@@ -32,16 +34,17 @@ class BranchLedgerController extends Controller
     {
         $request->validate([
             'branch_code' => 'required|string|max:20',
-            'gl_id' => 'required|exists:general_ledgers,id',
+            // 'gl_id' => 'required|exists:general_ledgers,id',
             'open_date' => 'required|date',
             'open_balance' => 'required|numeric',
             'balance' => 'required|numeric',
             'balance_type' => 'required|in:Credit,Debit',
             'item_type' => 'required|in:Asset,Liability,Income,Expense'
         ]);
-
+        
         $branchLedger = BranchLedger::create($request->all());
-        return response()->json($branchLedger, 201);
+        return redirect()->back()->with('success','Branch Ledger created Successfully');
+        // return $request->all();
     }
 
     /**
@@ -81,7 +84,7 @@ class BranchLedgerController extends Controller
         ]);
 
         $branchLedger->update($request->all());
-        return response()->json($branchLedger, 200);
+        return redirect()->back()->with('success','Branch Ledger updated Successfully');
     }
 
     /**
@@ -93,6 +96,6 @@ class BranchLedgerController extends Controller
         if (!$branchLedger) return response()->json(['message' => 'Branch ledger not found'], 404);
 
         $branchLedger->delete();
-        return response()->json(['message' => 'Branch ledger deleted'], 200);
+        return redirect()->back()->with('success','Branch Ledger deleted Successfully');
     }
 }

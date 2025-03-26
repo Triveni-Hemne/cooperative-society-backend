@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("hello from delete modal");
-
     let deleteForm = document.getElementById("deleteForm");
 
     // Handle "Delete" button click
