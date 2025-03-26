@@ -13,8 +13,8 @@ class DayEndController extends Controller
      */
     public function index()
     {
-    //    return response()->json(DayEnd::all(), 200);
-    return view('transactions.day-ends.list');
+        $dayEnds = DayEnd::paginate();
+        return view('transactions.day-ends.list',compact('dayEnds'));
     }
 
     /**
@@ -40,7 +40,7 @@ class DayEndController extends Controller
         ]);
 
         $dayEnd = DayEnd::create($request->all());
-        return response()->json($dayEnd, 201);
+        return redirect()->back()->with('success','Day Ends created Successfully');
     }
 
     /**
@@ -70,16 +70,16 @@ class DayEndController extends Controller
         if (!$dayEnd) return response()->json(['message' => 'Day end not found'], 404);
 
         $request->validate([
-            'date' => 'date',
-            'opening_cash' => 'numeric',
-            'total_credit_rs' => 'numeric',
-            'total_credit_chalans' => 'integer',
-            'total_debit_rs' => 'numeric',
-            'total_debit_challans' => 'integer'
+            'date' => 'required|date',
+            'opening_cash' => 'required|numeric',
+            'total_credit_rs' => 'required|numeric',
+            'total_credit_chalans' => 'required|integer',
+            'total_debit_rs' => 'required|numeric',
+            'total_debit_challans' => 'required|integer'
         ]);
 
         $dayEnd->update($request->all());
-        return response()->json($dayEnd, 200);
+        return redirect()->back()->with('success','Day Ends updated Successfully');
     }
 
     /**
@@ -91,6 +91,6 @@ class DayEndController extends Controller
         if (!$dayEnd) return response()->json(['message' => 'Day end not found'], 404);
 
         $dayEnd->delete();
-        return response()->json(['message' => 'Day end deleted'], 200);
+        return redirect()->back()->with('success','Day Ends created Successfully');
     }
 }
