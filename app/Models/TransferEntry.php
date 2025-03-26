@@ -14,6 +14,6 @@ class TransferEntry extends Model
     ];
 
     public function ledger() {
-        return $this->belongsTo(Ledger::class);
+        return $this->belongsTo(GeneralLedger::class);
     }
 }
