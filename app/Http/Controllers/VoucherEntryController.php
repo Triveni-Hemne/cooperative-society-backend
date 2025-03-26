@@ -89,25 +89,25 @@ class VoucherEntryController extends Controller
         $voucherEntry = VoucherEntry::find($id);
         if (!$voucherEntry) return response()->json(['message' => 'Voucher entry not found'], 404);
 
-        $request->validate([
-            'transaction_type' => 'in:Receipt,Payment,Journal,Deposit,Withdrawal,Expense,Contra',
-            'voucher_num' => 'string|max:50',
-            'token_number' => 'string|max:50',
-            'serial_no' => 'string|max:50',
-            'date' => 'date',
-            'receipt_id' => 'string|max:50',
-            'payment_id' => 'string|max:50',
-            'ledger_id' => 'exists:ledgers,id',
-            'account_id' => 'exists:accounts,id',
-            'member_depo_account_id' => 'exists:member_accounts,id',
-            'member_loan_account_id' => 'exists:member_loan_accounts,id',
-            'from_date' => 'date',
-            'to_date' => 'date',
-            'opening_balance' => 'numeric',
-            'current_balance' => 'numeric',
-            'narration' => 'string',
-            'm_narration' => 'string',
-            'status' => 'in:Pending,Approved,Rejected'
+         $request->validate([
+            'transaction_type' => 'required|in:Receipt,Payment,Journal,Deposit,Withdrawal,Expense,Contra',
+            'voucher_num' => 'nullable|string|max:50|unique:voucher_entries,voucher_num,' . $voucherEntry->id,
+            'token_number' => 'nullable|string|max:50|unique:voucher_entries,token_number,' . $voucherEntry->id,
+            'serial_no' => 'nullable|string|max:50|unique:voucher_entries,serial_no,' . $voucherEntry->id,
+            'date' => 'required|date',
+            'receipt_id' => 'nullable|string|max:50|unique:voucher_entries,receipt_id,' . $voucherEntry->id,
+            'payment_id' => 'nullable|string|max:50|unique:voucher_entries,payment_id,' . $voucherEntry->id,
+            'ledger_id' => 'required|exists:general_ledgers,id',
+            'account_id' => 'nullable|exists:accounts,id',
+            'member_depo_account_id' => 'nullable|exists:member_depo_accounts,id',
+            'member_loan_account_id' => 'nullable|exists:member_loan_accounts,id',
+            'from_date' => 'nullable|date',
+            'to_date' => 'nullable|date',
+            'opening_balance' => 'required|numeric',
+            'current_balance' => 'required|numeric',
+            'narration' => 'nullable|string',
+            'm_narration' => 'nullable|string',
+            'status' => 'required|in:Pending,Approved,Rejected'
         ]);
 
         $voucherEntry->update($request->all());
