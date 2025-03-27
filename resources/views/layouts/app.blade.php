@@ -12,6 +12,19 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+    @media (max-width: 992px) {
+        .sidebar-container {
+            width: 100% !important;
+        }
+
+        .content-container {
+            width: 100% !important;
+            padding: 15px !important;
+        }
+    }
+    </style>
 </head>
 
 <body>
@@ -19,22 +32,25 @@
         @include('layouts.header')
     </div>
 
-    <div class="d-flex  m-0 my-body w-100" style="height: 85vh;">
-        <div class="p-0" style="width: 18%">
+    <div class="d-flex flex-column flex-lg-row m-0 my-body w-100" style="height: 85vh;">
+        <div class="sidebar-container p-0 bg-light" style="width: 18%;">
             @include('layouts.sidebar')
         </div>
-        <div class="px-5 py-3" style="width: 82%; height: 100%;">
+        <div class="content-container px-5 py-3" style="width: 82%; height: 100%;">
             @yield('content')
         </div>
     </div>
 
     @yield('customeJs')
-    <!-- Bootstrap CDN -->
+
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
+
     <!-- Search Filter -->
     <script src="{{asset('/assets/js/searchFilter.js')}}"></script>
+
 </body>
 
 </html>
