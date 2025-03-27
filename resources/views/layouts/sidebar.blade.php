@@ -69,6 +69,7 @@
                     <!-- <a href="#">Demand List General</a> -->
                     <a href="{{route('branch-ledger.index')}}">Branch Ledger</a>
                     <a href="{{route('day-end.index')}}">Day Ends</a>
+                    <a href="{{route('installment-transactions.index')}}">Installment Transaction</a>
                 </div>
             </div>
         </div>

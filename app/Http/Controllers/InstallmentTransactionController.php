@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\InstallmentTransaction;
+use App\Models\MemberDepoAccount;
 
 class InstallmentTransactionController extends Controller
 {
@@ -13,8 +14,9 @@ class InstallmentTransactionController extends Controller
      */
     public function index()
     {
-        $transactions = InstallmentTransaction::all();
-        return response()->json($transactions);
+        $transactions = InstallmentTransaction::paginate(5);
+        $memberDepoAccounts = MemberDepoAccount::all();
+        return view('transactions.installment-transaction.list', compact('transactions', 'memberDepoAccounts'));
     }
 
     /**
@@ -40,7 +42,7 @@ class InstallmentTransactionController extends Controller
         ]);
 
         $transaction = InstallmentTransaction::create($request->all());
-        return response()->json($transaction, 201);
+        return redirect()->back()->with('success','Installment Transaction Created Successfully');
     }
 
     /**
@@ -77,7 +79,7 @@ class InstallmentTransactionController extends Controller
         ]);
 
         $transaction->update($request->all());
-        return response()->json($transaction);
+        return redirect()->back()->with('success','Installment Transaction Updated Successfully');
     }
 
     /**
@@ -87,6 +89,6 @@ class InstallmentTransactionController extends Controller
     {
         $transaction = InstallmentTransaction::findOrFail($id);
         $transaction->delete();
-        return response()->json(['message' => 'Installment transaction deleted successfully']);
+        return redirect()->back()->with('success','Installment Transaction deleted Successfully');
     }
 }
