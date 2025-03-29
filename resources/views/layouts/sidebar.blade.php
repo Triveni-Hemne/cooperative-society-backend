@@ -22,7 +22,7 @@
                     <a href="{{route('subcastes.index')}}" class="side-link">Subcaste</a>
                     <a href="{{route('general-ledgers.index')}}" class="side-link">General Ledger</a>
                     <a href="{{route('agents.index')}}" class="side-link">Agent</a>
-                    <a href="{{route('branches.index')}}" class="side-link">Branche</a>
+                    <a href="{{route('branches.index')}}" class="side-link">Branch</a>
                     <a href="{{route('departments.index')}}" class="side-link">Department</a>
                 </div>
             </div>

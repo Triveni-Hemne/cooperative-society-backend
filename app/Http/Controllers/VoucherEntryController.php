@@ -43,7 +43,7 @@ class VoucherEntryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'transaction_type' => 'required|in:Receipt,Payment,Journal, Deposit,Withdrawal,Expense,Contra',
+            'transaction_type' => 'required|in:Receipt,Payment,Journal,Deposit,Withdrawal,Loan Payment,Fund Transfer',
             'voucher_num' => 'nullable|string|max:50|unique:voucher_entries,voucher_num',
             'token_number' => 'nullable|string|max:50|unique:voucher_entries,token_number',
             'serial_no' => 'nullable|string|max:50|unique:voucher_entries,serial_no',
@@ -60,7 +60,17 @@ class VoucherEntryController extends Controller
             'current_balance' => 'required|numeric',
             'narration' => 'nullable|string',
             'm_narration' => 'nullable|string',
-            'status' => 'required|in:Pending,Approved,Rejected'
+            'amount' => 'required|numeric|min:0',
+            'debit_amount' => 'nullable|numeric|min:0',
+            'credit_amount' => 'nullable|numeric|min:0',
+            'transaction_mode' => 'nullable|in:Cash,Bank,Online,Cheque',
+            'payment_mode' => 'nullable|in:NEFT,IMPS,UPI,RTGS,Cheque,Cash,Bank Transfer',
+            'reference_number' => 'nullable|string|max:100',
+            'is_reversed' => 'boolean',
+            'approved_by' => 'nullable|exists:users,id',
+            'approved_at' => 'nullable|date',
+            'entered_by' => 'nullable|exists:users,id',
+            'branch_id' => 'nullable|exists:branches,id',
         ]);
         
         $voucherEntry = VoucherEntry::create($request->all());
@@ -94,7 +104,7 @@ class VoucherEntryController extends Controller
         if (!$voucherEntry) return response()->json(['message' => 'Voucher entry not found'], 404);
 
          $request->validate([
-            'transaction_type' => 'required|in:Receipt,Payment,Journal,Deposit,Withdrawal,Expense,Contra',
+            'transaction_type' => 'required|in:Receipt,Payment,Journal,Deposit,Withdrawal,Loan Payment,Fund Transfer',
             'voucher_num' => 'nullable|string|max:50|unique:voucher_entries,voucher_num,' . $voucherEntry->id,
             'token_number' => 'nullable|string|max:50|unique:voucher_entries,token_number,' . $voucherEntry->id,
             'serial_no' => 'nullable|string|max:50|unique:voucher_entries,serial_no,' . $voucherEntry->id,
@@ -111,7 +121,18 @@ class VoucherEntryController extends Controller
             'current_balance' => 'required|numeric',
             'narration' => 'nullable|string',
             'm_narration' => 'nullable|string',
-            'status' => 'required|in:Pending,Approved,Rejected'
+            'amount' => 'required|numeric|min:0',
+            'debit_amount' => 'nullable|numeric|min:0',
+            'credit_amount' => 'nullable|numeric|min:0',
+            'transaction_mode' => 'nullable|in:Cash,Bank,Online,Cheque',
+            'payment_mode' => 'nullable|in:NEFT,IMPS,UPI,RTGS,Cheque,Cash,Bank Transfer',
+            'reference_number' => 'nullable|string|max:100',
+            'is_reversed' => 'boolean',
+            'approved_by' => 'nullable|exists:users,id',
+            'approved_at' => 'nullable|date',
+            'entered_by' => 'nullable|exists:users,id',
+            'branch_id' => 'nullable|exists:branches,id',
+
         ]);
 
         $voucherEntry->update($request->all());

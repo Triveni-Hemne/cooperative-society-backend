@@ -19,8 +19,8 @@
                             <div class="col-2">
                                  <label for="transaction_type" class="form-label">Transaction Type</label>
                             </div>
-                             <div class="col-2">
-                                 <select name="transaction_type" id="transaction_type" class="form-control" required>
+                             <div class="col">
+                                 <select name="transaction_type" id="transaction_type" class="w-100 px-2 py-1 @error('transaction_type') is-invalid @enderror" required>
                                     <option value="">Select Transaction Type</option>
                                     @foreach(['Receipt', 'Payment', 'Journal', 'Deposit', 'Withdrawal', 'Loan Payment', 'Fund Transfer'] as $type)
                                         <option value="{{ $type }}" {{ old('transaction_type') == $type ? 'selected' : '' }}>{{ $type }}</option>
@@ -53,6 +53,7 @@
                             </div>
                             @endif
                         @endisset
+                        <div class="row mb-2">
                         @isset($loanAccounts) 
                         @if ($loanAccounts->isNotEmpty())
                             <div class="col-2 d-none d-xl-block">
@@ -75,6 +76,7 @@
                             </div>
                             @endif
                         @endisset
+                        </div>
                         </div>
 
                         <div class="row mb-2">
@@ -223,7 +225,7 @@
                             <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="creditAmount">Credit Amount</label>
                             </div>
-                            <div class="col pe-0 pe-xl-5">
+                            <div class="col-4 pe-0 pe-xl-5">
                                 <input name="credit_amount" id="creditAmount" class="w-100 px-2 py-1 @error('credit_amount') is-invalid @enderror" value="{{ old('credit_amount') }}" type="number" placeholder="Credit Amount">
                                 @error('credit_amount')
                                     <div class="invalid-feedback">{{$message}}</div>

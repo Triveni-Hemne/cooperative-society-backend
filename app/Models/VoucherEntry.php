@@ -8,11 +8,13 @@ class VoucherEntry extends Model
 {
     use HasFactory;
 
-   protected $fillable = [
-        'transaction_type', 'voucher_num', 'token_number', 'serial_no', 'date', 
-        'receipt_id', 'payment_id', 'ledger_id', 'account_id', 
-        'member_depo_account_id', 'member_loan_account_id', 'from_date', 'to_date', 
-        'opening_balance', 'current_balance', 'narration', 'm_narration', 'status'
+    protected $fillable = [
+        'transaction_type', 'voucher_num', 'token_number', 'serial_no', 'date',
+        'receipt_id', 'payment_id', 'ledger_id', 'account_id', 'member_depo_account_id',
+        'member_loan_account_id', 'amount', 'debit_amount', 'credit_amount',
+        'opening_balance', 'current_balance', 'transaction_mode', 'payment_mode',
+        'reference_number', 'is_reversed', 'approved_by', 'approved_at', 'entered_by',
+        'branch_id', 'to_date', 'from_date', 'narration', 'm_narration', 'status'
     ];
 
     public function ledger() {
@@ -29,5 +31,20 @@ class VoucherEntry extends Model
 
     public function memberLoanAccount() {
         return $this->belongsTo(MemberLoanAccount::class, 'member_loan_account_id');
+    }
+
+    public function approvedBy()
+    {
+        return $this->belongsTo(User::class, 'approved_by');
+    }
+
+    public function enteredBy()
+    {
+        return $this->belongsTo(User::class, 'entered_by');
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
     }
 }
