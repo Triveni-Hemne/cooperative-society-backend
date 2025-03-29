@@ -104,8 +104,8 @@
                                     <a href="{{route('cash-book.index')}}">Cash Book</a>
                                     <a href="{{route('day-book.index')}}">Day Book</a>
                                     <a href="{{route('sub-day-book.index')}}">Sub Day Book</a>
-                                    <a href="#">GL Statement Checking</a>
-                                    <a href="#">Cut Book</a>
+                                    <a href="{{route('gl-statement-checking.index')}}">GL Statement Checking</a>
+                                    <a href="{{route('cut-book.index')}}">Cut Book</a>
                                     <a href="#">Cut book and GL Balance Checking</a>
                                     <a href="#">Demand Day Book</a>
                                 </div>

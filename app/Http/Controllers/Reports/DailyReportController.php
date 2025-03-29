@@ -204,4 +204,204 @@ class DailyReportController extends Controller
 
         return Excel::download(new SubDayBookExport($date, $accountType), 'subdaybook_report_' . $date . '.xlsx');
     }
+    /**
+     * Fetch GL Statement Data
+     */
+    public function getGLStatementData($startDate, $endDate, $glAccount = null)
+    {
+        // Initialize Running Balance
+        DB::statement('SET @running_balance = 0');
+
+        // Fetch General Ledger Transactions with Running Balance
+        $query = DB::table('general_ledgers as gl')
+            ->join('accounts as acc', 'gl.parent_ledger_id', '=', 'acc.id')
+            ->whereBetween('gl.created_at', [$startDate, $endDate])
+            ->select(
+                'gl.created_at as date',
+                'acc.account_no',
+                'acc.account_name',
+                'gl.balance',
+                'gl.balance_type',
+                DB::raw("CASE WHEN gl.balance_type = 'Credit' THEN gl.balance ELSE 0 END AS credit"),
+                DB::raw("CASE WHEN gl.balance_type = 'Debit' THEN gl.balance ELSE 0 END AS debit"),
+                DB::raw('(@running_balance := @running_balance + 
+                        CASE WHEN gl.balance_type = "Debit" THEN gl.balance ELSE -gl.balance END) AS running_balance')
+            );
+
+        if ($glAccount) {
+            $query->where('acc.id', $glAccount);
+        }
+
+        $transactions = $query->orderBy('gl.created_at', 'asc')->get();
+
+        // Calculate total debits and credits
+        $totals = DB::table('general_ledgers as gl')
+            ->join('accounts as acc', 'gl.parent_ledger_id', '=', 'acc.id')
+            ->whereBetween('gl.created_at', [$startDate, $endDate])
+            ->when($glAccount, function ($q) use ($glAccount) {
+                return $q->where('acc.id', $glAccount);
+            })
+            ->selectRaw("
+                SUM(CASE WHEN gl.balance_type = 'Debit' THEN gl.balance ELSE 0 END) AS total_debits,
+                SUM(CASE WHEN gl.balance_type = 'Credit' THEN gl.balance ELSE 0 END) AS total_credits
+            ")
+            ->first();
+
+        $totalDebits = $totals->total_debits ?? 0;
+        $totalCredits = $totals->total_credits ?? 0;
+        $isBalanced = ($totalDebits == $totalCredits);
+
+        // Fetch unique GL accounts
+        $glAccounts = DB::table('accounts')->pluck('account_name', 'id');
+
+        // Set default date
+        $date = now()->format('Y-m-d');
+
+        // Calculate Closing Balance
+        $closingBalance = $transactions->isNotEmpty() ? $transactions->last()->running_balance : 0;
+
+        // Return data as an array
+        return [
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'transactions' => $transactions,
+            'totalDebits' => $totalDebits,
+            'totalCredits' => $totalCredits,
+            'isBalanced' => $isBalanced,
+            'glAccounts' => $glAccounts,
+            'glAccount' => $glAccount,
+            'date' => $date,
+            'closingBalance' => $closingBalance, // Pass Closing Balance
+        ];
+    }
+
+
+    /**
+     * Show GL Statement Checking Report
+     */
+    public function glStatementChecking(Request $request)
+    {
+        $startDate = $request->input('start_date', Carbon::today()->toDateString());
+        $endDate = $request->input('end_date', Carbon::today()->toDateString());
+        $glAccount = $request->input('gl_account');
+
+        // Get data from `getGLStatementData()`
+        $data = $this->getGLStatementData($startDate, $endDate, $glAccount);
+
+        // Return the view with the data
+        return view('reports.dailyReport.gl-statement-checking.index', $data);
+    }
+
+
+    /**
+     * Export GL Statement to PDF
+     */
+    public function exportGLStatementPDF(Request $request)
+    {
+        $startDate = $request->input('start_date', Carbon::today()->startOfMonth()->toDateString());
+        $endDate = $request->input('end_date', Carbon::today()->toDateString());
+        $glAccount = $request->input('gl_account');
+
+        $data = $this->getGLStatementData($startDate, $endDate, $glAccount);
+
+        $pdf = Pdf::loadView('reports.dailyReport.gl-statement-checking.glstatementchecking_pdf', $data);
+        return $pdf->download('gl_statement_' . $startDate . '_to_' . $endDate . '.pdf');
+    }
+
+
+    /**
+     * Export GL Statement to Excel
+     */
+   public function exportGLStatementExcel(Request $request)
+    {
+        $startDate = $request->input('start_date', Carbon::today()->startOfMonth()->toDateString());
+        $endDate = $request->input('end_date', Carbon::today()->toDateString());
+        $glAccount = $request->input('gl_account');
+
+        return Excel::download(new GLStatementExport($startDate, $endDate, $glAccount), 'gl_statement_' . $startDate . '_to_' . $endDate . '.xlsx');
+    }
+
+   /**
+     * Fetch Cut Book (Loan Repayment) Data
+     */
+    public function getCutBookData($startDate, $endDate, $loanAccountId = null)
+    {
+        // Initialize Running Balance for each Loan Account
+        DB::statement('SET @running_balance = 0');
+
+        // Fetch Loan Transactions from General Ledgers
+        $query = DB::table('general_ledgers as gl')
+            ->join('member_loan_accounts as mla', 'gl.id', '=', 'mla.ledger_id')
+            ->join('members as m', 'mla.member_id', '=', 'm.id')
+            ->whereBetween('gl.created_at', [$startDate, $endDate])
+            ->select(
+                'gl.created_at as date',
+                'mla.acc_no as loan_account_no',
+                'm.name as borrower_name',
+                'mla.loan_type',
+                'mla.emi_amount',
+                DB::raw("CASE WHEN gl.balance_type = 'Credit' THEN gl.balance ELSE 0 END AS interest_paid"),
+                DB::raw("CASE WHEN gl.balance_type = 'Debit' THEN gl.balance ELSE 0 END AS principal_paid"),
+                DB::raw('(@running_balance := @running_balance - 
+                        CASE WHEN gl.balance_type = "Debit" THEN gl.balance ELSE 0 END) AS balance_due')
+            );
+
+        if ($loanAccountId) {
+            $query->where('mla.id', $loanAccountId);
+        }
+
+        $transactions = $query->orderBy('gl.created_at', 'asc')->get();
+
+        // Calculate Total Payments
+        $totals = DB::table('general_ledgers as gl')
+            ->join('member_loan_accounts as mla', 'gl.id', '=', 'mla.ledger_id')
+            ->whereBetween('gl.created_at', [$startDate, $endDate])
+            ->when($loanAccountId, function ($q) use ($loanAccountId) {
+                return $q->where('mla.id', $loanAccountId);
+            })
+            ->selectRaw("
+                SUM(CASE WHEN gl.balance_type = 'Debit' THEN gl.balance ELSE 0 END) AS total_principal_paid,
+                SUM(CASE WHEN gl.balance_type = 'Credit' THEN gl.balance ELSE 0 END) AS total_interest_paid
+            ")
+            ->first();
+
+        $totalPrincipalPaid = $totals->total_principal_paid ?? 0;
+        $totalInterestPaid = $totals->total_interest_paid ?? 0;
+
+        // Fetch Loan Accounts
+        $loanAccounts = DB::table('member_loan_accounts')->pluck('name', 'id');
+
+        return view('reports.dailyReport.cut-book.index', compact(
+            'startDate', 'endDate', 'transactions', 'totalPrincipalPaid', 'totalInterestPaid', 'loanAccounts', 'loanAccountId'
+        ));
+    }
+
+    /**
+     * Show Cut Book Report
+     */
+    public function cutBookReport(Request $request)
+    {
+        $startDate = $request->input('start_date', Carbon::today()->toDateString());
+        $endDate = $request->input('end_date', Carbon::today()->toDateString());
+        $loanAccountId = $request->input('loan_account');
+
+        return $this->getCutBookData($startDate, $endDate, $loanAccountId);
+    }
+
+    public function exportCutBookPDF(Request $request)
+    {
+        $startDate = $request->input('start_date', Carbon::today()->toDateString());
+        $endDate = $request->input('end_date', Carbon::today()->toDateString());
+        $loanAccountId = $request->input('loan_account');
+
+        $transactions = $this->getCutBookData($startDate, $endDate, $loanAccountId, false);
+
+        $pdf = Pdf::loadView('reports.dailyReport.cut-book.cut-book_pdf', compact(
+            'startDate', 'endDate', 'transactions'
+        ));
+
+        return $pdf->download('Cut_Book_Report_' . $startDate . '_to_' . $endDate . '.pdf');
+    }
+
+
 }

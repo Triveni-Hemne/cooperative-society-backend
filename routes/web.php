@@ -111,14 +111,21 @@ Route::prefix('daily-reports')->group(function () {
     Route::controller(DailyReportController::class)->group(function () {
         Route::get('cash-book', 'cashBook')->name('cash-book.index');
         Route::get('cash-book/export/pdf', 'exportPDF')->name('cash-book.pdf');
-        Route::get('cash-book/export/excel', 'exportExcel')->name('cash-book.excel');
+        // Route::get('cash-book/export/excel', 'exportExcel')->name('cash-book.excel');
 
         Route::get('day-book', 'dayBook')->name('day-book.index');
         Route::get('day-book/export/pdf', 'exportDayBookPDF')->name('day-book.pdf');
-        Route::get('day-book/export/excel', 'exportDayBookExcel')->name('day-book.excel');
+        // Route::get('day-book/export/excel', 'exportDayBookExcel')->name('day-book.excel');
 
         Route::get('sub-day-book', 'subDayBook')->name('sub-day-book.index');
         Route::get('sub-day-book/export/pdf', 'exportSubDayBookPDF')->name('sub-day-book.pdf');
-        Route::get('sub-day-book/export/excel', 'exportSubDayBookExcel')->name('sub-day-book.excel');
+        // Route::get('sub-day-book/export/excel', 'exportSubDayBookExcel')->name('sub-day-book.excel');
+
+        Route::get('gl-statement-checking', 'glStatementChecking')->name('gl-statement-checking.index');
+        Route::get('gl-statement-checking/export/pdf', 'exportGLStatementPDF')->name('gl-statement-checking.pdf');
+        // Route::get('gl-statement-checking/export/excel', 'exportGLStatementExcel')->name('gl-statement-checking.excel');
+
+        Route::get('cut-book', 'cutBookReport')->name('cut-book.index');
+        Route::get('cut-book/export/pdf', 'exportCutBookPDF')->name('cut-book.pdf');
     });
 });
