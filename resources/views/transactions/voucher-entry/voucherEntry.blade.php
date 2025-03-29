@@ -16,6 +16,21 @@
                     @endif
                     <div class="mx-auto p-5 my-model text-white">
                         <div class="row mb-2">
+                            <div class="col-2">
+                                 <label for="transaction_type" class="form-label">Transaction Type</label>
+                            </div>
+                             <div class="col-2">
+                                 <select name="transaction_type" id="transaction_type" class="form-control" required>
+                                    <option value="">Select Transaction Type</option>
+                                    @foreach(['Receipt', 'Payment', 'Journal', 'Deposit', 'Withdrawal', 'Loan Payment', 'Fund Transfer'] as $type)
+                                        <option value="{{ $type }}" {{ old('transaction_type') == $type ? 'selected' : '' }}>{{ $type }}</option>
+                                    @endforeach
+                                </select>
+                                  @error('transaction_type')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                            </div>
+
                         @isset($depoAccounts) 
                         @if ($depoAccounts->isNotEmpty())
                             <div class="col-2 ps-5 d-none d-xl-block">
@@ -184,6 +199,40 @@
 
                         <div class="row mb-2">
                             <div class="col-2 ps-5 d-none d-xl-block">
+                                <label for="amount">Amount</label>
+                            </div>
+                            <div class="col pe-0 pe-xl-5">
+                                <input name="amount" id="amount" class="w-100 px-2 py-1 @error('amount') is-invalid @enderror" value="{{ old('amount') }}" type="number" placeholder="Amount">
+                                @error('amount')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
+                            </div>
+                            
+                            <div class="col-2 d-none d-xl-block">
+                                <label for="debitAmount">Debit Amount</label>
+                            </div>
+                            <div class="col-4 pe-0 pe-xl-5">
+                                <input name="debit_amount" id="debitAmount" class="w-100 px-2 py-1 @error('debit_amount') is-invalid @enderror" value="{{ old('debit_amount') }}" type="number" placeholder="Debit Amount">
+                                @error('debit_amount')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                         <div class="row mb-2">
+                            <div class="col-2 ps-5 d-none d-xl-block">
+                                <label for="creditAmount">Credit Amount</label>
+                            </div>
+                            <div class="col pe-0 pe-xl-5">
+                                <input name="credit_amount" id="creditAmount" class="w-100 px-2 py-1 @error('credit_amount') is-invalid @enderror" value="{{ old('credit_amount') }}" type="number" placeholder="Credit Amount">
+                                @error('credit_amount')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="paymentId">Payment</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
@@ -206,6 +255,138 @@
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
                             </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-2 d-none d-xl-block">
+                                <label for="transactionMode">Transaction Mode</label>
+                            </div>
+                            <div class="col-4 pe-0 pe-xl-5">
+                                <select id="transactionMode" name="transaction_mode" class="w-100 px-2 py-1 @error('transaction_mode') is-invalid @enderror">
+                                    <option value="" disabled>---- Select Transaction Mode ----</option>
+                                    <option value="Cash" {{ old('transaction_mode') == 'Cash' ? 'selected' : '' }}>Cash</option>
+                                    <option value="Bank" {{ old('transaction_mode') == 'Bank' ? 'selected' : '' }}>Bank</option>
+                                    <option value="Online" {{ old('transaction_mode') == 'Online' ? 'selected' : '' }}>Online</option>
+                                    <option value="Cheque" {{ old('transaction_mode') == 'Cheque' ? 'selected' : '' }}>Cheque</option>
+                                </select>
+                                @error('transaction_mode')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
+                            </div>
+                             <div class="col-2 d-none d-xl-block">
+                                <label for="paymentMode">Payment Mode</label>
+                            </div>
+                            <div class="col-4 pe-0 pe-xl-5">
+                                <select id="paymentMode" name="payment_mode" class="w-100 px-2 py-1 @error('payment_mode') is-invalid @enderror">
+                                    <option value="" disabled>---- Select Payment Mode ----</option>
+                                    <option value="NEFT" {{ old('payment_mode') == 'NEFT' ? 'selected' : '' }}>NEFT</option>
+                                    <option value="IMPS" {{ old('payment_mode') == 'IMPS' ? 'selected' : '' }}>IMPS</option>
+                                    <option value="UPI" {{ old('payment_mode') == 'UPI' ? 'selected' : '' }}>UPI</option>
+                                    <option value="RTGS" {{ old('payment_mode') == 'RTGS' ? 'selected' : '' }}>RTGS</option>
+                                    <option value="Cheque" {{ old('payment_mode') == 'Cheque' ? 'selected' : '' }}>Cheque</option>
+                                    <option value="Cash" {{ old('payment_mode') == 'Cash' ? 'selected' : '' }}>Cash</option>
+                                    <option value="Bank Transfer" {{ old('payment_mode') == 'Bank Transfer' ? 'selected' : '' }}>Bank Transfer</option>
+                                </select>
+                                @error('payment_mode')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-2 ps-5 d-none d-xl-block">
+                                <label for="referenceNumber">Reference Number</label>
+                            </div>
+                            <div class="col pe-0 pe-xl-5">
+                                <input name="reference_number" id="referenceNumber" class="w-100 px-2 py-1 @error('reference_number') is-invalid @enderror" value="{{ old('reference_number') }}" type="date" placeholder="Reference Number">
+                                @error('reference_number')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
+                            </div>
+                            <div class="col-2 d-none d-xl-block">
+                                <label for="isReversed">Reserved</label>
+                            </div>
+                            <div class="col pe-0 pe-xl-5">
+                                <select id="isReversed" name="is_reversed" class="w-100 px-2 py-1 @error('is_reversed') is-invalid @enderror">
+                                    <option value="0" {{ old('is_reversed') == '0' ? 'selected' : '' }}>No</option>
+                                    <option value="1" {{ old('is_reversed') == '1' ? 'selected' : '' }}>Yes</option>
+                                </select>
+                                @error('is_reversed')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                        @isset($users) 
+                        @if ($users->isNotEmpty())
+                            <div class="col-2 d-none d-xl-block">
+                                <label for="approvedBy">Approved By</label>
+                            </div>
+                            <div class="col pe-0 pe-xl-5">
+                                <select id="approvedBy" name="approved_by" class="w-100 px-2 py-1 @error('approved_by') is-invalid @enderror">
+                                    <option value="">-----Select Approved By-----</option>
+                                   @foreach ($users as $user)
+                                        <option value="{{ $user->id }}"  
+                                        {{ old('approved_by') == $user->id ? 'selected' : '' }}
+                                        >
+                                        {{ $user->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('approved_by')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
+                            </div>
+                        @endif
+                        @endisset
+                        @isset($users) 
+                        @if ($users->isNotEmpty())
+                            <div class="col-2 d-none d-xl-block">
+                                <label for="enteredBy">Entered By</label>
+                            </div>
+                            <div class="col pe-0 pe-xl-5">
+                                <select id="enteredBy" name="entered_by" class="w-100 px-2 py-1 @error('entered_by') is-invalid @enderror">
+                                    <option value="">-----Select Entered By-----</option>
+                                   @foreach ($users as $user)
+                                        <option value="{{ $user->id }}"  
+                                        {{ old('entered_by') == $user->id ? 'selected' : '' }}
+                                        >
+                                        {{ $user->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('entered_by')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
+                            </div>
+                        @endif
+                        @endisset
+                        </div>
+
+                        <div class="row mb-2">
+                        @isset($branches) 
+                        @if ($branches->isNotEmpty())
+                            <div class="col-2 d-none d-xl-block">
+                                <label for="branchId">Branch</label>
+                            </div>
+                            <div class="col pe-0 pe-xl-5">
+                                <select id="branchId" name="branch_id" class="w-100 px-2 py-1 @error('branch_id') is-invalid @enderror">
+                                    <option value="">-----Select Branch-----</option>
+                                   @foreach ($branches as $branch)
+                                        <option value="{{ $branches->id }}"  
+                                        {{ old('branch_id') == $branches->id ? 'selected' : '' }}
+                                        >
+                                        {{ $branches->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('branch_id')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
+                            </div>
+                        @endif
+                        @endisset
                         </div>
 
                         <div class="row mb-2">

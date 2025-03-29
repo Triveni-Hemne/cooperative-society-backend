@@ -101,9 +101,9 @@
                             <div id="dailyReports" class="accordion-collapse collapse"
                                 data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
-                                    <a href="#">Cash Book</a>
-                                    <a href="#">Day Book</a>
-                                    <a href="#">Sub Day Book</a>
+                                    <a href="{{route('cash-book.index')}}">Cash Book</a>
+                                    <a href="{{route('day-book.index')}}">Day Book</a>
+                                    <a href="{{route('sub-day-book.index')}}">Sub Day Book</a>
                                     <a href="#">GL Statement Checking</a>
                                     <a href="#">Cut Book</a>
                                     <a href="#">Cut book and GL Balance Checking</a>
@@ -128,7 +128,7 @@
                                     <a href="#">Final NPA Chart</a>
                                     <a href="#">Debit Loan Report</a>
                                     <a href="#">Guarantor Register</a>
-                                    <a href="#">Account Statement</a>
+                                    <a href="#">Account Statement(Loan)</a>
                                 </div>
                             </div>
                         </div>
@@ -162,10 +162,13 @@
                             </h2>
                             <div id="shareReports" class="accordion-collapse collapse"
                                 data-bs-parent="#reportsAccordion">
-                                <!-- <div class="accordion-body">
-                                    <a href="#">Shareholder Register</a>
-                                    <a href="#">Dividend Details</a>
-                                </div> -->
+                                 <div class="accordion-body">
+                                    <a href="#">Share List</a>
+                                    <a href="#">Dividend Calculation</a>
+                                    <a href="#">Dividend Balance Report</a>
+                                    <a href="#">J Namuna List</a>
+                                    <a href="#">I Namuna List</a>
+                                </div> 
                             </div>
                         </div>
                         <!-- MIS -->
@@ -178,22 +181,13 @@
                             </h2>
                             <div id="misReports" class="accordion-collapse collapse" data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
-                                    <a href="#">Terij Patrak</a>
-                                    <a href="#">Terij Balance Sheet</a>
                                     <a href="#">Trial Balance</a>
-                                    <a href="#">N-Type Trial Balance</a>
                                     <a href="#">Receipt Payment</a>
-                                    <a href="#">N-Type Receipt Payment</a>
-                                    <a href="#">ScheduleWise Receipt Payment</a>
-                                    <a href="#">Profit Loss Regular</a>
-                                    <a href="#">Profit Loss N-Type</a>
-                                    <a href="#">ScheduleWise Profit Loss</a>
-                                    <a href="#">Monthly Profit Loss</a>
-                                    <a href="#">Balance Sheet Regular</a>
-                                    <a href="#">Balance Sheet N-Type</a>
-                                    <a href="#">ScheduleWise Balance Sheet</a>
+                                    <a href="#">Profit Loss</a>
+                                    <a href="#">Balance Sheet</a>
                                     <a href="#">CD Ratio</a>
                                     <a href="#">MIS Report</a>
+                                    <a href="#">General Ledger Statements</a>
                                 </div>
                             </div>
                         </div>
@@ -209,20 +203,11 @@
                                 data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
                                     <a href="#">Account Statement</a>
-                                    <a href="#">MonthWise Account Statement</a>
                                     <a href="#">General Ledger Statement</a>
                                     <a href="#">Member Statement</a>
-                                    <a href="#">All Member Statement</a>
-                                    <a href="#">Member Statement Loan</a>
-                                    <a href="#">Member List</a>
-                                    <a href="#">Member Address List</a>
-                                    <a href="#">Account Open Register</a>
-                                    <a href="#">Account Close Register</a>
-                                    <a href="#">DOB Report</a>
-                                    <a href="#">Retirement Report</a>
+                                    <a href="#">Account Register</a>
                                     <a href="#">Loan Guarentor Report</a>
-                                    <a href="#">Demand List VII</a>
-                                    <a href="#">Demand List General All</a>
+                                    <a href="#">Demand List</a>
                                 </div>
                             </div>
                         </div>
@@ -239,7 +224,6 @@
                                 <div class="accordion-body">
                                     <a href="#">Duplicate Printing</a>
                                     <a href="#">Passbook Printing</a>
-                                    <a href="#">FD Rec Printing General</a>
                                 </div>
                             </div>
                         </div>
@@ -255,9 +239,8 @@
                                 data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
                                     <a href="#">Trial Balance</a>
-                                    <a href="#">Balance Sheet Regular</a>
-                                    <a href="#">Balance Sheet N-Type</a>
-                                    <a href="#">Profit Loss Regular</a>
+                                    <a href="#">Balance Sheet</a>
+                                    <a href="#">Profit Loss</a>
                                 </div>
                             </div>
                         </div>

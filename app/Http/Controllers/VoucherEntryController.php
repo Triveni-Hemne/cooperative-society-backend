@@ -9,6 +9,8 @@ use App\Models\GeneralLedger;
 use App\Models\Account;
 use App\Models\MemberDepoAccount;
 use App\Models\MemberLoanAccount;
+use App\Models\User;
+use App\Models\Branch;
 
 class VoucherEntryController extends Controller
 {
@@ -22,7 +24,9 @@ class VoucherEntryController extends Controller
         $accounts = Account::all();
         $depoAccounts = MemberDepoAccount::all();
         $loanAccounts = MemberLoanAccount::all();
-        return view('transactions.voucher-entry.list', compact('voucherEntries', 'ledgers','accounts','depoAccounts','loanAccounts'));
+        $users = User::all();
+        $branches = Branch::all();
+        return view('transactions.voucher-entry.list', compact('voucherEntries', 'ledgers','accounts','depoAccounts','loanAccounts','users','branches'));
     }
 
     /**

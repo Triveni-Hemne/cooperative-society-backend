@@ -25,7 +25,6 @@ use App\Http\Controllers\BranchLedgerController;
 use App\Http\Controllers\DayEndController;
 use App\Http\Controllers\UserLoginController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\MemberNomineeController;
 use App\Http\Controllers\MemberContactDetailController;
 use App\Http\Controllers\MemberBankDetailController;
 use App\Http\Controllers\EmployeeController;
@@ -82,7 +81,7 @@ Route::get('/csrf-token', function () {
         Route::resource('transfer-entry', TransferEntryController::class)->names('transfer-entry');
         Route::resource('branch-ledger', BranchLedgerController::class)->names('branch-ledger');
         Route::resource('day-end', DayEndController::class)->names('day-end');
-        Route::resource('member-nominees', MemberNomineeController::class);
+        // Route::resource('member-nominees', MemberNomineeController::class);
         Route::resource('member-contact-details', MemberContactDetailController::class);
         Route::resource('member-bank-details', MemberBankDetailController::class);
         Route::resource('employees', EmployeeController::class);
@@ -100,3 +99,26 @@ Route::get('/csrf-token', function () {
 
     });
 // });
+
+
+/*
+* Report Controllers*
+*/
+use App\Http\Controllers\Reports\DailyReportController;
+
+
+Route::prefix('daily-reports')->group(function () {
+    Route::controller(DailyReportController::class)->group(function () {
+        Route::get('cash-book', 'cashBook')->name('cash-book.index');
+        Route::get('cash-book/export/pdf', 'exportPDF')->name('cash-book.pdf');
+        Route::get('cash-book/export/excel', 'exportExcel')->name('cash-book.excel');
+
+        Route::get('day-book', 'dayBook')->name('day-book.index');
+        Route::get('day-book/export/pdf', 'exportDayBookPDF')->name('day-book.pdf');
+        Route::get('day-book/export/excel', 'exportDayBookExcel')->name('day-book.excel');
+
+        Route::get('sub-day-book', 'subDayBook')->name('sub-day-book.index');
+        Route::get('sub-day-book/export/pdf', 'exportSubDayBookPDF')->name('sub-day-book.pdf');
+        Route::get('sub-day-book/export/excel', 'exportSubDayBookExcel')->name('sub-day-book.excel');
+    });
+});
