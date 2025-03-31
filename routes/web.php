@@ -127,5 +127,32 @@ Route::prefix('daily-reports')->group(function () {
 
         Route::get('cut-book', 'cutBookReport')->name('cut-book.index');
         Route::get('cut-book/export/pdf', 'exportCutBookPDF')->name('cut-book.pdf');
+
+        Route::get('demand-day-book', 'demandDayBook')->name('demand-day-book.index');
+        Route::get('demand-day-book/export/pdf', 'exportDemandDayBookPDF')->name('demand-day-book.pdf');
+    });
+});
+
+use App\Http\Controllers\Reports\LoanController;
+
+Route::prefix('loan-reports')->group(function () {
+    Route::controller(LoanController::class)->group(function () {
+        Route::get('overdue-register', 'overdueRegister')->name('overdue-register.index');
+        Route::get('overdue-register/export/pdf', 'exportOverduePDF')->name('overdue-register.pdf');
+
+        Route::get('npa-list', 'npaList')->name('npa-list.index');
+        Route::get('npa-list/export/pdf', 'exportNPAPDF')->name('npa-list.pdf');
+
+        Route::get('final-npa-chart', 'finalNPAChart')->name('final-npa-chart.index');
+        Route::get('final-npa-chart/export/pdf', 'exportFinalNPAChartPDF')->name('final-npa-chart.pdf');
+
+        Route::get('debit-laon', 'debitLoanReport')->name('debit-laon.index');
+        Route::get('debit-laon/export/pdf', 'exportDebitLoanReportPDF')->name('debit-laon.pdf');
+
+        Route::get('guarantor-register', 'guarantorRegister')->name('guarantor-register.index');
+        Route::get('guarantor-register/export/pdf', 'exportGuarantorRegisterPDF')->name('guarantor-register.pdf');
+
+        Route::get('loan-statements', 'loanAccountStatement')->name('loan-statements.index');
+        Route::get('loan-statements/export/pdf', 'exportLoanAccountStatementPDF')->name('loan-statements.pdf');
     });
 });

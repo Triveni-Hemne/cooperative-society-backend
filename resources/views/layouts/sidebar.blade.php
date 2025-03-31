@@ -106,8 +106,8 @@
                                     <a href="{{route('sub-day-book.index')}}">Sub Day Book</a>
                                     <a href="{{route('gl-statement-checking.index')}}">GL Statement Checking</a>
                                     <a href="{{route('cut-book.index')}}">Cut Book</a>
-                                    <a href="#">Cut book and GL Balance Checking</a>
-                                    <a href="#">Demand Day Book</a>
+                                    {{-- <a href="#">Cut book and GL Balance Checking</a> --}}
+                                    <a href="{{route('demand-day-book.index')}}">Demand Day Book</a>
                                 </div>
                             </div>
                         </div>
@@ -122,13 +122,13 @@
                             <div id="loanReports" class="accordion-collapse collapse"
                                 data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
-                                    <a href="#">Loan Scheme</a>
-                                    <a href="#">Overdue Register</a>
-                                    <a href="#">NPA List</a>
-                                    <a href="#">Final NPA Chart</a>
-                                    <a href="#">Debit Loan Report</a>
-                                    <a href="#">Guarantor Register</a>
-                                    <a href="#">Account Statement(Loan)</a>
+                                    {{-- <a href="#">Loan Scheme</a> --}}
+                                    <a href="{{route('overdue-register.index')}}">Overdue Register</a>
+                                    <a href="{{route('npa-list.index')}}">NPA List</a>
+                                    <a href="{{route('final-npa-chart.index')}}">Final NPA Chart</a>
+                                    <a href="{{route('debit-laon.index')}}">Debit Loan Report</a>
+                                    <a href="{{route('guarantor-register.index')}}">Guarantor Register</a>
+                                    <a href="{{route('loan-statements.index')}}">Account Statement(Loan)</a>
                                 </div>
                             </div>
                         </div>

@@ -403,5 +403,50 @@ class DailyReportController extends Controller
         return $pdf->download('Cut_Book_Report_' . $startDate . '_to_' . $endDate . '.pdf');
     }
 
+    /**
+     * Show Demand Day Book Report
+     */
+    public function getDemandDayBookData($date)
+    {
+        $expectedPayments = DB::table('member_loan_accounts as mla')
+            ->join('members as m', 'mla.member_id', '=', 'm.id')
+            ->leftJoin('general_ledgers as gl', function ($join) use ($date) {
+                $join->on('mla.id', '=', 'gl.id')
+                    ->whereDate('gl.created_at', $date)
+                    ->where('gl.balance_type', 'Credit'); // Loan repayments
+            })
+            ->whereRaw("DATE_ADD(mla.start_date, INTERVAL FLOOR(DATEDIFF(?, mla.start_date) / 30) MONTH) <= ?", [$date, $date])
+            ->where('mla.status', 'Active') // Consider only active loans
+            ->where('mla.add_to_demand', true) // Only loans flagged for demand calculations
+            ->select(
+                'mla.acc_no as loan_account_no',
+                'm.name as borrower_name',
+                'mla.emi_amount as demand_amount',
+                DB::raw("COALESCE(SUM(gl.balance), 0) AS amount_received"),
+                DB::raw("(mla.emi_amount - COALESCE(SUM(gl.balance), 0)) AS balance_due")
+            )
+            ->groupBy('mla.id', 'mla.acc_no', 'm.name', 'mla.emi_amount')
+            ->get();
+
+        return compact('date', 'expectedPayments');
+    }
+
+        public function demandDayBook(Request $request)
+    {
+        $date = $request->input('date', Carbon::today()->toDateString());
+        $data = $this->getDemandDayBookData($date);
+
+        return view('reports.dailyReport.demand-day-book.index', $data);
+    }
+
+    public function exportDemandDayBookPDF(Request $request)
+    {
+        $date = $request->input('date', Carbon::today()->toDateString());
+        $data = $this->getDemandDayBookData($date);
+
+        $pdf = Pdf::loadView('reports.dailyReport.demand-day-book.demand_day_book_pdf', $data);
+        return $pdf->download('demand_day_book_' . $date . '.pdf');
+    }
+
 
 }
