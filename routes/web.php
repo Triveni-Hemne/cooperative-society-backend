@@ -156,3 +156,26 @@ Route::prefix('loan-reports')->group(function () {
         Route::get('loan-statements/export/pdf', 'exportLoanAccountStatementPDF')->name('loan-statements.pdf');
     });
 });
+
+
+use App\Http\Controllers\Reports\DepositReportController;
+
+Route::prefix('deposit-reports')->group(function () {
+    Route::controller(DepositReportController::class)->group(function () {
+        Route::get('deposit-maturity', 'depositMaturityRegister')->name('deposit-maturity.index');
+        Route::get('deposit-maturity/export/pdf', 'exportMaturityPDF')->name('deposit-maturity.pdf');
+
+        Route::get('rd-chart', 'showRDChart')->name('rd-chart.index');
+        Route::get('rd-chart/export/pdf', 'exportRDChartPDF')->name('rd-chart.pdf');
+
+        Route::get('fd-chart', 'showFDChart')->name('fd-chart.index');
+        Route::get('fd-chart/export/pdf', 'exportFDChartPDF')->name('fd-chart.pdf');
+
+        Route::get('interestwise-reccuring', 'showInterestWiseRDReport')->name('interestwise-reccuring.index');
+        Route::get('interestwise-reccuring/export/pdf', 'exportInterestWiseRDPDF')->name('interestwise-reccuring.pdf');
+
+        Route::get('interest-summary', 'showInterestSummaryReport')->name('interest-summary.index');
+        Route::get('interest-summary/export/pdf', 'exportInterestSummaryPDF')->name('interest-summary.pdf');
+
+    });
+});

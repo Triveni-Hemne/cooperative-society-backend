@@ -143,12 +143,12 @@
                             <div id="depositReports" class="accordion-collapse collapse"
                                 data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
-                                    <a href="#">Deposit Maturity Register</a>
-                                    <a href="#">RD Chart</a>
-                                    <a href="#">FD Chart</a>
-                                    <a href="#">Interestwise Report</a>
-                                    <a href="#">Recurring Deposit Interest Scheme</a>
-                                    <a href="#">Interest Summary</a>
+                                    <a href="{{route('deposit-maturity.index')}}">Deposit Maturity Register</a>
+                                    <a href="{{route('rd-chart.index')}}">RD Chart</a>
+                                    <a href="{{route('fd-chart.index')}}">FD Chart</a>
+                                    <a href="{{route('interestwise-reccuring.index')}}">Interestwise Report</a>
+                                    {{-- <a href="#">Recurring Deposit Interest Scheme</a> --}}
+                                    <a href="{{route('interest-summary.index')}}">Interest Summary</a>
                                 </div>
                             </div>
                         </div>
