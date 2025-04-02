@@ -179,3 +179,18 @@ Route::prefix('deposit-reports')->group(function () {
 
     });
 });
+
+use App\Http\Controllers\Reports\ShareReportController;
+
+Route::prefix('deposit-reports')->group(function () {
+    Route::controller(ShareReportController::class)->group(function () {
+        Route::get('share-list', 'shareListReport')->name('share-list.index');
+        Route::get('share-list/export/pdf', 'exportShareListPDF')->name('share-list.pdf');
+
+        Route::get('dividend-calculation', 'calculateDividendReport')->name('dividend-calculation.index');
+        Route::get('dividend-calculation/export/pdf', 'calculateDividendPDF')->name('dividend-calculation.pdf');
+
+        Route::get('dividend-balance', 'viewDividendBalanceReport')->name('dividend-balance.index');
+        Route::get('dividend-balance/export/pdf', 'exportDividendBalancePDF')->name('dividend-balance.pdf');
+    });
+});

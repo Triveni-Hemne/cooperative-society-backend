@@ -135,6 +135,7 @@
                             data-proof-2-type="{{$member->bankdtl->proof_2_type ?? '' }}" 
                             data-director-id="{{$member->financialdtl->director_id ?? '' }}" 
                             data-share-amount="{{$member->financialdtl->share_amount ?? '' }}" 
+                            data-number-of-shares="{{$member->financialdtl->number_of_shares ?? '' }}" 
                             data-welfare-fund="{{$member->financialdtl->welfare_fund ?? '' }}" data-page-no="{{$member->financialdtl->page_no ?? '' }}" data-current-balance="{{$member->financialdtl->current_balance ?? '' }}" data-monthly-balance="{{$member->financialdtl->monthly_balance ?? '' }}" data-dividend-amount="{{$member->financialdtl->dividend_amount ?? '' }}" data-monthly-deposit="{{$member->financialdtl->monthly_deposit ?? '' }}" data-demand="{{$member->financialdtl->demand ?? '' }}" data-type="{{$member->financialdtl->type ?? '' }}"
                             class="text-decoration-none me-4 edit-member-btn" 
                             data-bs-toggle="modal"
@@ -248,6 +249,7 @@
             
             let directorId = this.getAttribute("data-director-id");
             let shareAmount = this.getAttribute("data-share-amount");
+            let numberOfShares = this.getAttribute("data-number-of-shares");
             let welfareFund = this.getAttribute("data-welfare-fund");
             let pageNo = this.getAttribute("data-page-no");
             let currentBalance = this.getAttribute("data-current-balance");
@@ -335,6 +337,7 @@
                 console.error("Element #directorId not found in the DOM.");
             }
             document.getElementById("shareAmount").value = shareAmount;
+            document.getElementById("numberOfShares").value = numberOfShares;
             document.getElementById("welfareFund").value = welfareFund;
             document.getElementById("pageNo").value = pageNo;
             document.getElementById("currentBalance").value = currentBalance;

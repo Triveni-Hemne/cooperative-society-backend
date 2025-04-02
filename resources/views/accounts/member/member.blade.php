@@ -827,18 +827,32 @@
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
                                         </div>
+                                          
                                     </div>
                                     <div class="row mb-1">
                                         <div class="col-2 d-none d-xl-block">
+                                            <label for="numberOfShares">Number of Shares</label>
+                                        </div>
+                                        <div class="col pe-0">
+                                            <input name="number_of_shares" id="numberOfShares" class="w-100 px-2 py-1 @error('number_of_shares') is-invalid @enderror" value="{{ old('number_of_shares') }}" type="number"
+                                                placeholder="Number of Share">
+                                                 @error('number_of_shares')
+                                                    <div class="invalid-feedback">{{$message}}</div>
+                                                @enderror
+                                        </div>
+                                        <div class="col-2 d-none d-xl-block">
                                             <label for="currentBalance">Current Balance</label>
                                         </div>
-                                        <div class="col pe-0 pe-xl-5">
+                                        <div class="col pe-0">
                                             <input name="current_balance" id="currentBalance" class="w-100 px-2 py-1 @error('current_balance') is-invalid @enderror" value="{{ old('current_balance') }}" type="number"
                                                 placeholder="Current Balance">
                                                  @error('current_balance')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
                                         </div>
+
+                                    </div>
+                                    <div class="row mb-1">
                                         <div class="col-2 d-none d-xl-block">
                                             <label for="monthlyDeposit">Monthly Deposit</label>
                                         </div>
@@ -849,19 +863,20 @@
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
                                         </div>
-                                    </div>
-                                    <div class="row mb-1">
                                         <div class="col-2 d-none d-xl-block">
                                             <label for="welfareFund">Welfare Amount</label>
                                         </div>
-                                        <div class="col pe-0 pe-xl-5">
+                                        <div class="col pe-0">
                                             <input name="welfare_fund" id="welfareFund" class="w-100 px-2 py-1 @error('welfare_fund') is-invalid @enderror" value="{{ old('welfare_fund') }}" type="number"
                                                 placeholder="Welfare Amount">
                                                  @error('welfare_fund')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
                                         </div>
-                                        <div class="col-2 d-none d-xl-block">
+                                       
+                                    </div>
+                                    <div class="row mb-1">
+                                         <div class="col-2 d-none d-xl-block">
                                             <label for="monthlyBalance">Monthly Balance</label>
                                         </div>
                                         <div class="col pe-0">
@@ -871,8 +886,6 @@
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
                                         </div>
-                                    </div>
-                                    <div class="row mb-1">
                                         <div class="col-2 d-none d-xl-block">
                                             <label for="demand">Demand</label>
                                         </div>
@@ -885,6 +898,9 @@
                                                     <div class="invalid-feedback">{{$message}}</div>
                                             @enderror
                                         </div>
+             
+                                    </div>
+                                    <div class="row mb-1">
                                         <div class="col-2 d-none d-xl-block">
                                             <label for="type">Account Type</label>
                                         </div>

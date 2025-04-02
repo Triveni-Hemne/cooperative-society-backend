@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('member_id')->constrained('members')->onDelete('cascade');
             $table->foreignId('director_id')->nullable()->constrained('users')->onDelete('cascade'); // Assuming directors are stored in users table
             $table->decimal('share_amount', 10, 2)->notNull();
+            $table->integer('number_of_shares')->notNull();
             $table->decimal('welfare_fund', 10, 2)->nullable();
             $table->string('page_no', 50)->nullable();
             $table->decimal('current_balance', 10, 2)->notNull();

@@ -123,6 +123,7 @@ class MemberController extends Controller
             // 'member_id' => 'required|exists:members,id',
             'director_id' => 'nullable|exists:directors,id',
             'share_amount' => 'numeric|min:0',
+            'number_of_shares' => 'numeric|min:0',
             'welfare_fund' => 'nullable|numeric',
             'page_no' => 'nullable|string|max:50',
             'current_balance' => 'numeric|min:0',
@@ -262,6 +263,7 @@ class MemberController extends Controller
         $financial_validated = $request->validate([
             'director_id' => 'nullable|exists:directors,id',
             'share_amount' => 'numeric|min:0',
+            'number_of_shares' => 'numeric|min:0',
             'welfare_fund' => 'nullable|numeric',
             'page_no' => 'nullable|string|max:50',
             'current_balance' => 'numeric|min:0',

@@ -163,11 +163,11 @@
                             <div id="shareReports" class="accordion-collapse collapse"
                                 data-bs-parent="#reportsAccordion">
                                  <div class="accordion-body">
-                                    <a href="#">Share List</a>
-                                    <a href="#">Dividend Calculation</a>
-                                    <a href="#">Dividend Balance Report</a>
-                                    <a href="#">J Namuna List</a>
-                                    <a href="#">I Namuna List</a>
+                                    <a href="{{route('share-list.index')}}">Share List</a>
+                                    <a href="{{route('dividend-calculation.index')}}">Dividend Calculation</a>
+                                    <a href="{{route('dividend-balance.index')}}">Dividend Balance Report</a>
+                                    {{-- <a href="#">J Namuna List</a> --}}
+                                    {{-- <a href="#">I Namuna List</a> --}}
                                 </div> 
                             </div>
                         </div>
