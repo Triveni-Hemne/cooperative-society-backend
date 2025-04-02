@@ -181,13 +181,13 @@
                             </h2>
                             <div id="misReports" class="accordion-collapse collapse" data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
-                                    <a href="#">Trial Balance</a>
-                                    <a href="#">Receipt Payment</a>
-                                    <a href="#">Profit Loss</a>
-                                    <a href="#">Balance Sheet</a>
-                                    <a href="#">CD Ratio</a>
-                                    <a href="#">MIS Report</a>
-                                    <a href="#">General Ledger Statements</a>
+                                    <a href="{{route('trial-balance.index')}}">Trial Balance</a>
+                                    <a href="{{route('receipt-payment.index')}}">Receipt Payment</a>
+                                    <a href="{{route('profit-loss.index')}}">Profit Loss</a>
+                                    <a href="{{route('balance-sheet.index')}}">Balance Sheet</a>
+                                    <a href="{{route('cd-ratio.index')}}">CD Ratio</a>
+                                    <a href="{{route('mis-report.index')}}">MIS Report</a>
+                                    <a href="{{route('gl-statements.index')}}">General Ledger Statements</a>
                                 </div>
                             </div>
                         </div>

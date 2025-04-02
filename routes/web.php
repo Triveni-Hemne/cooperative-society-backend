@@ -182,7 +182,7 @@ Route::prefix('deposit-reports')->group(function () {
 
 use App\Http\Controllers\Reports\ShareReportController;
 
-Route::prefix('deposit-reports')->group(function () {
+Route::prefix('share-reports')->group(function () {
     Route::controller(ShareReportController::class)->group(function () {
         Route::get('share-list', 'shareListReport')->name('share-list.index');
         Route::get('share-list/export/pdf', 'exportShareListPDF')->name('share-list.pdf');
@@ -192,5 +192,32 @@ Route::prefix('deposit-reports')->group(function () {
 
         Route::get('dividend-balance', 'viewDividendBalanceReport')->name('dividend-balance.index');
         Route::get('dividend-balance/export/pdf', 'exportDividendBalancePDF')->name('dividend-balance.pdf');
+    });
+});
+
+use App\Http\Controllers\Reports\MISReportController;
+
+Route::prefix('MIS-reports')->group(function () {
+    Route::controller(MISReportController::class)->group(function () {
+        Route::get('trial-balance', 'viewTrialBalance')->name('trial-balance.index');
+        Route::get('trial-balance/export/pdf', 'exportTrialBalancePDF')->name('trial-balance.pdf');
+
+        Route::get('receipt-payment', 'viewReceiptPaymentReport')->name('receipt-payment.index');
+        Route::get('receipt-payment/export/pdf', 'exportReceiptPaymentPDF')->name('receipt-payment.pdf');
+
+        Route::get('profit-loss', 'viewProfitLoss')->name('profit-loss.index');
+        Route::get('profit-loss/export/pdf', 'exportProfitLossPDF')->name('profit-loss.pdf');
+
+        Route::get('balance-sheet', 'viewBalanceSheet')->name('balance-sheet.index');
+        Route::get('balance-sheet/export/pdf', 'exportBalanceSheetPDF')->name('balance-sheet.pdf');
+
+        Route::get('cd-ratio', 'viewCDRatio')->name('cd-ratio.index');
+        Route::get('cd-ratio/export/pdf', 'exportCDRatioPDF')->name('cd-ratio.pdf');
+
+        Route::get('mis-report', 'viewMISReport')->name('mis-report.index');
+        Route::get('mis-report/export/pdf', 'exportMISReportPDF')->name('mis-report.pdf');
+
+        Route::get('gl-statements', 'viewGeneralLedgerStatementReport')->name('gl-statements.index');
+        Route::get('gl-statements/export/pdf', 'exportGeneralLedgerStatementReportPDF')->name('gl-statements.pdf');
     });
 });

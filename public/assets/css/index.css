@@ -78,12 +78,12 @@ header .profile img {
     border-radius: 50%;
 }
 header .profile .logout-btn {
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
+    /* background-color: var(--primary-color); */
+    /* color: var(--secondary-color); */
     transition: all cubic-bezier(0.19, 1, 0.22, 1) 0.3;
 }
 header .profile .logout-btn:hover {
-    background-color: #004697;
+    /* background-color: #004697; */
 }
 
 /* Sidebar Start Here */
