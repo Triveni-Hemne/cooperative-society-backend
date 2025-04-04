@@ -202,12 +202,12 @@
                             <div id="generalReports" class="accordion-collapse collapse"
                                 data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
-                                    <a href="#">Account Statement</a>
-                                    <a href="#">General Ledger Statement</a>
-                                    <a href="#">Member Statement</a>
-                                    <a href="#">Account Register</a>
-                                    <a href="#">Loan Guarentor Report</a>
-                                    <a href="#">Demand List</a>
+                                    <a href="{{route('account-statement.index')}}">Account Statement</a>
+                                    <a href="{{route('gl-statement.index')}}">General Ledger Statement</a>
+                                    <a href="{{route('member-statement.index')}}">Member Statement</a>
+                                    {{-- <a href="#">Account Register</a> --}}
+                                    <a href="{{route('loan-garantor.index')}}">Loan Guarentor Report</a>
+                                    <a href="{{route('demand-list.index')}}">Demand List</a>
                                 </div>
                             </div>
                         </div>
@@ -215,11 +215,11 @@
                         <div class="accordion-item bg-transparent border-0">
                             <h2 class="accordion-header">
                                 <button class="accordion-button bg-transparent text-white" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#generalReports">
+                                    data-bs-toggle="collapse" data-bs-target="#printingReports">
                                     Printing
                                 </button>
                             </h2>
-                            <div id="generalReports" class="accordion-collapse collapse"
+                            <div id="printingReports" class="accordion-collapse collapse"
                                 data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
                                     <a href="#">Duplicate Printing</a>
@@ -231,11 +231,11 @@
                         <div class="accordion-item bg-transparent border-0">
                             <h2 class="accordion-header">
                                 <button class="accordion-button bg-transparent text-white" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#generalReports">
+                                    data-bs-toggle="collapse" data-bs-target="#auditReports">
                                     Audit
                                 </button>
                             </h2>
-                            <div id="generalReports" class="accordion-collapse collapse"
+                            <div id="auditReports" class="accordion-collapse collapse"
                                 data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
                                     <a href="#">Trial Balance</a>

@@ -221,3 +221,25 @@ Route::prefix('MIS-reports')->group(function () {
         Route::get('gl-statements/export/pdf', 'exportGeneralLedgerStatementReportPDF')->name('gl-statements.pdf');
     });
 });
+
+use App\Http\Controllers\Reports\GeneralReportController;
+
+Route::prefix('general-reports')->group(function () {
+    Route::controller(GeneralReportController::class)->group(function () {
+        Route::get('account-statement', 'accountStatement')->name('account-statement.index');
+        Route::get('account-statement/export/pdf', 'exportAccountStatementPDF')->name('account-statement.pdf');
+
+        Route::get('gl-statement', 'generalLedgerStatement')->name('gl-statement.index');
+        Route::get('gl-statement/export/pdf', 'exportGeneralLedgerPDF')->name('gl-statement.pdf');
+
+        Route::get('member-statement', 'memberStatement')->name('member-statement.index');
+        Route::get('member-statement/export/pdf', 'exportMemberStatementPDF')->name('member-statement.pdf');
+
+        Route::get('loan-garantor', 'loanGuarantorReport')->name('loan-garantor.index');
+        Route::get('loan-garantor/export/pdf', 'exportLoanGuarantorPDF')->name('loan-garantor.pdf');
+
+        Route::get('demand-list', 'demandList')->name('demand-list.index');
+        Route::get('demand-list/export/pdf', 'exportDemandListPDF')->name('demand-list.pdf');
+
+    });
+});
