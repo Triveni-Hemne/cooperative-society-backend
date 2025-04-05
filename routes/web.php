@@ -40,16 +40,13 @@ use App\Http\Controllers\LoanGuarantorController;
 //     return view('welcome');
 // });
 
-
-Route::get('/', function () {
-    return view('index');
-});
-
+// Route::get('/', function () {
+//     return view('index');
+// });
 
 Route::get('/csrf-token', function () {
     return response()->json(['csrf_token' => csrf_token()]);
 });
-
 
 // Route::group(['prefix' => 'admin'], function () {
     // Guest Middleware
@@ -96,16 +93,13 @@ Route::get('/csrf-token', function () {
         Route::get('/interest-calculator', function () {
             return view('interest.interest-calculator');
         })->name('interest.calculator');
-
     });
 // });
 
-
 /*
-* Report Controllers*
+* Report Controllers & Routes*
 */
 use App\Http\Controllers\Reports\DailyReportController;
-
 
 Route::prefix('daily-reports')->group(function () {
     Route::controller(DailyReportController::class)->group(function () {
@@ -176,7 +170,6 @@ Route::prefix('deposit-reports')->group(function () {
 
         Route::get('interest-summary', 'showInterestSummaryReport')->name('interest-summary.index');
         Route::get('interest-summary/export/pdf', 'exportInterestSummaryPDF')->name('interest-summary.pdf');
-
     });
 });
 
@@ -240,7 +233,6 @@ Route::prefix('general-reports')->group(function () {
 
         Route::get('demand-list', 'demandList')->name('demand-list.index');
         Route::get('demand-list/export/pdf', 'exportDemandListPDF')->name('demand-list.pdf');
-
     });
 });
 
@@ -257,6 +249,20 @@ Route::prefix('printing-reports')->group(function () {
         Route::get('passbook-printing/result', 'generatePassbook')->name('passbook.printing.result');
         Route::get('passbook-printing/pdf', 'exportPassbookPDF')->name('passbook.printing.pdf');
     });
+});
 
+use App\Http\Controllers\Reports\AuditReportController;
+
+Route::prefix('audit-reports')->group(function () {
+    Route::controller(AuditReportController::class)->group(function () {
+        Route::get('trial-balance', 'generateTrialBalance')->name('trial-balance.index');
+        Route::get('trial-balance/export/pdf', 'exportTrialBalancePDF')->name('trial-balance.pdf'); 
+        
+        Route::get('balance-sheet', 'generateBalanceSheet')->name('balance-sheet.index');
+        Route::get('balance-sheet/export/pdf', 'exportBalanceSheetPDF')->name('balance-sheet.pdf'); 
+        
+        Route::get('profit-loss', 'generateProfitLoss')->name('profit-loss.index');
+        Route::get('profit-loss/export/pdf', 'exportProfitLossPDF')->name('profit-loss.pdf'); 
+    });
 
 });

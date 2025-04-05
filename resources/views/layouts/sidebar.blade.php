@@ -238,9 +238,9 @@
                             <div id="auditReports" class="accordion-collapse collapse"
                                 data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
-                                    <a href="#">Trial Balance</a>
-                                    <a href="#">Balance Sheet</a>
-                                    <a href="#">Profit Loss</a>
+                                    <a href="{{route('trial-balance.index')}}">Trial Balance</a>
+                                    <a href="{{route('balance-sheet.index')}}">Balance Sheet</a>
+                                    <a href="{{route('profit-loss.index')}}">Profit Loss</a>
                                 </div>
                             </div>
                         </div>
