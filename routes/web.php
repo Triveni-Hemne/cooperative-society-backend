@@ -243,3 +243,20 @@ Route::prefix('general-reports')->group(function () {
 
     });
 });
+
+use App\Http\Controllers\Reports\PrintingReportController;
+
+Route::prefix('printing-reports')->group(function () {
+    Route::controller(PrintingReportController::class)->group(function () {
+        Route::get('duplicate-printing', 'viewDuplicate')->name('duplicate-printing.index');
+        Route::get('duplicate-printing/export/pdf/{id}', 'exportDuplicatePDF')->name('duplicate-printing.pdf.single');
+        Route::get('duplicate-printing/export/pdf', 'exportDuplicateListPDF')->name('duplicate-printing.pdf.all');
+        
+        // Passbook Printing Routes
+        Route::get('passbook-printing', 'viewPassbookForm')->name('passbook.printing.form');
+        Route::get('passbook-printing/result', 'generatePassbook')->name('passbook.printing.result');
+        Route::get('passbook-printing/pdf', 'exportPassbookPDF')->name('passbook.printing.pdf');
+    });
+
+
+});
