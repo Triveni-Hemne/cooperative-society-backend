@@ -1,27 +1,34 @@
-// !-- JavaScript to Keep Accordion Open Based on URL -->
+document.addEventListener("DOMContentLoaded", function () {
+    const currentLocation = window.location.pathname;
+    const menuLinks = document.querySelectorAll(".side-link");
 
-const currentLocation = window.location.pathname;
-const menuLinks = document.querySelectorAll(".side-link");
+    menuLinks.forEach((link) => {
+        const linkPath = new URL(link.href).pathname;
 
-menuLinks.forEach((link) => {
-    const linkPath = new URL(link.href).pathname; // Get the pathname part of the URL
+        if (linkPath === currentLocation) {
+            link.classList.add("active-side-link");
 
-    if (linkPath === currentLocation) {
-        link.classList.add("active-side-link");
+            // Start climbing up to all accordion-collapse parents
+            let currentCollapse = link.closest(".accordion-collapse");
 
-        // Find closest accordion collapse div and open it
-        const accordionCollapse = link.closest(".accordion-collapse");
-        if (accordionCollapse) {
-            accordionCollapse.classList.add("show"); // Keep accordion open
+            while (currentCollapse) {
+                currentCollapse.classList.add("show");
 
-            // Find the corresponding button and add 'active' class
-            const accordionButton =
-                accordionCollapse.previousElementSibling.querySelector(
-                    ".accordion-button"
+                // Get the button that controls this collapse section
+                const collapseId = currentCollapse.getAttribute("id");
+                const button = document.querySelector(
+                    `[data-bs-target="#${collapseId}"]`
                 );
-            if (accordionButton) {
-                accordionButton.classList.remove("collapsed"); // Remove collapsed class
+
+                if (button) {
+                    button.classList.remove("collapsed");
+                }
+
+                // Move up to the next parent accordion
+                currentCollapse = currentCollapse
+                    .closest(".accordion")
+                    .closest(".accordion-collapse");
             }
         }
-    }
+    });
 });
