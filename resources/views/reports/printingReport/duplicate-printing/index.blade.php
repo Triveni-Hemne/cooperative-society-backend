@@ -49,7 +49,7 @@
         </div>
     </form>
 
-    <form method="GET" action="{{ route('duplicate-printing.pdf.all') }}" class="card p-3 mb-4 shadow-sm">
+    <form method="GET" action="{{ route('duplicate-printing.pdf.all') }}" target="_blank" class="card p-3 mb-4 shadow-sm">
         <div class="mt-3 text-end">
             <button class="btn btn-danger">Download PDF</button>
         </div>

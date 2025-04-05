@@ -48,7 +48,7 @@
 
         {{-- Export PDF --}}
         <div class="mt-4 w-50 text-center d-flex justify-content-center align-items-center">
-            <form action="{{ route('final-npa-chart.pdf') }}" method="GET">
+            <form action="{{ route('final-npa-chart.pdf') }}" method="GET" target="_blank">
                 <input type="hidden" name="date" value="{{ $npaData['date'] }}">
                 <button type="submit" class="btn btn-danger">Export PDF</button>
             </form>

@@ -34,7 +34,7 @@
                 <button type="submit" class="btn btn-primary">Filter</button>
                 @if($transactions->isNotEmpty())
                     <a href="{{ route('member-statement.export-pdf', ['member_id' => $memberId, 'start_date' => $startDate, 'end_date' => $endDate]) }}" 
-                        class="btn btn-danger ms-2">Export PDF</a>
+                        class="btn btn-danger ms-2" target="_blank">Export PDF</a>
                 @endif
             </div>
         </div>

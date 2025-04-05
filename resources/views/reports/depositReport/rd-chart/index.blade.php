@@ -19,7 +19,7 @@
     </div>
 
     <div class="text-end">
-        <form action="{{ route('rd-chart.pdf') }}" method="GET">
+        <form action="{{ route('rd-chart.pdf') }}" method="GET" target="_blank">
             <input type="hidden" name="date" value="{{ $date }}">
             <button type="submit" class="btn btn-danger">Export PDF</button>
         </form>

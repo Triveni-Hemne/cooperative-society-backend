@@ -41,6 +41,6 @@
         <h4>Total Debits: ₹{{ number_format($totalDebit, 2) }}</h4>
         <h4>Total Credits: ₹{{ number_format($totalCredit, 2) }}</h4>
 
-        <a href="{{ route('trial-balance.pdf', ['from_date' => $fromDate, 'to_date' => $toDate]) }}" class="btn btn-primary">Download PDF</a>
+        <a href="{{ route('trial-balance.pdf', ['from_date' => $fromDate, 'to_date' => $toDate]) }}" target="_blank" class="btn btn-primary">Download PDF</a>
     </div>
 @endsection

@@ -18,7 +18,7 @@
             </div>
             <div class="col-md-3">
                 <button type="submit" class="btn btn-primary">Filter</button>
-                <a href="{{ route('demand-list.pdf', ['start_date' => $startDate, 'end_date' => $endDate]) }}" class="btn btn-danger ms-2">Export PDF</a>
+                <a href="{{ route('demand-list.pdf', ['start_date' => $startDate, 'end_date' => $endDate]) }}" target="_blank" class="btn btn-danger ms-2">Export PDF</a>
             </div>
         </div>
     </form>

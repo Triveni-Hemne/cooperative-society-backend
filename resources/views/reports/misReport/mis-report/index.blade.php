@@ -18,7 +18,7 @@
         </div>
         <div class="col-md-4 d-flex align-items-end">
             <button type="submit" class="btn btn-primary me-2">Generate</button>
-            <a href="{{ route('mis-report.pdf', ['date' => request('date')]) }}" class="btn btn-danger">Download PDF</a>
+            <a href="{{ route('mis-report.pdf', ['date' => request('date')]) }}" target="_blank" class="btn btn-danger">Download PDF</a>
         </div>
     </form>
 

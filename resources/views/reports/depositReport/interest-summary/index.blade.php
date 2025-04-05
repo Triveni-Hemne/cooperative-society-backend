@@ -50,7 +50,7 @@
         <div class="d-flex justify-content-between mt-4">
             <h4>Export Report</h4>
             <div>
-                <form action="{{ route('interest-summary.pdf') }}" method="GET">
+                <form action="{{ route('interest-summary.pdf') }}" method="GET" target="_blank">
                     <input type="date" name="date" hidden value="{{ $date }}">
                     <button type="submit" class="btn btn-danger">Export to PDF</button>
                 </form>

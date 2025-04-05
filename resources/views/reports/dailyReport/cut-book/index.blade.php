@@ -44,7 +44,7 @@
 
     <!-- Export PDF Button -->
     <div class="d-flex justify-content-end my-3">
-        <form action="{{ route('cut-book.pdf') }}" method="GET">
+        <form action="{{ route('cut-book.pdf') }}" method="GET" target="_blank">
             <input type="hidden" name="start_date" value="{{ $startDate }}">
             <input type="hidden" name="end_date" value="{{ $endDate }}">
             <input type="hidden" name="loan_account" value="{{ $loanAccountId }}">

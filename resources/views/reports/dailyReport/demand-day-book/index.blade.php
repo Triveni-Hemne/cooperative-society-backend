@@ -18,7 +18,7 @@
             <button type="submit" class="btn btn-primary">Filter</button>
         </form>
 
-        <form action="{{ route('demand-day-book.pdf') }}" method="GET">
+        <form action="{{ route('demand-day-book.pdf') }}" method="GET" target="_blank">
             <input type="date" name="date" value="{{ $date }}" required hidden>
             <button type="submit" class="btn btn-danger">Export PDF</button>
         </form>

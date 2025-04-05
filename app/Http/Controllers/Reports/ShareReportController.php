@@ -50,7 +50,7 @@ class ShareReportController extends Controller
         $data = $this->getShareList($date);
 
         $pdf = Pdf::loadView('reports.shareReport.share-list.share_list_pdf', $data);
-        return $pdf->download('share_list_report_' . $date . '.pdf');
+        return $pdf->stream('share_list_report_' . $date . '.pdf');
     }
 
     public function calculateDividend($date)
@@ -107,7 +107,7 @@ class ShareReportController extends Controller
         $data = $this->calculateDividend($date);
 
         $pdf = Pdf::loadView('reports.shareReport.dividend-calculation.dividend_calculation_pdf', $data);
-        return $pdf->download('dividend_report_' . $date . '.pdf');
+        return $pdf->stream('dividend_report_' . $date . '.pdf');
     }
 
     public function getDividendBalanceReport($date)
@@ -169,7 +169,7 @@ class ShareReportController extends Controller
         $data = $this->getDividendBalanceReport($date);
 
         $pdf = Pdf::loadView('reports.shareReport.dividend-balance.dividend_balance_pdf', $data);
-        return $pdf->download('dividend_balance_report_' . $date . '.pdf');
+        return $pdf->stream('dividend_balance_report_' . $date . '.pdf');
     }
 
 

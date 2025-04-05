@@ -58,7 +58,7 @@ class LoanController extends Controller
         $data = $this->getOverdueLoans($date);
 
         $pdf = Pdf::loadView('reports.loanReport.overdue-register.overdue_register_pdf', $data);
-        return $pdf->download('overdue_report_' . $date . '.pdf');
+        return $pdf->stream('overdue_report_' . $date . '.pdf');
     }
 
     public function getNPAList($date)
@@ -103,7 +103,7 @@ class LoanController extends Controller
         ];
 
         $pdf = Pdf::loadView('reports.loanReport.npa-list.npa_list_pdf', $data);
-        return $pdf->download('npa_list_' . $date . '.pdf');
+        return $pdf->stream('npa_list_' . $date . '.pdf');
     }
 
     public function getFinalNPAChartData($date)
@@ -176,7 +176,7 @@ class LoanController extends Controller
         $npaData = $this->getFinalNPAChartData($date);
 
         $pdf = Pdf::loadView('reports.loanReport.final-npa-chart.final_npa_chart_pdf', compact('npaData'));
-        return $pdf->download('final_npa_chart_' . $date . '.pdf');
+        return $pdf->stream('final_npa_chart_' . $date . '.pdf');
     }
 
     public function getDebitLoanReportData($fromDate, $toDate)
@@ -220,7 +220,7 @@ class LoanController extends Controller
         ];
 
         $pdf = Pdf::loadView('reports.loanReport.debit-loan.debit_loan_pdf', $data);
-        return $pdf->download('debit_loan_report_' . $fromDate . '_to_' . $toDate . '.pdf');
+        return $pdf->stream('debit_loan_report_' . $fromDate . '_to_' . $toDate . '.pdf');
     }
 
     public function getGuarantorRegisterData()
@@ -253,7 +253,7 @@ class LoanController extends Controller
         $data = $this->getGuarantorRegisterData();
         
         $pdf = Pdf::loadView('reports.loanReport.gaurantor-register.guarantor_register_pdf', $data);
-        return $pdf->download('guarantor_register.pdf');
+        return $pdf->stream('guarantor_register.pdf');
     }
 
     public function getLoanAccountStatement($loanAccNo)
@@ -309,7 +309,7 @@ public function exportLoanAccountStatementPDF(Request $request)
     }
 
     $pdf = Pdf::loadView('reports.loanReport.account-statement.loan_account_statement_pdf', $data);
-    return $pdf->download('loan_account_statement_' . $loanAccNo . '.pdf');
+    return $pdf->stream('loan_account_statement_' . $loanAccNo . '.pdf');
 }
 
 

@@ -39,7 +39,7 @@
     </form>
 
     <div class="text-end mb-3">
-        <a href="{{ route('gl-statements.pdf', ['ledger_id' => request('ledger_id'), 'from_date' => request('from_date'), 'to_date' => request('to_date')]) }}" class="btn btn-danger">
+        <a href="{{ route('gl-statements.pdf', ['ledger_id' => request('ledger_id'), 'from_date' => request('from_date'), 'to_date' => request('to_date')]) }}" class="btn btn-danger" target="_blank">
             <i class="bi bi-file-earmark-pdf"></i> Download PDF
         </a>
     </div>

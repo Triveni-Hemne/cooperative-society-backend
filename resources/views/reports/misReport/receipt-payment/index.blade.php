@@ -22,7 +22,7 @@
         </div>
         <div class="col-md-4 d-flex align-items-end">
             <button type="submit" class="btn btn-primary me-2">Filter</button>
-            <a href="{{ route('receipt-payment.pdf', ['from_date' => request('from_date'), 'to_date' => request('to_date')]) }}" class="btn btn-danger">Download PDF</a>
+            <a href="{{ route('receipt-payment.pdf', ['from_date' => request('from_date'), 'to_date' => request('to_date')]) }}" class="btn btn-danger" target="_blank">Download PDF</a>
         </div>
     </form>
     

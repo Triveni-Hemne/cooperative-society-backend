@@ -83,164 +83,164 @@ class PrintingReportController extends Controller
         $pdf = Pdf::loadView('reports.printingReport.duplicate-printing.duplicate_printing_list_pdf', $data)
                 ->setPaper('A4', 'portrait');
 
-        return $pdf->download("Duplicate_Receipts_List.pdf");
+        return $pdf->stream("Duplicate_Receipts_List.pdf");
     }
 
     private function getPassbookData($accountType, $accountId, $fromDate = null, $toDate = null)
-{
-    $transactions = [];
+    {
+        $transactions = [];
 
-    if ($accountType === 'loan') {
-        $transactions = VoucherEntry::where('member_loan_account_id', $accountId)
-            ->when($fromDate && $toDate, fn($q) => $q->whereBetween('date', [$fromDate, $toDate]))
-            ->orderBy('date')
+        if ($accountType === 'loan') {
+            $transactions = VoucherEntry::where('member_loan_account_id', $accountId)
+                ->when($fromDate && $toDate, fn($q) => $q->whereBetween('date', [$fromDate, $toDate]))
+                ->orderBy('date')
+                ->get();
+        } elseif ($accountType === 'deposit') {
+            $transactions = VoucherEntry::where('member_deposit_account_id', $accountId)
+                ->when($fromDate && $toDate, fn($q) => $q->whereBetween('date', [$fromDate, $toDate]))
+                ->orderBy('date')
+                ->get();
+        }
+        if ($accountType === 'rd') {
+            $transactions = VoucherEntry::where('member_deposit_account_id', $accountId)
+                ->where('deposit_type', 'rd')
+                ->when($fromDate && $toDate, fn($q) => $q->whereBetween('date', [$fromDate, $toDate]))
+                ->orderBy('date')
+                ->get();
+        } elseif ($accountType === 'fd') {
+            $transactions = VoucherEntry::where('member_deposit_account_id', $accountId)
+                ->where('deposit_type', 'fd')
+                ->when($fromDate && $toDate, fn($q) => $q->whereBetween('date', [$fromDate, $toDate]))
+                ->orderBy('date')
+                ->get();
+        } elseif ($accountType === 'share') {
+            $transactions = VoucherEntry::where('member_financial_id', $accountId)
+                ->when($fromDate && $toDate, fn($q) => $q->whereBetween('date', [$fromDate, $toDate]))
+                ->orderBy('date')
+                ->get();
+        }
+
+        // Running Balance
+        $runningBalance = 0;
+        foreach ($transactions as $t) {
+            $runningBalance += $t->debit_amount - $t->credit_amount;
+            $t->running_balance = $runningBalance;
+        }
+
+        return $transactions;
+    }
+
+
+    public function generatePassbook(Request $request)
+    {
+        $memberId = $request->input('member_id');
+        $accountType = $request->input('account_type');
+        $accountId = $request->input('account_id');
+        $fromDate = $request->input('from_date');
+        $toDate = $request->input('to_date');
+
+        $transactions = $this->getPassbookData($accountType, $accountId, $fromDate, $toDate);
+
+        // Fetch account with member details
+        if ($accountType === 'loan') {
+            $account = MemberLoanAccount::with('member')->findOrFail($accountId);
+        } elseif ($accountType === 'deposit') {
+            $account = MemberDepositAccount::with('member')->findOrFail($accountId);
+        } else {
+            $account = null;
+        }
+        if ($accountType === 'rd' || $accountType === 'fd') {
+            $account = MemberDepositAccount::with('member')->findOrFail($accountId);
+        } elseif ($accountType === 'share') {
+            $account = DB::table('member_financials')
+                ->where('id', $accountId)
+                ->first(); // or convert to model if needed
+        }
+
+        return view('reports.printingReport.passbook-printing.index', compact(
+            'memberId', 'account', 'transactions', 'accountType', 'accountId', 'fromDate', 'toDate'
+        ));
+    }
+
+
+    public function viewPassbookForm()
+    {
+        $members = DB::table('members')->select('id', 'name')->get();
+
+        $loanAccounts = DB::table('member_loan_accounts')
+            ->select('id', 'member_id', 'acc_no as account_number')
             ->get();
-    } elseif ($accountType === 'deposit') {
-        $transactions = VoucherEntry::where('member_deposit_account_id', $accountId)
-            ->when($fromDate && $toDate, fn($q) => $q->whereBetween('date', [$fromDate, $toDate]))
-            ->orderBy('date')
+
+        $depositAccounts = DB::table('member_depo_accounts')
+            ->select('id', 'member_id', 'acc_no', 'deposit_type') // deposit_type: savings, rd, fd
             ->get();
-    }
-    if ($accountType === 'rd') {
-        $transactions = VoucherEntry::where('member_deposit_account_id', $accountId)
-            ->where('deposit_type', 'rd')
-            ->when($fromDate && $toDate, fn($q) => $q->whereBetween('date', [$fromDate, $toDate]))
-            ->orderBy('date')
+
+        // $savingAccounts = DB::table('savings_accounts')
+        //     ->select('id', 'member_id', 'account_number')
+        //     ->get();
+
+        // $recurringDeposits = DB::table('recurring_deposits')
+        //     ->select('id', 'member_id', 'account_number')
+        //     ->get();
+
+        // $fixedDeposits = DB::table('fixed_deposits')
+        //     ->select('id', 'member_id', 'account_number')
+        //     ->get();
+
+        // Optional if you have share accounts
+        $shareAccounts = DB::table('member_financials')
+            ->select('id', 'member_id') // adjust field if needed
+            ->where('type', 'Share')
             ->get();
-    } elseif ($accountType === 'fd') {
-        $transactions = VoucherEntry::where('member_deposit_account_id', $accountId)
-            ->where('deposit_type', 'fd')
-            ->when($fromDate && $toDate, fn($q) => $q->whereBetween('date', [$fromDate, $toDate]))
-            ->orderBy('date')
-            ->get();
-    } elseif ($accountType === 'share') {
-        $transactions = VoucherEntry::where('member_financial_id', $accountId)
-            ->when($fromDate && $toDate, fn($q) => $q->whereBetween('date', [$fromDate, $toDate]))
-            ->orderBy('date')
-            ->get();
+
+        return view('reports.printingReport.passbook-printing.passbook-form', compact(
+            'members',
+            'loanAccounts',
+            'depositAccounts',
+            // 'savingAccounts',
+            // 'recurringDeposits',
+            // 'fixedDeposits',
+            'shareAccounts'
+        ));
     }
 
-    // Running Balance
-    $runningBalance = 0;
-    foreach ($transactions as $t) {
-        $runningBalance += $t->debit_amount - $t->credit_amount;
-        $t->running_balance = $runningBalance;
+
+    public function viewPassbook(Request $request)
+    {
+        $accountType = $request->input('account_type');
+        $accountId = $request->input('account_id');
+        $fromDate = $request->input('from_date');
+        $toDate = $request->input('to_date');
+
+        $transactions = $this->getPassbookData($accountType, $accountId, $fromDate, $toDate);
+
+        return view('reports.printingReport.passbook-printing.index', compact('transactions', 'accountType', 'accountId', 'fromDate', 'toDate'));
     }
 
-    return $transactions;
-}
+    public function exportPassbookPDF(Request $request)
+    {
+        $accountType = $request->input('account_type');
+        $accountId = $request->input('account_id');
+        $fromDate = $request->input('from_date');
+        $toDate = $request->input('to_date');
 
+        if ($accountType === 'loan') {
+            $account = MemberLoanAccount::with('member')->findOrFail($accountId);
+        } elseif (in_array($accountType, ['deposit', 'rd', 'fd'])) {
+            $account = MemberDepositAccount::with('member')->findOrFail($accountId);
+        } elseif ($accountType === 'share') {
+            $account = DB::table('member_financials')->where('id', $accountId)->first();
+        } else {
+            $account = null;
+        }
+        
+        $transactions = $this->getPassbookData($accountType, $accountId, $fromDate, $toDate);
 
-public function generatePassbook(Request $request)
-{
-    $memberId = $request->input('member_id');
-    $accountType = $request->input('account_type');
-    $accountId = $request->input('account_id');
-    $fromDate = $request->input('from_date');
-    $toDate = $request->input('to_date');
+        $pdf = Pdf::loadView('reports.printingReport.passbook-printing.passbook_pdf', compact('transactions', 'accountType', 'fromDate', 'toDate', 'accountId', 'account'))
+                ->setPaper('A5', 'portrait');
 
-    $transactions = $this->getPassbookData($accountType, $accountId, $fromDate, $toDate);
-
-    // Fetch account with member details
-    if ($accountType === 'loan') {
-        $account = MemberLoanAccount::with('member')->findOrFail($accountId);
-    } elseif ($accountType === 'deposit') {
-        $account = MemberDepositAccount::with('member')->findOrFail($accountId);
-    } else {
-        $account = null;
+        return $pdf->stream("Passbook_{$accountType}_{$accountId}.pdf");
     }
-    if ($accountType === 'rd' || $accountType === 'fd') {
-        $account = MemberDepositAccount::with('member')->findOrFail($accountId);
-    } elseif ($accountType === 'share') {
-        $account = DB::table('member_financials')
-            ->where('id', $accountId)
-            ->first(); // or convert to model if needed
-    }
-
-    return view('reports.printingReport.passbook-printing.index', compact(
-        'memberId', 'account', 'transactions', 'accountType', 'accountId', 'fromDate', 'toDate'
-    ));
-}
-
-
-public function viewPassbookForm()
-{
-    $members = DB::table('members')->select('id', 'name')->get();
-
-    $loanAccounts = DB::table('member_loan_accounts')
-        ->select('id', 'member_id', 'acc_no as account_number')
-        ->get();
-
-    $depositAccounts = DB::table('member_depo_accounts')
-        ->select('id', 'member_id', 'acc_no', 'deposit_type') // deposit_type: savings, rd, fd
-        ->get();
-
-    // $savingAccounts = DB::table('savings_accounts')
-    //     ->select('id', 'member_id', 'account_number')
-    //     ->get();
-
-    // $recurringDeposits = DB::table('recurring_deposits')
-    //     ->select('id', 'member_id', 'account_number')
-    //     ->get();
-
-    // $fixedDeposits = DB::table('fixed_deposits')
-    //     ->select('id', 'member_id', 'account_number')
-    //     ->get();
-
-    // Optional if you have share accounts
-    $shareAccounts = DB::table('member_financials')
-        ->select('id', 'member_id') // adjust field if needed
-        ->where('type', 'Share')
-        ->get();
-
-    return view('reports.printingReport.passbook-printing.passbook-form', compact(
-        'members',
-        'loanAccounts',
-        'depositAccounts',
-        // 'savingAccounts',
-        // 'recurringDeposits',
-        // 'fixedDeposits',
-        'shareAccounts'
-    ));
-}
-
-
-public function viewPassbook(Request $request)
-{
-    $accountType = $request->input('account_type');
-    $accountId = $request->input('account_id');
-    $fromDate = $request->input('from_date');
-    $toDate = $request->input('to_date');
-
-    $transactions = $this->getPassbookData($accountType, $accountId, $fromDate, $toDate);
-
-    return view('reports.printingReport.passbook-printing.index', compact('transactions', 'accountType', 'accountId', 'fromDate', 'toDate'));
-}
-
-public function exportPassbookPDF(Request $request)
-{
-    $accountType = $request->input('account_type');
-    $accountId = $request->input('account_id');
-    $fromDate = $request->input('from_date');
-    $toDate = $request->input('to_date');
-
-    if ($accountType === 'loan') {
-        $account = MemberLoanAccount::with('member')->findOrFail($accountId);
-    } elseif (in_array($accountType, ['deposit', 'rd', 'fd'])) {
-        $account = MemberDepositAccount::with('member')->findOrFail($accountId);
-    } elseif ($accountType === 'share') {
-        $account = DB::table('member_financials')->where('id', $accountId)->first();
-    } else {
-        $account = null;
-    }
-    
-    $transactions = $this->getPassbookData($accountType, $accountId, $fromDate, $toDate);
-
-    $pdf = Pdf::loadView('reports.printingReport.passbook-printing.passbook_pdf', compact('transactions', 'accountType', 'fromDate', 'toDate', 'accountId', 'account'))
-            ->setPaper('A5', 'portrait');
-
-    return $pdf->download("Passbook_{$accountType}_{$accountId}.pdf");
-}
 
 
 }

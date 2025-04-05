@@ -28,7 +28,7 @@
     </form>
 
     <!-- Export PDF Button -->
-    <a href="{{ route('debit-laon.pdf', ['from_date' => $fromDate, 'to_date' => $toDate]) }}" class="btn btn-danger mb-3">Export PDF</a>
+    <a href="{{ route('debit-laon.pdf', ['from_date' => $fromDate, 'to_date' => $toDate]) }}" class="btn btn-danger mb-3" target="_blank">Export PDF</a>
 
     <!-- Loan Report Table -->
     <table class="table table-bordered">

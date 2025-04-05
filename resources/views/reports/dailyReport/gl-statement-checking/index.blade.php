@@ -56,7 +56,7 @@
             <div class="d-flex justify-content-between">
                 <h4>📑 Ledger Transactions</h4>
                 <div class="d-flex">
-                    <form action="{{ route('gl-statement-checking.pdf') }}" method="GET">
+                    <form action="{{ route('gl-statement-checking.pdf') }}" method="GET" target="_blank">
                         <input type="date" name="date" required hidden value="{{$date}}">
                         <button type="submit" class="btn btn-danger">Export PDF</button>
                     </form>

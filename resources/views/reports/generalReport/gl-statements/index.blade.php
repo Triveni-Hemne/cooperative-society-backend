@@ -38,7 +38,7 @@
 
     <!-- Export to PDF Button -->
     <a href="{{ route('gl-statement.pdf', ['ledger_id' => request('ledger_id'), 'start_date' => request('start_date'), 'end_date' => request('end_date')]) }}"
-       class="btn btn-danger mb-3">Export to PDF</a>
+       class="btn btn-danger mb-3" target="_blank">Export to PDF</a>
 
     <!-- General Ledger Transactions Table -->
     <table class="table table-bordered">

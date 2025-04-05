@@ -22,7 +22,7 @@
                 <button class="btn btn-primary">Filter</button>
             </div>
             <div class="col-md-3 d-flex align-items-end justify-content-end">
-                <a href="{{ route('loan-garantor.pdf', ['start_date' => $startDate, 'end_date' => $endDate]) }}" class="btn btn-danger">
+                <a href="{{ route('loan-garantor.pdf', ['start_date' => $startDate, 'end_date' => $endDate]) }}" target="_blank" class="btn btn-danger">
                     <i class="fas fa-file-pdf"></i> Export PDF
                 </a>
             </div>

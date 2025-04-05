@@ -56,7 +56,7 @@
             <div class="d-flex justify-content-between">
                 <h4>💰 Category-Wise Transactions</h4>
                 <div class="d-flex">
-                    <form action="{{ route('sub-day-book.pdf') }}" method="GET">
+                    <form action="{{ route('sub-day-book.pdf') }}" method="GET" target="_blank">
                         <input type="hidden" name="date" value="{{ $date }}">
                         <input type="hidden" name="account_type" value="{{ $accountType }}">
                         <button type="submit" class="btn btn-danger">Export PDF</button>

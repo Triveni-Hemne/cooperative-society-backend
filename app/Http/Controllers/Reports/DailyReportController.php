@@ -69,7 +69,7 @@ class DailyReportController extends Controller
         $data = $this->getCashBookData($date);
 
         $pdf = Pdf::loadView('reports.dailyReport.cash-book.cashbook_pdf', $data);
-        return $pdf->download('cashbook_report_' . $date . '.pdf');
+        return $pdf->stream('cashbook_report_' . $date . '.pdf');
     }
 
     /**
@@ -117,7 +117,7 @@ class DailyReportController extends Controller
         $data = $this->getDayBookData($date);
 
         $pdf = Pdf::loadView('reports.dailyReport.day-book.daybook_pdf', $data);
-        return $pdf->download('daybook_report_' . $date . '.pdf');
+        return $pdf->stream('daybook_report_' . $date . '.pdf');
     }
 
     /**
@@ -191,7 +191,7 @@ class DailyReportController extends Controller
         $data = $this->getSubDayBookData($date, $accountType);
 
         $pdf = Pdf::loadView('reports.dailyReport.sub-day-book.subdaybook_pdf', $data);
-        return $pdf->download('subdaybook_report_' . $date . '.pdf');
+        return $pdf->stream('subdaybook_report_' . $date . '.pdf');
     }
 
     /**
@@ -305,7 +305,7 @@ class DailyReportController extends Controller
         $data = $this->getGLStatementData($startDate, $endDate, $glAccount);
 
         $pdf = Pdf::loadView('reports.dailyReport.gl-statement-checking.glstatementchecking_pdf', $data);
-        return $pdf->download('gl_statement_' . $startDate . '_to_' . $endDate . '.pdf');
+        return $pdf->stream('gl_statement_' . $startDate . '_to_' . $endDate . '.pdf');
     }
 
 
@@ -400,7 +400,7 @@ class DailyReportController extends Controller
             'startDate', 'endDate', 'transactions'
         ));
 
-        return $pdf->download('Cut_Book_Report_' . $startDate . '_to_' . $endDate . '.pdf');
+        return $pdf->stream('Cut_Book_Report_' . $startDate . '_to_' . $endDate . '.pdf');
     }
 
     /**
@@ -445,7 +445,7 @@ class DailyReportController extends Controller
         $data = $this->getDemandDayBookData($date);
 
         $pdf = Pdf::loadView('reports.dailyReport.demand-day-book.demand_day_book_pdf', $data);
-        return $pdf->download('demand_day_book_' . $date . '.pdf');
+        return $pdf->stream('demand_day_book_' . $date . '.pdf');
     }
 
 

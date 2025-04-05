@@ -65,7 +65,7 @@ class MISReportController extends Controller
 
         $data = $this->getTrialBalance($fromDate, $toDate);
         $pdf = Pdf::loadView('reports.misReport.trial-balance.trial_balance_pdf', $data);
-        return $pdf->download('trial_balance_' . $fromDate . '_to_' . $toDate . '.pdf');
+        return $pdf->stream('trial_balance_' . $fromDate . '_to_' . $toDate . '.pdf');
     }
 
     /**
@@ -118,7 +118,7 @@ class MISReportController extends Controller
 
         $data = $this->getReceiptPaymentReport($fromDate, $toDate);
         $pdf = Pdf::loadView('reports.misReport.receipt-payment.receipt_payment_pdf', $data);
-        return $pdf->download('receipt_payment_' . $fromDate . '_to_' . $toDate . '.pdf');
+        return $pdf->stream('receipt_payment_' . $fromDate . '_to_' . $toDate . '.pdf');
     }
 
     /**
@@ -172,7 +172,7 @@ class MISReportController extends Controller
 
         $data = $this->getProfitLoss($fromDate, $toDate);
         $pdf = Pdf::loadView('reports.misReport.profit-loss.profit_loss_pdf', $data);
-        return $pdf->download('profit_loss_' . $fromDate . '_to_' . $toDate . '.pdf');
+        return $pdf->stream('profit_loss_' . $fromDate . '_to_' . $toDate . '.pdf');
     }
 
     /**
@@ -247,7 +247,7 @@ class MISReportController extends Controller
 
         $data = $this->getBalanceSheet($date);
         $pdf = Pdf::loadView('reports.misReport.balance-sheet.balance_sheet_pdf', $data);
-        return $pdf->download('balance_sheet_' . $date . '.pdf');
+        return $pdf->stream('balance_sheet_' . $date . '.pdf');
     }
 
 
@@ -294,7 +294,7 @@ class MISReportController extends Controller
 
         $data = $this->getCDRatio($date);
         $pdf = Pdf::loadView('reports.misReport.cd-ratio.cd_ratio_pdf', $data);
-        return $pdf->download('cd_ratio_' . $date . '.pdf');
+        return $pdf->stream('cd_ratio_' . $date . '.pdf');
     }
 
      /**
@@ -378,7 +378,7 @@ class MISReportController extends Controller
 
         $data = $this->getMISReport($date);
         $pdf = Pdf::loadView('reports.misReport.mis-report.mis_report_pdf', $data);
-        return $pdf->download('mis_report_' . $date . '.pdf');
+        return $pdf->stream('mis_report_' . $date . '.pdf');
     }
 
    public function getGeneralLedgerStatement($ledgerId, $fromDate, $toDate)
@@ -446,7 +446,7 @@ class MISReportController extends Controller
             'toDate'          => $toDate,
         ] + $data);
 
-        return $pdf->download('general_ledger_' . $fromDate . '_to_' . $toDate . '.pdf');
+        return $pdf->stream('general_ledger_' . $fromDate . '_to_' . $toDate . '.pdf');
     }
 
 }

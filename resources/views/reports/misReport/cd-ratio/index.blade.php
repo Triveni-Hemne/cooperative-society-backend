@@ -18,7 +18,7 @@
         </div>
         <div class="col-md-4 d-flex align-items-end">
             <button type="submit" class="btn btn-primary me-2">Generate</button>
-            <a href="{{ route('cd-ratio.pdf', ['date' => request('date')]) }}" class="btn btn-danger">Download PDF</a>
+            <a href="{{ route('cd-ratio.pdf', ['date' => request('date')]) }}" class="btn btn-danger" target="_blank">Download PDF</a>
         </div>
     </form>
 

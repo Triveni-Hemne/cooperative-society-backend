@@ -20,7 +20,7 @@
     @endif
 
     <div class="mb-3">
-        <a href="{{ route('passbook.printing.pdf', ['account_type' => $accountType, 'account_id' => $accountId, 'from_date' => $fromDate, 'to_date' => $toDate]) }}" class="btn btn-success">Download PDF</a>
+        <a href="{{ route('passbook.printing.pdf', ['account_type' => $accountType, 'account_id' => $accountId, 'from_date' => $fromDate, 'to_date' => $toDate]) }}" target="_blank" class="btn btn-success">Download PDF</a>
     </div>
 
     <table class="table table-bordered">

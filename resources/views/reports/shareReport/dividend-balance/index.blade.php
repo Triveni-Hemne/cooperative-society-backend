@@ -13,7 +13,7 @@
     <h2 class="mb-4">Dividend Balance Report ({{ $date }})</h2>
 
     <div class="mb-3">
-        <a href="{{ route('dividend-balance.pdf', ['date' => $date]) }}" class="btn btn-primary">Download PDF</a>
+        <a href="{{ route('dividend-balance.pdf', ['date' => $date]) }}" class="btn btn-primary" target="_blank">Download PDF</a>
     </div>
 <div style="overflow-x: scroll">
     <table class="table table-bordered" >

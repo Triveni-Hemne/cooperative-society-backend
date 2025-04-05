@@ -79,7 +79,7 @@ class GeneralReportController extends Controller
             'transactions' => $data['transactions']
         ]);
 
-        return $pdf->download('account_statement_' . $accountId . '_' . $startDate . '_to_' . $endDate . '.pdf');
+        return $pdf->stream('account_statement_' . $accountId . '_' . $startDate . '_to_' . $endDate . '.pdf');
     }
 
     /**
@@ -141,7 +141,7 @@ class GeneralReportController extends Controller
             $data, compact('ledgerId', 'startDate', 'endDate')
         ));
 
-        return $pdf->download("General_Ledger_Statement_{$startDate}_to_{$endDate}.pdf");
+        return $pdf->stream("General_Ledger_Statement_{$startDate}_to_{$endDate}.pdf");
     }
 
     /**
@@ -211,7 +211,7 @@ class GeneralReportController extends Controller
             $data, compact('memberId', 'startDate', 'endDate')
         ));
 
-        return $pdf->download("Member_Statement_{$startDate}_to_{$endDate}.pdf");
+        return $pdf->stream("Member_Statement_{$startDate}_to_{$endDate}.pdf");
     }
 
     public function getloanGuarantorReport($startDate, $endDate)
@@ -247,7 +247,7 @@ class GeneralReportController extends Controller
             $data, compact('startDate', 'endDate')
         ));
 
-        return $pdf->download("Loan_Guarantor_Report_{$startDate}_to_{$endDate}.pdf");
+        return $pdf->stream("Loan_Guarantor_Report_{$startDate}_to_{$endDate}.pdf");
     }
 
     public function getDemandList($startDate, $endDate)
@@ -284,7 +284,7 @@ class GeneralReportController extends Controller
         $data = $this->getDemandList($startDate, $endDate);
 
         $pdf = Pdf::loadView('reports.generalReport.demand-list.demand_list_pdf', $data);
-        return $pdf->download("Demand_List_Report_{$startDate}_to_{$endDate}.pdf");
+        return $pdf->stream("Demand_List_Report_{$startDate}_to_{$endDate}.pdf");
     }
 
 

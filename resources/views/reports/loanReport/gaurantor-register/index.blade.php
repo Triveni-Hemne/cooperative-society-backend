@@ -12,7 +12,7 @@
     <h2 class="mb-4">Guarantor Register</h2>
 
     <!-- Export PDF Button -->
-    <a href="{{ route('guarantor-register.pdf') }}" class="btn btn-danger mb-3">Export PDF</a>
+    <a href="{{ route('guarantor-register.pdf') }}" class="btn btn-danger mb-3" target="_blank">Export PDF</a>
 
     <!-- Guarantor Register Table -->
     <table class="table table-bordered">

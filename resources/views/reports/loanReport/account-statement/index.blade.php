@@ -32,7 +32,7 @@
         <p><strong>Outstanding Balance:</strong> ₹{{ number_format($outstandingBalance, 2) }}</p>
         <p><strong>Interest Accrued:</strong> ₹{{ number_format($interestAccrued, 2) }}</p>
 
-        <a href="{{ route('loan-statements.pdf', ['loan_acc_no' => $loan->acc_no]) }}" class="btn btn-danger mb-3">Export PDF</a>
+        <a href="{{ route('loan-statements.pdf', ['loan_acc_no' => $loan->acc_no]) }}" class="btn btn-danger mb-3" target="_blank">Export PDF</a>
 
         <hr>
         <h4>Transaction History</h4>

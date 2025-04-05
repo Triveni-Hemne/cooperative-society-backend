@@ -9,7 +9,7 @@
 <div class="container">
     <div class="card shadow-sm mb-4">
         <div class="card-body">
-            <form method="GET" action="{{ route('profit-loss.index') }}" class="row g-3 align-items-end">
+            <form method="GET" action="{{ route('profit-loss.index')}}" class="row g-3 align-items-end">
                 <div class="col-md-4">
                     <label for="from_date" class="form-label">From Date</label>
                     <input type="date" name="from_date" id="from_date" class="form-control"
@@ -33,7 +33,7 @@
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 class="mb-0">Profit and Loss Statement</h4>
-        <a href="{{ route('profit-loss.pdf', ['from_date' => $fromDate, 'to_date' => $toDate]) }}" class="btn btn-sm btn-danger">
+        <a href="{{ route('profit-loss.pdf', ['from_date' => $fromDate, 'to_date' => $toDate]) }}" target="_blank" class="btn btn-sm btn-danger">
             <i class="fas fa-file-pdf"></i> Export PDF
         </a>
     </div>

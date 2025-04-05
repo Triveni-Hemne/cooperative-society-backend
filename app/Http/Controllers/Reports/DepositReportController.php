@@ -64,7 +64,7 @@ class DepositReportController extends Controller
         $totalMaturityAmount = collect($data['maturingDeposits'])->sum('maturity_amount');
 
         $pdf = Pdf::loadView('reports.depositReport.deposit-maturity.maturity_register_pdf',['date' => $date,'maturingDeposits' => $data['maturingDeposits'],'data'=> $data, 'totalMaturityAmount' => $totalMaturityAmount]);
-        return $pdf->download('deposit_maturity_register_' . $date . '.pdf');
+        return $pdf->stream('deposit_maturity_register_' . $date . '.pdf');
     }
 
     public function getRDChartData($date)
@@ -119,7 +119,7 @@ class DepositReportController extends Controller
             'rdAccounts' => $data['rdAccounts']
         ]);
 
-        return $pdf->download('rd_chart_' . $date . '.pdf');
+        return $pdf->stream('rd_chart_' . $date . '.pdf');
     }
 
     public function getFDChartData($date)
@@ -181,7 +181,7 @@ class DepositReportController extends Controller
             'fdAccounts' => $data['fdAccounts']
         ]);
 
-        return $pdf->download('fd_chart_' . $date . '.pdf');
+        return $pdf->stream('fd_chart_' . $date . '.pdf');
     }
 
     public function getInterestWiseRDData($date)
@@ -251,7 +251,7 @@ class DepositReportController extends Controller
             'interestRateGroups' => $data['interestRateGroups']
         ]);
 
-        return $pdf->download('rd_interest_report_' . $date . '.pdf');
+        return $pdf->stream('rd_interest_report_' . $date . '.pdf');
     }
 
     public function getInterestSummaryData($date)
@@ -336,7 +336,7 @@ class DepositReportController extends Controller
             'date' => $date,
             'summaryData' => $data['summaryData']
         ]);
-        return $pdf->download('interest_summary_' . $date . '.pdf');
+        return $pdf->stream('interest_summary_' . $date . '.pdf');
     }
 
 

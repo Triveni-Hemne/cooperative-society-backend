@@ -48,7 +48,7 @@
             <div class="d-flex justify-content-between">
                 <h4>💰 Transaction Details</h4>
                 <div class="d-flex">
-                    <form action="{{ route('day-book.pdf') }}" method="GET">
+                    <form action="{{ route('day-book.pdf') }}" method="GET" target="_blank">
                         <input type="hidden" name="date" value="{{ $date }}">
                         <button type="submit" class="btn btn-danger">Export PDF</button>
                     </form>

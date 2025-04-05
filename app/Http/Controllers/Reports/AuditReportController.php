@@ -59,9 +59,8 @@ class AuditReportController extends Controller
             'totalCredit' => $totalCredit,
         ])->setPaper('A4', 'portrait');
 
-        return $pdf->download('Trial_Balance_' . $asOnDate . '.pdf');
+        return $pdf->stream('Trial_Balance_' . $asOnDate . '.pdf');
     }
-
 
     public function generateBalanceSheet(Request $request)
     {
@@ -84,7 +83,7 @@ class AuditReportController extends Controller
             'asOnDate' => $asOnDate
         ]))->setPaper('A4', 'portrait');
 
-        return $pdf->download('Balance_Sheet_As_On_' . $asOnDate . '.pdf');
+        return $pdf->stream('Balance_Sheet_As_On_' . $asOnDate . '.pdf');
     }
 
     private function getBalanceSheetData($asOnDate)
@@ -147,10 +146,6 @@ class AuditReportController extends Controller
         return compact('assets', 'liabilities', 'equity', 'netProfit', 'totalAssets', 'totalLiabilitiesEquity');
     }
 
-
-
-
-
     private function getLedgersByGroup($group, $amountField, $fromDate, $toDate)
     {
         return GeneralLedger::with(['voucherEntries' => function ($query) use ($fromDate, $toDate) {
@@ -201,7 +196,5 @@ class AuditReportController extends Controller
 
         return $pdf->download('Profit_Loss_' . $fromDate . '_to_' . $toDate . '.pdf');
     }
-
-
 
 }

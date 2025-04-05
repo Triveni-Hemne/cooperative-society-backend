@@ -12,7 +12,7 @@
 @section('content')
 <div class="container">
     <h2 class="mb-4">Dividend Calculation Report - {{ $date }}</h2>
-    <a href="{{ route('dividend-calculation.pdf', ['date' => $date]) }}" class="btn btn-danger mb-3">Download PDF</a>
+    <a href="{{ route('dividend-calculation.pdf', ['date' => $date]) }}" class="btn btn-danger mb-3" target="_blank">Download PDF</a>
     <table class="table table-bordered">
         <thead>
             <tr>
