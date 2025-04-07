@@ -48,6 +48,11 @@
                                 @enderror
                             </div>
                         </div>
+                         @else
+                            <select class="w-100 px-2 py-1" disabled>
+                                <option>No head of department available. Please add members as head of department first.</option>
+                            </select>
+                            <small class="text-danger">⚠️ You must add head of department before submitting the form.</small>
                         @endif
                         @endisset
                     </div>

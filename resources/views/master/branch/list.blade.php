@@ -8,27 +8,27 @@
 @endsection
 
 @section('content')
-<div style="height: 18%">
-    <!-- Heading -->
-    <div class="mb-4 heading">
-        <h3>Branches</h3>
-    </div>
-
-    <!-- Search Bar and Add New Button -->
-    <div class="d-flex justify-content-between mb-3">
-        <input type="search" id="searchInput" placeholder="Search Here..." class="w-50 px-3 py-1 rounded">
-
-        <div>
-            <a href="#" class="d-flex justify-content-between gap-2 text-decoration-none d-flex align-items-center"
-                data-bs-toggle="modal" data-bs-target="#designationModal">
-                <p style="width: 30px; height: 30px"
-                    class="bg-success rounded-circle d-flex justify-content-center align-items-center">
-                    <i class="fa fa-plus text-white" style="font-size:20px"></i>
-                </p>
-                <p>Add New</p>
-            </a>
+<div class="mb-3">
+    <h3>Branches</h3>
+    <div class="row">
+        <!-- Search Bar -->
+        <div class="col">
+            <input type="search" id="searchInput" placeholder="Search Here..." class="w-100 px-3 py-2 rounded search-bar">
         </div>
-    </div>
+
+        <!-- Add New Button (Moves Above Sidebar in Small Screens) -->
+        <a href="#" class="col d-flex gap-2 text-decoration-none align-items-center justify-content-end py-1" data-bs-toggle="modal"
+            data-bs-target="#designationModal">
+            <p class="d-block d-md-none my-bg-primary rounded-circle d-flex justify-content-center align-items-center"
+                style="width: 30px; height: 30px;">
+                <i class="fa fa-plus text-white" style="font-size:20px"></i>
+            </p>
+            <p class="d-none d-md-block btn my-bg-primary text-light">
+                <i class="fa fa-plus me-1" style=""></i>Add New
+            </p> <!-- Hidden on small screens -->
+        </a>
+     </div>
+     
 </div>
 
 <div class="d-flex flex-column justify-content-between" style="height: 82%">
@@ -69,7 +69,12 @@
                 @php $i++ @endphp
                  @endforeach
                  @else
-                    <tr><td colspan="15" class="text-center"><h5>Data Not Found !</h5></td></tr>   
+                   <tr>
+                        <td colspan="7" style="text-align:center; padding: 20px; color: #888;">
+                            <i class="fa fa-info-circle" style="margin-right: 6px;"></i>
+                            No branches added yet. Click <strong>“Add New”</strong> to create one.
+                        </td>
+                    </tr> 
                  @endif
             </tbody>
         </table>
@@ -165,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
         form.setAttribute("action", "{{ route('sub-divisions.store') }}");
 
         // Reset modal title & button text
-        document.getElementById("designationModalLabel").textContent = "Add Designation";
+        document.getElementById("designationModalLabel").textContent = "Add Branch";
         document.querySelector("#designationModal .btn-primary").textContent = "Save Changes";
     });
 });

@@ -9,25 +9,25 @@
 
 @section('content')
 <div class="mb-3">
-    <div class="d-flex justify-content-between align-items-center">
-        <!-- Heading -->
-        <h3>Center</h3>
+    <h3>Centers</h3>
+    <div class="row">
+        <!-- Search Bar -->
+        <div class="col">
+            <input type="search" id="searchInput" placeholder="Search Here..." class="w-100 px-3 py-2 rounded search-bar">
+        </div>
 
         <!-- Add New Button (Moves Above Sidebar in Small Screens) -->
-        <a href="#" class="d-flex gap-2 text-decoration-none align-items-center" data-bs-toggle="modal"
+        <a href="#" class="col d-flex gap-2 text-decoration-none align-items-center justify-content-end py-1" data-bs-toggle="modal"
             data-bs-target="#centerModal">
-            <p class="bg-success rounded-circle d-flex justify-content-center align-items-center"
+            <p class="d-block d-md-none my-bg-primary rounded-circle d-flex justify-content-center align-items-center"
                 style="width: 30px; height: 30px;">
                 <i class="fa fa-plus text-white" style="font-size:20px"></i>
             </p>
-            <p class="d-none d-md-block">Add New</p> <!-- Hidden on small screens -->
+            <p class="d-none d-md-block btn my-bg-primary text-light">
+                <i class="fa fa-plus me-1" style=""></i>Add New
+            </p> <!-- Hidden on small screens -->
         </a>
-    </div>
-
-    <!-- Search Bar -->
-    <div>
-        <input type="search" id="searchInput" placeholder="Search Here..." class="px-3 py-2 rounded search-bar">
-    </div>
+     </div>
 </div>
 
 <div class="d-flex flex-column justify-content-between" style="height: 82%">
@@ -77,7 +77,12 @@
                 @php $i++ @endphp
                  @endforeach
                  @else
-                    <tr><td colspan="15" class="text-center"><h5>Data Not Found !</h5></td></tr>   
+                    <tr>
+                        <td colspan="7" style="text-align:center; padding: 20px; color: #888;">
+                            <i class="fa fa-info-circle" style="margin-right: 6px;"></i>
+                            No centers added yet. Click <strong>“Add New”</strong> to create one.
+                        </td>
+                    </tr>    
                  @endif
             </tbody>
         </table>

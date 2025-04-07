@@ -40,10 +40,6 @@ use App\Http\Controllers\LoanGuarantorController;
 //     return view('welcome');
 // });
 
-// Route::get('/', function () {
-//     return view('index');
-// });
-
 Route::get('/csrf-token', function () {
     return response()->json(['csrf_token' => csrf_token()]);
 });
@@ -56,7 +52,7 @@ Route::get('/csrf-token', function () {
     });
     // Authenticated Middleware
     Route::group(['middleware' => 'auth:admin'], function () {
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('user.dashboard');
+        Route::get('/', [DashboardController::class, 'index'])->name('user.dashboard');
         Route::get('/logout', [UserLoginController::class, 'logout'])->name('user.logout'); 
         
         Route::resource('directors', DirectorController::class)->names('directors');

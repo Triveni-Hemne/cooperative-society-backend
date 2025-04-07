@@ -14,7 +14,7 @@
             </div>
             <div class="modal-body">
                     <div class="mx-auto p-5 my-model text-white">
-                        @isset($members)
+                        {{-- @isset($members) --}}
                           @if ($members->isNotEmpty())
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
@@ -36,8 +36,14 @@
                                 </select>
                             </div>
                         </div>
+                        {{-- @endif --}}
+                        @else
+                            <select class="w-100 px-2 py-1" disabled>
+                                <option>No members available. Please add members first.</option>
+                            </select>
+                            <small class="text-danger">⚠️ You must add members before submitting the form.</small>
                         @endif
-                        @endisset
+                        {{-- @endisset --}}
 
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">

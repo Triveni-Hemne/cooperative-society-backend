@@ -168,3 +168,9 @@ header .profile .logout-btn:hover {
     width: 120px;
 }
 /* ----------- Division End Here ------------ */
+
+/* ---------Buttons style-------- */
+p.btn.my-bg-primary:hover {
+    background-color: #006e6e;
+}
+/* ---------Buttons style Ends-------- */

@@ -10,7 +10,7 @@
                     <input type="hidden" id="loanAccId" name="id">
                     <input type="hidden" name="_method" id="formMethod" value="POST">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="loanAccOpeningModalLabel">Add Loan Account Opening</h1>
+                <h1 class="modal-title fs-5" id="loanAccOpeningModalLabel">Add Loan Account</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
