@@ -28,11 +28,11 @@
 
                         <div class="row mb-2">
                              @isset($members) 
-                        @if ($members->isNotEmpty())
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="memberId">Member</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
+                             <div class="col-2 ps-5 d-none d-xl-block">
+                                 <label for="memberId">Member</label>
+                                </div>
+                                <div class="col pe-0 pe-xl-5">
+                                @if ($members->isNotEmpty())
                                  <select name="member_id" id="memberId"  class="w-100 px-2 py-1 @error('member_id') is-invalid @enderror">
                                     <option value="" disabled selected>---------- Select ----------</option>
                                     @foreach ($members as $member)
@@ -46,8 +46,13 @@
                                 @error('member_id')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
+                                  @else
+                                    <select class="w-100 px-2 py-1" disabled>
+                                            <option>No members available. Please add members first.</option>
+                                    </select>
+                                    <small class="text-danger">⚠️ You must add members before submitting the form.</small>
+                                @endif
                             </div>
-                             @endif
                         @endisset
                         </div>
 

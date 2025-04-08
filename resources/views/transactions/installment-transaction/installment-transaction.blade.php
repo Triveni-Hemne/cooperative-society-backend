@@ -17,11 +17,11 @@
                     <div class="mx-auto p-5 my-model text-white">
                         <div class="row mb-3">
                             @isset($memberDepoAccounts) 
-                            @if ($memberDepoAccounts->isNotEmpty())
-                                <div class="col-2 d-none d-xl-block">
-                                    <label for="depositAccountId">Deposit Account</label>
-                                </div>
-                                <div class="col pe-0 pe-xl-5">
+                            <div class="col-2 d-none d-xl-block">
+                                <label for="depositAccountId">Deposit Account</label>
+                            </div>
+                            <div class="col pe-0 pe-xl-5">
+                                    @if ($memberDepoAccounts->isNotEmpty())
                                     <select id="depositAccountId" name="deposit_account_id" class="w-100 px-2 py-1 @error('deposit_account_id') is-invalid @enderror">
                                         <option value="">------ Select Deposit Account ------</option>
                                         @foreach ($memberDepoAccounts as $account)
@@ -35,8 +35,13 @@
                                     @error('deposit_account_id')
                                         <div class="invalid-feedback">{{$message}}</div>
                                     @enderror
-                                </div>
+                                     @else
+                                    <select class="w-100 px-2 py-1" disabled>
+                                            <option>No deposit accounts available. Please add deposit accounts first.</option>
+                                    </select>
+                                    <small class="text-danger">⚠️ You must add deposit accounts before submitting the form.</small>
                                 @endif
+                                </div>
                             @endisset
                         </div>
                         <div class="row mb-2">

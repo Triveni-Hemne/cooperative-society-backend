@@ -40,11 +40,11 @@
                         </div>
 
                        @isset($divisions) 
-                         @if ($divisions->isNotEmpty())
-                         <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="division_id">Taluka/Division</label>
+                       <div class="row mb-3">
+                           <div class="col-2 ps-5 d-none d-xl-block">
+                               <label for="division_id">Taluka/Division</label>
                             </div>
+                        @if ($divisions->isNotEmpty())
                             <div class="col pe-0 pe-xl-5">
                                 <select name="division_id" id="division_id"  class="w-100 px-2 py-1 @error('division_id') is-invalid @enderror">
                                     <option value="" disabled selected>---------- Select ----------</option>
@@ -57,15 +57,22 @@
                                     @endforeach
                                 </select>
                             </div>
+                           @else
+                            <div class="col pe-0 pe-xl-5">
+                                <select class="w-100 px-2 py-1" disabled>
+                                    <option>No divisions available. Please add divisions first.</option>
+                                </select>
+                                <small class="text-danger">⚠️ You must add divisions before submitting the form.</small>
+                            </div>
+                            @endif
                         </div>
-                        @endif
                        @endisset
                         @isset($subdivisions) 
-                        @if ($subdivisions->isNotEmpty())
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="subdivision_id">Sub Division</label>
                             </div>
+                            @if ($subdivisions->isNotEmpty())
                             <div class="col pe-0 pe-xl-5">
                                 <select name="subdivision_id" id="subdivision_id" class="w-100 px-2 py-1 @error('subdivision_id') is-invalid @enderror">
                                     <option value="" disabled selected>---------- Select ----------</option>
@@ -78,15 +85,22 @@
                                     @endforeach
                                 </select>
                             </div>
+                             @else
+                             <div class="col pe-0 pe-xl-5">
+                                <select class="w-100 px-2 py-1" disabled>
+                                    <option>No sub-divisions available. Please add sub-divisions first.</option>
+                                </select>
+                                <small class="text-danger">⚠️ You must add sub-divisions before submitting the form.</small>
+                            </div>
+                            @endif
                         </div>
-                        @endif
                         @endisset
                         @isset($centers) 
-                        @if ($centers->isNotEmpty())
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="center_id">Center</label>
                             </div>
+                         @if ($centers->isNotEmpty())
                             <div class="col pe-0 pe-xl-5">
                                 <select name="center_id" id="center_id" class="w-100 px-2 py-1 @error('center_id') is-invalid @enderror">
                                     <option value="" disabled selected>---------- Select ----------</option>
@@ -99,8 +113,15 @@
                                     @endforeach
                                 </select>
                             </div>
+                            @else
+                             <div class="col pe-0 pe-xl-5">
+                                <select class="w-100 px-2 py-1" disabled>
+                                    <option>No centers available. Please add centers first.</option>
+                                </select>
+                                <small class="text-danger">⚠️ You must add centers before submitting the form.</small>
+                            </div>
+                            @endif
                         </div>
-                        @endif
                         @endisset
                     </div>
                 </div>

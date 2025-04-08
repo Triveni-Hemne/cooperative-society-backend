@@ -51,11 +51,11 @@
                         </div>
 
                          @isset($employees) 
-                        @if ($employees->isNotEmpty())
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="managerId">Manager</label>
-                            </div>
+                         <div class="row mb-3">
+                             <div class="col-2 ps-5 d-none d-xl-block">
+                                 <label for="managerId">Manager</label>
+                                </div>
+                            @if ($employees->isNotEmpty())
                             <div class="col pe-0 pe-xl-5">
                                 <select name="manager_id" id="userId"  class="w-100 px-2 py-1 @error('manager_id') is-invalid @enderror">
                                     <option value="" disabled selected>---------- Select ----------</option>
@@ -71,8 +71,15 @@
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
                             </div>
+                            @else
+                             <div class="col pe-0 pe-xl-5">
+                                <select class="w-100 px-2 py-1" disabled>
+                                    <option>No managers available. Please add managers first.</option>
+                                </select>
+                                <small class="text-danger">⚠️ You must add managers before submitting the form.</small>
+                            </div>
+                            @endif
                         </div>
-                        @endif
                         @endisset
                     </div>
                 </div>

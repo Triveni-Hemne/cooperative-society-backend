@@ -27,11 +27,11 @@
                         </div>
 
                          @isset($employees)
-                          @if ($employees->isNotEmpty())
                          <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="headId">Head of Department</label>
-                            </div>
+                             <div class="col-2 ps-5 d-none d-xl-block">
+                                 <label for="headId">Head of Department</label>
+                                </div>
+                                @if ($employees->isNotEmpty())
                             <div class="col pe-0 pe-xl-5">
                                 <select name="head_id" id="headId"  class="w-100 px-2 py-1 @error('head_id') is-invalid @enderror">
                                     <option value="" disabled selected>---------- Select ----------</option>
@@ -47,13 +47,15 @@
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
                             </div>
-                        </div>
-                         @else
-                            <select class="w-100 px-2 py-1" disabled>
-                                <option>No head of department available. Please add members as head of department first.</option>
-                            </select>
-                            <small class="text-danger">⚠️ You must add head of department before submitting the form.</small>
-                        @endif
+                            @else
+                            <div class="col pe-0 pe-xl-5">
+                                <select class="w-100 px-2 py-1" disabled>
+                                    <option>No head of department available. Please add members as head of department first.</option>
+                                </select>
+                                <small class="text-danger">⚠️ You must add head of department before submitting the form.</small>
+                            </div>
+                                @endif
+                            </div>
                         @endisset
                     </div>
                 </div>

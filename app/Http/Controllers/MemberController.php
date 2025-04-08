@@ -51,6 +51,7 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
+        // return "hello";
         $employee_validated = $request->validate([
             // 'member_id' => 'required|exists:members,id',
             'emp_code' => 'required|string|max:50|unique:employees,emp_code',
@@ -161,6 +162,8 @@ class MemberController extends Controller
         $nominee = Nominee::create($nominee_validated);
         $bankDetail = MemberBankDetail::create($bankDetail_validated);
         $financial = MemberFinancial::create($financial_validated);
+
+        $request->user()->notify(new AccountCreated($member));
         
         return redirect()->back()->with('success', 'Member added successfully');
     }

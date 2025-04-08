@@ -15,28 +15,33 @@
                         <div class="alert alert-danger">{{Session::get('error')}}</div>
                     @endif
                     <div class="mx-auto p-5 my-model text-white">
-                        <div class="row mb-2">
-                         @isset($ledgers)
-                         @if ($ledgers->isNotEmpty())
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="ledgerId">Ledger</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <select id="ledgerId" name="ledger_id" class="w-100 px-2 py-1">
-                                    <option value="select" disabled>------ Select Ledger ------</option>
-                                    @foreach ($ledgers as $ledger)
-                                        <option value="{{ $ledger->id }}"  
-                                        {{ old('ledger_id') == $ledger->id ? 'selected' : '' }}
-                                        >
-                                        {{ $ledger->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('ledger_id')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                         @endif
+                      <div class="row mb-2">
+                        @isset($ledgers)
+                        <div class="col-2 ps-5 d-none d-xl-block">
+                             <label for="ledgerId">Ledger</label>
+                        </div>
+                        <div class="col pe-0 pe-xl-5">
+                            @if ($ledgers->isNotEmpty())
+                            <select id="ledgerId" name="ledger_id" class="w-100 px-2 py-1">
+                                <option value="select" disabled>------ Select Ledger ------</option>
+                                @foreach ($ledgers as $ledger)
+                                    <option value="{{ $ledger->id }}"  
+                                    {{ old('ledger_id') == $ledger->id ? 'selected' : '' }}
+                                    >
+                                    {{ $ledger->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('ledger_id')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                            @else
+                            <select class="w-100 px-2 py-1" disabled>
+                                <option>No ledgers available. Please add ledgers first.</option>
+                            </select>
+                            <small class="text-danger">⚠️ You must add ledgers before submitting the form.</small>
+                            @endif
+                        </div>
                          @endisset
                             <div class="col-2 d-none d-xl-block">
                                 <label for="photoCopy">Photo Copy</label>
@@ -51,11 +56,11 @@
 
                         <div class="row mb-2">
                          @isset($members)
-                         @if ($members->isNotEmpty())
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="memberId">Member</label>
+                         <div class="col-2 ps-5 d-none d-xl-block">
+                             <label for="memberId">Member</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
+                                @if ($members->isNotEmpty())
                                 <select id="memberId" name="member_id" class="w-100 px-2 py-1">
                                     <option value="select" disabled>------ Select Member ------</option>
                                     @foreach ($members as $member)
@@ -69,8 +74,13 @@
                                  @error('member_id')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
+                                @else
+                                    <select class="w-100 px-2 py-1" disabled>
+                                        <option>No members available. Please add members first.</option>
+                                    </select>
+                                    <small class="text-danger">⚠️ You must add members before submitting the form.</small>
+                                @endif
                             </div>
-                          @endif
                           @endisset
                             <div class="col-2 d-none d-xl-block">
                                 <label for="signCopy">Signature Copy</label>
@@ -86,11 +96,11 @@
 
                         <div class="row mb-2">
                             @isset($accounts)
-                         @if ($accounts->isNotEmpty())
                             <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="accountId">Account</label>
                             </div>
                             <div class="col-4 pe-0 pe-xl-5">
+                                @if ($accounts->isNotEmpty())
                                 <select id="accountId" name="account_id" class="w-100 px-2 py-1">
                                     <option value="select" disabled>------ Select Account ------</option>
                                     @foreach ($accounts as $account)
@@ -100,8 +110,13 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                @else
+                                <select class="w-100 px-2 py-1" disabled>
+                                        <option>No general accounts available. Please add general accounts first.</option>
+                                </select>
+                                <small class="text-danger">⚠️ You must add general accounts before submitting the form.</small>
+                                @endif
                             </div>
-                            @endif
                           @endisset
                             <div class="col-2 d-none d-xl-block">
                                 <label for="accNo">Account No.</label>
@@ -195,11 +210,11 @@
 
                         <div class="row mb-2">
                          @isset($agents)
-                         @if ($agents->isNotEmpty())
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="agentId">Agent</label>
+                         <div class="col-2 ps-5 d-none d-xl-block">
+                             <label for="agentId">Agent</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
+                                @if ($agents->isNotEmpty())
                                 <select id="agentId" name="agent_id" class="w-100 px-2 py-1">
                                     <option value="select" disabled>------ Select Account ------</option>
                                     @foreach ($agents as $agent)
@@ -212,9 +227,14 @@
                                 @error('agent_id')
                                     <div class="invalid-feedback">{{$message}}</div>
                                     @enderror
-                            </div>
-                             @endif
-                          @endisset
+                                    @else
+                                <select class="w-100 px-2 py-1" disabled>
+                                        <option>No agents available. Please add agents first.</option>
+                                </select>
+                                <small class="text-danger">⚠️ You must add agents before submitting the form.</small>
+                                    @endif
+                                </div>
+                            @endisset
                             <div class="col-2 d-none d-xl-block">
                                 <label for="pageNo">Page No.</label>
                             </div>
@@ -222,7 +242,7 @@
                                 <input id="pageNo" name="page_no" id="pageNo" class="w-100 px-2 py-1 @error('page_no') is-invalid @enderror" value="{{ old('page_no') }}" type="number" placeholder="Page No.">
                                 @error('page_no')
                                     <div class="invalid-feedback">{{$message}}</div>
-                                    @enderror
+                                @enderror
                             </div>
                         </div>
 

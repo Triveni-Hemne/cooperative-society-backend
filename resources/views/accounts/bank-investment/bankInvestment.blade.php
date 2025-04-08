@@ -17,11 +17,11 @@
                         <div class="mx-auto p-5 my-model text-white">
                             <div class="row mb-2">
                                 @isset($ledgers)
-                                @if ($ledgers->isNotEmpty())
                                 <div class="col-2 ps-5 d-none d-xl-block">
                                     <label for="ledgerId">Ledger</label>
                                 </div>
                                 <div class="col pe-0 pe-xl-5">
+                                    @if ($ledgers->isNotEmpty())
                                     <select id="ledgerId" name="ledger_id" class="w-100 px-2 py-1 @error('ledger_id') is-invalid @enderror">
                                         @foreach ($ledgers as $ledger)
                                             <option value="{{ $ledger->id }}"  
@@ -33,15 +33,20 @@
                                     @error('ledger_id')
                                         <div class="invalid-feedback">{{$message}}</div>
                                     @enderror
-                                </div>
+                                    @else
+                                    <select class="w-100 px-2 py-1" disabled>
+                                            <option>No general ledgers available. Please add general ledgers first.</option>
+                                    </select>
+                                    <small class="text-danger">⚠️ You must add general ledgers before submitting the form.</small>
                                 @endif
+                                </div>
                                 @endisset
                                 @isset($accounts)
-                                @if ($accounts->isNotEmpty())
                                 <div class="col-2 ps-5 d-none d-xl-block">
                                     <label for="accountId">Account</label>
                                 </div>
                                 <div class="col pe-0 pe-xl-5">
+                                    @if ($accounts->isNotEmpty())
                                     <select id="accountId" name="account_id" class="w-100 px-2 py-1 @error('account_id') is-invalid @enderror">
                                         <option value="">---Select General Account---</option>
                                         @foreach ($accounts as $account)
@@ -54,18 +59,23 @@
                                     @error('account_id')
                                         <div class="invalid-feedback">{{$message}}</div>
                                     @enderror
+                                    @else
+                                    <select class="w-100 px-2 py-1" disabled>
+                                        <option>No general accounts available. Please add general accounts first.</option>
+                                    </select>
+                                    <small class="text-danger">⚠️ You must add general accounts before submitting the form.</small>
+                                    @endif
                                 </div>
-                                @endif
                                 @endisset
                             </div>
 
                             <div class="row mb-2">
                                 @isset($depoAccounts)
-                                @if ($depoAccounts->isNotEmpty())
                                 <div class="col-2 ps-5 d-none d-xl-block">
                                     <label for="depoAccountId">Depo Account</label>
                                 </div>
                                 <div class="col pe-0 pe-xl-5">
+                                    @if ($depoAccounts->isNotEmpty())
                                     <select id="depoAccountId" name="depo_account_id" class="w-100 px-2 py-1 @error('depo_account_id') is-invalid @enderror">
                                         <option value="">---Select Deposite Account---</option>
                                         @foreach ($depoAccounts as $account)
@@ -78,8 +88,13 @@
                                     @error('depo_account_id')
                                         <div class="invalid-feedback">{{$message}}</div>
                                     @enderror
+                                   @else
+                                    <select class="w-100 px-2 py-1" disabled>
+                                        <option>No deposit accounts available. Please add deposit accounts first.</option>
+                                    </select>
+                                    <small class="text-danger">⚠️ You must add deposit accounts before submitting the form.</small>
+                                    @endif
                                 </div>
-                                @endif
                                 @endisset
                                 <div class="col-2 ps-5 d-none d-xl-block">
                                     <label for="name">Name</label>

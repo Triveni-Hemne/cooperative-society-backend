@@ -32,11 +32,11 @@
                             </div>
 
                         @isset($depoAccounts) 
-                        @if ($depoAccounts->isNotEmpty())
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="memberDepoAccountId">Member Deposit Acc.</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
+                        <div class="col-2 ps-5 d-none d-xl-block">
+                            <label for="memberDepoAccountId">Member Deposit Acc.</label>
+                        </div>
+                        <div class="col pe-0 pe-xl-5">
+                                @if ($depoAccounts->isNotEmpty())
                                 <select id="memberDepoAccountId" name="member_depo_account_id" class="w-100 px-2 py-1 @error('member_depo_account_id') is-invalid @enderror">
                                     <option value="">------ Select Depo Account ------</option>
                                     @foreach ($depoAccounts as $depoAccount)
@@ -50,16 +50,21 @@
                                 @error('member_depo_account_id')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
+                                @else
+                                    <select class="w-100 px-2 py-1" disabled>
+                                            <option>No deposit accounts available. Please add deposit accounts first.</option>
+                                    </select>
+                                    <small class="text-danger">⚠️ You must add deposit accounts before submitting the form.</small>
+                                @endif
                             </div>
-                            @endif
                         @endisset
                         <div class="row mb-2">
                         @isset($loanAccounts) 
-                        @if ($loanAccounts->isNotEmpty())
-                            <div class="col-2 d-none d-xl-block">
-                                <label for="memberLoanAccountId">Member Loan Account</label>
-                            </div>
-                            <div class="col-4 pe-0 pe-xl-5">
+                        <div class="col-2 d-none d-xl-block">
+                            <label for="memberLoanAccountId">Member Loan Account</label>
+                        </div>
+                        <div class="col-4 pe-0 pe-xl-5">
+                                @if ($loanAccounts->isNotEmpty())
                                 <select id="memberLoanAccountId" name="member_loan_account_id" class="w-100 px-2 py-1 @error('member_loan_account_id') is-invalid @enderror">
                                     <option value="">------ Select Account ------</option>
                                     @foreach ($loanAccounts as $loanAccount)
@@ -73,19 +78,24 @@
                                 @error('member_loan_account_id')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
+                                @else
+                                    <select class="w-100 px-2 py-1" disabled>
+                                            <option>No loan accounts available. Please add loan accounts first.</option>
+                                    </select>
+                                    <small class="text-danger">⚠️ You must add loan accounts before submitting the form.</small>
+                                @endif
                             </div>
-                            @endif
                         @endisset
                         </div>
                         </div>
 
                         <div class="row mb-2">
                         @isset($ledgers) 
-                        @if ($ledgers->isNotEmpty())
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="ledgerId">Ledger</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
+                        <div class="col-2 ps-5 d-none d-xl-block">
+                            <label for="ledgerId">Ledger</label>
+                        </div>
+                        <div class="col pe-0 pe-xl-5">
+                                @if ($ledgers->isNotEmpty())
                                 <select id="ledgerId" name="ledger_id" class="w-100 px-2 py-1 @error('ledger_id') is-invalid @enderror">
                                     <option value="">------ Select Ledger ------</option>
                                     @foreach ($ledgers as $ledger)
@@ -99,15 +109,20 @@
                                 @error('ledger_id')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
+                                @else
+                                    <select class="w-100 px-2 py-1" disabled>
+                                            <option>No general ledgers available. Please add general ledgers first.</option>
+                                    </select>
+                                    <small class="text-danger">⚠️ You must add general ledgers before submitting the form.</small>
+                                @endif
                             </div>
-                            @endif
                         @endisset
                         @isset($accounts) 
-                        @if ($accounts->isNotEmpty())
-                            <div class="col-2 d-none d-xl-block">
-                                <label for="accountId">General Account</label>
-                            </div>
-                            <div class="col-4 pe-0 pe-xl-5">
+                        <div class="col-2 d-none d-xl-block">
+                            <label for="accountId">General Account</label>
+                        </div>
+                        <div class="col-4 pe-0 pe-xl-5">
+                                @if ($accounts->isNotEmpty())
                                 <select id="accountId" name="account_id" class="w-100 px-2 py-1 @error('account_id') is-invalid @enderror">
                                     <option value="">------ Select Account ------</option>
                                     @foreach ($accounts as $account)
@@ -121,8 +136,13 @@
                                 @error('account_id')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
+                                 @else
+                                    <select class="w-100 px-2 py-1" disabled>
+                                            <option>No general accounts available. Please add general accounts first.</option>
+                                    </select>
+                                    <small class="text-danger">⚠️ You must add general accounts before submitting the form.</small>
+                                @endif
                             </div>
-                            @endif
                         @endisset
                         </div>
 
@@ -321,11 +341,11 @@
 
                         <div class="row mb-2">
                         @isset($users) 
-                        @if ($users->isNotEmpty())
-                            <div class="col-2 d-none d-xl-block">
-                                <label for="approvedBy">Approved By</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
+                        <div class="col-2 d-none d-xl-block">
+                            <label for="approvedBy">Approved By</label>
+                        </div>
+                        <div class="col pe-0 pe-xl-5">
+                                @if ($users->isNotEmpty())
                                 <select id="approvedBy" name="approved_by" class="w-100 px-2 py-1 @error('approved_by') is-invalid @enderror">
                                     <option value="">-----Select Approved By-----</option>
                                    @foreach ($users as $user)
@@ -339,15 +359,20 @@
                                 @error('approved_by')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
+                               @else
+                                    <select class="w-100 px-2 py-1" disabled>
+                                            <option>No users available. Please add users first.</option>
+                                    </select>
+                                    <small class="text-danger">⚠️ You must add users before submitting the form.</small>
+                                @endif
                             </div>
-                        @endif
                         @endisset
                         @isset($users) 
-                        @if ($users->isNotEmpty())
-                            <div class="col-2 d-none d-xl-block">
-                                <label for="enteredBy">Entered By</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
+                        <div class="col-2 d-none d-xl-block">
+                            <label for="enteredBy">Entered By</label>
+                        </div>
+                        <div class="col pe-0 pe-xl-5">
+                                @if ($users->isNotEmpty())
                                 <select id="enteredBy" name="entered_by" class="w-100 px-2 py-1 @error('entered_by') is-invalid @enderror">
                                     <option value="">-----Select Entered By-----</option>
                                    @foreach ($users as $user)
@@ -361,18 +386,23 @@
                                 @error('entered_by')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
+                               @else
+                                    <select class="w-100 px-2 py-1" disabled>
+                                            <option>No users available. Please add users first.</option>
+                                    </select>
+                                    <small class="text-danger">⚠️ You must add users before submitting the form.</small>
+                                @endif
                             </div>
-                        @endif
                         @endisset
                         </div>
 
                         <div class="row mb-2">
                         @isset($branches) 
-                        @if ($branches->isNotEmpty())
-                            <div class="col-2 d-none d-xl-block">
-                                <label for="branchId">Branch</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
+                        <div class="col-2 d-none d-xl-block">
+                            <label for="branchId">Branch</label>
+                        </div>
+                        <div class="col pe-0 pe-xl-5">
+                                @if ($branches->isNotEmpty())
                                 <select id="branchId" name="branch_id" class="w-100 px-2 py-1 @error('branch_id') is-invalid @enderror">
                                     <option value="">-----Select Branch-----</option>
                                    @foreach ($branches as $branch)
@@ -386,8 +416,13 @@
                                 @error('branch_id')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
+                                 @else
+                                    <select class="w-100 px-2 py-1" disabled>
+                                            <option>No branches available. Please add branches first.</option>
+                                    </select>
+                                    <small class="text-danger">⚠️ You must add branches before submitting the form.</small>
+                                @endif
                             </div>
-                        @endif
                         @endisset
                         </div>
 

@@ -17,11 +17,11 @@
                     <div class="mx-auto p-5 my-model text-white">
                         <div class="row mb-2">
                             @isset($ledgers) 
-                            @if ($ledgers->isNotEmpty())
                             <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="creditLedgerId">Credit Ledger</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
+                                @if ($ledgers->isNotEmpty())
                                 <select id="creditLedgerId" name="credit_ledger_id" class="w-100 px-2 py-1 @error('credit_ledger_id') is-invalid @enderror">
                                     <option value="">------ Select Credit Ledger ------</option>
                                     @foreach ($ledgers as $ledger)
@@ -35,15 +35,20 @@
                                 @error('credit_ledger_id')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
+                                @else
+                                    <select class="w-100 px-2 py-1" disabled>
+                                            <option>No general ledgers available. Please add general ledgers first.</option>
+                                    </select>
+                                    <small class="text-danger">⚠️ You must add general ledgers before submitting the form.</small>
+                                @endif
                             </div>
-                             @endif
                         @endisset
                         @isset($accounts) 
-                            @if ($accounts->isNotEmpty())
-                            <div class="col-2 d-none d-xl-block">
-                                <label for="creditAccountId">Credit Account</label>
-                            </div>
-                            <div class="col-4 pe-0 pe-xl-5">
+                        <div class="col-2 d-none d-xl-block">
+                            <label for="creditAccountId">Credit Account</label>
+                        </div>
+                        <div class="col-4 pe-0 pe-xl-5">
+                                @if ($accounts->isNotEmpty())
                                 <select id="creditAccountId" name="credit_account_id" class="w-100 px-2 py-1  @error('credit_account_id') is-invalid @enderror">
                                     <option value="">------ Select Credit Account ------</option>
                                      @foreach ($accounts as $account)
@@ -57,8 +62,13 @@
                                 @error('credit_account_id')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
+                                @else
+                                    <select class="w-100 px-2 py-1" disabled>
+                                            <option>No accounts available. Please add accounts first.</option>
+                                    </select>
+                                    <small class="text-danger">⚠️ You must add accounts before submitting the form.</small>
+                                @endif
                             </div>
-                             @endif
                         @endisset
                         </div>
 
@@ -74,11 +84,11 @@
                                 @enderror
                             </div>
                             @isset($ledgers) 
-                            @if ($ledgers->isNotEmpty())
                             <div class="col-2 d-none d-xl-block">
                                 <label for="debitLedgerId">Debit Ledger</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
+                                @if ($ledgers->isNotEmpty())
                                 <select id="debitLedgerId" name="debit_ledger_id" class="w-100 px-2 py-1 @error('debit_ledger_id') is-invalid @enderror">
                                     <option value="">------ Select Debit Ledger ------</option>
                                     @foreach ($ledgers as $ledger)
@@ -92,18 +102,23 @@
                                 @error('debit_ledger_id')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
+                                @else
+                                    <select class="w-100 px-2 py-1" disabled>
+                                            <option>No debit ledgers available. Please add debit ledgers first.</option>
+                                    </select>
+                                    <small class="text-danger">⚠️ You must add debit ledgers before submitting the form.</small>
+                                @endif
                             </div>
-                            @endif
                         @endisset
                         </div>
 
                         <div class="row mb-2">
                             @isset($accounts) 
-                            @if ($accounts->isNotEmpty())
                             <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="debitAccountId">Debit Account</label>
                             </div>
                             <div class="col-4 pe-0 pe-xl-5">
+                                @if ($accounts->isNotEmpty())
                                 <select id="debitAccountId" name="debit_account_id" class="w-100 px-2 py-1 @error('debit_account_id') is-invalid @enderror">
                                     <option value="">------ Select Debit Account ------</option>
                                     @foreach ($accounts as $account)
@@ -117,8 +132,13 @@
                                 @error('debit_account_id')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
+                                 @else
+                                    <select class="w-100 px-2 py-1" disabled>
+                                            <option>No debit accounts available. Please add debit accounts first.</option>
+                                    </select>
+                                    <small class="text-danger">⚠️ You must add debit accounts before submitting the form.</small>
+                                @endif
                             </div>
-                            @endif
                         @endisset
                             <div class="col-2 d-none d-xl-block">
                                 <label for="debitTransfer">Debit Transfer</label>

@@ -21,3 +21,16 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+app/Http/Controllers/MemberController.php
+app/Models/Member.php
+composer.json
+composer.lock
+config/services.php
+app/Broadcasting/
+app/Notifications/
+app/Http/Controllers/MemberController.php
+app/Models/Member.php
+composer.json
+composer.lock
+config/services.php

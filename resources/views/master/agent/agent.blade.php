@@ -15,11 +15,11 @@
                     @endif
                     <div class="mx-auto p-5 my-model text-white">
                         @isset($users) 
-                        @if ($users->isNotEmpty())
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="name">User</label>
                             </div>
+                            @if ($users->isNotEmpty())
                             <div class="col pe-0 pe-xl-5">
                                 <select name="user_id" id="userId"  class="w-100 px-2 py-1 @error('user_id') is-invalid @enderror">
                                     <option value="" disabled selected>---------- Select ----------</option>
@@ -35,8 +35,15 @@
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
                             </div>
+                            @else
+                             <div class="col pe-0 pe-xl-5">
+                                <select class="w-100 px-2 py-1" disabled>
+                                    <option>No users available. Please add users first.</option>
+                                </select>
+                                <small class="text-danger">⚠️ You must add users before submitting the form.</small>
+                            </div>
+                            @endif
                         </div>
-                        @endif
                         @endisset
 
                         <div class="row mb-3">

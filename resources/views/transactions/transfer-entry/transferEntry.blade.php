@@ -42,11 +42,11 @@
                                 @enderror
                             </div>
                             @isset($ledgers) 
-                            @if ($ledgers->isNotEmpty())
-                                <div class="col-2 ps-5 d-none d-xl-block">
-                                    <label for="ledgerId">Ledger</label>
-                                </div>
-                                <div class="col pe-0 pe-xl-5">
+                            <div class="col-2 ps-5 d-none d-xl-block">
+                                <label for="ledgerId">Ledger</label>
+                            </div>
+                            <div class="col pe-0 pe-xl-5">
+                                    @if ($ledgers->isNotEmpty())
                                     <select id="ledgerId" name="ledger_id" class="w-100 px-2 py-1 @error('ledger_id') is-invalid @enderror">
                                         <option value="">------ Select Ledger ------</option>
                                         @foreach ($ledgers as $ledger)
@@ -60,8 +60,13 @@
                                     @error('ledger_id')
                                         <div class="invalid-feedback">{{$message}}</div>
                                     @enderror
-                                </div>
+                                     @else
+                                    <select class="w-100 px-2 py-1" disabled>
+                                            <option>No general ledgers available. Please add general ledgers first.</option>
+                                    </select>
+                                    <small class="text-danger">⚠️ You must add general ledgers before submitting the form.</small>
                                 @endif
+                                </div>
                             @endisset
                         </div>
 

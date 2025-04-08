@@ -15,13 +15,13 @@
             <div class="modal-body">
                     <div class="mx-auto p-5 my-model text-white">
                          @isset($departments)
-                         @if ($departments->isNotEmpty())
-                        <div class="row mb-3 row-cols-xl-4 g-3">
-                            <div class="col w-auto ps-2 ps-xl-5 d-none d-xl-block">
-                                <label for="departmentId">Department</label>
-                            </div>
+                         <div class="row mb-3 row-cols-xl-4 g-3">
+                             <div class="col w-auto ps-xl-5 d-none d-xl-block">
+                                 <label for="departmentId">Department</label>
+                                </div>
+                            @if ($departments->isNotEmpty())
                             <div class="col ms-0 ms-xl-5">
-                                <select name="department_id" id="departmentId"  class="w-100 px-2 py-1 @error('department_id') is-invalid @enderror">
+                                <select name="department_id" id="departmentId"  class="w-100 py-1 @error('department_id') is-invalid @enderror">
                                     <option value="" disabled selected>---------- Select ----------</option>
                                     @foreach ($departments as $department)
                                         <option value="{{ $department->id }}"  
@@ -35,8 +35,15 @@
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
                             </div>
+                            @else
+                            <div class="col ms-0 ms-xl-4">
+                                <select class="px-2 py-1" disabled>
+                                    <option>No departments available. Please add departments first.</option>
+                                </select>
+                                <small class="text-danger">⚠️ You must add departments before submitting the form.</small>
+                            </div>
+                            @endif
                         </div>
-                         @endif
                         @endisset
 
                         <div class="row mb-3">
@@ -257,12 +264,12 @@
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
                                         </div>
+                                        @isset($subcates)
                                          <div class="col-1 d-none d-xl-block">
                                             <label for="subcasteId">Sub Caste</label>
                                         </div>
-                                         @isset($subcates)
                                          @if ($subcates->isNotEmpty())
-                                        <div class="col-3 pe-0 pe-xl-5">
+                                         <div class="col-3 pe-0 pe-xl-5">
                                             <select name="subcaste_id" id="subcasteId" class="w-100 px-2 py-1 @error('subcaste_id') is-invalid @enderror" value="{{ old('subcaste_id') }}">
                                                 @foreach ($subcates as $subcate)
                                                     <option value="{{ $subcate->id }}"  
@@ -275,7 +282,14 @@
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
                                         </div>
-                                         @endif
+                                         @else
+                                        <div class="col pe-0 pe-xl-5">
+                                            <select class="w-100 px-2 py-1" disabled>
+                                                <option>No sub-castes available. Please add sub-castes first.</option>
+                                            </select>
+                                            <small class="text-danger">⚠️ You must add sub-castes before submitting the form.</small>
+                                        </div>
+                                        @endif
                                         @endisset
                                        
                                     </div>
@@ -307,11 +321,11 @@
                                 <div class="tab-pane fade p-3" id="nominee-tab-pane" role="tabpanel"
                                     aria-labelledby="nominee-tab" tabindex="0">
                                      @isset($members)
-                                    @if ($members->isNotEmpty())
-                                    <div class="row mb-3">
-                                        <div class="col-2 ps-5 d-none d-xl-block">
-                                            <label for="nomineeId">Member</label>
-                                        </div>
+                                     <div class="row mb-3">
+                                         <div class="col-2 ps-5 d-none d-xl-block">
+                                             <label for="nomineeId">Member</label>
+                                            </div>
+                                        @if ($members->isNotEmpty())
                                         <div class="col pe-0 pe-xl-5">
                                             <select name="nominee_id" id="nomineeId"  class="w-100 px-2 py-1 @error('nominee_id') is-invalid @enderror">
                                                 <option value="" disabled selected>---------- Select ----------</option>
@@ -325,10 +339,17 @@
                                             </select>
                                             @error('nominee_id')
                                                     <div class="invalid-feedback">{{$message}}</div>
-                                                @enderror
+                                            @enderror
                                         </div>
+                                         @else
+                                        <div class="col pe-0 pe-xl-5">
+                                            <select class="w-100 px-2 py-1" disabled>
+                                                <option>No members available.</option>
+                                            </select>
+                                            <small class="text-danger">⚠️ You must add members before submitting the form.</small>
+                                        </div>
+                                        @endif
                                     </div>
-                                    @endif
                                     @endisset
                                     <div class="row mb-1">
                                         <div class="col-2 ps-5 d-none d-xl-block">
@@ -591,11 +612,11 @@
                                                 @enderror
                                         </div>
                                         @isset($designations)
-                                        @if ($designations->isNotEmpty())
                                         <div class="col-2 d-none d-xl-block">
                                             <label for="designationId">Designation</label>
                                         </div>
                                         <div class="col pe-0 pe-xl-5">
+                                            @if ($designations->isNotEmpty())
                                              <select name="designation_id" id="designationId" class="w-100 px-2 py-1 @error('designation_id') is-invalid @enderror">
                                                     <option value="" disabled selected>---------- Select ----------</option>
                                                     @foreach ($designations as $designation)
@@ -609,8 +630,13 @@
                                                  @error('designation_id')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
+                                            @else
+                                            <select class="w-100 px-2 py-1" disabled>
+                                                <option>No designations available. Please add designations first.</option>
+                                            </select>
+                                            <small class="text-danger">⚠️ You must add designations before submitting the form.</small>
+                                            @endif
                                         </div>
-                                        @endif
                                         @endisset
                                     </div>
                                     <div class="row mb-1">
@@ -637,11 +663,11 @@
                                     </div>
                                     <div class="row mb-1">
                                          @isset($divisions)
-                                        @if ($divisions->isNotEmpty())
-                                        <div class="col-2 ps-5 d-none d-xl-block">
-                                            <label for="divisionId">Division</label>
-                                        </div>
-                                        <div class="col-4 pe-0 pe-xl-5">
+                                         <div class="col-2 ps-5 d-none d-xl-block">
+                                             <label for="divisionId">Division</label>
+                                            </div>
+                                            <div class="col-4 pe-0 pe-xl-5">
+                                            @if ($divisions->isNotEmpty())
                                             <select name="division_id" id="divisionId" class="w-100 px-2 py-1 @error('division_id') is-invalid @enderror">
                                                     <option value="" disabled selected>---------- Select ----------</option>
                                                     @foreach ($divisions as $division)
@@ -654,16 +680,21 @@
                                             </select>
                                              @error('division_id')
                                                     <div class="invalid-feedback">{{$message}}</div>
-                                                @enderror
+                                             @enderror
+                                            @else
+                                            <select class="w-100 px-2 py-1" disabled>
+                                                <option>No divisions available. Please add divisions first.</option>
+                                            </select>
+                                            <small class="text-danger">⚠️ You must add divisions before submitting the form.</small>
+                                            @endif
                                         </div>
-                                        @endif
                                         @endisset
                                         @isset($subdivisions)
-                                        @if ($subdivisions->isNotEmpty())
                                         <div class="col-2 ps-5 d-none d-xl-block">
                                             <label for="subdivisionId">Sub Division</label>
                                         </div>
                                         <div class="col-4 pe-0 pe-xl-5">
+                                            @if ($subdivisions->isNotEmpty())
                                             <select name="subdivision_id" id="subdivisionId" class="w-100 px-2 py-1 @error('subdivision_id') is-invalid @enderror">
                                                     <option value="" disabled selected>---------- Select ----------</option>
                                                     @foreach ($subdivisions as $subdivision)
@@ -677,17 +708,22 @@
                                              @error('subdivision_id')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
-                                        </div>
-                                        @endif
+                                                @else
+                                                <select class="w-100 px-2 py-1" disabled>
+                                                    <option>No subdivisions available. Please add subdivisions first.</option>
+                                                </select>
+                                                <small class="text-danger">⚠️ You must add subdivisions before submitting the form.</small>
+                                                @endif
+                                            </div>
                                         @endisset
                                     </div>
                                     <div class="row mb-1">
                                         @isset($centers)
-                                        @if ($centers->isNotEmpty())
                                         <div class="col-2 ps-5 d-none d-xl-block">
                                             <label for="centerId">Center</label>
                                         </div>
                                         <div class="col-4 pe-0 pe-xl-5">
+                                            @if ($centers->isNotEmpty())
                                             <select name="center_id" id="centerId" class="w-100 px-2 py-1 @error('center_id') is-invalid @enderror">
                                                     <option value="" disabled selected>---------- Select ----------</option>
                                                     @foreach ($centers as $center)
@@ -701,8 +737,13 @@
                                              @error('center_id')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
-                                        </div>
-                                        @endif
+                                                @else
+                                                <select class="w-100 px-2 py-1" disabled>
+                                                    <option>No centers available. Please add centers first.</option>
+                                                </select>
+                                                <small class="text-danger">⚠️ You must add centers before submitting the form.</small>
+                                                @endif
+                                            </div>
                                         @endisset
                                     </div>
                                     <div class="row mb-1">
@@ -774,11 +815,11 @@
                                     aria-labelledby="share-tab" tabindex="0">
                                     <div class="row mb-1">
                                         @isset($directors)
-                                        @if ($directors->isNotEmpty())
-                                            <div class="col-2 ps-5 d-none d-xl-block">
-                                                <label for="directorId">Director</label>
-                                            </div>
-                                            <div class="col pe-0 pe-xl-5">
+                                        <div class="col-2 ps-5 d-none d-xl-block">
+                                            <label for="directorId">Director</label>
+                                        </div>
+                                        <div class="col pe-0 pe-xl-5">
+                                                @if ($directors->isNotEmpty())
                                                 <select name="director_id" id="directorId"  class="w-100 px-2 py-1 @error('director_id') is-invalid @enderror">
                                                     <option value="" disabled selected>---------- Select ----------</option>
                                                     @foreach ($directors as $director)
@@ -792,8 +833,13 @@
                                                   @error('director_id')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
+                                                @else
+                                                <select class="w-100 px-2 py-1" disabled>
+                                                    <option>No directors available. Please add directors first.</option>
+                                                </select>
+                                                <small class="text-danger">⚠️ You must add directors before submitting the form.</small>
+                                                @endif
                                             </div>
-                                        @endif
                                         @endisset
                                         <div class="col-2 d-none d-xl-block">
                                             <label for="pageNo">Page No.</label>

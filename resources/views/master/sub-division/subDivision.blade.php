@@ -72,11 +72,11 @@
                             </div>
                         </div>
                         @isset($divisions)
-                          @if ($divisions->isNotEmpty())
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="taluka">Taluka/Division</label>
                             </div>
+                            @if ($divisions->isNotEmpty())
                             <div class="col pe-0 pe-xl-5">
                                 <select id="division_id" name="division_id" class="w-100 px-2 py-1 @error('division_id') is-invalid @enderror">
                                     <option value="" disabled selected>---------- Select ----------</option>
@@ -89,8 +89,16 @@
                                     @endforeach
                                 </select>
                             </div>
+                            @else
+                            <div class="col pe-0 pe-xl-5">
+                                <select class="w-100 px-2 py-1" disabled>
+                                    <option>No divisions available. Please add divisions first.</option>
+                                </select>
+                                <small class="text-danger">⚠️ You must add divisions before submitting the form.</small>
+                                {{-- </div> --}}
+                            </div>
+                         @endif
                         </div>
-                        @endif
                         @endisset
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">

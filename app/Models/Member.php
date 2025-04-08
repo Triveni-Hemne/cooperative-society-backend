@@ -40,4 +40,10 @@ class Member extends Model
     {
         return $this->hasOne(MemberFinancial::class, 'member_id');
     }
+    // app/User.php
+
+    public function routeNotificationForWhatsApp()
+    {
+    return $this->phone_number;
+    }
 }
