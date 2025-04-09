@@ -9,7 +9,7 @@ class LoanGuarantor extends Model
     use HasFactory;
 
     protected $fillable = [
-        'loan_id', 'member_id', 'guarantor_type', 'status', 'added_on', 'released_on'
+        'loan_id', 'member_id', 'guarantor_type', 'added_on', 'released_on'
     ];
 
     public function loan() {

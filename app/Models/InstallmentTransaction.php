@@ -14,6 +14,6 @@ class InstallmentTransaction extends Model
     ];
 
     public function depositAccount() {
-        return $this->belongsTo(DepositAccount::class);
+        return $this->belongsTo(MemberDepoAccount::class);
     }
 }

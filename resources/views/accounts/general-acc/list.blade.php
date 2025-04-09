@@ -1,3 +1,5 @@
+@include('layouts.session')
+
 @extends('layouts.app')
 @section('title', 'Cooperative Society Bank')
 
@@ -7,24 +9,23 @@
 
 @section('content')
 <div class="mb-3">
-    <div class="d-flex justify-content-between align-items-center">
-        <!-- Heading -->
-        <h3>General Account</h3>
-
-        <!-- Add New Button (Moves Above Sidebar in Small Screens) -->
-        <a href="#" class="d-flex gap-2 text-decoration-none align-items-center" data-bs-toggle="modal"
-            data-bs-target="#generalAccModal">
-            <p class="bg-success rounded-circle d-flex justify-content-center align-items-center"
-                style="width: 30px; height: 30px;">
-                <i class="fa fa-plus text-white" style="font-size:20px"></i>
-            </p>
-            <p class="d-none d-md-block">Add New</p> <!-- Hidden on small screens -->
-        </a>
-    </div>
-
-    <!-- Search Bar -->
-    <div>
-        <input type="search" id="searchInput" placeholder="Search Here..." class="px-3 py-2 rounded search-bar">
+    <h3>General Account</h3>
+    <div class="row">
+            <!-- Search Bar -->
+            <div class="col">
+                <input type="search" id="searchInput" placeholder="Search Here..." class="w-100 px-3 py-2 rounded search-bar">
+            </div>
+            <!-- Add New Button (Moves Above Sidebar in Small Screens) -->
+            <a href="#" class="col d-flex gap-2 text-decoration-none align-items-center justify-content-end py-1 ms-auto" data-bs-toggle="modal"
+                data-bs-target="#generalAccModal">
+                <p class="d-block d-md-none my-bg-primary rounded-circle d-flex justify-content-center align-items-center"
+                    style="width: 30px; height: 30px;">
+                    <i class="fa fa-plus text-white" style="font-size:20px"></i>
+                </p>
+                <p class="d-none d-md-block btn my-bg-primary text-light">
+                    <i class="fa fa-plus me-1" style=""></i>Add New
+                </p> <!-- Hidden on small screens -->
+            </a>
     </div>
 </div>
 
@@ -34,63 +35,65 @@
         <table id="tableFilter" class="table table-striped">
             <thead>
                 <tr>
+                    <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">Ledger</th>
+                    <th scope="col">Member</th>
+                    <th scope="col">Account No.</th>
+                    <th scope="col">Account Name</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Account Type </th>
+                    <th scope="col">Interest Rate </th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">Balance</th>
+                    <th scope="col">Total Installment Paid</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
+                @if ($accounts->isNotEmpty())
+                 @php $i = 1; @endphp
+                 @foreach ($accounts as $account)
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <th scope="row">{{$i}}</th>
+                    <td>{{$account->id}}</td>
+                    <td>{{$account->ledger->name}}</td>
+                    <td>{{$account->member->name}}</td>
+                    <td>{{$account->account_no}}</td>
+                    <td>{{$account->account_name}}</td>
+                    <td>{{$account->name}}</td>
+                    <td>{{$account->account_type}}</td>
+                    <td>{{$account->interest_rate}}</td>
+                    <td>{{$account->start_date}}</td>
+                    <td>{{$account->balance}}</td>
+                    <td>{{$account->total_installments_paid}}</td>
                     <td>
-                        <a href="#" class="text-decoration-none me-4" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$account->id }}" data-ledger-id ="{{$account->ledger_id}}" data-member-id="{{$account->member_id}}" data-account-no="{{$account->account_no}}" data-account-name="{{$account->account_name}}" data-name="{{$account->name}}" data-account-type="{{$account->account_type}}" data-interest-rate="{{$account->interest_rate}}" data-start-date="{{$account->start_date}}" data-open-balance="{{$account->open_balance}}" data-balance="{{$account->balance}}" data-closing-flag="{{$account->closing_flag}}" data-add-to-demand="{{$account->add_to_demand}}" data-agent-id="{{$account->agent_id}}"data-installment-type="{{$account->installment_type}}" data-installment-amount="{{$account->installment_amount}}" data-total-installments-paid="{{$account->total_installments_paid}}" data-closing-date="{{$account->closing_date}}" data-route="{{ route('accounts.update', $account->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#generalAccModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <a href="#" data-id="{{$account->id }}" data-route="{{ route('accounts.destroy', $account->id) }}" data-name="{{$account->name}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
                         </a>
                     </td>
                 </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>
-                        <a href="#" class="text-decoration-none me-4">
-                            <i class="fa fa-edit text-primary" style="font-size:20px"></i>
-                        </a>
-                        <a href="#" class="text-decoration-none">
-                            <i class="fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                    <td>
-                        <a href="#" class="text-decoration-none me-4">
-                            <i class="fa fa-edit text-primary" style="font-size:20px"></i>
-                        </a>
-                        <a href="#" class="text-decoration-none">
-                            <i class="fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
-                    </td>
-                </tr>
+                @php $i++ @endphp
+                 @endforeach
+                 @else
+                    <tr>
+                        <td colspan="7" style="text-align:center; padding: 20px; color: #888;">
+                            <i class="fa fa-info-circle" style="margin-right: 6px;"></i>
+                            No general accounts added yet. Click <strong>“Add New”</strong> to create one.
+                        </td>
+                    </tr>  
+                 @endif
             </tbody>
         </table>
     </div>
 
     <!-- Pagination -->
-    <div>
-        @include('layouts.pagination')
+    <div>       
+        @include('layouts.pagination', ['paginationVariable' => 'accounts'])
     </div>
 </div>
 
@@ -103,3 +106,83 @@
 
 @section('customeJs')
 @endsection
+
+{{-- Script to send data to the edit modal --}}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".edit-btn").forEach(button => {
+        button.addEventListener("click", function () {
+            let genAccId = this.getAttribute("data-id");
+            let ledgerId = this.getAttribute("data-ledger-id");
+            let memberId = this.getAttribute("data-member-id");
+            let accountNo = this.getAttribute("data-account-no");
+            let accountName = this.getAttribute("data-account-name");
+            let name = this.getAttribute("data-name");
+            let accountType = this.getAttribute("data-account-type");
+            let interestRate = this.getAttribute("data-interest-rate");
+            let startDate = this.getAttribute("data-start-date");
+            let openBalance = this.getAttribute("data-open-balance");
+            let balance = this.getAttribute("data-balance");
+            let closingFlag = this.getAttribute("data-closing-flag");
+            let addToDemand = this.getAttribute("data-add-to-demand");
+            let agentId = this.getAttribute("data-agent-id");
+            let installmentType = this.getAttribute("data-installment-type");
+            let installmentAmount = this.getAttribute("data-installment-amount");
+            let totalInstallmentsPaid = this.getAttribute("data-total-installments-paid");
+            let closingDate = this.getAttribute("data-closing-date");
+            let route = this.getAttribute("data-route");
+
+            let modal = document.getElementById("generalAccModal");
+
+            // Update modal title
+            document.getElementById("generalAccModalLabel").textContent = "Edit Account";
+
+            // Populate form fields
+            document.getElementById("genAccId").value = genAccId;
+            document.getElementById("ledgerId").value = ledgerId;
+            document.getElementById("memberId").value = memberId;
+            document.getElementById("accountNo").value = accountNo;
+            document.getElementById("accountName").value = accountName;
+            document.getElementById("name").value = name;
+            document.getElementById("accountType").value = accountType;
+            document.getElementById("interestRate").value = interestRate;
+            document.getElementById("startDate").value = startDate;
+            document.getElementById("openBalance").value = openBalance;
+            document.getElementById("balance").value = balance;
+            document.getElementById("closingFlag").checked = closingFlag == 1;
+            document.getElementById("addToDemand").checked = addToDemand == 1;
+            document.getElementById("agentId").value = agentId;
+            document.getElementById("installmentType").value = installmentType;
+            document.getElementById("installmentAmount").value = installmentAmount;
+            document.getElementById("totalInstallmentsPaid").value = totalInstallmentsPaid;
+            document.getElementById("closingDate").value = closingDate;
+            
+            // Change form action to update route and set PUT method
+            let form = document.getElementById("generalAccForm");
+            form.setAttribute("action", route);
+            document.getElementById("formMethod").value = "PUT";
+
+            // Change submit button text
+            document.querySelector("#generalAccModal .btn-primary").textContent = "Update Account";
+            
+        });
+    });
+
+    // Reset modal when it's closed
+    document.getElementById("generalAccModal").addEventListener("hidden.bs.modal", function () {
+        let form = document.getElementById("generalAccForm");
+
+        // Reset form fields
+        form.reset();
+        
+        // Reset method and form action
+        document.getElementById("formMethod").value = "POST";
+        form.setAttribute("action", "{{ route('accounts.store') }}");
+
+        // Reset modal title & button text
+        document.getElementById("generalAccModalLabel").textContent = "Add General Account";
+        document.querySelector("#generalAccModal .btn-primary").textContent = "Save Changes";
+    });
+});
+
+</script>

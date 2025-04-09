@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('member_id')->constrained('members')->onDelete('cascade');
             $table->string('name');
-            $table->string('naav');
-            $table->string('email')->unique();
-            $table->string('contact_no', 20);
+            $table->string('email')->nullable();
+            $table->string('contact_nos', 50);  
             $table->foreignId('designation_id')->constrained('designations')->onDelete('cascade');
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->date('from_date');

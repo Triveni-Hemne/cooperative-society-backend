@@ -26,16 +26,33 @@ return new class extends Migration
             $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('set null');
             $table->foreignId('member_depo_account_id')->nullable()->constrained('member_depo_accounts')->onDelete('set null');
             $table->foreignId('member_loan_account_id')->nullable()->constrained('member_loan_accounts')->onDelete('set null');
-            $table->date('from_date')->nullable();
-            $table->date('to_date')->nullable();
+            $table->decimal('amount', 12,2);
+            $table->decimal('debit_amount', 12, 2)->default(0.00);
+            $table->decimal('credit_amount', 12, 2)->default(0.00);
             $table->decimal('opening_balance', 12, 2)->notNull();
             $table->decimal('current_balance', 12, 2)->notNull();
+            $table->enum('transaction_mode', ['Cash', 'Bank', 'Online', 'Cheque'])->nullable();
+            $table->enum('payment_mode', ['NEFT', 'IMPS', 'UPI', 'RTGS', 'Cheque', 'Cash', 'Bank Transfer'])->nullable();
+            $table->string('reference_number', 100)->nullable();
+            $table->boolean('is_reversed')->default(false);
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->timestamp('approved_at')->nullable();
+            $table->foreignId('entered_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('branch_id')->nullable()->constrained('branches')->onDelete('set null');          
+            $table->date('to_date')->nullable();
+            $table->date('from_date')->nullable();
             $table->text('narration')->nullable();
             $table->text('m_narration')->nullable();
             $table->enum('status', ['Pending', 'Approved', 'Rejected'])->default('Pending');
+            // Indexing for Performance
+            $table->index('account_id');
+            $table->index('member_loan_account_id');
+            $table->index('member_depo_account_id');
             $table->timestamps();
         });
+
     }
+    
 
     /**
      * Reverse the migrations.

@@ -16,8 +16,8 @@
 @endsection
 
 @section('content')
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Interest Calculator</h2>
+<div class="container ">
+    <h3 class=" mb-5">Interest Calculator</h3>
 
     <!-- Buttons to Toggle Calculators -->
     <div class="btn-group w-100 btn-group-custom mb-3">

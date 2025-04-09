@@ -21,8 +21,8 @@ return new class extends Migration
             $table->decimal('debit_transfer', 12, 2)->nullable();
             $table->date('date');
             $table->enum('frequency', ['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Yearly']);
-            $table->integer('no_of_times');
-            $table->integer('bal_installment');
+            $table->unsignedInteger('no_of_times');
+            $table->unsignedInteger('bal_installment');
             $table->date('execution_date');
             $table->decimal('amount', 12, 2);
             $table->timestamps();

@@ -1,3 +1,5 @@
+@include('layouts.session')
+
 @extends('layouts.app')
 @section('title', 'Cooperative Society Bank')
 
@@ -7,24 +9,23 @@
 
 @section('content')
 <div class="mb-3">
-    <div class="d-flex justify-content-between align-items-center">
-        <!-- Heading -->
-        <h3>Transfer Entry</h3>
-
-        <!-- Add New Button (Moves Above Sidebar in Small Screens) -->
-        <a href="#" class="d-flex gap-2 text-decoration-none align-items-center" data-bs-toggle="modal"
-            data-bs-target="#transferEntryModal">
-            <p class="bg-success rounded-circle d-flex justify-content-center align-items-center"
-                style="width: 30px; height: 30px;">
-                <i class="fa fa-plus text-white" style="font-size:20px"></i>
-            </p>
-            <p class="d-none d-md-block">Add New</p> <!-- Hidden on small screens -->
-        </a>
-    </div>
-
-    <!-- Search Bar -->
-    <div>
-        <input type="search" id="searchInput" placeholder="Search Here..." class="px-3 py-2 rounded search-bar">
+    <h3>Transfer Entry</h3>
+    <div class="row">
+            <!-- Search Bar -->
+            <div class="col">
+                <input type="search" id="searchInput" placeholder="Search Here..." class="w-100 px-3 py-2 rounded search-bar">
+            </div>
+            <!-- Add New Button (Moves Above Sidebar in Small Screens) -->
+            <a href="#" class="col d-flex gap-2 text-decoration-none align-items-center justify-content-end py-1 ms-auto" data-bs-toggle="modal"
+                data-bs-target="#transferEntryModal">
+                <p class="d-block d-md-none my-bg-primary rounded-circle d-flex justify-content-center align-items-center"
+                    style="width: 30px; height: 30px;">
+                    <i class="fa fa-plus text-white" style="font-size:20px"></i>
+                </p>
+                <p class="d-none d-md-block btn my-bg-primary text-light">
+                    <i class="fa fa-plus me-1" style=""></i>Add New
+                </p> <!-- Hidden on small screens -->
+            </a>
     </div>
 </div>
 
@@ -34,63 +35,63 @@
         <table id="tableFilter" class="table table-striped">
             <thead>
                 <tr>
+                    <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">Transation Type</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Receipt No. </th>
+                    <th scope="col">Payment No. </th>
+                    <th scope="col">Ledger</th>
+                    <th scope="col">Opening Balance</th>
+                    <th scope="col">Current Balance</th>
+                    <th scope="col">Narration</th>
+                    <th scope="col">M. Narration No. </th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
+                @if ($transferEntries->isNotEmpty())
+                 @php $i = 1; @endphp
+                 @foreach ($transferEntries as $entry)
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <th scope="row">{{$i}}</th>
+                    <th scope="row">{{$entry->id}}</th>
+                    <th scope="row">{{$entry->transaction_type}}</th>
+                    <th scope="row">{{$entry->date}}</th>
+                    <th scope="row">{{$entry->receipt_id ?? ''}}</th>
+                    <th scope="row">{{$entry->payment_id  ?? ''}}</th>
+                    <th scope="row">{{$entry->ledger->name }}</th>
+                    <th scope="row">{{$entry->opening_balance  ?? ''}}</th>
+                    <th scope="row">{{$entry->current_balance  ?? ''}}</th>
+                    <th scope="row">{{$entry->narration  ?? ''}}</th>
+                    <th scope="row">{{$entry->m_narration  ?? ''}}</th>
                     <td>
-                        <a href="#" class="text-decoration-none me-4" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$entry->id }}" data-transaction-type="{{$entry->transaction_type}}" data-date="{{$entry->date}}" data-receipt-id="{{$entry->receipt_id ?? ''}}" data-payment-id="{{$entry->payment_id ?? ''}}" data-ledger-id="{{$entry->ledger_id}}" data-opening-balance="{{$entry->opening_balance ?? ''}}" data-current-balance="{{$entry->current_balance ?? ''}}" data-narration="{{$entry->narration ?? ''}}" data-m-narration="{{$entry->m_narration ?? ''}}" data-route="{{ route('transfer-entry.update', $entry->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#transferEntryModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <a href="#" data-id="{{$entry->id }}" data-route="{{ route('transfer-entry.destroy', $entry->id) }}" data-name="{{$entry->id}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
                         </a>
                     </td>
                 </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>
-                        <a href="#" class="text-decoration-none me-4">
-                            <i class="fa fa-edit text-primary" style="font-size:20px"></i>
-                        </a>
-                        <a href="#" class="text-decoration-none">
-                            <i class="fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                    <td>
-                        <a href="#" class="text-decoration-none me-4">
-                            <i class="fa fa-edit text-primary" style="font-size:20px"></i>
-                        </a>
-                        <a href="#" class="text-decoration-none">
-                            <i class="fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
-                    </td>
-                </tr>
+                @php $i++ @endphp
+                 @endforeach
+                 @else
+                    <tr>
+                        <td colspan="7" style="text-align:center; padding: 20px; color: #888;">
+                            <i class="fa fa-info-circle" style="margin-right: 6px;"></i>
+                            No transfer entries added yet. Click <strong>“Add New”</strong> to create one.
+                        </td>
+                    </tr> 
+                 @endif
             </tbody>
         </table>
     </div>
 
     <!-- Pagination -->
     <div>
-        @include('layouts.pagination')
+               @include('layouts.pagination', ['paginationVariable' => 'transferEntries'])
     </div>
 </div>
 
@@ -103,3 +104,66 @@
 
 @section('customeJs')
 @endsection
+
+{{-- Script to send data to the edit modal --}}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".edit-btn").forEach(button => {
+        button.addEventListener("click", function () {
+            let id = this.getAttribute("data-id");
+            let transactionType = this.getAttribute("data-transaction-type");
+            let date = this.getAttribute("data-date");
+            let receiptId = this.getAttribute("data-receipt-id");
+            let paymentId = this.getAttribute("data-payment-id");
+            let ledgerId = this.getAttribute("data-ledger-id");
+            let openingBalance = this.getAttribute("data-opening-balance");
+            let currentBalance = this.getAttribute("data-current-balance");
+            let narration = this.getAttribute("data-narration");
+            let mNarration = this.getAttribute("data-m-narration");
+            let route = this.getAttribute("data-route");
+
+            let modal = document.getElementById("transferEntryModal");
+
+            // Update modal title
+            document.getElementById("transferEntryModalLabel").textContent = "Edit Transfer Entry";
+
+            // Populate form fields
+            document.getElementById("transferEntryId").value = id;
+            document.getElementById("transactionType").value = transactionType;
+            document.getElementById("date").value = date;
+            document.getElementById("receiptId").value = receiptId;
+            document.getElementById("paymentId").value = paymentId;
+            document.getElementById("ledgerId").value = ledgerId;
+            document.getElementById("openingBalance").value = openingBalance;
+            document.getElementById("currentBalance").value = currentBalance;
+            document.getElementById("narration").value = narration;
+            document.getElementById("mNarration").value = mNarration;
+            
+            // Change form action to update route and set PUT method
+            let form = document.getElementById("transferEntryModalForm");
+            form.setAttribute("action", route);
+            document.getElementById("formMethod").value = "PUT";
+
+            // Change submit button text
+            document.querySelector("#transferEntryModal .btn-primary").textContent = "Update Transfer Entry";
+        });
+    });
+
+    // Reset modal when it's closed
+    document.getElementById("transferEntryModal").addEventListener("hidden.bs.modal", function () {
+        let form = document.getElementById("transferEntryModalForm");
+
+        // Reset form fields
+        form.reset();
+        
+        // Reset method and form action
+        document.getElementById("formMethod").value = "POST";
+        form.setAttribute("action", "{{ route('transfer-entry.store') }}");
+
+        // Reset modal title & button text
+        document.getElementById("transferEntryModalLabel").textContent = "Add Transfer Entry";
+        document.querySelector("#transferEntryModal .btn-primary").textContent = "Save Changes";
+    });
+});
+
+</script>

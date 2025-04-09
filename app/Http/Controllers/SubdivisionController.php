@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Subdivision;
+use App\Models\Division;
+use Illuminate\Validation\Rule;
 
 class SubdivisionController extends Controller
 {
@@ -13,9 +15,10 @@ class SubdivisionController extends Controller
      */
     public function index()
     {
-        $subdivisions = Subdivision::with('division')->get();
+        $subdivisions = Subdivision::with('division')->paginate(5);
+        $divisions = Division::all();
         // return response()->json($subdivisions);
-        return view('master.sub-division.list');
+        return view('master.sub-division.list',compact('subdivisions','divisions'));
     }
 
     /**
@@ -33,14 +36,17 @@ class SubdivisionController extends Controller
     {
         $validated = $request->validate([
             'division_id' => 'required|exists:divisions,id',
-            'name' => 'required|string|max:100',
-            'naav' => 'required|string|max:100',
+            'name' => 'required|string|max:100|unique:subdivisions,name',
+            'naav' => 'nullable|string|max:100|unique:subdivisions,naav',
             'address' => 'nullable|string',
+            'marathi_address' => 'nullable|string',
             'description' => 'nullable|string',
+            'marathi_description' => 'nullable|string',
         ]);
-
+        // return $request->all();
+        
         $subdivision = Subdivision::create($validated);
-        return response()->json(['message' => 'Subdivision created successfully', 'subdivision' => $subdivision], 201);
+        return redirect()->back()->with('success', 'Subdivision created successfully');
     }
 
     /**
@@ -67,17 +73,26 @@ class SubdivisionController extends Controller
     {
         $subdivision = Subdivision::find($id);
         if (!$subdivision) return response()->json(['message' => 'Not Found'], 404);
-
+        
         $request->validate([
-            'division_id' => 'exists:divisions,id',
-            'name' => 'string|max:100',
-            'naav' => 'string|max:100',
+            'division_id' => 'required|exists:divisions,id',
+            'name' => [
+            'required','string','max:100',
+                Rule::unique('subdivisions', 'name')->ignore($request->id), // Ignore the current record
+            ],
+            'naav' => [
+                'nullable','string','max:100',
+                Rule::unique('subdivisions', 'naav')->ignore($request->id), // Ignore the current record
+            ],
             'address' => 'nullable|string',
+            'marathi_address' => 'nullable|string',
             'description' => 'nullable|string',
+            'marathi_description' => 'nullable|string',
         ]);
-
+        
         $subdivision->update($request->all());
-        return response()->json($subdivision, 200);
+        // return response()->json($subdivision, 200);
+        return redirect()->back()->with('success', 'Subdivision updated successfully');
     }
 
     /**
@@ -87,6 +102,6 @@ class SubdivisionController extends Controller
     {
         $subdivision = Subdivision::findOrFail($id);
         $subdivision->delete();
-        return response()->json(['message' => 'Subdivision deleted successfully']);
+        return redirect()->back()->with('success', 'Subdivision deleted successfully');
     }
 }

@@ -9,8 +9,12 @@ class Director extends Model
      use HasFactory;
 
     protected $fillable = [
-        'member_id', 'name', 'naav', 'email', 'contact_no',
+        'member_id', 'name', 'email', 'contact_nos',
         'designation_id', 'status', 'from_date', 'to_date'
+    ];
+
+    protected $casts = [
+        'contact_nos' => 'array',
     ];
 
     public function member() {

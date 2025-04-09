@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Account;
+use App\Models\GeneralLedger;
+use App\Models\Member;
+use App\Models\Agent;
 
 class AccountController extends Controller
 {
@@ -13,9 +16,11 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $accounts = Account::all();
-        // return response()->json($accounts);
-        return view('accounts.general-acc.list');
+        $accounts = Account::paginate(5);
+        $ledgers = GeneralLedger::all();
+        $members = Member::all();
+        $agents = Agent::all();
+        return view('accounts.general-acc.list', compact('accounts','ledgers','members','agents'));
     }
 
     /**
@@ -31,7 +36,7 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-       $request->validate([
+        $request->validate([
             'ledger_id' => 'required|exists:general_ledgers,id',
             'member_id' => 'nullable|exists:members,id',
             'account_no' => 'required|string|max:50|unique:accounts,account_no',
@@ -44,15 +49,16 @@ class AccountController extends Controller
             'balance' => 'required|numeric|min:0',
             'closing_flag' => 'boolean',
             'add_to_demand' => 'boolean',
-            'agent_id' => 'nullable|exists:members,id',
+            'agent_id' => 'nullable|exists:agents,id',
             'installment_type' => 'nullable|in:Monthly,Quarterly,Yearly',
             'installment_amount' => 'nullable|numeric|min:0',
             'total_installments_paid' => 'required|integer|min:0',
             'closing_date' => 'nullable|date'
         ]);
 
+        // return $request->all();
         $account = Account::create($request->all());
-        return response()->json($account, 201);
+        return redirect()->back()->with('success','Account Created Successfully.');
     }
 
     /**
@@ -78,11 +84,10 @@ class AccountController extends Controller
     public function update(Request $request, string $id)
     {
         $account = Account::findOrFail($id);
-
         $request->validate([
             'ledger_id' => 'required|exists:general_ledgers,id',
             'member_id' => 'nullable|exists:members,id',
-            'account_no' => 'required|string|max:50|unique:accounts,account_no',
+            'account_no' => "required|string|max:50|unique:accounts,account_no,{$id}",
             'account_name' => 'required|string|max:50',
             'name' => 'required|string|max:255',
             'account_type' => 'required|in:Deposit,Loan,Savings,Investment',
@@ -92,15 +97,16 @@ class AccountController extends Controller
             'balance' => 'required|numeric|min:0',
             'closing_flag' => 'boolean',
             'add_to_demand' => 'boolean',
-            'agent_id' => 'nullable|exists:members,id',
+            'agent_id' => 'nullable|exists:agents,id',
             'installment_type' => 'nullable|in:Monthly,Quarterly,Yearly',
             'installment_amount' => 'nullable|numeric|min:0',
             'total_installments_paid' => 'required|integer|min:0',
             'closing_date' => 'nullable|date'
         ]);
 
+        // return $request->all();
         $account->update($request->all());
-        return response()->json($account);
+        return redirect()->back()->with('success','Account Updated Successfully.');
     }
 
     /**
@@ -110,6 +116,6 @@ class AccountController extends Controller
     {
         $account = Account::findOrFail($id);
         $account->delete();
-        return response()->json(['message' => 'Account deleted successfully']);
+        return redirect()->back()->with('success','Account deleted successfully');
     }
 }

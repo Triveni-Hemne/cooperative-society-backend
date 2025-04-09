@@ -11,7 +11,7 @@ class MemberFinancial extends Model
     protected $fillable = [
         'member_id', 'director_id', 'share_amount', 'welfare_fund', 'page_no',
         'current_balance', 'monthly_balance', 'dividend_amount', 'monthly_deposit',
-        'demand', 'type'
+        'demand', 'type','number_of_shares'
     ];
 
     public function member() {

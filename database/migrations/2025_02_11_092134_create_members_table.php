@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
-            $table->string('member_id', 50)->unique();
-            $table->foreignId('subcaste_id')->nullable()->constrained('subcastes')->onDelete('set null');
+            // $table->string('member_id')->unique();
+            $table->foreignId('employee_id')->nullable()->constrained('employees')->onDelete('set null');
+            $table->foreignId('department_id')->nullable()->constrained('departments')->onDelete('set null');
             $table->string('name', 255);
+            $table->string('naav', 255)->nullable();
             $table->date('dob');
             $table->enum('gender', ['Male', 'Female', 'Other']);
             $table->integer('age');
@@ -23,8 +25,10 @@ return new class extends Migration
             $table->string('religion', 100)->nullable();
             $table->enum('category', ['ST', 'OBC', 'General', 'NT']);
             $table->string('caste', 100);
+            $table->foreignId('subcaste_id')->nullable()->constrained('subcastes')->onDelete('set null');
             $table->string('m_reg_no', 50)->nullable();
             $table->string('pan_no', 20)->nullable();
+            $table->string('adhar_no', 20)->nullable();
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->timestamps();
         });

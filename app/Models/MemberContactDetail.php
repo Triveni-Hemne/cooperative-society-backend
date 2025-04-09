@@ -9,7 +9,7 @@ class MemberContactDetail extends Model
     use HasFactory;
 
     protected $fillable = [
-        'member_id', 'address', 'city', 'mobile_no', 'phone_no'
+        'member_id', 'address', 'marathi_address', 'city', 'mobile_no', 'phone_no'
     ];
 
     public function member() {

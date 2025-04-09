@@ -24,7 +24,7 @@ class StandingInstruction extends Model
     ];
 
     public function creditLedger() {
-        return $this->belongsTo(Ledger::class, 'credit_ledger_id');
+        return $this->belongsTo(GeneralLedger::class, 'credit_ledger_id');
     }
 
     public function creditAccount() {
@@ -32,7 +32,7 @@ class StandingInstruction extends Model
     }
 
     public function debitLedger() {
-        return $this->belongsTo(Ledger::class, 'debit_ledger_id');
+        return $this->belongsTo(GeneralLedger::class, 'debit_ledger_id');
     }
 
     public function debitAccount() {

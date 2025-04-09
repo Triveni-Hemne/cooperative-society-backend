@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Department;
+use App\Models\Employee;
 use Illuminate\Validation\Rule;
 
 class DepartmentController extends Controller
@@ -14,8 +15,9 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $departments = Department::with('head')->get();
-        return response()->json($departments);
+        $departments = Department::paginate(5);
+        $employees = Employee::all();
+        return view('master.department.list', compact('departments','employees'));
     }
 
     /**
@@ -33,11 +35,11 @@ class DepartmentController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:100|unique:departments,name',
-            'head_id' => 'required|exists:employees,id',
+            'head_id' => 'nullable|exists:employees,id',
         ]);
 
         $department = Department::create($validated);
-        return response()->json(['message' => 'Department added successfully', 'department' => $department], 201);
+        return redirect()->back()->with('success', 'Department added successfully');
     }
 
     /**
@@ -66,11 +68,11 @@ class DepartmentController extends Controller
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:100', Rule::unique('departments')->ignore($department->id)],
-            'head_id' => 'required|exists:employees,id',
+            'head_id' => 'nullable|exists:employees,id',
         ]);
 
         $department->update($validated);
-        return response()->json(['message' => 'Department updated successfully', 'department' => $department]);
+        return redirect()->back()->with('success', 'Department updated successfully');
     }
 
     /**
@@ -80,6 +82,6 @@ class DepartmentController extends Controller
     {
         $department = Department::findOrFail($id);
         $department->delete();
-        return response()->json(['message' => 'Department deleted successfully']);
+         return redirect()->back()->with('success', 'Department deleted successfully');
     }
 }

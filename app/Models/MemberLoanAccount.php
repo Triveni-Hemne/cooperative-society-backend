@@ -9,7 +9,7 @@ class MemberLoanAccount extends Model
   use HasFactory;
 
     protected $fillable = [
-        'ledger_id', 'member_id', 'account_id', 'acc_no', 'loan_type', 'name',
+        'ledger_id', 'member_id','images', 'account_id', 'acc_no', 'loan_type', 'name',
         'ac_start_date', 'open_balance', 'purpose', 'principal_amount', 'interest_rate',
         'tenure', 'emi_amount', 'start_date', 'end_date', 'balance', 'priority',
         'loan_amount', 'collateral_type', 'collateral_value', 'status', 'add_to_demand',
@@ -18,7 +18,7 @@ class MemberLoanAccount extends Model
     ];
 
     public function ledger() {
-        return $this->belongsTo(Ledger::class);
+        return $this->belongsTo(GeneralLedger::class);
     }
 
     public function member() {
@@ -28,6 +28,32 @@ class MemberLoanAccount extends Model
     public function account() {
         return $this->belongsTo(Account::class);
     }
+
+    public function nominees()
+    {
+        return $this->hasMany(Nominee::class, 'loan_acc_id');
+    }
+
+    public function goldLoanDtl()
+    {
+        return $this->hasOne(GoldLoanDetail::class, 'loan_id'); 
+    }
+
+     public function loanGarantor()
+    {
+        return $this->hasOne(LoanGuarantor::class, 'loan_id'); 
+    }
+
+     public function loanInstallment()
+    {
+        return $this->hasOne(LoanInstallment::class, 'loan_id'); 
+    }
+
+     public function loanResolutionDtl()
+    {
+        return $this->hasOne(LoanResolutionDetail::class, 'loan_id'); 
+    }
+
 
     /**
      * Accessors & Mutators (if needed)

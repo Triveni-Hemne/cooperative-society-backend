@@ -2,275 +2,403 @@
     aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="bankInvestmentModalLabel">Add Bank Investment</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mx-auto p-5 my-model text-white">
-                        <div class="row mb-2">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="ledger">Ledger</label>
+            <form  method="POST" enctype="multipart/form-data" action="{{route('bank-investments.store')}}" id="bankInvestmentForm">
+                 @csrf
+                    @if(Session::has('error'))
+                        <div class="alert alert-danger">{{Session::get('error')}}</div>
+                    @endif
+                    <input type="hidden" id="bankInvestmentId" name="id">
+                    <input type="hidden" name="_method" id="formMethod" value="POST">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="bankInvestmentModalLabel">Add Bank Investment</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                        <div class="mx-auto p-5 my-model text-white">
+                            <div class="row mb-2">
+                                @isset($ledgers)
+                                @if ($ledgers->isNotEmpty())
+                                <div class="col-2 ps-5 d-none d-xl-block">
+                                    <label for="ledgerId">Ledger</label>
+                                </div>
+                                <div class="col pe-0 pe-xl-5">
+                                    <select id="ledgerId" name="ledger_id" class="w-100 px-2 py-1 @error('ledger_id') is-invalid @enderror">
+                                        @foreach ($ledgers as $ledger)
+                                            <option value="{{ $ledger->id }}"  
+                                            {{ old('ledger_id') == $ledger->id ? 'selected' : '' }}>
+                                            {{ $ledger->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('ledger_id')
+                                        <div class="invalid-feedback">{{$message}}</div>
+                                    @enderror
+                                </div>
+                                @endif
+                                @endisset
+                                @isset($accounts)
+                                @if ($accounts->isNotEmpty())
+                                <div class="col-2 ps-5 d-none d-xl-block">
+                                    <label for="accountId">Account</label>
+                                </div>
+                                <div class="col pe-0 pe-xl-5">
+                                    <select id="accountId" name="account_id" class="w-100 px-2 py-1 @error('account_id') is-invalid @enderror">
+                                        <option value="">---Select General Account---</option>
+                                        @foreach ($accounts as $account)
+                                            <option value="{{ $account->id }}"  
+                                            {{ old('account_id') == $account->id ? 'selected' : '' }}>
+                                            {{ $account->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('account_id')
+                                        <div class="invalid-feedback">{{$message}}</div>
+                                    @enderror
+                                </div>
+                                @endif
+                                @endisset
                             </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <select name="ledger" class="w-100 px-2 py-1">
-                                    <option value="select">------ Select Ledger ------</option>
-                                </select>
-                            </div>
-                            <div class="col-2 d-none d-xl-block">
-                                <label for="acc">Account</label>
-                            </div>
-                            <div class="col-4 pe-0 pe-xl-5">
-                                <select name="acc" class="w-100 px-2 py-1">
-                                    <option value="select">------ Select Account ------</option>
-                                </select>
-                            </div>
-                        </div>
 
-                        <div class="row mb-2">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="name">Name</label>
+                            <div class="row mb-2">
+                                @isset($depoAccounts)
+                                @if ($depoAccounts->isNotEmpty())
+                                <div class="col-2 ps-5 d-none d-xl-block">
+                                    <label for="depoAccountId">Depo Account</label>
+                                </div>
+                                <div class="col pe-0 pe-xl-5">
+                                    <select id="depoAccountId" name="depo_account_id" class="w-100 px-2 py-1 @error('depo_account_id') is-invalid @enderror">
+                                        <option value="">---Select Deposite Account---</option>
+                                        @foreach ($depoAccounts as $account)
+                                            <option value="{{ $account->id }}"  
+                                            {{ old('depo_account_id') == $account->id ? 'selected' : '' }}>
+                                            {{ $account->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('depo_account_id')
+                                        <div class="invalid-feedback">{{$message}}</div>
+                                    @enderror
+                                </div>
+                                @endif
+                                @endisset
+                                <div class="col-2 ps-5 d-none d-xl-block">
+                                    <label for="name">Name</label>
+                                </div>
+                                <div class="col pe-0 pe-xl-5">
+                                    <input name="name" id="name" class="w-100 px-2 py-1 @error('name') is-invalid @enderror" value="{{ old('name') }}" type="text" placeholder="Name">
+                                    @error('name')
+                                        <div class="invalid-feedback">{{$message}}</div>
+                                    @enderror
+                                </div>
                             </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input id="name" class="w-100 px-2 py-1" type="text" placeholder="Name">
-                            </div>
-                        </div>
 
-                        <div class="row mb-2">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="investmentType">Investment Type</label>
+                            <div class="row mb-2">
+                                <div class="col-2 ps-5 d-none d-xl-block">
+                                    <label for="investmentType">Investment Type</label>
+                                </div>
+                                <div class="col pe-0 pe-xl-5">
+                                    <select id="investmentType" name="investment_type" class="w-100 px-2 py-1 @error('investment_type') is-invalid @enderror">
+                                        <option value="select">------ Select Investment Type ------</option>
+                                        <option value="RD" {{ old('investment_type') == 'RD' ? 'selected' : '' }}>RD</option>
+                                        <option value="FD" {{ old('investment_type') == 'FD' ? 'selected' : '' }}>FD</option>
+                                        <option value="Other" {{ old('investment_type') == 'Other' ? 'selected' : '' }}>Other</option>
+                                    </select>
+                                    @error('investment_type')
+                                        <div class="invalid-feedback">{{$message}}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-2 d-none d-xl-block">
+                                    <label for="interestRate">Interest Rate</label>
+                                </div>
+                                <div class="col pe-0 pe-xl-5">
+                                    <input name="interest_rate" id="interestRate" class="w-100 px-2 py-1 @error('interest_rate') is-invalid @enderror" value="{{ old('interest_rate') }}" type="number"
+                                        placeholder="Interest Rate">
+                                        @error('interest_rate')
+                                        <div class="invalid-feedback">{{$message}}</div>
+                                    @enderror
+                                </div>
                             </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <select name="investmentType" class="w-100 px-2 py-1">
-                                    <option value="select">------ Select Investment Type ------</option>
-                                    <option value="rd">RD Loan</option>
-                                    <option value="fd">FD Loan</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            <div class="col-2 d-none d-xl-block">
-                                <label for="interestRate">Interest Rate</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input id="interestRate" class="w-100 px-2 py-1" type="number"
-                                    placeholder="Interest Rate">
-                            </div>
-                        </div>
 
-                        <div class="row mb-2">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="openingDate">Opening Date</label>
+                            <div class="row mb-2">
+                                <div class="col-2 ps-5 d-none d-xl-block">
+                                    <label for="openingDate">Opening Date</label>
+                                </div>
+                                <div class="col pe-0 pe-xl-5">
+                                    <input name="opening_date" id="openingDate" class="w-100 px-2 py-1 @error('opening_date') is-invalid @enderror" value="{{ old('opening_date') }}" type="date" placeholder="Opening Date">
+                                    @error('opening_date')
+                                        <div class="invalid-feedback">{{$message}}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-2 d-none d-xl-block">
+                                    <label for="openingBalance">Opening Balance</label>
+                                </div>
+                                <div class="col pe-0 pe-xl-5">
+                                    <input name="opening_balance" id="openingBalance" class="w-100 px-2 py-1 @error('opening_balance') is-invalid @enderror" value="{{ old('opening_balance') }}" type="number"
+                                        placeholder="Opening Balance">
+                                        @error('opening_balance')
+                                        <div class="invalid-feedback">{{$message}}</div>
+                                        @enderror
+                                </div>
                             </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input id="openingDate" class="w-100 px-2 py-1" type="date" placeholder="Opening Date">
-                            </div>
-                            <div class="col-2 d-none d-xl-block">
-                                <label for="openingBalance">Opening Balance</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input id="openingBalance" class="w-100 px-2 py-1" type="number"
-                                    placeholder="Opening Balance">
-                            </div>
-                        </div>
 
-                        <div class="row mb-4">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="currentBalance">Current Balance</label>
+                            <div class="row mb-4">
+                                <div class="col-2 ps-5 d-none d-xl-block">
+                                    <label for="currentBalance">Current Balance</label>
+                                </div>
+                                <div class="col-4 pe-0 pe-xl-5">
+                                    <input name="current_balance" id="currentBalance" class="w-100 px-2 py-1 @error('current_balance') is-invalid @enderror" value="{{ old('current_balance') }}" type="number"
+                                        placeholder="Current Balance">
+                                        @error('current_balance')
+                                        <div class="invalid-feedback">{{$message}}</div>
+                                    @enderror
+                                </div>
                             </div>
-                            <div class="col-4 pe-0 pe-xl-5">
-                                <input id="currentBalance" class="w-100 px-2 py-1" type="number"
-                                    placeholder="Current Balance">
-                            </div>
-                        </div>
 
 
-                        <!-- Tabs -->
-                        <div class="info-tabs border rounded mb-3">
-                            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                <li class="nav-item col" role="presentation">
-                                    <button class="nav-link w-100 active text-info" id="rd-tab" data-bs-toggle="tab"
-                                        data-bs-target="#rd-tab-pane" type="button" role="tab"
-                                        aria-controls="rd-tab-pane" aria-selected="false">RD Detail</button>
-                                </li>
-                                <li class="nav-item col" role="presentation">
-                                    <button class="nav-link w-100 text-info" id="fd-tab" data-bs-toggle="tab"
-                                        data-bs-target="#fd-tab-pane" type="button" role="tab"
-                                        aria-controls="fd-tab-pane" aria-selected="false">FD Detail</button>
-                                </li>
-                            </ul>
-                            <div class="tab-content" id="myTabContent">
-                                <!-- RD Details -->
-                                <div class="tab-pane fade show active p-3 px-5" id="rd-tab-pane" role="tabpanel"
-                                    aria-labelledby="rd-tab" tabindex="0">
-                                    <div class="row mb-1">
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="rdMaturityDate">Maturity Date</label>
+                            <!-- Tabs -->
+                            <div class="info-tabs border rounded mb-3">
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item col" role="presentation">
+                                        <button class="nav-link w-100 active text-info" id="rd-tab" data-bs-toggle="tab"
+                                            data-bs-target="#rd-tab-pane" type="button" role="tab"
+                                            aria-controls="rd-tab-pane" aria-selected="false">RD Detail</button>
+                                    </li>
+                                    <li class="nav-item col" role="presentation">
+                                        <button class="nav-link w-100 text-info" id="fd-tab" data-bs-toggle="tab"
+                                            data-bs-target="#fd-tab-pane" type="button" role="tab"
+                                            aria-controls="fd-tab-pane" aria-selected="false">FD Detail</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <!-- RD Details -->
+                                    <div class="tab-pane fade show active p-3 px-5" id="rd-tab-pane" role="tabpanel"
+                                        aria-labelledby="rd-tab" tabindex="0">
+                                        <div class="row mb-1">
+                                            <div class="col-2 d-none d-xl-block">
+                                                <label for="rdMaturityDate">Maturity Date</label>
+                                            </div>
+                                            <div class="col pe-0 pe-xl-5">
+                                                <input name="rd_maturity_date" id="rdMaturityDate" class="w-100 px-2 py-1 @error('rd_maturity_date') is-invalid @enderror" value="{{ old('rd_maturity_date') }}" type="date"
+                                                    placeholder="Maturity Date">
+                                                    @error('rd_maturity_date')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                            </div>
+                                            <div class="col-2 d-none d-xl-block">
+                                                <label for="rdDepositTermDays">Deposit Term Days</label>
+                                            </div>
+                                            <div class="col pe-0">
+                                                <input name="rd_deposit_term_days" id="rdDepositTermDays" class="w-100 px-2 py-1 @error('rd_deposit_term_days') is-invalid @enderror" value="{{ old('rd_deposit_term_days') }}" type="number"
+                                                    placeholder="Deposit Term Days">
+                                                    @error('rd_deposit_term_days')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                            </div>
                                         </div>
-                                        <div class="col pe-0 pe-xl-5">
-                                            <input id="rdMaturityDate" class="w-100 px-2 py-1" type="date"
-                                                placeholder="Maturity Date">
+                                        <div class="row mb-1">
+                                            <div class="col-2 d-none d-xl-block">
+                                                <label for="rdMonths">Months</label>
+                                            </div>
+                                            <div class="col pe-0 pe-xl-5">
+                                                <input name="rd_months" id="rdMonths" class="w-100 px-2 py-1 @error('rd_months') is-invalid @enderror" value="{{ old('rd_months') }}" type="number"
+                                                    placeholder="Months">
+                                                    @error('rd_months')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                            </div>
+                                            <div class="col-2 d-none d-xl-block">
+                                                <label for="rdYears">Years</label>
+                                            </div>
+                                            <div class="col pe-0">
+                                                <input name="rd_years" id="rdYears" class="w-100 px-2 py-1 @error('rd_years') is-invalid @enderror" value="{{ old('rd_years') }}" type="number"
+                                                    placeholder="Years">
+                                                    @error('rd_years')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                            </div>
                                         </div>
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="rdDepositTermDays">Deposit Term Days</label>
+                                        <div class="row mb-1">
+                                            <div class="col-2 d-none d-xl-block">
+                                                <label for="rdMonthlyDeposit">Monthly Amount</label>
+                                            </div>
+                                            <div class="col pe-0 pe-xl-5">
+                                                <input name="rd_monthly_deposit" id="rdMonthlyDeposit" class="w-100 px-2 py-1 @error('rd_monthly_deposit') is-invalid @enderror" value="{{ old('rd_monthly_deposit') }}" type="number"
+                                                    placeholder="Monthly Amount">
+                                                    @error('rd_monthly_deposit')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                            </div>
+                                            <div class="col-2 d-none d-xl-block">
+                                                <label for="rdTermMonths">RD Term Months</label>
+                                            </div>
+                                            <div class="col pe-0">
+                                                <input name="rd_term_months" id="rdTermMonths" class="w-100 px-2 py-1 @error('rd_term_months') is-invalid @enderror" value="{{ old('rd_term_months') }}" type="number"
+                                                    placeholder="RD Term Months">
+                                                    @error('rd_term_months')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                            </div>
                                         </div>
-                                        <div class="col pe-0">
-                                            <input id="rdDepositTermDate" class="w-100 px-2 py-1" type="number"
-                                                placeholder="Deposit Term Days">
+                                        <div class="row mb-1">
+                                            <div class="col-2 d-none d-xl-block">
+                                                <label for="rdMaturityAmount">Maturity Amount</label>
+                                            </div>
+                                            <div class="col pe-0 pe-xl-5">
+                                                <input name="rd_maturity_amount" id="rdMaturityAmount" class="w-100 px-2 py-1 @error('rd_maturity_amount') is-invalid @enderror" value="{{ old('rd_maturity_amount') }}" type="number"
+                                                    placeholder="Maturity Amount">
+                                                    @error('rd_maturity_amount')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                            </div>
+                                            <div class="col-2 d-none d-xl-block">
+                                                <label for="rdInterestReceivable">Interest Receivable</label>
+                                            </div>
+                                            <div class="col pe-0">
+                                                <input name="rd_interest_receivable" id="rdInterestReceivable" class="w-100 px-2 py-1 @error('rd_interest_receivable') is-invalid @enderror" value="{{ old('rd_interest_receivable') }}" type="number"
+                                                    placeholder="Interest Receivable">
+                                                    @error('rd_interest_receivable')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <div class="col-2 d-none d-xl-block">
+                                                <label for="rdInterestFrequency">Interest Frequency</label>
+                                            </div>
+                                            <div class="col-4 pe-0 pe-xl-4">
+                                                <input name="rd_interest_frequency" id="rdInterestFrequency" class="w-100 px-2 py-1 @error('rd_interest_frequency') is-invalid @enderror" value="{{ old('rd_interest_frequency') }}" type="number"
+                                                    placeholder="Interest Frequency">
+                                                    @error('rd_interest_frequency')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row mb-1">
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="rdMonths">Months</label>
+
+                                    <!-- FD Tab -->
+                                    <div class="tab-pane fade p-3 px-5" id="fd-tab-pane" role="tabpanel"
+                                        aria-labelledby="fd-tab" tabindex="0">
+                                        <div class="row mb-1">
+                                            <div class="col-2 d-none d-xl-block">
+                                                <label for="fdMaturityDate">Maturity Date</label>
+                                            </div>
+                                            <div class="col pe-0 pe-xl-5">
+                                                <input name="fd_maturity_date" id="fdMaturityDate" class="w-100 px-2 py-1 @error('fd_maturity_date') is-invalid @enderror" value="{{ old('fd_maturity_date') }}" type="date"
+                                                    placeholder="Maturity Date">
+                                                    @error('fd_maturity_date')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                            </div>
+                                            <div class="col-2 d-none d-xl-block">
+                                                <label for="fdDepositTermDays">Deposit Term Days</label>
+                                            </div>
+                                            <div class="col pe-0">
+                                                <input name="fd_deposit_term_days" id="fdDepositTermDays" class="w-100 px-2 py-1 @error('fd_deposit_term_days') is-invalid @enderror" value="{{ old('fd_deposit_term_days') }}" type="number"
+                                                    placeholder="Deposit Term Days">
+                                                    @error('fd_deposit_term_days')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                            </div>
                                         </div>
-                                        <div class="col pe-0 pe-xl-5">
-                                            <input id="rdMonths" class="w-100 px-2 py-1" type="number"
-                                                placeholder="Months">
+                                        <div class="row mb-1">
+                                            <div class="col-2 d-none d-xl-block">
+                                                <label for="fdMonths">Months</label>
+                                            </div>
+                                            <div class="col pe-0 pe-xl-5">
+                                                <input name="fd_months" id="fdMonths" class="w-100 px-2 py-1 @error('fd_months') is-invalid @enderror" value="{{ old('fd_months') }}" type="number"
+                                                    placeholder="Months">
+                                                    @error('fd_months')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                            </div>
+                                            <div class="col-2 d-none d-xl-block">
+                                                <label for="fdYears">Years</label>
+                                            </div>
+                                            <div class="col pe-0">
+                                                <input id="fdYears" class="w-100 px-2 py-1 @error('fd_years') is-invalid @enderror" value="{{ old('fd_years') }}" type="number"
+                                                    placeholder="Years">
+                                                    @error('fd_years')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                            </div>
                                         </div>
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="rdYear">Years</label>
+                                        <div class="row mb-1">
+                                            <div class="col-2 d-none d-xl-block">
+                                                <label for="fdAmount">RD Amount</label>
+                                            </div>
+                                            <div class="col pe-0 pe-xl-5">
+                                                <input name="fd_amount" id="fdAmount" class="w-100 px-2 py-1 @error('fd_amount') is-invalid @enderror" value="{{ old('fd_amount') }}" type="number"
+                                                    placeholder="RD Amount">
+                                                    @error('fd_amount')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                            </div>
+                                            <div class="col-2 d-none d-xl-block">
+                                                <label for="fdMonthlyDeposit">Monthly Amount</label>
+                                            </div>
+                                            <div class="col pe-0">
+                                                <input name="fd_monthly_deposit" id="fdMonthlyDeposit" class="w-100 px-2 py-1 @error('fd_monthly_deposit') is-invalid @enderror" value="{{ old('fd_monthly_deposit') }}" type="number"
+                                                    placeholder="Monthly Amount">
+                                                    @error('fd_monthly_deposit')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                            </div>
                                         </div>
-                                        <div class="col pe-0">
-                                            <input id="rdYear" class="w-100 px-2 py-1" type="number"
-                                                placeholder="Years">
+                                        <div class="row mb-1">
+                                            <div class="col-2 d-none d-xl-block">
+                                                <label for="fdMaturityAmount">Maturity Amount</label>
+                                            </div>
+                                            <div class="col pe-0 pe-xl-5">
+                                                <input name="fd_maturity_amount" id="fdMaturityAmount" class="w-100 px-2 py-1 @error('fd_maturity_amount') is-invalid @enderror" value="{{ old('fd_maturity_amount') }}" type="number"
+                                                    placeholder="Maturity Amount">
+                                                    @error('fd_maturity_amount')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                            </div>
+                                            <div class="col-2 d-none d-xl-block">
+                                                <label for="fdInterest">Interest</label>
+                                            </div>
+                                            <div class="col pe-0">
+                                                <input name="interest" id="fdInterest" class="w-100 px-2 py-1 @error('interest') is-invalid @enderror" value="{{ old('interest') }}" type="number"
+                                                    placeholder="Interest">
+                                                    @error('interest')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row mb-1">
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="rdMonthlyAmt">Monthly Amount</label>
-                                        </div>
-                                        <div class="col pe-0 pe-xl-5">
-                                            <input id="rdMonthlyAmt" class="w-100 px-2 py-1" type="number"
-                                                placeholder="Monthly Amount">
-                                        </div>
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="rdTermMonths">RD Term Months</label>
-                                        </div>
-                                        <div class="col pe-0">
-                                            <input id="rdTermMonths" class="w-100 px-2 py-1" type="number"
-                                                placeholder="RD Term Months">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1">
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="rdMaturityAmt">Maturity Amount</label>
-                                        </div>
-                                        <div class="col pe-0 pe-xl-5">
-                                            <input id="rdMaturityAmt" class="w-100 px-2 py-1" type="number"
-                                                placeholder="Maturity Amount">
-                                        </div>
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="rdInterestReceivable">Interest Receivable</label>
-                                        </div>
-                                        <div class="col pe-0">
-                                            <input id="rdInterestReceivable" class="w-100 px-2 py-1" type="number"
-                                                placeholder="Interest Receivable">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1">
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="rdInterestFrequency">Interest Frequency</label>
-                                        </div>
-                                        <div class="col-4 pe-0 pe-xl-4">
-                                            <input id="rdInterestFrequency" class="w-100 px-2 py-1" type="number"
-                                                placeholder="Interest Frequency">
+                                        <div class="row mb-1">
+                                            <div class="col-2 d-none d-xl-block">
+                                                <label for="fdInterestReceivable">Interest Receivable</label>
+                                            </div>
+                                            <div class="col pe-0 pe-xl-5">
+                                                <input name="fd_interest_receivable" id="fdInterestReceivable" class="w-100 px-2 py-1 @error('fd_interest_receivable') is-invalid @enderror" value="{{ old('fd_interest_receivable') }}" type="number"
+                                                    placeholder="Interest Receivable">
+                                                    @error('fd_interest_receivable')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                            </div>
+                                            <div class="col-2 d-none d-xl-block">
+                                                <label for="fdInterestFrequency">Interest Frequency</label>
+                                            </div>
+                                            <div class="col pe-0">
+                                                <input name="fd_interest_frequency" id="fdInterestFrequency" class="w-100 px-2 py-1 @error('fd_interest_frequency') is-invalid @enderror" value="{{ old('fd_interest_frequency') }}" type="number"
+                                                    placeholder="Interest Frequency">
+                                                    @error('fd_interest_frequency')
+                                                        <div class="invalid-feedback">{{$message}}</div>
+                                                    @enderror
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- FD Tab -->
-                                <div class="tab-pane fade p-3 px-5" id="fd-tab-pane" role="tabpanel"
-                                    aria-labelledby="fd-tab" tabindex="0">
-                                    <div class="row mb-1">
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="fdMaturityDate">Maturity Date</label>
-                                        </div>
-                                        <div class="col pe-0 pe-xl-5">
-                                            <input id="fdMaturityDate" class="w-100 px-2 py-1" type="date"
-                                                placeholder="Maturity Date">
-                                        </div>
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="fdDepositTermDays">Deposit Term Days</label>
-                                        </div>
-                                        <div class="col pe-0">
-                                            <input id="fdDepositTermDate" class="w-100 px-2 py-1" type="number"
-                                                placeholder="Deposit Term Days">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1">
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="fdMonths">Months</label>
-                                        </div>
-                                        <div class="col pe-0 pe-xl-5">
-                                            <input id="fdMonths" class="w-100 px-2 py-1" type="number"
-                                                placeholder="Months">
-                                        </div>
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="fdYear">Years</label>
-                                        </div>
-                                        <div class="col pe-0">
-                                            <input id="fdYear" class="w-100 px-2 py-1" type="number"
-                                                placeholder="Years">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1">
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="fdAmt">RD Amount</label>
-                                        </div>
-                                        <div class="col pe-0 pe-xl-5">
-                                            <input id="fdAmt" class="w-100 px-2 py-1" type="number"
-                                                placeholder="RD Amount">
-                                        </div>
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="fdMonthlyAmt">Monthly Amount</label>
-                                        </div>
-                                        <div class="col pe-0">
-                                            <input id="fdMonthlyAmt" class="w-100 px-2 py-1" type="number"
-                                                placeholder="Monthly Amount">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1">
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="fdMaturityAmt">Maturity Amount</label>
-                                        </div>
-                                        <div class="col pe-0 pe-xl-5">
-                                            <input id="fdMaturityAmt" class="w-100 px-2 py-1" type="number"
-                                                placeholder="Maturity Amount">
-                                        </div>
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="fdInterest">Interest</label>
-                                        </div>
-                                        <div class="col pe-0">
-                                            <input id="fdInterest" class="w-100 px-2 py-1" type="number"
-                                                placeholder="Interest">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1">
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="fdInterestReceivable">Interest Receivable</label>
-                                        </div>
-                                        <div class="col pe-0 pe-xl-5">
-                                            <input id="fdInterestReceivable" class="w-100 px-2 py-1" type="number"
-                                                placeholder="Interest Receivable">
-                                        </div>
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="fdInterestFrequency">Interest Frequency</label>
-                                        </div>
-                                        <div class="col pe-0">
-                                            <input id="fdInterestFrequency" class="w-100 px-2 py-1" type="number"
-                                                placeholder="Interest Frequency">
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
-                    </div>
-            </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+        
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+          </form>
         </div>
     </div>
 </div>

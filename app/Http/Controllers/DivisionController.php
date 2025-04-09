@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Division;
+use Illuminate\Validation\Rule;
 
 class DivisionController extends Controller
 {
@@ -13,9 +14,9 @@ class DivisionController extends Controller
      */
     public function index()
     {
-         $divisions = Division::all();
+         $divisions = Division::paginate(5);
         // return response()->json($divisions);
-        return view('master.division.list');
+        return view('master.division.list',compact('divisions'));
     }
 
     /**
@@ -32,13 +33,15 @@ class DivisionController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'naav' => 'nullable|string|max:255',
+            'name' => 'required|string|max:100|unique:divisions,name',
+            'naav' => 'nullable|string|max:100|unique:divisions,naav',
             'description' => 'nullable|string',
+            'marathi_description' => 'nullable|string',
         ]);
-
+        
+        // return $request->all();
         $division = Division::create($validated);
-        return response()->json(['message' => 'Division created successfully', 'division' => $division], 201);
+        return redirect()->back()->with('success', 'Division created successfully!');
     }
 
     /**
@@ -63,16 +66,24 @@ class DivisionController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        
         $division = Division::findOrFail($id);
-
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'naav' => 'nullable|string|max:255',
+           'name' => [
+            'required','string','max:100',
+                Rule::unique('divisions', 'name')->ignore($request->id), // Ignore the current record
+            ],
+            'naav' => [
+                'nullable','string','max:100',
+                Rule::unique('divisions', 'naav')->ignore($request->id), // Ignore the current record
+            ],
             'description' => 'nullable|string',
+            'marathi_description' => 'nullable|string',
         ]);
-
+        
         $division->update($validated);
-        return response()->json(['message' => 'Division updated successfully', 'division' => $division]);
+        // return response()->json(['message' => 'Division updated successfully', 'division' => $division]);
+        return redirect()->back()->with('success','Division updated successfully!');
     }
 
     /**
@@ -82,6 +93,7 @@ class DivisionController extends Controller
     {
         $division = Division::findOrFail($id);
         $division->delete();
-        return response()->json(['message' => 'Division deleted successfully']);
+        return redirect()->back()->with('success', 'Division deleted successfully');
+        return $division;
     }
 }

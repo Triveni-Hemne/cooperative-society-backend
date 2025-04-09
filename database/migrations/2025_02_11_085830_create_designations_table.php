@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('designations', function (Blueprint $table) {
             $table->id();
-            $table->string('name',100);
-            $table->string('naav',100);
+            $table->string('name',100)->unique();
+            $table->string('naav',100)->nullable();
             $table->text('description')->nullable();
+            $table->foreignId('division_id')->constrained('divisions')->onDelete('cascade');
+            $table->foreignId('subdivision_id')->constrained('subdivisions')->onDelete('cascade');
+            $table->foreignId('center_id')->nullable()->constrained('centers')->onDelete('cascade');
             $table->timestamps();
         });
     }

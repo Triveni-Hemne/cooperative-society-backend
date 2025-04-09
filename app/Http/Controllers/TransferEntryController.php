@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TransferEntry;
+use App\Models\GeneralLedger;
 
 class TransferEntryController extends Controller
 {
@@ -13,8 +14,9 @@ class TransferEntryController extends Controller
      */
     public function index()
     {
-        //  return response()->json(TransferEntry::all(), 200);
-        return view('transactions.transfer-entry.list');
+        $transferEntries = TransferEntry::paginate(5);
+        $ledgers = GeneralLedger::all();
+        return view('transactions.transfer-entry.list', compact('transferEntries','ledgers'));
     }
 
     /**
@@ -35,15 +37,16 @@ class TransferEntryController extends Controller
             'date' => 'required|date',
             'receipt_id' => 'nullable|string|max:50',
             'payment_id' => 'nullable|string|max:50',
-            'ledger_id' => 'required|exists:ledgers,id',
+            'ledger_id' => 'required|exists:general_ledgers,id',
             'opening_balance' => 'required|numeric',
             'current_balance' => 'required|numeric',
             'narration' => 'nullable|string',
             'm_narration' => 'nullable|string'
         ]);
+        // return $request->all();
 
         $transferEntry = TransferEntry::create($request->all());
-        return response()->json($transferEntry, 201);
+        return redirect()->back()->with('success', 'Transfer Entry Created Successfully');
     }
 
     /**
@@ -73,19 +76,19 @@ class TransferEntryController extends Controller
         if (!$transferEntry) return response()->json(['message' => 'Transfer entry not found'], 404);
 
         $request->validate([
-            'transaction_type' => 'in:Credit,Debit,Journal',
-            'date' => 'date',
-            'receipt_id' => 'string|max:50',
-            'payment_id' => 'string|max:50',
-            'ledger_id' => 'exists:ledgers,id',
-            'opening_balance' => 'numeric',
-            'current_balance' => 'numeric',
-            'narration' => 'string',
-            'm_narration' => 'string'
+            'transaction_type' => 'required|in:Credit,Debit,Journal',
+            'date' => 'required|date',
+            'receipt_id' => 'nullable|string|max:50|unique:transfer_entries,receipt_id,' . $transferEntry->id,
+            'payment_id' => 'nullable|string|max:50|unique:transfer_entries,payment_id,' . $transferEntry->id,
+            'ledger_id' => 'required|exists:general_ledgers,id',
+            'opening_balance' => 'required|numeric',
+            'current_balance' => 'required|numeric',
+            'narration' => 'nullable|string',
+            'm_narration' => 'nullable|string'
         ]);
 
         $transferEntry->update($request->all());
-        return response()->json($transferEntry, 200);
+        return redirect()->back()->with('success', 'Transfer Entry Updated Successfully');
     }
 
     /**
@@ -97,6 +100,6 @@ class TransferEntryController extends Controller
         if (!$transferEntry) return response()->json(['message' => 'Transfer entry not found'], 404);
 
         $transferEntry->delete();
-        return response()->json(['message' => 'Transfer entry deleted'], 200);
+        return redirect()->back()->with('success', 'Transfer Entry Deleted Successfully');
     }
 }

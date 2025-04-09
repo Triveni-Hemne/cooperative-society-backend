@@ -9,7 +9,7 @@ class RecurringDeposit extends Model
      use HasFactory;
 
     protected $fillable = [
-        'deposit_account_id', 'rd_term_months', 'maturity_amount'
+        'deposit_account_id', 'rd_term_months', 'maturity_amount','open_interest'
     ];
 
     public function depositAccount() {

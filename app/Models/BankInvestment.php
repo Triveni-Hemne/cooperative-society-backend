@@ -32,7 +32,7 @@ class BankInvestment extends Model
     ];
 
     public function ledger() {
-        return $this->belongsTo(Ledger::class);
+        return $this->belongsTo(GeneralLedger::class);
     }
 
     public function account() {
@@ -40,6 +40,6 @@ class BankInvestment extends Model
     }
 
     public function depositAccount() {
-        return $this->belongsTo(DepositAccount::class, 'depo_account_id');
+        return $this->belongsTo(MemberDepoAccount::class, 'depo_account_id');
     }
 }

@@ -10,6 +10,6 @@ class Division extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'naav', 'description'
+        'name', 'naav', 'description', 'marathi_description'
     ];
 }
