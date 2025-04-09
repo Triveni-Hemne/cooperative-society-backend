@@ -28,11 +28,11 @@
 </head>
 
 <body>
-    <div style="height: 15vh;">
-        @include('layouts.header')
+    <div class="bg-primary" style="height: 9.3vh;">
+        <!-- @include('layouts.header') -->
     </div>
 
-    <div class="d-flex flex-column flex-lg-row m-0 my-body w-100" style="height: 85vh;">
+    <div class="d-flex flex-column flex-lg-row m-0 my-body w-100" style="height: 90.7vh;">
         <div class="sidebar-container p-0 bg-light" style="width: 18%;">
             @include('layouts.sidebar')
         </div>

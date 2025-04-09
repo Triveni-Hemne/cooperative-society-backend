@@ -31,6 +31,25 @@ body {
 }
 /* ---------- ScrollBar Style Ends Here ---------- */
 
+.accordion-body .side-link {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 10px; /* spacing between sub-menu links */
+}
+
+.accordion-body .side-link:last-child {
+    margin-bottom: 0;
+}
+
+.accordion-body {
+    margin-bottom: 10px;
+}
+
+.accordion-item {
+    margin-bottom: 8px;
+}
+
 /* ---------- Header Style Start Here ---------- */
 .my-bg-primary {
     background-color: var(--tertiary-color);
@@ -40,22 +59,6 @@ body {
 .my-hero-text {
     font-size: 1.5rem;
     margin: auto;
-}
-
-/* Profile Image */
-.profile img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
-
-/* Logout Button */
-.logout-btn {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
 }
 /* ---------- Header Style Ends Here ---------- */
 
@@ -73,26 +76,44 @@ td {
 }
 
 /* Profile */
-header .profile img {
-    width: 40px;
-    border-radius: 50%;
-}
-header .profile .logout-btn {
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
-    transition: all cubic-bezier(0.19, 1, 0.22, 1) 0.3;
-}
-header .profile .logout-btn:hover {
-    background-color: #004697;
+/* Unified background color for header and sidebar */
+.my-bg-primary {
+    background-color: #343a40; /* Example dark color */
+    color: #ffffff;
 }
 
-/* Sidebar Start Here */
+/* Ensure links and buttons in the header match the sidebar's style */
+.header-content a,
+.header-content .btn {
+    color: #ffffff;
+}
+
+.header-content a:hover,
+.header-content .btn:hover {
+    color: #f8f9fa;
+}
+
+/* ------------------ Sidebar Start Here --------------------- */
 .sidebar {
     height: 100%;
-    /* width: 250px; */
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: gray #212529; /* gray thumb, dark background */
     background-color: var(--tertiary-color);
     padding: 10px;
-    overflow-y: auto;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: gray;
+    border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #212529;
 }
 .sidebar a {
     color: white;
@@ -106,6 +127,7 @@ header .profile .logout-btn:hover {
     background-color: var(--secondary-color);
     color: var(--primary-color);
 }
+/* ----------------- Sidebar Ends Here ------------------- */
 .accordion-button:not(.collapsed),
 .active-menu {
     background-color: var(--primary-color) !important;
@@ -119,7 +141,19 @@ header .profile .logout-btn:hover {
 .my-submenu .dropdown-menu {
     background-color: var(--primary-color);
 }
-/* Sidebar Ends Here */
+.active-side-link {
+    background-color: var(--secondary-color);
+    color: var(--primary-color) !important;
+}
+
+.accordion-button.no-caret::after {
+    display: none;
+}
+
+.nav-link.active {
+    background-color: transparent !important;
+    color: inherit !important;
+}
 
 /* Hero Text Font for Small Screen */
 @media (max-width: 1199.98px) {
