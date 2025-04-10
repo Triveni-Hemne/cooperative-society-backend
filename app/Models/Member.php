@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
+
 class Member extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'member_id','employee_id','department_id', 'subcaste_id', 'name','naav', 'dob', 'gender', 'age',
@@ -40,10 +42,10 @@ class Member extends Model
     {
         return $this->hasOne(MemberFinancial::class, 'member_id');
     }
-    // app/User.php
-
     public function routeNotificationForWhatsApp()
     {
-    return $this->phone_number;
+        // Delegate to contact detail
+        return optional($this->contact)->routeNotificationForWhatsApp();
     }
+
 }

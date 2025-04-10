@@ -18,6 +18,7 @@ use App\Models\Director;
 use App\Models\Designation;
 use App\Models\MemberContactDetail;
 use Illuminate\Validation\Rule;
+use App\Notifications\MemberAccountCreated;
 
 class MemberController extends Controller
 {
@@ -163,7 +164,7 @@ class MemberController extends Controller
         $bankDetail = MemberBankDetail::create($bankDetail_validated);
         $financial = MemberFinancial::create($financial_validated);
 
-        $request->user()->notify(new AccountCreated($member));
+        $member->notify(new MemberAccountCreated($member));
         
         return redirect()->back()->with('success', 'Member added successfully');
     }
