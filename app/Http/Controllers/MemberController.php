@@ -18,6 +18,7 @@ use App\Models\Director;
 use App\Models\Designation;
 use App\Models\MemberContactDetail;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Arr;
 use App\Notifications\MemberAccountCreated;
 
 class MemberController extends Controller
@@ -52,9 +53,8 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        // return "hello";
-        $employee_validated = $request->validate([
-            // 'member_id' => 'required|exists:members,id',
+        $validatedData = $request->validate([
+            // Employee Validation
             'emp_code' => 'required|string|max:50|unique:employees,emp_code',
             'designation_id' => 'required|exists:designations,id',
             'salary' => 'required|numeric',
@@ -68,9 +68,8 @@ class MemberController extends Controller
             'gpf_no' => 'nullable|string|max:50|unique:employees,gpf_no',
             'hra' => 'nullable|numeric',
             'da' => 'nullable|numeric',
-        ]);
-        $member_validated = $request->validate([
-            // 'member_id' => 'nullable|string|max:50|unique:members,member_id',
+
+            // Member Validation
             'subcaste_id' => 'nullable|exists:subcastes,id',
             'department_id' => 'nullable|exists:departments,id',
             'name' => 'required|string|max:255',
@@ -85,17 +84,15 @@ class MemberController extends Controller
             'm_reg_no' => 'nullable|string|max:50',
             'pan_no' => 'nullable|string|max:20',
             'adhar_no' => 'nullable|string|max:20',
-        ]);
-        $contact_validated = $request->validate([
-            // 'member_id' => 'required|exists:members,id',
+
+            // Contact Validation
             'address' => 'required|string',
             'marathi_address' => 'nullable|string',
             'city' => 'required|string|max:100',
             'mobile_no' => 'required|string|max:15',
-            'phone_no' => 'nullable|string|max:15'
-        ]);
-        $nominee_validated = $request->validate([
-            // 'member_id' => 'nullable|exists:members,id',
+            'phone_no' => 'nullable|string|max:15',
+
+            // Nominee Validation
             'nominee_id' => 'nullable|exists:members,id',
             'depo_acc_id' => 'nullable|exists:member_depo_accounts,id',
             'nominee_name' => 'required|string|max:255',
@@ -107,22 +104,20 @@ class MemberController extends Controller
             'nominee_address' => 'nullable|string|max:50',
             'nominee_marathi_address' => 'nullable|string|max:50',
             'nominee_adhar_no' => 'nullable|string|max:50',
-        ]);
-        $bankDetail_validated = $request->validate([
-            // 'member_id' => 'required|exists:members,id',
+
+            // Bank Details Validation
             'bank_name' => 'required|string|max:255',
             'branch_name' => 'required|string|max:255',
-            'bank_account_no' => 'required|string|max:50',
+            'bank_account_no' => 'required|string|max:50|unique:member_bank_details,bank_account_no',
             'ifsc_code' => 'required|string|min:5|max:11',
             'proof_1_no' => 'nullable|string|unique:member_bank_details,proof_1_no',
             'proof_1_type' => 'nullable|string|max:50',
-            'proof_2_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'proof_1_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'proof_2_no' => 'nullable|string|unique:member_bank_details,proof_2_no',
             'proof_2_type' => 'nullable|string|max:50',
             'proof_2_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-        $financial_validated = $request->validate([
-            // 'member_id' => 'required|exists:members,id',
+
+            // Financial Validation
             'director_id' => 'nullable|exists:directors,id',
             'share_amount' => 'numeric|min:0',
             'number_of_shares' => 'numeric|min:0',
@@ -133,38 +128,80 @@ class MemberController extends Controller
             'dividend_amount' => 'nullable|numeric|min:0',
             'monthly_deposit' => 'numeric|min:0',
             'demand' => 'nullable|string|in:yes,no',
-            'type' => 'in:Share,Dividend,Deposit'
+            'type' => 'required|in:Share,Dividend,Deposit',
         ]);
 
+
         if ($request->hasFile('nominee_image')) {
-            $path = $nominee_validated['nominee_image'] = $request->file('nominee_image')->store('public/uploads/nominees','public');
+            $validatedData['nominee_image'] = $request->file('nominee_image')->store('uploads/nominees', 'public');
         }
 
-        // **Upload proof images if provided**
         if ($request->hasFile('proof_1_image')) {
-            $bankDetail_validated['proof_1_image'] = $request->file('proof_1_image')->store('uploads/bank_proofs', 'public');
+            $validatedData['proof_1_image'] = $request->file('proof_1_image')->store('uploads/bank_proofs', 'public');
         }
 
         if ($request->hasFile('proof_2_image')) {
-            $bankDetail_validated['proof_2_image'] = $request->file('proof_2_image')->store('uploads/bank_proofs', 'public');
+            $validatedData['proof_2_image'] = $request->file('proof_2_image')->store('uploads/bank_proofs', 'public');
         }
 
 
-        $employee = Employee::create($employee_validated);
-        $employee_id = $employee->id; // Get employee ID
-        $member_validated['employee_id'] = $employee_id; // Assign employee_id to member
-        $member = Member::create($member_validated);
-        $member_id = $member->id;
-        $contact_validated['member_id'] = $member_id;
-        $nominee_validated['member_id'] = $member_id;
-        $bankDetail_validated['member_id'] = $member_id;
-        $financial_validated['member_id'] = $member_id;
-        $contact = MemberContactDetail::create($contact_validated);
-        $nominee = Nominee::create($nominee_validated);
-        $bankDetail = MemberBankDetail::create($bankDetail_validated);
-        $financial = MemberFinancial::create($financial_validated);
+        $employee = Employee::create([
+            'emp_code' => $validatedData['emp_code'],
+            'designation_id' => $validatedData['designation_id'],
+            'salary' => $validatedData['salary'],
+            'other_allowance' => $validatedData['other_allowance'] ?? null,
+            'division_id' => $validatedData['division_id'],
+            'subdivision_id' => $validatedData['subdivision_id'],
+            'center_id' => $validatedData['center_id'],
+            'joining_date' => $validatedData['joining_date'],
+            'transfer_date' => $validatedData['transfer_date'] ?? null,
+            'retirement_date' => $validatedData['retirement_date'] ?? null,
+            'gpf_no' => $validatedData['gpf_no'] ?? null,
+            'hra' => $validatedData['hra'] ?? null,
+            'da' => $validatedData['da'] ?? null,
+        ]);
 
-        $member->notify(new MemberAccountCreated($member));
+        $member = Member::create(array_merge(
+            Arr::only($validatedData, [
+                'subcaste_id', 'department_id', 'name', 'naav', 'dob', 'gender', 'age',
+                'date_of_joining', 'religion', 'category', 'caste', 'm_reg_no', 'pan_no', 'adhar_no'
+            ]),
+            ['employee_id' => $employee->id]
+        ));
+
+        $contact = MemberContactDetail::create(array_merge(
+            Arr::only($validatedData, ['address', 'marathi_address', 'city', 'mobile_no', 'phone_no']),
+            ['member_id' => $member->id]
+        ));
+
+        $nominee = Nominee::create(array_merge(
+            Arr::only($validatedData, [
+                'nominee_id', 'depo_acc_id', 'nominee_name', 'nominee_naav', 'nominee_age',
+                'nominee_gender', 'relation', 'nominee_image', 'nominee_address',
+                'nominee_marathi_address', 'nominee_adhar_no'
+            ]),
+            ['member_id' => $member->id]
+        ));
+
+        $bankDetail = MemberBankDetail::create(array_merge(
+            Arr::only($validatedData, [
+                'bank_name', 'branch_name', 'bank_account_no', 'ifsc_code',
+                'proof_1_no', 'proof_1_type', 'proof_1_image',
+                'proof_2_no', 'proof_2_type', 'proof_2_image'
+            ]),
+            ['member_id' => $member->id]
+        ));
+
+        $financial = MemberFinancial::create(array_merge(
+            Arr::only($validatedData, [
+                'director_id', 'share_amount', 'number_of_shares', 'welfare_fund',
+                'page_no', 'current_balance', 'monthly_balance',
+                'dividend_amount', 'monthly_deposit', 'demand', 'type'
+            ]),
+            ['member_id' => $member->id]
+        ));
+
+        $request->user()->notify(new AccountCreated($member));
         
         return redirect()->back()->with('success', 'Member added successfully');
     }
