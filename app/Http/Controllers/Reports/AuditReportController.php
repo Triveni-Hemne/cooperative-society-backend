@@ -48,6 +48,7 @@ class AuditReportController extends Controller
         $asOnDate = $request->input('as_on_date') ?? date('Y-m-d');
 
         $trialBalance = $this->getTrialBalance($asOnDate);
+        $type = $request->input('type', 'stream'); // default to stream
 
         $totalDebit = $trialBalance->sum('debit');
         $totalCredit = $trialBalance->sum('credit');
@@ -59,6 +60,9 @@ class AuditReportController extends Controller
             'totalCredit' => $totalCredit,
         ])->setPaper('A4', 'portrait');
 
+        if($type == 'download'){
+            return $pdf->download('Trial_Balance_' . $asOnDate . '.pdf');
+        }
         return $pdf->stream('Trial_Balance_' . $asOnDate . '.pdf');
     }
 
@@ -76,13 +80,17 @@ class AuditReportController extends Controller
     public function exportBalanceSheetPDF(Request $request)
     {
         $asOnDate = $request->input('as_on_date', now()->toDateString());
+        $type = $request->input('type', 'stream'); // default to stream
 
         $data = $this->getBalanceSheetData($asOnDate);
 
         $pdf = Pdf::loadView('reports.auditReport.balance-sheet.balance_sheet_pdf', array_merge($data, [
             'asOnDate' => $asOnDate
         ]))->setPaper('A4', 'portrait');
+        if ($type === 'download') {
+            return $pdf->download('Balance_Sheet_As_On_' . $asOnDate . '.pdf');
 
+        }
         return $pdf->stream('Balance_Sheet_As_On_' . $asOnDate . '.pdf');
     }
 
@@ -182,6 +190,7 @@ class AuditReportController extends Controller
     {
         $fromDate = $request->input('from_date');
         $toDate = $request->input('to_date');
+        $type = $request->input('type', 'stream'); // default to stream
 
         $incomeLedgers = $this->getLedgersByGroup('Income', 'credit_amount', $fromDate, $toDate);
         $expenseLedgers = $this->getLedgersByGroup('Expense', 'debit_amount', $fromDate, $toDate);
@@ -194,7 +203,11 @@ class AuditReportController extends Controller
             'incomeLedgers', 'expenseLedgers', 'fromDate', 'toDate', 'totalIncome', 'totalExpense', 'netProfit'
         ))->setPaper('A4', 'portrait');
 
-        return $pdf->download('Profit_Loss_' . $fromDate . '_to_' . $toDate . '.pdf');
+        if ($type === 'download') {
+            return $pdf->download('Profit_Loss_' . $fromDate . '_to_' . $toDate . '.pdf');
+        }
+        
+        return $pdf->stream('Profit_Loss_' . $fromDate . '_to_' . $toDate . '.pdf');
     }
 
 }

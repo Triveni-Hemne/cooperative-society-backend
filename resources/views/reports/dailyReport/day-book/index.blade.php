@@ -49,13 +49,15 @@
                 <h4>💰 Transaction Details</h4>
                 <div class="d-flex">
                     <form action="{{ route('day-book.pdf') }}" method="GET" target="_blank">
-                        <input type="hidden" name="date" value="{{ $date }}">
-                        <button type="submit" class="btn btn-danger">Export PDF</button>
+                        <input type="date" hidden required name="date" value="{{ $date }}">
+                        <input type="text" name="type" value="stream" hidden required >
+                        <button type="submit" class="btn btn-secondary me-1"><i class="bi bi-printer"></i> Print</button>
                     </form>
-                    {{-- <form action="{{ route('day-book.excel') }}" method="GET" class="ms-2">
+                    <form action="{{ route('day-book.pdf') }}" method="GET" target="">
                         <input type="hidden" name="date" value="{{ $date }}">
-                        <button type="submit" class="btn btn-success">Export Excel</button>
-                    </form> --}}
+                        <input type="text" name="type" value="download" hidden required >
+                        <button type="submit" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Export PDF</button>
+                    </form>
                 </div>
             </div>
             

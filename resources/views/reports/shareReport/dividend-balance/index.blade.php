@@ -13,11 +13,14 @@
     <h2 class="mb-4">Dividend Balance Report ({{ $date }})</h2>
 
     <div class="mb-3">
-        <a href="{{ route('dividend-balance.pdf', ['date' => $date]) }}" class="btn btn-primary" target="_blank">Download PDF</a>
+        <div class="export-btns d-flex justify-content-end">
+            <a href="{{ route('dividend-balance.pdf', ['date' => $date, 'type' => 'stream']) }}" class="btn btn-secondary me-1" target="_blank"><i class="bi bi-printer"></i> Print</a>
+            <a href="{{ route('dividend-balance.pdf', ['date' => $date, 'type' => 'download']) }}" class="btn btn-primary" target=""><i class="bi bi-file-earmark-pdf"></i> Download PDF</a>
+        </div>
     </div>
 <div style="overflow-x: scroll">
     <table class="table table-bordered" >
-        <thead class="thead-dark">
+        <thead class="table-dark">
             <tr>
                 <th>Member ID</th>
                 <th>Member Name</th>

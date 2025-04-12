@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Debit Loan Report')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('/assets/css/index.css') }}">
@@ -11,7 +12,7 @@
     <h2 class="mb-4">Debit Loan Report</h2>
 
     <!-- Filter Form -->
-    <form method="GET" action="{{ route('debit-laon.index') }}" class="mb-4">
+    <form method="GET" action="{{ route('debit-laon.index') }}" class="mb-4 border p-3 rounded">
         <div class="row">
             <div class="col-md-4">
                 <label>From Date:</label>
@@ -28,11 +29,15 @@
     </form>
 
     <!-- Export PDF Button -->
-    <a href="{{ route('debit-laon.pdf', ['from_date' => $fromDate, 'to_date' => $toDate]) }}" class="btn btn-danger mb-3" target="_blank">Export PDF</a>
+    <div class="export-btns d-flex justify-content-end">
+    <a href="{{ route('debit-laon.pdf', ['from_date' => $fromDate, 'to_date' => $toDate, 'type' => 'stream']) }}" class="btn btn-secondary mb-3 me-1" target="_blank"><i class="bi bi-printer"></i> Print</a>
+    <a href="{{ route('debit-laon.pdf', ['from_date' => $fromDate, 'to_date' => $toDate, 'type' => 'download']) }}" class="btn btn-danger mb-3" target=""> <i class="bi bi-file-earmark-pdf"></i>Export PDF</a>
+    </div>
 
     <!-- Loan Report Table -->
+    <div class="table-responsive">
     <table class="table table-bordered">
-        <thead>
+        <thead class="table-dark">
             <tr>
                 <th>Loan Account No</th>
                 <th>Borrower Name</th>
@@ -59,5 +64,6 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 </div>
 @endsection

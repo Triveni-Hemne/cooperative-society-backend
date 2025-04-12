@@ -28,10 +28,18 @@
         <div class="d-flex justify-content-between mt-5">
             <h5 class="">As on: {{ \Carbon\Carbon::parse($asOnDate)->format('d M, Y') }}</h5>
             <!-- Export PDF Button -->
-            <form action="{{ route('trial-balance.pdf') }}" method="GET">
-                <input type="hidden" name="as_on_date" value="{{ $asOnDate }}">
-                <button type="submit" class="btn btn-success">Export PDF</button>
-            </form>
+            <div class="export-btns d-flex">
+                <form class="me-1" action="{{ route('trial-balance.pdf') }}" method="GET" target="_blank">
+                    <input type="hidden" name="as_on_date" value="{{ $asOnDate }}">
+                     <input type="hidden" name="type" value="stream">
+                    <button type="submit" class="btn btn-secondary"><i class="bi bi-printer"></i> Print</button>
+                </form>
+                <form action="{{ route('trial-balance.pdf') }}" method="GET">
+                    <input type="hidden" name="as_on_date" value="{{ $asOnDate }}">
+                     <input type="hidden" name="type" value="download">
+                    <button type="submit" class="btn btn-success"><i class="bi bi-file-earmark-pdf"></i> Export PDF</button>
+                </form>
+            </div>
         </div>
         <div class="table-responsive mt-3">
             <table class="table table-bordered table-striped">

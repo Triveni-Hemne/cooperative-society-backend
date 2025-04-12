@@ -47,10 +47,16 @@
         </div>
 
         {{-- Export PDF --}}
-        <div class="mt-4 w-50 text-center d-flex justify-content-center align-items-center">
+        <div class="mt-4 w-50 text-center d-flex justify-content-center flex-column">
             <form action="{{ route('final-npa-chart.pdf') }}" method="GET" target="_blank">
                 <input type="hidden" name="date" value="{{ $npaData['date'] }}">
-                <button type="submit" class="btn btn-danger">Export PDF</button>
+                <input type="text" name="type" value="stream" hidden required>
+                <button type="submit" class="btn btn-secondary"><i class="bi bi-printer"></i> Print</button>
+            </form>
+            <form action="{{ route('final-npa-chart.pdf') }}" method="GET" target="">
+                <input type="hidden" name="date" value="{{ $npaData['date'] }}">
+                <input type="text" name="type" value="download" hidden required>
+                <button type="submit" class="btn btn-danger mt-2"><i class="bi bi-file-earmark-pdf"></i> Export PDF</button>
             </form>
         </div>
     </div>

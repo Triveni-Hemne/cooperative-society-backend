@@ -62,9 +62,12 @@ class MISReportController extends Controller
     {
         $fromDate = $request->input('from_date', now()->startOfMonth()->toDateString());
         $toDate = $request->input('to_date', now()->endOfMonth()->toDateString());
-
+        $type = $request->input('type', 'stream'); //default type stream
         $data = $this->getTrialBalance($fromDate, $toDate);
         $pdf = Pdf::loadView('reports.misReport.trial-balance.trial_balance_pdf', $data);
+        if($type == 'download'){
+            return $pdf->download('trial_balance_' . $fromDate . '_to_' . $toDate . '.pdf');
+        }
         return $pdf->stream('trial_balance_' . $fromDate . '_to_' . $toDate . '.pdf');
     }
 
@@ -115,9 +118,13 @@ class MISReportController extends Controller
     {
         $fromDate = $request->input('from_date', now()->startOfMonth()->toDateString());
         $toDate = $request->input('to_date', now()->endOfMonth()->toDateString());
+        $type = $request->input('type','stream'); //default type stream
 
         $data = $this->getReceiptPaymentReport($fromDate, $toDate);
         $pdf = Pdf::loadView('reports.misReport.receipt-payment.receipt_payment_pdf', $data);
+        if($type == 'download'){
+            return $pdf->stream('receipt_payment_' . $fromDate . '_to_' . $toDate . '.pdf');
+        }
         return $pdf->stream('receipt_payment_' . $fromDate . '_to_' . $toDate . '.pdf');
     }
 
@@ -169,10 +176,14 @@ class MISReportController extends Controller
     {
         $fromDate = $request->input('from_date', now()->startOfMonth()->toDateString());
         $toDate = $request->input('to_date', now()->endOfMonth()->toDateString());
+        $type = $request->input('type', 'stream'); //default type stream
 
         $data = $this->getProfitLoss($fromDate, $toDate);
         $pdf = Pdf::loadView('reports.misReport.profit-loss.profit_loss_pdf', $data);
-        return $pdf->stream('profit_loss_' . $fromDate . '_to_' . $toDate . '.pdf');
+        if($type == 'download'){
+            return $pdf->download('profit_loss_' . $fromDate . '_to_' . $toDate . '.pdf');
+        }
+            return $pdf->stream('profit_loss_' . $fromDate . '_to_' . $toDate . '.pdf');
     }
 
     /**
@@ -244,9 +255,13 @@ class MISReportController extends Controller
     public function exportBalanceSheetPDF(Request $request)
     {
         $date = $request->input('date', now()->toDateString());
+        $type = $request->input('type','stream'); // default type stream
 
         $data = $this->getBalanceSheet($date);
         $pdf = Pdf::loadView('reports.misReport.balance-sheet.balance_sheet_pdf', $data);
+        if($type == 'download'){
+            return $pdf->download('balance_sheet_' . $date . '.pdf');
+        }
         return $pdf->stream('balance_sheet_' . $date . '.pdf');
     }
 
@@ -291,9 +306,13 @@ class MISReportController extends Controller
     public function exportCDRatioPDF(Request $request)
     {
         $date = $request->input('date', now()->toDateString());
+        $type = $request->input('type','stream');
 
         $data = $this->getCDRatio($date);
         $pdf = Pdf::loadView('reports.misReport.cd-ratio.cd_ratio_pdf', $data);
+        if($type == 'download'){
+            return $pdf->download('cd_ratio_' . $date . '.pdf');
+        }
         return $pdf->stream('cd_ratio_' . $date . '.pdf');
     }
 
@@ -375,9 +394,13 @@ class MISReportController extends Controller
     public function exportMISReportPDF(Request $request)
     {
         $date = $request->input('date', now()->toDateString());
+        $type = $request->input('type','stream'); //default type stream
 
         $data = $this->getMISReport($date);
         $pdf = Pdf::loadView('reports.misReport.mis-report.mis_report_pdf', $data);
+        if($type == 'download'){
+            return $pdf->download('mis_report_' . $date . '.pdf');
+        }
         return $pdf->stream('mis_report_' . $date . '.pdf');
     }
 
@@ -391,11 +414,23 @@ class MISReportController extends Controller
             ->orderBy('date', 'asc')
             ->get();
 
-        // Fetch opening balance before the start date
-        $openingBalance = DB::table('voucher_entries')
-            ->where('ledger_id', $ledgerId)
-            ->whereDate('date', '<', $fromDate)
-            ->sum(DB::raw('credit_amount - debit_amount + opening_balance'));
+       if ($fromDate) {
+            try {
+                $fromDate = Carbon::parse($fromDate)->toDateString(); // 'Y-m-d' format
+
+                $openingBalance = DB::table('voucher_entries')
+                    ->where('ledger_id', $ledgerId)
+                    ->whereDate('date', '<', $fromDate)
+                    ->sum(DB::raw('credit_amount - debit_amount + opening_balance'));
+
+            } catch (\Exception $e) {
+                // Handle invalid date format
+                logger()->error('Invalid fromDate passed: ' . $e->getMessage());
+                $openingBalance = 0; // or whatever default you want
+            }
+        } else {
+            $openingBalance = 0; // or handle as needed
+        }
      
         // Initialize running balance with opening balance
         $runningBalance = $openingBalance;
@@ -436,16 +471,20 @@ class MISReportController extends Controller
         $ledgerId = $request->input('ledger_id');
         $fromDate = $request->input('from_date');
         $toDate = $request->input('to_date');
+        $type = $request->input('type', 'stream'); //default type stream
 
         $ledger = DB::table('general_ledgers')->where('id', $ledgerId)->first();
         $data = $this->getGeneralLedgerStatement($ledgerId, $fromDate, $toDate);
-
+        $ledgerName = $ledger?->name ?? 'Unknown Ledger';
         $pdf = Pdf::loadView('reports.misReport.gl-statement.gl_statement_pdf', [
-            'ledgerName'      => $ledger->name,
+            'ledgerName'      => $ledgerName,
             'fromDate'        => $fromDate,
             'toDate'          => $toDate,
         ] + $data);
 
+        if($type == 'download'){
+            return $pdf->download('general_ledger_' . $fromDate . '_to_' . $toDate . '.pdf');
+        }
         return $pdf->stream('general_ledger_' . $fromDate . '_to_' . $toDate . '.pdf');
     }
 

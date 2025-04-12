@@ -11,9 +11,13 @@
 
 @section('content')
     <div class="container">
-        <h2 class="mb-4">Trial Balance Report ({{ $fromDate }} to {{ $toDate }})</h2>
-
-        <table class="table table-bordered">
+        <h3 class="mb-4">Trial Balance Report ({{ $fromDate }} to {{ $toDate }})</h3>
+        <div class="export-btns d-flex justify-content-end mb-3">
+            <a href="{{ route('mis-trial-balance.pdf', ['from_date' => $fromDate, 'to_date' => $toDate, 'type' => 'stream']) }}" target="_blank" class="btn btn-secondary"><i class="bi bi-printer"></i> Print</a>
+            <a href="{{ route('mis-trial-balance.pdf', ['from_date' => $fromDate, 'to_date' => $toDate, 'type' => 'download']) }}" target="_blank" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Download PDF</a>
+       </div>
+       <div class="table-responsive">
+        <table class="table table-bordered ">
             <thead>
                 <tr>
                     <th>Ledger ID</th>
@@ -37,10 +41,9 @@
                 @endforeach
             </tbody>
         </table>
-
+</div>
         <h4>Total Debits: ₹{{ number_format($totalDebit, 2) }}</h4>
         <h4>Total Credits: ₹{{ number_format($totalCredit, 2) }}</h4>
 
-        <a href="{{ route('trial-balance.pdf', ['from_date' => $fromDate, 'to_date' => $toDate]) }}" target="_blank" class="btn btn-primary">Download PDF</a>
     </div>
 @endsection

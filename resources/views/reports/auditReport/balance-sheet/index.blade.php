@@ -10,9 +10,14 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="mb-0">Balance Sheet</h4>
-        <a href="{{ route('balance-sheet.pdf', ['as_on_date' => $asOnDate]) }}" target="_blank" class="btn btn-sm btn-danger">
+       <div class="export-btns">
+          <a href="{{ route('balance-sheet.pdf', ['as_on_date' => $asOnDate, 'type' => 'stream']) }}" target="_blank" class="btn btn-sm btn-secondary">
+            <i class="bi bi-printer"></i> Print
+        </a>
+        <a href="{{ route('balance-sheet.pdf', ['as_on_date' => $asOnDate, 'type' => 'download']) }}" class="btn btn-sm btn-danger">
             <i class="bi bi-file-earmark-pdf"></i> Export PDF
         </a>
+       </div>
     </div>
 
     <!-- Filter Form -->

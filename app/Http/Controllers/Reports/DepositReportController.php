@@ -60,10 +60,14 @@ class DepositReportController extends Controller
     {
         $date = $request->input('date', today()->toDateString());
         $data = $this->getMaturingDeposits($date);
+        $type = $request->input('type', 'stream'); //default type stream
         // Calculate total maturity amount
         $totalMaturityAmount = collect($data['maturingDeposits'])->sum('maturity_amount');
 
         $pdf = Pdf::loadView('reports.depositReport.deposit-maturity.maturity_register_pdf',['date' => $date,'maturingDeposits' => $data['maturingDeposits'],'data'=> $data, 'totalMaturityAmount' => $totalMaturityAmount]);
+        if($type == 'download'){
+            return $pdf->download('deposit_maturity_register_' . $date . '.pdf');
+        }
         return $pdf->stream('deposit_maturity_register_' . $date . '.pdf');
     }
 
@@ -113,12 +117,15 @@ class DepositReportController extends Controller
         $date = $request->input('date', today()->toDateString());
 
         $data = $this->getRDChartData($date);
+        $type = $request->input('type','stream'); //default type stream
 
         $pdf = Pdf::loadView('reports.depositReport.rd-chart.rd_chart_pdf', [
             'date' => $date,
             'rdAccounts' => $data['rdAccounts']
         ]);
-
+        if($type == 'download'){
+            return $pdf->download('rd_chart_' . $date . '.pdf');
+        }
         return $pdf->stream('rd_chart_' . $date . '.pdf');
     }
 
@@ -173,14 +180,15 @@ class DepositReportController extends Controller
     public function exportFDChartPDF(Request $request)
     {
         $date = $request->input('date', today()->toDateString());
-
         $data = $this->getFDChartData($date);
-
+        $type = $request->input('type', 'stream'); //default type stream
         $pdf = Pdf::loadView('reports.depositReport.fd-chart.fd_chart_pdf', [
             'date' => $date,
             'fdAccounts' => $data['fdAccounts']
         ]);
-
+        if($type=='download'){
+            return $pdf->download('fd_chart_' . $date . '.pdf');
+        }
         return $pdf->stream('fd_chart_' . $date . '.pdf');
     }
 
@@ -245,12 +253,14 @@ class DepositReportController extends Controller
         $date = $request->input('date', today()->toDateString());
 
         $data = $this->getInterestWiseRDData($date);
-
+        $type = $request->input('type', 'stream'); //default type stream
         $pdf = Pdf::loadView('reports.depositReport.interest-wise.interest_wise_pdf', [
             'date' => $date,
             'interestRateGroups' => $data['interestRateGroups']
         ]);
-
+        if($type == 'download'){
+            return $pdf->download('rd_interest_report_' . $date . '.pdf');
+        }
         return $pdf->stream('rd_interest_report_' . $date . '.pdf');
     }
 
@@ -330,12 +340,16 @@ class DepositReportController extends Controller
         $date = $request->input('date', today()->toDateString());
 
         $data = $this->getInterestSummaryData($date);
+        $type = $request->input('type', 'stream'); //default type stream
 
         // dd($data['summaryData']);
         $pdf = Pdf::loadView('reports.depositReport.interest-summary.interest_summary_pdf', [
             'date' => $date,
             'summaryData' => $data['summaryData']
         ]);
+         if($type == 'download'){
+            return $pdf->download('interest_summary_' . $date . '.pdf');
+        }
         return $pdf->stream('interest_summary_' . $date . '.pdf');
     }
 

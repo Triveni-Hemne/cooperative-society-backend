@@ -15,7 +15,7 @@
 
         {{-- Date Filter --}}
         <div class="row mb-4">
-            <div class="col-md-4 offset-md-4">
+            <div class="col-md-4 offset-md-4 ">
                 <form action="{{ route('gl-statement-checking.index') }}" method="GET" class="d-flex form-outline input-group">
                     <input type="date" name="date" class="form-control" required>
                     <button type="submit" class="btn btn-primary fs-5"><i class="bi bi-search text-light"></i></button>
@@ -58,7 +58,13 @@
                 <div class="d-flex">
                     <form action="{{ route('gl-statement-checking.pdf') }}" method="GET" target="_blank">
                         <input type="date" name="date" required hidden value="{{$date}}">
-                        <button type="submit" class="btn btn-danger">Export PDF</button>
+                        <input type="text" name="type" required hidden value="stream">
+                        <button type="submit" class="btn btn-secondary me-1"><i class="bi bi-printer"></i> Print</button>
+                    </form>
+                    <form action="{{ route('gl-statement-checking.pdf') }}" method="GET" target="">
+                        <input type="date" name="date" required hidden value="{{$date}}">
+                        <input type="text" name="type" required hidden value="download">
+                        <button type="submit" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Export PDF</button>
                     </form>
                 </div>
             </div>

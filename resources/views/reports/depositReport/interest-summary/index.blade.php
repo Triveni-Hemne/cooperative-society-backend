@@ -49,10 +49,16 @@
         {{-- Export Buttons --}}
         <div class="d-flex justify-content-between mt-4">
             <h4>Export Report</h4>
-            <div>
+            <div class="d-flex">
                 <form action="{{ route('interest-summary.pdf') }}" method="GET" target="_blank">
                     <input type="date" name="date" hidden value="{{ $date }}">
-                    <button type="submit" class="btn btn-danger">Export to PDF</button>
+                    <input type="text" name="type" hidden value="stream">
+                    <button type="submit" class="btn btn-secondary me-1"><i class="bi bi-printer"></i> Print</button>
+                </form>
+                <form action="{{ route('interest-summary.pdf') }}" method="GET" target="">
+                    <input type="date" name="date" hidden value="{{ $date }}">
+                    <input type="text" name="type" hidden value="download">
+                    <button type="submit" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Export to PDF</button>
                 </form>
             </div>
         </div>

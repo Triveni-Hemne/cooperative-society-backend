@@ -57,15 +57,17 @@
                 <h4>💰 Category-Wise Transactions</h4>
                 <div class="d-flex">
                     <form action="{{ route('sub-day-book.pdf') }}" method="GET" target="_blank">
-                        <input type="hidden" name="date" value="{{ $date }}">
-                        <input type="hidden" name="account_type" value="{{ $accountType }}">
-                        <button type="submit" class="btn btn-danger">Export PDF</button>
+                        <input type="date" hidden name="date" value="{{ $date }}">
+                        <input type="text" hidden name="type" value="stream" required>
+                        <input type="text" hidden name="account_type" value="{{ $accountType }}">
+                        <button type="submit" class="btn btn-secondary me-1"><i class="bi bi-printer"></i> Print</button>
                     </form>
-                    {{-- <form action="{{ route('sub-day-book.excel') }}" method="GET" class="ms-2">
-                        <input type="hidden" name="date" value="{{ $date }}">
-                        <input type="hidden" name="account_type" value="{{ $accountType }}">
-                        <button type="submit" class="btn btn-success">Export Excel</button>
-                    </form> --}}
+                     <form action="{{ route('sub-day-book.pdf') }}" method="GET" target="">
+                        <input type="text" hidden name="date" value="{{ $date }}">
+                        <input type="text" hidden name="type" value="download" required>
+                        <input type="text" hidden name="account_type" value="{{ $accountType }}">
+                        <button type="submit" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Export PDF</button>
+                    </form>
                 </div>
             </div>
             

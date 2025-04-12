@@ -33,9 +33,14 @@
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 class="mb-0">Profit and Loss Statement</h4>
-        <a href="{{ route('profit-loss.pdf', ['from_date' => $fromDate, 'to_date' => $toDate]) }}" target="_blank" class="btn btn-sm btn-danger">
-            <i class="fas fa-file-pdf"></i> Export PDF
+      <div class="export-btns">
+          <a href="{{ route('profit-loss.pdf',['from_date' => $fromDate, 'to_date' => $toDate, 'type' => 'stream']) }}" target="_blank" class="btn btn-sm btn-secondary">
+            <i class="bi bi-printer"></i> Print
         </a>
+        <a href="{{ route('profit-loss.pdf', ['from_date' => $fromDate, 'to_date' => $toDate, 'type' => 'download']) }}"  class="btn btn-sm btn-danger">
+            <i class="bi bi-file-earmark-pdf"></i> Export PDF
+        </a>
+      </div>
     </div>
 
     <div class="card shadow-sm">

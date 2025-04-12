@@ -6,21 +6,25 @@
 @section('css')
 <link rel="stylesheet" href="{{asset('/assets/css/index.css')}}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 @endsection
 
 @section('content')
 <div class="container mt-4">
     <h2 class="mb-4">Management Information System (MIS) Report</h2>
-    <form method="GET" action="{{ route('mis-report.index') }}" class="row g-3 d-flex align-items-end  ">
+    <form method="GET" action="{{ route('mis-report.index') }}" class="row g-3 d-flex align-items-end border rounded p-3 mb-4 ">
         <div class="col-md-4">
             <label for="date" class="form-label">As on Date:</label>
             <input type="date" id="date" name="date" class="form-control" value="{{ request('date', now()->toDateString()) }}">
         </div>
         <div class="col-md-4 d-flex align-items-end">
             <button type="submit" class="btn btn-primary me-2">Generate</button>
-            <a href="{{ route('mis-report.pdf', ['date' => request('date')]) }}" target="_blank" class="btn btn-danger">Download PDF</a>
         </div>
     </form>
+    <div class="export-btns">
+            <a href="{{ route('mis-report.pdf', ['date' => request('date'), 'type' => 'steam']) }}" target="_blank" class="btn btn-secondary"><i class="bi bi-printer"></i> Print</a>
+            <a href="{{ route('mis-report.pdf', ['date' => request('date'), 'type' => 'download']) }}" target="" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Download PDF</a>
+    </div>
 
     <div class="table-responsive mt-4">
         <table class="table table-bordered">

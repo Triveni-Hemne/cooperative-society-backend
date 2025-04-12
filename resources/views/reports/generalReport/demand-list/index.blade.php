@@ -9,7 +9,7 @@
     <h3 class="mb-4">Demand List Report</h3>
 
     <form method="GET" action="{{ route('demand-list.index') }}" class="mb-4">
-        <div class="row g-2">
+        <div class="row g-2 border p-4 rounded mb-3">
             <div class="col-md-3">
                 <input type="date" name="start_date" class="form-control" value="{{ $startDate }}">
             </div>
@@ -18,8 +18,12 @@
             </div>
             <div class="col-md-3">
                 <button type="submit" class="btn btn-primary">Filter</button>
-                <a href="{{ route('demand-list.pdf', ['start_date' => $startDate, 'end_date' => $endDate]) }}" target="_blank" class="btn btn-danger ms-2">Export PDF</a>
             </div>
+        </div>
+        
+        <div class="export-btns float-end mb-3">
+            <a href="{{ route('demand-list.pdf', ['start_date' => $startDate, 'end_date' => $endDate, 'type' => 'stream']) }}" target="_blank" class="btn btn-secondary ms-2"> <i class="bi bi-printer"></i> Print</a>
+            <a href="{{ route('demand-list.pdf', ['start_date' => $startDate, 'end_date' => $endDate, 'type' => 'download']) }}" target="" class="btn btn-danger ms-2"><i class="bi bi-file-earmark-pdf"></i> Export PDF</a>
         </div>
     </form>
 

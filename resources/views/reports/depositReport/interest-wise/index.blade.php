@@ -58,9 +58,15 @@
             <div class="d-flex justify-content-between">
                 <h4>📈 Interest-wise RD Summary</h4>
                 <div class="d-flex">
-                    <form action="{{ route('interestwise-reccuring.pdf') }}" method="GET">
+                    <form action="{{ route('interestwise-reccuring.pdf') }}" method="GET" target="_blank">
                         <input type="date" name="date" required hidden value="{{ $date }}">
-                        <button type="submit" class="btn btn-danger">Export PDF</button>
+                        <input type="text" name="type"  value="stream" required hidden>
+                        <button type="submit" class="btn btn-secondary me-1"><i class="bi bi-printer text-light"></i>Print</button>
+                    </form>
+                     <form action="{{ route('interestwise-reccuring.pdf') }}" method="GET" >
+                        <input type="date" name="date" required hidden value="{{ $date }}">
+                        <input type="text" name="type" class="form-control" value="download" required hidden>
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-file-earmark-pdf text-light"></i>Export PDF</button>
                     </form>
                 </div>
             </div>

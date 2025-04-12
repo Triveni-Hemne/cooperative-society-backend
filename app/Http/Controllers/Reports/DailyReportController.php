@@ -67,18 +67,13 @@ class DailyReportController extends Controller
     {
         $date = $request->input('date', Carbon::today()->toDateString());
         $data = $this->getCashBookData($date);
+        $type = $request->input('type', 'stream');
 
         $pdf = Pdf::loadView('reports.dailyReport.cash-book.cashbook_pdf', $data);
+        if($type == 'download'){
+            return $pdf->download('cashbook_report_' . $date . '.pdf');
+        }
         return $pdf->stream('cashbook_report_' . $date . '.pdf');
-    }
-
-    /**
-     * Export Cash Book to Excel.
-     */
-    public function exportExcel(Request $request)
-    {
-        $date = $request->input('date', now()->toDateString());
-        return Excel::download(new CashBookExport($date), 'cashbook_report_' . $date . '.xlsx');
     }
 
     public function getDayBookData($date)
@@ -115,19 +110,15 @@ class DailyReportController extends Controller
     {
         $date = $request->input('date', Carbon::today()->toDateString());
         $data = $this->getDayBookData($date);
+        $type = $request->input('type', 'stream');
 
         $pdf = Pdf::loadView('reports.dailyReport.day-book.daybook_pdf', $data);
+         if($type == 'download'){
+            return $pdf->download('daybook_report_' . $date . '.pdf');
+        }
         return $pdf->stream('daybook_report_' . $date . '.pdf');
     }
 
-    /**
-     * Export Day Book to Excel.
-     */
-    public function exportDayBookExcel(Request $request)
-    {
-        $date = $request->input('date', now()->toDateString());
-        return Excel::download(new DayBookExport($date), 'daybook_report_' . $date . '.xlsx');
-    }
 
     /**
      * Fetch Sub Day Book Data
@@ -189,21 +180,15 @@ class DailyReportController extends Controller
         $accountType = $request->input('account_type');
 
         $data = $this->getSubDayBookData($date, $accountType);
+        $type = $request->input('type', 'stream');
 
         $pdf = Pdf::loadView('reports.dailyReport.sub-day-book.subdaybook_pdf', $data);
+        if($type == 'download'){
+            return $pdf->download('subdaybook_report_' . $date . '.pdf');
+        }
         return $pdf->stream('subdaybook_report_' . $date . '.pdf');
     }
 
-    /**
-     * Export Sub Day Book to Excel
-     */
-    public function exportSubDayBookExcel(Request $request)
-    {
-        $date = $request->input('date', now()->toDateString());
-        $accountType = $request->input('account_type');
-
-        return Excel::download(new SubDayBookExport($date, $accountType), 'subdaybook_report_' . $date . '.xlsx');
-    }
     /**
      * Fetch GL Statement Data
      */
@@ -301,25 +286,17 @@ class DailyReportController extends Controller
         $startDate = $request->input('start_date', Carbon::today()->startOfMonth()->toDateString());
         $endDate = $request->input('end_date', Carbon::today()->toDateString());
         $glAccount = $request->input('gl_account');
+        $type = $request->input('type', 'stream');
 
         $data = $this->getGLStatementData($startDate, $endDate, $glAccount);
 
         $pdf = Pdf::loadView('reports.dailyReport.gl-statement-checking.glstatementchecking_pdf', $data);
+         if($type == 'download'){
+            return $pdf->download('gl_statement_' . $startDate . '_to_' . $endDate . '.pdf');
+        }
         return $pdf->stream('gl_statement_' . $startDate . '_to_' . $endDate . '.pdf');
     }
 
-
-    /**
-     * Export GL Statement to Excel
-     */
-   public function exportGLStatementExcel(Request $request)
-    {
-        $startDate = $request->input('start_date', Carbon::today()->startOfMonth()->toDateString());
-        $endDate = $request->input('end_date', Carbon::today()->toDateString());
-        $glAccount = $request->input('gl_account');
-
-        return Excel::download(new GLStatementExport($startDate, $endDate, $glAccount), 'gl_statement_' . $startDate . '_to_' . $endDate . '.xlsx');
-    }
 
    /**
      * Fetch Cut Book (Loan Repayment) Data
@@ -393,13 +370,16 @@ class DailyReportController extends Controller
         $startDate = $request->input('start_date', Carbon::today()->toDateString());
         $endDate = $request->input('end_date', Carbon::today()->toDateString());
         $loanAccountId = $request->input('loan_account');
+        $type = $request->input('type', 'stream');
 
         $transactions = $this->getCutBookData($startDate, $endDate, $loanAccountId, false);
 
         $pdf = Pdf::loadView('reports.dailyReport.cut-book.cut-book_pdf', compact(
             'startDate', 'endDate', 'transactions'
         ));
-
+        if($type == 'download'){
+            return $pdf->download('Cut_Book_Report_' . $startDate . '_to_' . $endDate . '.pdf');
+        }
         return $pdf->stream('Cut_Book_Report_' . $startDate . '_to_' . $endDate . '.pdf');
     }
 
@@ -443,8 +423,11 @@ class DailyReportController extends Controller
     {
         $date = $request->input('date', Carbon::today()->toDateString());
         $data = $this->getDemandDayBookData($date);
-
+        $type = $request->input('type', 'stream');
         $pdf = Pdf::loadView('reports.dailyReport.demand-day-book.demand_day_book_pdf', $data);
+        if($type == 'download'){
+            return $pdf->download('demand_day_book_' . $date . '.pdf');
+        }
         return $pdf->stream('demand_day_book_' . $date . '.pdf');
     }
 

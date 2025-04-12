@@ -56,8 +56,11 @@ class LoanController extends Controller
     {
         $date = $request->input('date', Carbon::today()->toDateString());
         $data = $this->getOverdueLoans($date);
-
+        $type = $request->input('type', 'stream');
         $pdf = Pdf::loadView('reports.loanReport.overdue-register.overdue_register_pdf', $data);
+        if($type == 'download'){
+            return $pdf->download('overdue_report_' . $date . '.pdf');
+        }
         return $pdf->stream('overdue_report_' . $date . '.pdf');
     }
 
@@ -96,13 +99,17 @@ class LoanController extends Controller
     {
         $date = $request->input('date', Carbon::today()->toDateString());
         $overdueLoans = $this->getNPAList($date);
-
+        $type = $request->input('type', 'stream');
+        // dd($type);
         $data = [
             'date' => $date,
             'overdueLoans' => $overdueLoans
         ];
 
         $pdf = Pdf::loadView('reports.loanReport.npa-list.npa_list_pdf', $data);
+        if($type == 'download'){
+            return $pdf->download('npa_list_' . $date . '.pdf');
+        }
         return $pdf->stream('npa_list_' . $date . '.pdf');
     }
 
@@ -174,8 +181,11 @@ class LoanController extends Controller
     {
         $date = $request->input('date', Carbon::today()->toDateString());
         $npaData = $this->getFinalNPAChartData($date);
-
+        $type = $request->input('type', 'stream');
         $pdf = Pdf::loadView('reports.loanReport.final-npa-chart.final_npa_chart_pdf', compact('npaData'));
+        if($type == 'download'){
+            return $pdf->download('final_npa_chart_' . $date . '.pdf');
+        }
         return $pdf->stream('final_npa_chart_' . $date . '.pdf');
     }
 
@@ -210,7 +220,7 @@ class LoanController extends Controller
     {
         $fromDate = $request->input('from_date', today()->startOfMonth()->toDateString());
         $toDate = $request->input('to_date', today()->endOfMonth()->toDateString());
-
+        $type = $request->input('type', 'stream');
         $debitLoans = $this->getDebitLoanReportData($fromDate, $toDate);
 
         $data = [
@@ -220,6 +230,9 @@ class LoanController extends Controller
         ];
 
         $pdf = Pdf::loadView('reports.loanReport.debit-loan.debit_loan_pdf', $data);
+        if($type == 'download'){
+            return $pdf->download('debit_loan_report_' . $fromDate . '_to_' . $toDate . '.pdf');
+        }
         return $pdf->stream('debit_loan_report_' . $fromDate . '_to_' . $toDate . '.pdf');
     }
 
@@ -248,69 +261,74 @@ class LoanController extends Controller
         return view('reports.loanReport.gaurantor-register.index', $data);
     }
 
-    public function exportGuarantorRegisterPDF()
+    public function exportGuarantorRegisterPDF(Request $request)
     {
         $data = $this->getGuarantorRegisterData();
-        
+        $type = $request->input('type', 'stream');
+
         $pdf = Pdf::loadView('reports.loanReport.gaurantor-register.guarantor_register_pdf', $data);
+        if($type == 'download'){
+            return $pdf->download('guarantor_register.pdf');
+        }
         return $pdf->stream('guarantor_register.pdf');
     }
 
     public function getLoanAccountStatement($loanAccNo)
-{
-    // Fetch loan details
-    $loan = DB::table('member_loan_accounts')
-        ->where('acc_no', $loanAccNo)
-        ->first();
+    {
+        // Fetch loan details
+        $accounts = MemberLoanAccount::all();
+        $loan = DB::table('member_loan_accounts')
+            ->where('acc_no', $loanAccNo)
+            ->first();
 
-    if (!$loan) {
-        return []; // Handle case where loan account doesn't exist
+        if (!$loan) {
+            return []; // Handle case where loan account doesn't exist
+        }
+
+        // Fetch transaction history (Assuming transactions are stored in `general_ledgers`)
+        $transactions = DB::table('general_ledgers')
+            ->where('id', $loan->ledger_id)
+            ->orderBy('created_at', 'asc')
+            ->get();
+        // Calculate total payments made
+        $totalPaid = $transactions->where('transaction_type', 'Payment')->sum('amount');
+
+        // Calculate outstanding balance
+        $outstandingBalance = $loan->loan_amount - $totalPaid;
+
+        // Calculate interest accrued (assuming interest is applied monthly)
+        $interestAccrued = ($loan->loan_amount * $loan->interest_rate / 100) * ($loan->tenure / 12);
+
+        return compact('loan', 'transactions', 'totalPaid', 'outstandingBalance', 'interestAccrued');
     }
 
-    // Fetch transaction history (Assuming transactions are stored in `general_ledgers`)
-    $transactions = DB::table('general_ledgers')
-        ->where('id', $loan->ledger_id)
-        ->orderBy('created_at', 'asc')
-        ->get();
-    // Calculate total payments made
-    $totalPaid = $transactions->where('transaction_type', 'Payment')->sum('amount');
+    public function loanAccountStatement(Request $request)
+    {
+        $loanAccNo = $request->input('loan_acc_no');
+        
+        $data = $this->getLoanAccountStatement($loanAccNo);
+        
+        // if (!$data) {
+        //     return back()->with('error', 'Loan account not found.');
+        // }
+        // return "account Statement";
 
-    // Calculate outstanding balance
-    $outstandingBalance = $loan->loan_amount - $totalPaid;
-
-    // Calculate interest accrued (assuming interest is applied monthly)
-    $interestAccrued = ($loan->loan_amount * $loan->interest_rate / 100) * ($loan->tenure / 12);
-
-    return compact('loan', 'transactions', 'totalPaid', 'outstandingBalance', 'interestAccrued');
-}
-
-public function loanAccountStatement(Request $request)
-{
-    $loanAccNo = $request->input('loan_acc_no');
-    
-    $data = $this->getLoanAccountStatement($loanAccNo);
-    
-    // if (!$data) {
-    //     return back()->with('error', 'Loan account not found.');
-    // }
-    // return "account Statement";
-
-    return view('reports.loanReport.account-statement.index', $data);
-}
-
-public function exportLoanAccountStatementPDF(Request $request)
-{
-    $loanAccNo = $request->input('loan_acc_no');
-    
-    $data = $this->getLoanAccountStatement($loanAccNo);
-
-    if (!$data) {
-        return back()->with('error', 'Loan account not found.');
+        return view('reports.loanReport.account-statement.index', $data);
     }
 
-    $pdf = Pdf::loadView('reports.loanReport.account-statement.loan_account_statement_pdf', $data);
-    return $pdf->stream('loan_account_statement_' . $loanAccNo . '.pdf');
-}
+    public function exportLoanAccountStatementPDF(Request $request)
+    {
+        $loanAccNo = $request->input('loan_acc_no');
+        
+        $data = $this->getLoanAccountStatement($loanAccNo);
+
+        if (!$data) {
+            return back()->with('error', 'Loan account not found.');
+        }
+
+        $pdf = Pdf::loadView('reports.loanReport.account-statement.loan_account_statement_pdf', $data);
+        return $pdf->stream('loan_account_statement_' . $loanAccNo . '.pdf');
+    }
 
 
 
