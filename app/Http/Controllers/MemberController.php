@@ -10,6 +10,7 @@ use App\Models\MemberBankDetail;
 use App\Models\MemberFinancial;
 use App\Models\Employee;
 use App\Models\Center;
+use App\Models\Branch;
 use App\Models\Department;
 use App\Models\Division;
 use App\Models\Subdivision;
@@ -34,10 +35,11 @@ class MemberController extends Controller
        $subcates = Subcaste::all();
        $directors = Director::all();
        $centers = Center::all();
+       $branches = Branch::all();
        $divisions = Division::all();
        $subdivisions = Subdivision::all();
        $designations = Designation::all();
-        return view('accounts.member.list', compact('departments','subcates','members','directors','centers','divisions','subdivisions','designations'));
+        return view('accounts.member.list', compact('departments','subcates','members','directors','centers','divisions','subdivisions','designations','branches'));
     }
 
     /**
@@ -84,6 +86,7 @@ class MemberController extends Controller
             'm_reg_no' => 'nullable|string|max:50',
             'pan_no' => 'nullable|string|max:20',
             'adhar_no' => 'nullable|string|max:20',
+            'branch_id' => 'nullable|string|branches,id',
 
             // Contact Validation
             'address' => 'required|string',
@@ -164,7 +167,7 @@ class MemberController extends Controller
         $member = Member::create(array_merge(
             Arr::only($validatedData, [
                 'subcaste_id', 'department_id', 'name', 'naav', 'dob', 'gender', 'age',
-                'date_of_joining', 'religion', 'category', 'caste', 'm_reg_no', 'pan_no', 'adhar_no'
+                'date_of_joining', 'religion', 'category', 'caste', 'm_reg_no', 'pan_no', 'adhar_no', 'branch_id'
             ]),
             ['employee_id' => $employee->id]
         ));
@@ -261,6 +264,7 @@ class MemberController extends Controller
             'm_reg_no' => 'nullable|string|max:50',
             'pan_no' => 'nullable|string|max:20',
             'adhar_no' => ['nullable', 'string', 'max:20', Rule::unique('members', 'adhar_no')->ignore($id)],
+            'branch_id' => 'nullable|string|exists:branches:id',
         ]);
 
         $contact_validated = $request->validate([
