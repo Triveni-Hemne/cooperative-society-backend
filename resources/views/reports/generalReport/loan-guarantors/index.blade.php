@@ -6,9 +6,9 @@
 @endsection
 @section('content')
 <div class="container">
-    <h4 class="mb-4">Loan Guarantor Report</h4>
+    <h3 class="mb-4">Loan Guarantor Report</h3>
 
-    <form method="GET" action="{{ route('loan-garantor.index') }}" class="mb-4">
+    <form method="GET" action="{{ route('loan-garantor.index') }}" class="mb-4 card p-4">
         <div class="row">
             <div class="col-md-3">
                 <label>Start Date:</label>
@@ -21,13 +21,16 @@
             <div class="col-md-3 d-flex align-items-end">
                 <button class="btn btn-primary">Filter</button>
             </div>
-            <div class="col-md-3 d-flex align-items-end justify-content-end">
-                <a href="{{ route('loan-garantor.pdf', ['start_date' => $startDate, 'end_date' => $endDate]) }}" target="_blank" class="btn btn-danger">
-                    <i class="fas fa-file-pdf"></i> Export PDF
-                </a>
-            </div>
         </div>
     </form>
+     <div class="d-flex align-items-end justify-content-end">
+        <a href="{{ route('loan-garantor.pdf', ['start_date' => $startDate, 'end_date' => $endDate, 'type' => 'stream']) }}" target="_blank" class="btn btn-secondary">
+            <i class="bi bi-printer"></i> Print
+        </a>
+        <a href="{{ route('loan-garantor.pdf', ['start_date' => $startDate, 'end_date' => $endDate, 'type' => 'download']) }}" target="" class="btn btn-danger">
+            <i class="bi bi-file-earmark-pdf"></i> Export PDF
+        </a>
+    </div>
 
     <table class="table table-bordered table-striped">
         <thead>

@@ -188,17 +188,17 @@ use App\Http\Controllers\Reports\MISReportController;
 
 Route::prefix('MIS-reports')->group(function () {
     Route::controller(MISReportController::class)->group(function () {
-        Route::get('trial-balance', 'viewTrialBalance')->name('trial-balance.index');
-        Route::get('trial-balance/export/pdf', 'exportTrialBalancePDF')->name('trial-balance.pdf');
+        Route::get('trial-balance', 'viewTrialBalance')->name('mis-trial-balance.index');
+        Route::get('trial-balance/export/pdf', 'exportTrialBalancePDF')->name('mis-trial-balance.pdf');
 
         Route::get('receipt-payment', 'viewReceiptPaymentReport')->name('receipt-payment.index');
         Route::get('receipt-payment/export/pdf', 'exportReceiptPaymentPDF')->name('receipt-payment.pdf');
 
-        Route::get('profit-loss', 'viewProfitLoss')->name('profit-loss.index');
-        Route::get('profit-loss/export/pdf', 'exportProfitLossPDF')->name('profit-loss.pdf');
+        Route::get('profit-loss', 'viewProfitLoss')->name('mis-profit-loss.index');
+        Route::get('profit-loss/export/pdf', 'exportProfitLossPDF')->name('mis-profit-loss.pdf');
 
-        Route::get('balance-sheet', 'viewBalanceSheet')->name('balance-sheet.index');
-        Route::get('balance-sheet/export/pdf', 'exportBalanceSheetPDF')->name('balance-sheet.pdf');
+        Route::get('balance-sheet', 'viewBalanceSheet')->name('mis-balance-sheet.index');
+        Route::get('balance-sheet/export/pdf', 'exportBalanceSheetPDF')->name('mis-balance-sheet.pdf');
 
         Route::get('cd-ratio', 'viewCDRatio')->name('cd-ratio.index');
         Route::get('cd-ratio/export/pdf', 'exportCDRatioPDF')->name('cd-ratio.pdf');

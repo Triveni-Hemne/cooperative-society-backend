@@ -68,6 +68,7 @@ class GeneralReportController extends Controller
         $accountId = $request->input('account_id');
         $startDate = $request->input('start_date', today()->subMonth()->toDateString());
         $endDate = $request->input('end_date', today()->toDateString());
+        $type = $request->input('type','stream'); // default to stream
 
         // Fetch transactions
         $data = $this->getAccountStatement($accountId, $startDate, $endDate);
@@ -78,7 +79,9 @@ class GeneralReportController extends Controller
             'endDate' => $endDate,
             'transactions' => $data['transactions']
         ]);
-
+        if($type == 'download'){
+            return $pdf->download('account_statement_' . $accountId . '_' . $startDate . '_to_' . $endDate . '.pdf'); 
+        }
         return $pdf->stream('account_statement_' . $accountId . '_' . $startDate . '_to_' . $endDate . '.pdf');
     }
 
@@ -130,6 +133,7 @@ class GeneralReportController extends Controller
         $ledgerId = $request->input('ledger_id');
         $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
         $endDate = $request->input('end_date', now()->toDateString());
+        $type = $request->input('type','stream'); //deafaul stream
 
         if (!$ledgerId) {
             return back()->with('error', 'Please select a ledger to generate the PDF.');
@@ -140,7 +144,9 @@ class GeneralReportController extends Controller
         $pdf = Pdf::loadView('reports.generalReport.gl-statements.gl_statement_pdf', array_merge(
             $data, compact('ledgerId', 'startDate', 'endDate')
         ));
-
+        if($type == 'download'){
+            return $pdf->download("General_Ledger_Statement_{$startDate}_to_{$endDate}.pdf");
+        }
         return $pdf->stream("General_Ledger_Statement_{$startDate}_to_{$endDate}.pdf");
     }
 
@@ -200,6 +206,7 @@ class GeneralReportController extends Controller
         $memberId = $request->input('member_id');
         $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
         $endDate = $request->input('end_date', now()->toDateString());
+        $type = $request->input('type','stream'); //default type stream
 
         if (!$memberId) {
             return back()->with('error', 'Please select a member to generate the PDF.');
@@ -211,6 +218,9 @@ class GeneralReportController extends Controller
             $data, compact('memberId', 'startDate', 'endDate')
         ));
 
+        if($type == 'download'){
+            return $pdf->download("Member_Statement_{$startDate}_to_{$endDate}.pdf");
+        }
         return $pdf->stream("Member_Statement_{$startDate}_to_{$endDate}.pdf");
     }
 
@@ -243,10 +253,13 @@ class GeneralReportController extends Controller
         $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
         $endDate = $request->input('end_date', now()->toDateString());
         $data = $this->getloanGuarantorReport($startDate, $endDate);
+        $type = $request->input('type', 'stream'); //deafault type stream
         $pdf = Pdf::loadView('reports.generalReport.loan-guarantors.loan_guarantors_pdf', array_merge(
             $data, compact('startDate', 'endDate')
         ));
-
+        if($type == 'download'){
+            return $pdf->download("Loan_Guarantor_Report_{$startDate}_to_{$endDate}.pdf");
+        }
         return $pdf->stream("Loan_Guarantor_Report_{$startDate}_to_{$endDate}.pdf");
     }
 
@@ -280,10 +293,14 @@ class GeneralReportController extends Controller
     {
         $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
         $endDate = $request->input('end_date', now()->toDateString());
+        $type = $request->input('type','stream');
 
         $data = $this->getDemandList($startDate, $endDate);
 
         $pdf = Pdf::loadView('reports.generalReport.demand-list.demand_list_pdf', $data);
+        if($type == 'download'){
+            return $pdf->download("Demand_List_Report_{$startDate}_to_{$endDate}.pdf");
+        }
         return $pdf->stream("Demand_List_Report_{$startDate}_to_{$endDate}.pdf");
     }
 

@@ -12,7 +12,10 @@
     <h2 class="mb-4">Guarantor Register</h2>
 
     <!-- Export PDF Button -->
-    <a href="{{ route('guarantor-register.pdf') }}" class="btn btn-danger mb-3" target="_blank">Export PDF</a>
+    <div class="export-btns d-flex justify-content-end">
+        <a href="{{ route('guarantor-register.pdf', ['type' => 'stream']) }}" class="btn btn-secondary mb-3 me-1" target="_blank"><i class="bi bi-printer"></i>Print</a>
+        <a href="{{ route('guarantor-register.pdf', ['type' => 'download']) }}" class="btn btn-danger mb-3" target=""><i class="bi bi-file-earmark-pdf"></i>Export PDF</a>
+    </div>
 
     <!-- Guarantor Register Table -->
     <table class="table table-bordered">

@@ -3,6 +3,7 @@
 
 @section('css')
 <link rel="stylesheet" href="{{asset('/assets/css/index.css')}}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 @endsection
 
@@ -10,7 +11,7 @@
 <div class="container mt-4">
     <h2 class="mb-4">General Ledger Statement</h2>
     
-    <form method="GET" action="{{ route('gl-statements.index') }}" class="row g-3 mb-4">
+    <form method="GET" action="{{ route('gl-statements.index') }}" class="row g-3 mb-4 border rounded p-3">
         <div class="col-md-4">
             <label for="ledger_id" class="form-label">Select Ledger:</label>
             <select name="ledger_id" id="ledger_id" class="form-select" required>
@@ -39,11 +40,15 @@
     </form>
 
     <div class="text-end mb-3">
-        <a href="{{ route('gl-statements.pdf', ['ledger_id' => request('ledger_id'), 'from_date' => request('from_date'), 'to_date' => request('to_date')]) }}" class="btn btn-danger" target="_blank">
+        <a href="{{ route('gl-statements.pdf', ['ledger_id' => request('ledger_id'), 'from_date' => request('from_date'), 'to_date' => request('to_date'), 'type' => 'stream']) }}" class="btn btn-secondary" target="_blank">
+            <i class="bi bi-printer"></i> Print
+        </a>
+        <a href="{{ route('gl-statements.pdf', ['ledger_id' => request('ledger_id'), 'from_date' => request('from_date'), 'to_date' => request('to_date'), 'type'=> 'download']) }}" class="btn btn-danger" target="">
             <i class="bi bi-file-earmark-pdf"></i> Download PDF
         </a>
     </div>
 
+    <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
             <tr>
@@ -66,5 +71,6 @@
             @endforeach
         </tbody>
     </table>
+    </div>
 </div>
 @endsection

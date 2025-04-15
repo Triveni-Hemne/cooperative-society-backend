@@ -10,7 +10,7 @@
 
     <!-- Filter Form -->
     <form action="{{ route('member-statement.index') }}" method="GET" class="mb-4">
-        <div class="row">
+        <div class="row border p-3 rounded mb-4">
             <div class="col-md-3">
                 <label>Member:</label>
                 <select name="member_id" id="memberId" class="form-select" required>
@@ -30,14 +30,18 @@
                 <label>End Date:</label>
                 <input type="date" name="end_date" class="form-control" value="{{ $endDate }}">
             </div>
-            <div class="col-md-3 d-flex align-items-end">
+            <div class="col-md-2 py-4">
                 <button type="submit" class="btn btn-primary">Filter</button>
-                @if($transactions->isNotEmpty())
-                    <a href="{{ route('member-statement.export-pdf', ['member_id' => $memberId, 'start_date' => $startDate, 'end_date' => $endDate]) }}" 
-                        class="btn btn-danger ms-2" target="_blank">Export PDF</a>
-                @endif
             </div>
         </div>
+            <div class="d-flex align-items-end justify-content-end">
+                {{-- @if($transactions->isNotEmpty()) --}}
+                    <a href="{{ route('member-statement.pdf', ['member_id' => $memberId, 'start_date' => $startDate, 'end_date' => $endDate, 'type' => 'stream']) }}" 
+                        class="btn btn-secondary ms-2" target="_blank"><i class="bi bi-printer"></i> Print</a>
+                    <a href="{{ route('member-statement.pdf', ['member_id' => $memberId, 'start_date' => $startDate, 'end_date' => $endDate, 'type' => 'download']) }}" 
+                        class="btn btn-danger ms-2" target=""><i class="bi bi-file-earmark-pdf"></i> Export PDF</a>
+                {{-- @endif --}}
+            </div>
     </form>
 
     <!-- Member Transactions Table -->

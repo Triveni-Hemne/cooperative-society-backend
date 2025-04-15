@@ -46,9 +46,13 @@
 </form>
 
     <!-- Export to PDF Button -->
-    <a href="{{ route('account-statement.pdf', ['account_id' => request('account_id'), 'start_date' => request('start_date'), 'end_date' => request('end_date')]) }}" 
-       class="btn btn-danger mb-3" target="_blank">
-       Export to PDF
+    <a href="{{ route('account-statement.pdf', ['account_id' => request('account_id'), 'start_date' => request('start_date'), 'end_date' => request('end_date'), 'type'=>'stream']) }}" 
+       class="btn btn-secondary mb-3" target="_blank">
+      <i class="bi bi-printer"></i> Print
+    </a>
+     <a href="{{ route('account-statement.pdf', ['account_id' => request('account_id'), 'start_date' => request('start_date'), 'end_date' => request('end_date'), 'type'=>'download']) }}" 
+       class="btn btn-danger mb-3" >
+      <i class="bi bi-file-earmark-pdf"></i> Export PDF
     </a>
 
     <!-- Account Transactions Table -->

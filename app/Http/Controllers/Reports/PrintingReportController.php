@@ -56,18 +56,22 @@ class PrintingReportController extends Controller
         return view('reports.printingReport.duplicate-printing.index', $data);
     }
 
-    public function exportDuplicatePDF($id)
+    public function exportDuplicatePDF(Request $request, $id)
     {
         $entry = VoucherEntry::with([
             'account',
             'memberDepoAccount.member',
             'memberLoanAccount.member'
         ])->findOrFail($id);
+        $type = $request->input('type','stream'); // default to stream
 
         $pdf = Pdf::loadView('reports.printingReport.duplicate-printing.duplicate_printing_pdf', compact('entry'))
                 ->setPaper('A5', 'portrait');
-
-        return $pdf->download("Duplicate_Receipt_{$entry->voucher_num}.pdf");
+        
+        if($type == 'download'){
+            return $pdf->download("Duplicate_Receipt_{$entry->voucher_num}.pdf");
+        }
+        return $pdf->stream("Duplicate_Receipt_{$entry->voucher_num}.pdf");
     }
 
 
@@ -79,11 +83,16 @@ class PrintingReportController extends Controller
             $request->input('start_date'),
             $request->input('end_date')
         );
+        $type = $request->input('type','stream'); // default to stream
 
         $pdf = Pdf::loadView('reports.printingReport.duplicate-printing.duplicate_printing_list_pdf', $data)
                 ->setPaper('A4', 'portrait');
 
+        if($type == 'download'){
+            return $pdf->download("Duplicate_Receipts_List.pdf");
+        }
         return $pdf->stream("Duplicate_Receipts_List.pdf");
+
     }
 
     private function getPassbookData($accountType, $accountId, $fromDate = null, $toDate = null)

@@ -25,10 +25,18 @@
     {{-- Export Button --}}
     <div class="d-flex justify-content-between mb-3">
         <h4>🏦 NPA Loan Details</h4>
-        <form action="{{ route('npa-list.pdf') }}" method="GET" target="_blank">
-            <input type="hidden" name="date" value="{{ $date }}">
-            <button type="submit" class="btn btn-danger">Export PDF</button>
-        </form>
+        <div class="d-flex">
+            <form action="{{ route('npa-list.pdf') }}" method="GET" target="_blank">
+                <input type="date" name="date" value="{{ $date }}" hidden required>
+                <input type="text" name="type" value="stream" hidden required>
+                <button type="submit" class="btn btn-secondary me-1"><i class="bi bi-printer"></i> Print</button>
+            </form>
+            <form action="{{ route('npa-list.pdf') }}" method="GET" target="">
+                <input type="date" name="date" value="{{ $date }}" hidden required>
+                <input type="text" name="type" value="download" hidden required>
+                <button type="submit" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Export PDF</button>
+            </form>
+        </div>
     </div>
     
     {{-- Loan Details Table --}}

@@ -48,9 +48,13 @@ class ShareReportController extends Controller
     {
         $date = $request->input('date', Carbon::today()->toDateString());
         $data = $this->getShareList($date);
+        $type = $request->input('type', 'stream');//default type stream
 
         $pdf = Pdf::loadView('reports.shareReport.share-list.share_list_pdf', $data);
-        return $pdf->stream('share_list_report_' . $date . '.pdf');
+        if($type == 'download'){
+            return $pdf->download('share_list_report_' . $date . '.pdf');
+        }
+         return $pdf->stream('share_list_report_' . $date . '.pdf');
     }
 
     public function calculateDividend($date)
@@ -105,8 +109,12 @@ class ShareReportController extends Controller
     {
         $date = $request->input('date', today()->toDateString());
         $data = $this->calculateDividend($date);
+        $type = $request->input('type', 'stream'); // default type stream
 
         $pdf = Pdf::loadView('reports.shareReport.dividend-calculation.dividend_calculation_pdf', $data);
+        if($type == 'download'){
+            return $pdf->download('dividend_report_' . $date . '.pdf');
+        }
         return $pdf->stream('dividend_report_' . $date . '.pdf');
     }
 
@@ -167,8 +175,12 @@ class ShareReportController extends Controller
     {
         $date = $request->input('date', today()->toDateString());
         $data = $this->getDividendBalanceReport($date);
+        $type = $request->input('type','stream'); //default type stream
 
         $pdf = Pdf::loadView('reports.shareReport.dividend-balance.dividend_balance_pdf', $data);
+        if($type == 'download'){
+            return $pdf->download('dividend_balance_report_' . $date . '.pdf');
+        }
         return $pdf->stream('dividend_balance_report_' . $date . '.pdf');
     }
 

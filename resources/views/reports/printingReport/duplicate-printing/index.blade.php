@@ -49,12 +49,17 @@
         </div>
     </form>
 
-    <form method="GET" action="{{ route('duplicate-printing.pdf.all') }}" target="_blank" class="card p-3 mb-4 shadow-sm">
-        <div class="mt-3 text-end">
-            <button class="btn btn-danger">Download PDF</button>
-        </div>
+    <div class="mt-3 p-3 mb-4 shadow-sm d-flex border justify-content-end rounded">
+    <form method="GET" action="{{ route('duplicate-printing.pdf.all') }}" target="_blank" class="me-1">
+            <input type="hidden" name="type" value="stream">
+            <button class="btn btn-secondary"><i class="bi bi-printer"></i> Print</button>
     </form>
-
+    <form method="GET" action="{{ route('duplicate-printing.pdf.all') }}" >
+            <input type="hidden" name="type" value="download">
+            <button class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Download PDF</button>
+        </form>
+    </div>
+        
     {{-- Results --}}
     @if($entries->count() > 0)
         <div class="card shadow-sm">

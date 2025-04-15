@@ -15,7 +15,14 @@
     <form method="GET" action="{{ route('loan-statements.index') }}">
         <div class="mb-3">
             <label for="loan_acc_no" class="form-label">Loan Account Number</label>
-            <input type="text" class="form-control" id="loan_acc_no" name="loan_acc_no" required>
+            <select class="form-select" id="loan_acc_no" name="loan_acc_no" required>
+                <option value="" >----Select Account-----</option>
+                @if(isset($accounts))
+                @foreach ($accounts as $account)
+                <option value="{{$account->id}}">{{$account->name}}</option>
+                @endforeach
+                @endif
+            </select>
         </div>
         <button type="submit" class="btn btn-primary">Get Statement</button>
     </form>
@@ -32,8 +39,10 @@
         <p><strong>Outstanding Balance:</strong> ₹{{ number_format($outstandingBalance, 2) }}</p>
         <p><strong>Interest Accrued:</strong> ₹{{ number_format($interestAccrued, 2) }}</p>
 
-        <a href="{{ route('loan-statements.pdf', ['loan_acc_no' => $loan->acc_no]) }}" class="btn btn-danger mb-3" target="_blank">Export PDF</a>
-
+        <div class="export-btns d-flex justify-content-end">
+            <a href="{{ route('loan-statements.pdf', ['loan_acc_no' => $loan->acc_no, 'type' => 'stream']) }}" class="btn btn-secondary mb-3 me-1" target="_blank"><i class="bi bi-printer"></i> Print</a>
+            <a href="{{ route('loan-statements.pdf', ['loan_acc_no' => $loan->acc_no, 'type' => 'download']) }}" class="btn btn-danger mb-3" target="_blank"><i class="bi bi-file-earmark-pdf"></i>Export PDF</a>
+        </div>
         <hr>
         <h4>Transaction History</h4>
         <table class="table table-bordered">
