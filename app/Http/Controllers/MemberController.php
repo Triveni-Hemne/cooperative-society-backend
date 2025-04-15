@@ -20,7 +20,7 @@ use App\Models\Designation;
 use App\Models\MemberContactDetail;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Arr;
-use App\Notifications\MemberAccountCreated;
+// use App\Notifications\MemberAccountCreated;
 
 class MemberController extends Controller
 {
@@ -204,7 +204,7 @@ class MemberController extends Controller
             ['member_id' => $member->id]
         ));
 
-        $request->user()->notify(new AccountCreated($member));
+        // $request->user()->notify(new AccountCreated($member));
         
         return redirect()->back()->with('success', 'Member added successfully');
     }

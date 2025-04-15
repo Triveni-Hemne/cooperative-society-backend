@@ -9,15 +9,15 @@ class Employee extends Model
    use HasFactory;
 
     protected $fillable = [
-        'member_id', 'emp_code', 'designation_id', 'salary', 'other_allowance',
+        'emp_code', 'designation_id', 'salary', 'other_allowance',
         'division_id', 'subdivision_id', 'center_id', 'joining_date', 
         'transfer_date', 'retirement_date', 'gpf_no', 'hra', 'da', 
     ];
 
-    public function member() {
-        return $this->belongsTo(Member::class);
+    public function member()
+    {
+        return $this->hasOne(Member::class, 'employee_id');
     }
-
     public function designation() {
         return $this->belongsTo(Designation::class);
     }
