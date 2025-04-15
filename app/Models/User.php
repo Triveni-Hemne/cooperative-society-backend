@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-       'name', 'email', 'password', 'role', 'status', 'email_verified_at', 'remember_token', 'member_id' 
+       'name', 'email', 'password', 'role', 'status', 'email_verified_at', 'remember_token', 'member_id','branch_id'
     ];
 
     /**
@@ -46,5 +46,9 @@ class User extends Authenticatable
 
     public function member() {
         return $this->belongsTo(Member::class);
+    }
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id');
     }
 }

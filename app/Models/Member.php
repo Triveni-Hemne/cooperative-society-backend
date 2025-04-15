@@ -13,7 +13,7 @@ class Member extends Model
     protected $fillable = [
         'member_id','employee_id','department_id', 'subcaste_id', 'name','naav', 'dob', 'gender', 'age',
         'date_of_joining', 'religion', 'category', 'caste', 'm_reg_no',
-        'pan_no', 'adhar_no',
+        'pan_no', 'adhar_no','branch_id'
     ];
 
     public function subcaste() {
@@ -42,6 +42,11 @@ class Member extends Model
     {
         return $this->hasOne(MemberFinancial::class, 'member_id');
     }
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id');
+    }
+
     public function routeNotificationForWhatsApp()
     {
         // Delegate to contact detail

@@ -46,6 +46,38 @@
                         </div>
                         @endisset
 
+                        @isset($branches)
+                        <div class="row mb-3 row-cols-xl-4 g-3">
+                            <div class="col w-auto ps-xl-5 d-none d-xl-block">
+                                <label for="branchId">Department</label>
+                            </div>
+                        @if ($branches->isNotEmpty())
+                        <div class="col ms-0 ms-xl-5">
+                            <select name="branch_id" id="branchId"  class="w-100 py-1 @error('branch_id') is-invalid @enderror">
+                                <option value="" disabled selected>---------- Select ----------</option>
+                                @foreach ($branches as $branch)
+                                    <option value="{{ $branch->id }}"  
+                                    {{ old('branch_id') == $branch->id ? 'selected' : '' }}
+                                    >
+                                    {{ $branch->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                                @error('branch_id')
+                                <div class="invalid-feedback">{{$message}}</div>
+                            @enderror
+                        </div>
+                        @else
+                        <div class="col ms-0 ms-xl-4">
+                            <select class="px-2 py-1" disabled>
+                                <option>No branches available. Please add branches first.</option>
+                            </select>
+                            <small class="text-danger">⚠️ You must add branches before submitting the form.</small>
+                        </div>
+                        @endif
+                    </div>
+                    @endisset
+
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="name">Name</label>
