@@ -46,6 +46,7 @@
                     <th scope="col">Current Balance</th>
                     <th scope="col">Narration</th>
                     <th scope="col">M. Narration No. </th>
+                    <th scope="col">Created By</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -65,8 +66,9 @@
                     <th scope="row">{{$entry->current_balance  ?? ''}}</th>
                     <th scope="row">{{$entry->narration  ?? ''}}</th>
                     <th scope="row">{{$entry->m_narration  ?? ''}}</th>
+                    <th scope="row">{{$entry->created_by  ?? ''}}</th>
                     <td>
-                        <a href="#" data-id="{{$entry->id }}" data-transaction-type="{{$entry->transaction_type}}" data-date="{{$entry->date}}" data-receipt-id="{{$entry->receipt_id ?? ''}}" data-payment-id="{{$entry->payment_id ?? ''}}" data-ledger-id="{{$entry->ledger_id}}" data-opening-balance="{{$entry->opening_balance ?? ''}}" data-current-balance="{{$entry->current_balance ?? ''}}" data-narration="{{$entry->narration ?? ''}}" data-m-narration="{{$entry->m_narration ?? ''}}" data-route="{{ route('transfer-entry.update', $entry->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$entry->id }}" data-transaction-type="{{$entry->transaction_type}}" data-date="{{$entry->date}}" data-receipt-id="{{$entry->receipt_id ?? ''}}" data-payment-id="{{$entry->payment_id ?? ''}}" data-ledger-id="{{$entry->ledger_id}}" data-opening-balance="{{$entry->opening_balance ?? ''}}" data-current-balance="{{$entry->current_balance ?? ''}}" data-narration="{{$entry->narration ?? ''}}" data-m-narration="{{$entry->m_narration ?? ''}}" data-created-by="{{$entry->created_by->name ?? ''}}" data-route="{{ route('transfer-entry.update', $entry->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#transferEntryModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
@@ -120,6 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let currentBalance = this.getAttribute("data-current-balance");
             let narration = this.getAttribute("data-narration");
             let mNarration = this.getAttribute("data-m-narration");
+            let createdBy = this.getAttribute("data-created-by");
             let route = this.getAttribute("data-route");
 
             let modal = document.getElementById("transferEntryModal");
@@ -138,6 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("currentBalance").value = currentBalance;
             document.getElementById("narration").value = narration;
             document.getElementById("mNarration").value = mNarration;
+            document.getElementById("createdBy").value = createdBy;
             
             // Change form action to update route and set PUT method
             let form = document.getElementById("transferEntryModalForm");

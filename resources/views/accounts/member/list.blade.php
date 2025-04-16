@@ -50,6 +50,7 @@
                     <th scope="col">M. Reg. No.</th>
                     <th scope="col">Pan No.</th>
                     <th scope="col">Adhar</th>
+                    <th scope="col">Created By</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -73,11 +74,13 @@
                     <th scope="row">{{$member->m_reg_no}}</th>
                     <th scope="row">{{$member->pan_no}}</th>
                     <th scope="row">{{$member->adhar_no}}</th>
+                    <th scope="row">{{$member->user->name ?? ''}}</th>
                     <td>
                        <a href="#" 
                             data-id="{{$member->id}}" data-nominee-id="{{optional($member->nominee)->member_id }}" 
                             data-name="{{$member->name ?? '' }}" 
                             data-naav="{{$member->naav ?? '' }}" 
+                            data-created-by="{{$member->user->name ?? '' }}" 
                             data-route="{{ route('members.update', $member->id) }}" 
                             data-subcaste-id="{{$member->subcaste->id ?? ''}}" 
                             data-subcaste-name="{{$member->subcaste->name ?? ''}}" 
@@ -187,6 +190,7 @@
             let id = this.getAttribute("data-id");
             let name = this.getAttribute("data-name");
             let naav = this.getAttribute("data-naav");
+            let createdBy = this.getAttribute("data-created-by");
             let route = this.getAttribute("data-route");
             let subcasteId = this.getAttribute("data-subcaste-id");
             let subcasteName = this.getAttribute("data-subcaste-name");
@@ -268,6 +272,7 @@
             document.getElementById("memberId").value = id;
             document.getElementById("name").value = name;
             document.getElementById("marathiName").value = naav;
+            document.getElementById("createdBy").value = createdBy;
             
             document.getElementById("subcasteId").value = subcasteId;
             // document.getElementById("subcasteName").value = subcasteName;

@@ -11,10 +11,15 @@ class DayBegin extends Model
     protected $fillable = [
         'date',
         'member_id',
-        'status'
+        'status',
+        'created_by'
     ];
 
     public function member() {
         return $this->belongsTo(Member::class, 'member_id');
+    }
+    public function user()
+    {
+        return $this->hasOne(User::class, 'created_by');
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TransferEntry;
 use App\Models\GeneralLedger;
+use Illuminate\Support\Facades\Auth;
 
 class TransferEntryController extends Controller
 {
@@ -16,7 +17,8 @@ class TransferEntryController extends Controller
     {
         $transferEntries = TransferEntry::paginate(5);
         $ledgers = GeneralLedger::all();
-        return view('transactions.transfer-entry.list', compact('transferEntries','ledgers'));
+        $user = Auth::user();
+        return view('transactions.transfer-entry.list', compact('transferEntries','ledgers','user'));
     }
 
     /**
@@ -41,7 +43,9 @@ class TransferEntryController extends Controller
             'opening_balance' => 'required|numeric',
             'current_balance' => 'required|numeric',
             'narration' => 'nullable|string',
-            'm_narration' => 'nullable|string'
+            'm_narration' => 'nullable|string',
+            'created_by' => 'nullable|string|users,id',
+
         ]);
         // return $request->all();
 
@@ -84,7 +88,10 @@ class TransferEntryController extends Controller
             'opening_balance' => 'required|numeric',
             'current_balance' => 'required|numeric',
             'narration' => 'nullable|string',
-            'm_narration' => 'nullable|string'
+            'm_narration' => 'nullable|string',
+            'created_by' => 'nullable|string|exists:users:id',
+
+
         ]);
 
         $transferEntry->update($request->all());

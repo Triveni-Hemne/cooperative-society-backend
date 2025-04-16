@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Branch;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -15,8 +16,9 @@ class UserController extends Controller
      */
     public function index()
     {
-         $users = User::all();
-        return response()->json($users);
+         $users = User::paginate(5);
+         $branches = Branch::all();
+         return view('master.user.list', compact('users','branches'));
     }
 
     /**
@@ -37,7 +39,7 @@ class UserController extends Controller
             'email' => 'nullable|email|unique:users,email|max:100',
             'password' => 'required|min:6',
             'role' => 'required|in:Director,Admin,Employee,Agent',
-            'status' => 'required|in:Active,Inactive',
+            // 'status' => 'required|in:Active,Inactive',
             'member_id' => 'nullable|exists:members,id',
         ]);
 
@@ -46,11 +48,9 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
-            'status' => $request->status,
             'member_id' => $request->member_id,
         ]);
-
-        return response()->json($user, 201);
+        return redirect()->back()->with('success','User Created Successfully');
     }
 
     /**
@@ -83,7 +83,6 @@ class UserController extends Controller
             'email' => 'email|max:100|unique:users,email,' . $id,
             'password' => 'nullable|min:6',
             'role' => 'in:Director,Admin,Employee,Agent',
-            'status' => 'in:Active,Inactive',
             'member_id' => 'nullable|exists:members,id',
         ]);
 
@@ -92,11 +91,10 @@ class UserController extends Controller
             'email' => $request->email ?? $user->email,
             'password' => $request->password ? Hash::make($request->password) : $user->password,
             'role' => $request->role ?? $user->role,
-            'status' => $request->status ?? $user->status,
             'member_id' => $request->member_id ?? $user->member_id,
         ]);
 
-        return response()->json($user, 200);
+        return redirect()->back()->with('success','User Updated Successfully');
     }
 
     /**
@@ -106,6 +104,6 @@ class UserController extends Controller
     {
          $user = User::findOrFail($id);
         $user->delete();
-        return response()->json(['message' => 'User deleted successfully']);
+        return redirect()->back()->with('success','User Deleted Successfully');
     }
 }

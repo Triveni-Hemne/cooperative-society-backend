@@ -11,6 +11,7 @@ use App\Models\MemberFinancial;
 use App\Models\Employee;
 use App\Models\Center;
 use App\Models\Branch;
+use App\Models\User;
 use App\Models\Department;
 use App\Models\Division;
 use App\Models\Subdivision;
@@ -21,6 +22,7 @@ use App\Models\MemberContactDetail;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Arr;
 use App\Notifications\MemberAccountCreated;
+use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
@@ -35,11 +37,11 @@ class MemberController extends Controller
        $subcates = Subcaste::all();
        $directors = Director::all();
        $centers = Center::all();
-       $branches = Branch::all();
+       $user = Auth::user();
        $divisions = Division::all();
        $subdivisions = Subdivision::all();
        $designations = Designation::all();
-        return view('accounts.member.list', compact('departments','subcates','members','directors','centers','divisions','subdivisions','designations','branches'));
+        return view('accounts.member.list', compact('departments','subcates','members','directors','centers','divisions','subdivisions','designations','user'));
     }
 
     /**
@@ -81,12 +83,12 @@ class MemberController extends Controller
             'age' => 'required|integer|min:0',
             'date_of_joining' => 'nullable|date',
             'religion' => 'nullable|string|max:100',
-            'category' => 'required|in:ST,SC,OBC,General,NT',
+            'category' => 'required|in:ST,SC,OBC,General,NT,Other',
             'caste' => 'required|string|max:100',
             'm_reg_no' => 'nullable|string|max:50',
             'pan_no' => 'nullable|string|max:20',
             'adhar_no' => 'nullable|string|max:20',
-            'branch_id' => 'nullable|string|branches,id',
+            'created_by' => 'nullable|string|users,id',
 
             // Contact Validation
             'address' => 'required|string',
@@ -167,7 +169,7 @@ class MemberController extends Controller
         $member = Member::create(array_merge(
             Arr::only($validatedData, [
                 'subcaste_id', 'department_id', 'name', 'naav', 'dob', 'gender', 'age',
-                'date_of_joining', 'religion', 'category', 'caste', 'm_reg_no', 'pan_no', 'adhar_no', 'branch_id'
+                'date_of_joining', 'religion', 'category', 'caste', 'm_reg_no', 'pan_no', 'adhar_no', 'created_by'
             ]),
             ['employee_id' => $employee->id]
         ));
@@ -259,12 +261,12 @@ class MemberController extends Controller
             'age' => 'required|integer|min:0',
             'date_of_joining' => 'nullable|date',
             'religion' => 'nullable|string|max:100',
-            'category' => 'required|in:ST,SC,OBC,General,NT',
+            'category' => 'required|in:ST,SC,OBC,General,NT,Other',
             'caste' => 'required|string|max:100',
             'm_reg_no' => 'nullable|string|max:50',
             'pan_no' => 'nullable|string|max:20',
             'adhar_no' => ['nullable', 'string', 'max:20', Rule::unique('members', 'adhar_no')->ignore($id)],
-            'branch_id' => 'nullable|string|exists:branches:id',
+            'created_by' => 'nullable|string|exists:users:id',
         ]);
 
         $contact_validated = $request->validate([

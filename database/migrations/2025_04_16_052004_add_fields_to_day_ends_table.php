@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('members', function (Blueprint $table) {
-             $table->unsignedBigInteger('created_by')->nullable();
-             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
+        Schema::table('day_ends', function (Blueprint $table) {
+            $table->unsignedBigInteger('created_by')->nullable();
+           $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
         });
     }
 
@@ -22,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('members', function (Blueprint $table) {
-            $table->dropForeign(['created_by']);
+        Schema::table('day_ends', function (Blueprint $table) {
+             $table->dropForeign(['created_by']);
             $table->dropColumn(['created_by']);
         });
     }

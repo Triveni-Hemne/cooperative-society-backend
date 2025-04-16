@@ -46,37 +46,17 @@
                         </div>
                         @endisset
 
-                        @isset($branches)
-                        <div class="row mb-3 row-cols-xl-4 g-3">
-                            <div class="col w-auto ps-xl-5 d-none d-xl-block">
-                                <label for="branchId">Department</label>
+                       <div class="row mb-2">
+                            <div class="col-2 ps-5 d-none d-xl-block">
+                                <label for="createdBy">Created By</label>
                             </div>
-                        @if ($branches->isNotEmpty())
-                        <div class="col ms-0 ms-xl-5">
-                            <select name="branch_id" id="branchId"  class="w-100 py-1 @error('branch_id') is-invalid @enderror">
-                                <option value="" disabled selected>---------- Select ----------</option>
-                                @foreach ($branches as $branch)
-                                    <option value="{{ $branch->id }}"  
-                                    {{ old('branch_id') == $branch->id ? 'selected' : '' }}
-                                    >
-                                    {{ $branch->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                                @error('branch_id')
-                                <div class="invalid-feedback">{{$message}}</div>
-                            @enderror
+                            <div class="col pe-0 pe-xl-5">
+                                <input name="created_by" id="createdBy" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->name}}" type="text" disabled>
+                                @error('created_by')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
+                            </div>
                         </div>
-                        @else
-                        <div class="col ms-0 ms-xl-4">
-                            <select class="px-2 py-1" disabled>
-                                <option>No branches available. Please add branches first.</option>
-                            </select>
-                            <small class="text-danger">⚠️ You must add branches before submitting the form.</small>
-                        </div>
-                        @endif
-                    </div>
-                    @endisset
 
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
@@ -288,9 +268,9 @@
                                                 <option value="SC" {{ old('category') == 'SC' ? 'selected' : '' }}>SC</option>
                                                 <option value="ST" {{ old('category') == 'ST' ? 'selected' : '' }}>ST</option>
                                                 <option value="OBC" {{ old('category') == 'OBC' ? 'selected' : '' }}>OBC</option>
-                                                <option {{ old('category') == 'General' ? 'selected' : '' }}value="General">General</option>
+                                                <option {{ old('category') == 'General' ? 'selected' : '' }} value="General">General</option>
                                                 <option {{ old('category') == 'NT' ? 'selected' : '' }} value="NT">NT</option>
-                                                <option {{ old('category') == 'Other' ? 'selected' : '' }} value="other">Other</option>
+                                                <option {{ old('category') == 'Other' ? 'selected' : '' }} value="Other">Other</option>
                                             </select>
                                              @error('category')
                                                     <div class="invalid-feedback">{{$message}}</div>

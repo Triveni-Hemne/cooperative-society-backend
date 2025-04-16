@@ -9,7 +9,9 @@
 
 @section('content')
 <div class="mb-3">
-    <h3>Branches</h3>
+    <!-- Heading -->
+    <h3>Users</h3>
+
     <div class="row">
         <!-- Search Bar -->
         <div class="col">
@@ -17,8 +19,8 @@
         </div>
 
         <!-- Add New Button (Moves Above Sidebar in Small Screens) -->
-        <a href="#" class="col d-flex gap-2 text-decoration-none align-items-center justify-content-end py-1" data-bs-toggle="modal"
-            data-bs-target="#branchModal">
+        <a href="#" class="col d-flex gap-2 text-decoration-none align-items-center justify-content-end py-1 ms-auto" data-bs-toggle="modal"
+            data-bs-target="#userModal">
             <p class="d-block d-md-none my-bg-primary rounded-circle d-flex justify-content-center align-items-center"
                 style="width: 30px; height: 30px;">
                 <i class="fa fa-plus text-white" style="font-size:20px"></i>
@@ -27,8 +29,7 @@
                 <i class="fa fa-plus me-1" style=""></i>Add New
             </p> <!-- Hidden on small screens -->
         </a>
-     </div>
-     
+    </div>
 </div>
 
 <div class="d-flex flex-column justify-content-between" style="height: 82%">
@@ -39,43 +40,40 @@
                 <tr>
                     <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
-                    <th scope="col">Branch Code</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Location</th>
-                    <th scope="col">Manager</th>
+                    <th scope="col">User Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Branch</th>
+                    {{-- <th scope="col">Status</th> --}}
                     <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
-                @if ($branches->isNotEmpty())
+                @if ($users->isNotEmpty())
                  @php $i = 1; @endphp
-                 @foreach ($branches as $branch)
+                 @foreach ($users as $user)
                 <tr>
                     <th scope="row">{{$i}}</th>
-                    <td>{{$branch->id}}</td>
-                    <td>{{$branch->branch_code}}</td>
-                    <td>{{$branch->name}}</td>
-                    <td>{{$branch->location}}</td>
-                    <td>{{$branch->manager->member->name}}</td>
+                    <td>{{$user->id}}</td>
+                    <td>{{$user->name}}</td>
+                    <td>{{$user->email}}</td>
+                    <td>{{$user->branch}}</td>
+                    {{-- <td>{{$user->status}}</td> --}}
                     <td>
-                        <a href="#" data-id="{{$branch->id }}" data-name="{{$branch->name ?? ''}}" data-branch-code="{{$branch->branch_code ?? ''}}" data-branch-location="{{$branch->location ?? ''}}" data-branch-manager="{{$branch->manager->id ?? ''}}" data-route="{{ route('branches.update', $branch->id) }}"  class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
-                            data-bs-target="#branchModal">
+                        <a href="#" data-id="{{$user->id }}" data-name="{{$user->name}}" data-email="{{$user->email}}" data-branch="{{$user->branch}}" data-route="{{ route('users.update', $user->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                            data-bs-target="#userModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
-                        </a>
-                        <a href="#" data-id="{{$branch->id }}" data-route="{{ route('branches.destroy', $branch->id) }}" data-name="{{ $branch->name ?? ''}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                            <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
                         </a>
                     </td>
                 </tr>
                 @php $i++ @endphp
                  @endforeach
                  @else
-                   <tr>
+                      <tr>
                         <td colspan="7" style="text-align:center; padding: 20px; color: #888;">
                             <i class="fa fa-info-circle" style="margin-right: 6px;"></i>
-                            No branches added yet. Click <strong>“Add New”</strong> to create one.
+                            No users added yet. Click <strong>“Add New”</strong> to create one.
                         </td>
-                    </tr> 
+                    </tr>   
                  @endif
             </tbody>
         </table>
@@ -83,15 +81,13 @@
 
     <!-- Pagination -->
     <div>
-       @include('layouts.pagination', ['paginationVariable' => 'branches'])
+       @include('layouts.pagination', ['paginationVariable' => 'users'])
     </div>
 </div>
 
 <!-- Form Model -->
-@include('master.branch.branch')
+@include('master.user.user')
 
-<!-- Delete Confirmation Model -->
-@include('layouts.deleteModal')
 @endsection
 
 @section('customeJs')
@@ -104,47 +100,45 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", function () {
             let id = this.getAttribute("data-id");
             let name = this.getAttribute("data-name");
-            let branchCode = this.getAttribute("data-branch-code");
-            let location = this.getAttribute("data-branch-location"); 
-            let manager = this.getAttribute("data-branch-manager"); 
+            let email = this.getAttribute("data-email");
+            let branch = this.getAttribute("data-branch");
             let route = this.getAttribute("data-route");
 
-            let modal = document.getElementById("branchModal");
+            let modal = document.getElementById("userModal");
 
             // Update modal title
-            document.getElementById("branchModalLabel").textContent = "Edit Branch";
+            document.getElementById("userModalLabel").textContent = "Edit Agent";
 
             // Populate form fields
-            document.getElementById("branchId").value = id;
+            document.getElementById("userId").value = id;
             document.getElementById("name").value = name;
-            document.getElementById("branchCode").value = branchCode;
-            document.getElementById("location").value = location;
-            document.getElementById("manager").value = manager;
-            console.log('manager: '+manager)
+            document.getElementById("email").value = email;
+            document.getElementById("branch").value = branch;
+            
             // Change form action to update route and set PUT method
-            let form = document.getElementById("branchForm");
+            let form = document.getElementById("userModalForm");
             form.setAttribute("action", route);
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#branchModal .btn-primary").textContent = "Update Branch";
+            document.querySelector("#userModal .btn-primary").textContent = "Update User";
         });
     });
 
     // Reset modal when it's closed
-    document.getElementById("branchModal").addEventListener("hidden.bs.modal", function () {
-        let form = document.getElementById("branchForm");
+    document.getElementById("userModal").addEventListener("hidden.bs.modal", function () {
+        let form = document.getElementById("userModalForm");
 
         // Reset form fields
         form.reset();
-
+        
         // Reset method and form action
         document.getElementById("formMethod").value = "POST";
-        form.setAttribute("action", "{{ route('branches.store') }}");
+        form.setAttribute("action", "{{ route('users.store') }}");
 
         // Reset modal title & button text
-        document.getElementById("branchModalLabel").textContent = "Add Branch";
-        document.querySelector("#branchModal .btn-primary").textContent = "Save Changes";
+        document.getElementById("userModalLabel").textContent = "Add User";
+        document.querySelector("#userModal .btn-primary").textContent = "Save Changes";
     });
 });
 

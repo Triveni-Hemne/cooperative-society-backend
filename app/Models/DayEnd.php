@@ -10,10 +10,16 @@ class DayEnd extends Model
 
     protected $fillable = [
         'date', 'opening_cash', 'total_credit_rs', 
-        'total_credit_chalans', 'total_debit_rs', 'total_debit_challans'
+        'total_credit_chalans', 'total_debit_rs', 'total_debit_challans', 'created_by'
     ];
 
     protected $casts = [
         'date' => 'date',
     ];
+
+     public function user()
+    {
+        return $this->hasOne(User::class, 'created_by');
+    }
+
 }

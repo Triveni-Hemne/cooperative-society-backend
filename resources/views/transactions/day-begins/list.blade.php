@@ -39,6 +39,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Date</th>
                     <th scope="col">Member</th>
+                    <th scope="col">Created By</th>
                     <th scope="col">Status</th>
                     <th scope="col">Action</th>
                 </tr>
@@ -52,9 +53,10 @@
                     <td>{{$dayBegin->id}}</td>
                     <td>{{$dayBegin->date}}</td>
                     <td>{{$dayBegin->member->name}}</td>
+                    <td>{{$dayBegin->created_by ??''}}</td>
                     <td>{{$dayBegin->status}}</td>  
                     <td>
-                        <a href="#" data-id="{{$dayBegin->id }}" data-date="{{$dayBegin->date}}" data-member-id="{{$dayBegin->member->id}}" data-status="{{$dayBegin->status}}" data-route="{{ route('day-begins.update', $dayBegin->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$dayBegin->id }}" data-date="{{$dayBegin->date}}" data-member-id="{{$dayBegin->member->id}}" data-status="{{$dayBegin->status}}" data-created-by="{{$entry->created_by->name ?? ''}}" data-route="{{ route('day-begins.update', $dayBegin->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#dayBeginsModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
@@ -101,6 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let id = this.getAttribute("data-id");
             let date = this.getAttribute("data-date");
             let memberId = this.getAttribute("data-member-id");
+            let createdBy = this.getAttribute("data-created-by");
             let status = this.getAttribute("data-status");
             let route = this.getAttribute("data-route");
 
@@ -113,6 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("dayBeginId").value = id;
             document.getElementById("date").value = date;
             document.getElementById("memberId").value = memberId;
+            document.getElementById("createdBy").value = createdBy;
             document.getElementById("status").value = status;
             
             // Change form action to update route and set PUT method

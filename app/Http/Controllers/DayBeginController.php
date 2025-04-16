@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DayBegin;
 use App\Models\Member;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class DayBeginController extends Controller
 {
@@ -16,7 +18,8 @@ class DayBeginController extends Controller
     {
         $dayBegins = DayBegin::paginate(5);
         $members = Member::all();
-        return view('transactions.day-begins.list', compact('dayBegins','members'));
+        $user = Auth::user();
+        return view('transactions.day-begins.list', compact('dayBegins','members','user'));
     }
 
     /**
@@ -35,7 +38,8 @@ class DayBeginController extends Controller
         $request->validate([
             'date' => 'required|date',
             'member_id' => 'required|exists:members,id',
-            'status' => 'required|in:Open,Closed'
+            'status' => 'required|in:Open,Closed',
+            'created_by' => 'nullable|string|users,id',
         ]);
         
         $dayBegin = DayBegin::create($request->all());
@@ -71,7 +75,8 @@ class DayBeginController extends Controller
         $request->validate([
             'date' => 'date',
             'member_id' => 'required|exists:members,id',
-            'status' => 'in:Open,Closed'
+            'status' => 'in:Open,Closed',
+            'created_by' => 'nullable|string|exists:users:id',
         ]);
         
         $dayBegin->update($request->all());

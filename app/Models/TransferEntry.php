@@ -10,10 +10,14 @@ class TransferEntry extends Model
 
     protected $fillable = [
         'transaction_type', 'date', 'receipt_id', 'payment_id', 
-        'ledger_id', 'opening_balance', 'current_balance', 'narration', 'm_narration'
+        'ledger_id', 'opening_balance', 'current_balance', 'narration', 'm_narration', 'created_by'
     ];
 
     public function ledger() {
         return $this->belongsTo(GeneralLedger::class);
+    }
+    public function user()
+    {
+        return $this->hasOne(User::class, 'created_by');
     }
 }

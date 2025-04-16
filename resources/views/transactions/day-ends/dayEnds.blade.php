@@ -14,6 +14,17 @@
                         <div class="alert alert-danger">{{Session::get('error')}}</div>
                     @endif
                     <div class="mx-auto p-5 my-model text-white">
+                          <div class="row mb-2">
+                            <div class="col-2 ps-5 d-none d-xl-block">
+                                <label for="createdBy">Created By</label>
+                            </div>
+                            <div class="col pe-0 pe-xl-5">
+                                <input name="created_by" id="createdBy" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->name}}" type="text" disabled placeholder="Crated By">
+                                @error('created_by')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="row mb-2">
                             <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="date">Date</label>

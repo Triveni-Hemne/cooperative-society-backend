@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BranchLedger;
+use Illuminate\Support\Facades\Auth;
 use App\Models\GeneralLedger;
 
 class BranchLedgerController extends Controller
@@ -15,8 +16,9 @@ class BranchLedgerController extends Controller
     public function index()
     {
         $branchLedgers = BranchLedger::paginate(5);
-        $ledgers = GeneralLedger::all();
-        return view('transactions.branch-ledger.list', compact('branchLedgers','ledgers'));
+        $ledgers = GeneralLedger::all();        
+        $user = Auth::user();
+        return view('transactions.branch-ledger.list', compact('branchLedgers','ledgers','user'));
     }
 
     /**
@@ -39,7 +41,8 @@ class BranchLedgerController extends Controller
             'open_balance' => 'required|numeric',
             'balance' => 'required|numeric',
             'balance_type' => 'required|in:Credit,Debit',
-            'item_type' => 'required|in:Asset,Liability,Income,Expense'
+            'item_type' => 'required|in:Asset,Liability,Income,Expense',
+            'created_by' => 'nullable|string|users,id',
         ]);
         
         $branchLedger = BranchLedger::create($request->all());
@@ -80,7 +83,9 @@ class BranchLedgerController extends Controller
             'open_balance' => 'numeric',
             'balance' => 'numeric',
             'balance_type' => 'in:Credit,Debit',
-            'item_type' => 'in:Asset,Liability,Income,Expense'
+            'item_type' => 'in:Asset,Liability,Income,Expense',
+             'created_by' => 'nullable|string|exists:users:id',
+
         ]);
 
         $branchLedger->update($request->all());

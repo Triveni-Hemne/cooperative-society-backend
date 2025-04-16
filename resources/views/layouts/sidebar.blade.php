@@ -24,6 +24,7 @@
                     <a href="{{route('agents.index')}}" class="side-link">Agent</a>
                     <a href="{{route('branches.index')}}" class="side-link">Branch</a>
                     <a href="{{route('departments.index')}}" class="side-link">Department</a>
+                    <a href="{{route('users.index')}}" class="side-link">User</a>
                 </div>
             </div>
         </div>

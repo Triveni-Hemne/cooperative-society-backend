@@ -1,11 +1,11 @@
-<div class="modal fade" id="designationModal" tabindex="-1" aria-labelledby="designationModalLabel" aria-hidden="true">
+<div class="modal fade" id="branchModal" tabindex="-1" aria-labelledby="branchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <form method="POST" action="{{route('designations.store')}}" id="designationForm">
-                <input type="hidden" id="designationId" name="id">
+            <form method="POST" action="{{route('branches.store')}}" id="branchForm">
+                <input type="hidden" id="branchId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="designationModalLabel">Add Branch</h1>
+                <h1 class="modal-title fs-5" id="branchModalLabel">Add Branch</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -53,11 +53,11 @@
                          @isset($employees) 
                          <div class="row mb-3">
                              <div class="col-2 ps-5 d-none d-xl-block">
-                                 <label for="managerId">Manager</label>
+                                 <label for="manager">Manager</label>
                                 </div>
                             @if ($employees->isNotEmpty())
                             <div class="col pe-0 pe-xl-5">
-                                <select name="manager_id" id="userId"  class="w-100 px-2 py-1 @error('manager_id') is-invalid @enderror">
+                                <select name="manager_id" id="manager"  class="w-100 px-2 py-1 @error('manager_id') is-invalid @enderror">
                                     <option value="" disabled selected>---------- Select ----------</option>
                                     @foreach ($employees as $employee)
                                         <option value="{{ $employee->id }}"  

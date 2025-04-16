@@ -40,7 +40,7 @@ class BranchController extends Controller
         ]);
 
         $branch = Branch::create($request->all());
-        return response()->json($branch, 201);
+        return redirect()->back()->with('success','Branch Created Successfully');
     }
 
     /**
@@ -75,7 +75,7 @@ class BranchController extends Controller
         ]);
 
         $branch->update($request->all());
-        return response()->json($branch);
+        return redirect()->back()->with('success','User Updated Successfully');
     }
 
     /**
@@ -85,6 +85,6 @@ class BranchController extends Controller
     {
         $branch = Branch::findOrFail($id);
         $branch->delete();
-        return response()->json(['message' => 'Branch record deleted successfully']);
+        return redirect()->back()->with('success','Branch record deleted successfully');
     }
 }

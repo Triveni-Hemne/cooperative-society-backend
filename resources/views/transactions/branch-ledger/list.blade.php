@@ -35,10 +35,14 @@
         <table id="tableFilter" class="table table-striped">
             <thead>
                 <tr>
+                    <th scope="col">Sr. No.</th>
                     <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">Branch code</th>
+                    <th scope="col">Ledger</th>
+                    <th scope="col">Open Date</th>
+                    <th scope="col">Open Balance</th>
+                    <th scope="col">Balance</th>
+                    <th scope="col">Balance< Type/th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>

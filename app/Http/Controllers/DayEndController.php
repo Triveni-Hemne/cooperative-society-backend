@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DayEnd;
+use Illuminate\Support\Facades\Auth;
 
 class DayEndController extends Controller
 {
@@ -14,7 +15,8 @@ class DayEndController extends Controller
     public function index()
     {
         $dayEnds = DayEnd::paginate();
-        return view('transactions.day-ends.list',compact('dayEnds'));
+        $user = Auth::user();
+        return view('transactions.day-ends.list',compact('dayEnds','user'));
     }
 
     /**
@@ -36,7 +38,8 @@ class DayEndController extends Controller
             'total_credit_rs' => 'required|numeric',
             'total_credit_chalans' => 'required|integer',
             'total_debit_rs' => 'required|numeric',
-            'total_debit_challans' => 'required|integer'
+            'total_debit_challans' => 'required|integer',
+            'created_by' => 'nullable|string|users,id',
         ]);
 
         $dayEnd = DayEnd::create($request->all());
@@ -75,7 +78,8 @@ class DayEndController extends Controller
             'total_credit_rs' => 'required|numeric',
             'total_credit_chalans' => 'required|integer',
             'total_debit_rs' => 'required|numeric',
-            'total_debit_challans' => 'required|integer'
+            'total_debit_challans' => 'required|integer',
+            'created_by' => 'nullable|string|exists:users:id',
         ]);
 
         $dayEnd->update($request->all());

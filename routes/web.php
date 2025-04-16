@@ -81,7 +81,7 @@ Route::get('/csrf-token', function () {
         Route::resource('departments', DepartmentController::class);
         Route::resource('users', UserController::class);
         Route::resource('agents', AgentController::class);
-        Route::resource('branches', BranchController::class);
+        Route::resource('branches', BranchController::class)->names('branches');
         Route::resource('member-financials', MemberFinancialController::class);
         Route::resource('installment-transactions', InstallmentTransactionController::class)->names('installment-transactions');
         Route::resource('recurring-deposits', RecurringDepositController::class);
@@ -89,6 +89,7 @@ Route::get('/csrf-token', function () {
         Route::get('/interest-calculator', function () {
             return view('interest.interest-calculator');
         })->name('interest.calculator');
+        Route::resource('users', UserController::class)->names('users');
     });
 // });
 
@@ -262,6 +263,3 @@ Route::prefix('audit-reports')->group(function () {
     });
 
 });
-// Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

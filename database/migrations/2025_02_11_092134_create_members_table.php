@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('age');
             $table->date('date_of_joining')->nullable();
             $table->string('religion', 100)->nullable();
-            $table->enum('category', ['ST', 'OBC', 'General', 'NT']);
+            $table->enum('category', ['ST', 'OBC', 'General', 'NT', 'Other']);
             $table->string('caste', 100);
             $table->foreignId('subcaste_id')->nullable()->constrained('subcastes')->onDelete('set null');
             $table->string('m_reg_no', 50)->nullable();
