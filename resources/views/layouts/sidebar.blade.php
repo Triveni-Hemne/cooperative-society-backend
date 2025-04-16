@@ -40,11 +40,15 @@
             <div id="accountsMenu" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
                 <div class="accordion-body">
                     <a href="{{route('members.index')}}" class="side-link" class="side-link">👥 Manage Member</a>
-                    <a href="{{route('member-depo-accounts.index')}}" class="side-link" class="side-link">🏦 Deposit Accounts</a>
-                    <a href="{{route('member-loan-accounts.index')}}" class="side-link" class="side-link">💰 Loan Accounts</a>
+                    <a href="{{route('member-depo-accounts.index')}}" class="side-link" class="side-link">🏦 Deposit
+                        Accounts</a>
+                    <a href="{{route('member-loan-accounts.index')}}" class="side-link" class="side-link">💰 Loan
+                        Accounts</a>
                     <a href="{{route('accounts.index')}}" class="side-link" class="side-link">📑 General Accounts</a>
-                    <a href="{{route('bank-investments.index')}}" class="side-link" class="side-link">🏦 Bank Investments</a>
-                    <a href="{{route('standing-instructions.index')}}" class="side-link" class="side-link">📌 Standing Instructions</a>
+                    <a href="{{route('bank-investments.index')}}" class="side-link" class="side-link">🏦 Bank
+                        Investments</a>
+                    <a href="{{route('standing-instructions.index')}}" class="side-link" class="side-link">📌 Standing
+                        Instructions</a>
                 </div>
             </div>
         </div>
@@ -72,7 +76,7 @@
         <!-- Interest -->
         <div class="my-2 ps-2">
             <a href="{{ route('interest.calculator') }}"
-                class="nav-link text-white text-decoration-none d-block {{ request()->routeIs('interest.calculator') ? 'active' : '' }}">
+                class="nav-link text-white text-decoration-none d-block interest-link {{ request()->routeIs('interest.calculator') ? 'active' : '' }}">
                 📈 Interest Calculator
             </a>
         </div>
@@ -100,13 +104,15 @@
                             <div id="dailyReports" class="accordion-collapse collapse"
                                 data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
-                                    <a href="{{route('cash-book.index')}}" class="side-link">Cash Book</a>
-                                    <a href="{{route('day-book.index')}}" class="side-link">Day Book</a>
-                                    <a href="{{route('sub-day-book.index')}}" class="side-link">Sub Day Book</a>
-                                    <a href="{{route('gl-statement-checking.index')}}" class="side-link">GL Statement Checking</a>
-                                    <a href="{{route('cut-book.index')}}" class="side-link">Cut Book</a>
+                                    <a href="{{route('cash-book.index')}}" class="side-link">💵 Cash Book</a>
+                                    <a href="{{route('day-book.index')}}" class="side-link">📖 Day Book</a>
+                                    <a href="{{route('sub-day-book.index')}}" class="side-link">📘 Sub Day Book</a>
+                                    <a href="{{route('gl-statement-checking.index')}}" class="side-link">🧾 GL Statement
+                                        Checking</a>
+                                    <a href="{{route('cut-book.index')}}" class="side-link">✂️ Cut Book</a>
                                     {{-- <a href="#" class="side-link">Cut book and GL Balance Checking</a> --}}
-                                    <a href="{{route('demand-day-book.index')}}" class="side-link">Demand Day Book</a>
+                                    <a href="{{route('demand-day-book.index')}}" class="side-link">📅 Demand Day
+                                        Book</a>
                                 </div>
                             </div>
                         </div>
@@ -123,12 +129,16 @@
                                 data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
                                     {{-- <a href="#" class="side-link">Loan Scheme</a> --}}
-                                    <a href="{{route('overdue-register.index')}}" class="side-link">Overdue Register</a>
-                                    <a href="{{route('npa-list.index')}}" class="side-link">NPA List</a>
-                                    <a href="{{route('final-npa-chart.index')}}" class="side-link">Final NPA Chart</a>
-                                    <a href="{{route('debit-laon.index')}}" class="side-link">Debit Loan Report</a>
-                                    <a href="{{route('guarantor-register.index')}}" class="side-link">Guarantor Register</a>
-                                    <a href="{{route('loan-statements.index')}}" class="side-link">Account Statement(Loan)</a>
+                                    <a href="{{route('overdue-register.index')}}" class="side-link">📄 Overdue
+                                        Register</a>
+                                    <a href="{{route('npa-list.index')}}" class="side-link">📋 NPA List</a>
+                                    <a href="{{route('final-npa-chart.index')}}" class="side-link">📈 Final NPA
+                                        Chart</a>
+                                    <a href="{{route('debit-laon.index')}}" class="side-link">📊 Debit Loan Report</a>
+                                    <a href="{{route('guarantor-register.index')}}" class="side-link">👥 Guarantor
+                                        Register</a>
+                                    <a href="{{route('loan-statements.index')}}" class="side-link">🧾 Account
+                                        Statement(Loan)</a>
                                 </div>
                             </div>
                         </div>
@@ -144,12 +154,16 @@
                             <div id="depositReports" class="accordion-collapse collapse"
                                 data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
-                                    <a href="{{route('deposit-maturity.index')}}" class="side-link">Deposit Maturity Register</a>
-                                    <a href="{{route('rd-chart.index')}}" class="side-link">RD Chart</a>
-                                    <a href="{{route('fd-chart.index')}}" class="side-link">FD Chart</a>
-                                    <a href="{{route('interestwise-reccuring.index')}}" class="side-link">Interestwise Report</a>
+                                    <a href="{{route('deposit-maturity.index')}}" class="side-link">📆 Deposit Maturity
+                                        Register</a>
+                                    <a href="{{route('rd-chart.index')}}" class="side-link">📊 RD Chart</a>
+                                    <a href="{{route('fd-chart.index')}}" class="side-link">📈 FD Chart</a>
+                                    <a href="{{route('interestwise-reccuring.index')}}" class="side-link">📉
+                                        Interestwise
+                                        Report</a>
                                     {{-- <a href="#" class="side-link">Recurring Deposit Interest Scheme</a> --}}
-                                    <a href="{{route('interest-summary.index')}}" class="side-link">Interest Summary</a>
+                                    <a href="{{route('interest-summary.index')}}" class="side-link">🧾 Interest
+                                        Summary</a>
                                 </div>
                             </div>
                         </div>
@@ -164,13 +178,15 @@
                             </h2>
                             <div id="shareReports" class="accordion-collapse collapse"
                                 data-bs-parent="#reportsAccordion">
-                                 <div class="accordion-body">
-                                    <a href="{{route('share-list.index')}}" class="side-link">Share List</a>
-                                    <a href="{{route('dividend-calculation.index')}}" class="side-link">Dividend Calculation</a>
-                                    <a href="{{route('dividend-balance.index')}}" class="side-link">Dividend Balance Report</a>
+                                <div class="accordion-body">
+                                    <a href="{{route('share-list.index')}}" class="side-link">📃 Share List</a>
+                                    <a href="{{route('dividend-calculation.index')}}" class="side-link">💰 Dividend
+                                        Calculation</a>
+                                    <a href="{{route('dividend-balance.index')}}" class="side-link">📊 Dividend Balance
+                                        Report</a>
                                     {{-- <a href="#">J Namuna List</a> --}}
                                     {{-- <a href="#">I Namuna List</a> --}}
-                                </div> 
+                                </div>
                             </div>
                         </div>
 
@@ -184,13 +200,15 @@
                             </h2>
                             <div id="misReports" class="accordion-collapse collapse" data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
-                                    <a href="{{route('trial-balance.index')}}" class="side-link">Trial Balance</a>
-                                    <a href="{{route('receipt-payment.index')}}" class="side-link">Receipt Payment</a>
-                                    <a href="{{route('profit-loss.index')}}" class="side-link">Profit Loss</a>
-                                    <a href="{{route('balance-sheet.index')}}" class="side-link">Balance Sheet</a>
-                                    <a href="{{route('cd-ratio.index')}}" class="side-link">CD Ratio</a>
-                                    <a href="{{route('mis-report.index')}}" class="side-link">MIS Report</a>
-                                    <a href="{{route('gl-statements.index')}}" class="side-link">General Ledger Statements</a>
+                                    <a href="{{route('trial-balance.index')}}" class="side-link">📑 Trial Balance</a>
+                                    <a href="{{route('receipt-payment.index')}}" class="side-link">💳 Receipt
+                                        Payment</a>
+                                    <a href="{{route('profit-loss.index')}}" class="side-link">📈 Profit Loss</a>
+                                    <a href="{{route('balance-sheet.index')}}" class="side-link">📊 Balance Sheet</a>
+                                    <a href="{{route('cd-ratio.index')}}" class="side-link">📉 CD Ratio</a>
+                                    <a href="{{route('mis-report.index')}}" class="side-link">📋 MIS Report</a>
+                                    <a href="{{route('gl-statements.index')}}" class="side-link">📖 General Ledger
+                                        Statements</a>
                                 </div>
                             </div>
                         </div>
@@ -206,12 +224,16 @@
                             <div id="generalReports" class="accordion-collapse collapse"
                                 data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
-                                    <a href="{{route('account-statement.index')}}" class="side-link">Account Statement</a>
-                                    <a href="{{route('gl-statement.index')}}" class="side-link">General Ledger Statement</a>
-                                    <a href="{{route('member-statement.index')}}" class="side-link">Member Statement</a>
+                                    <a href="{{route('account-statement.index')}}" class="side-link">📄 Account
+                                        Statement</a>
+                                    <a href="{{route('gl-statement.index')}}" class="side-link">📖 General Ledger
+                                        Statement</a>
+                                    <a href="{{route('member-statement.index')}}" class="side-link">👤 Member
+                                        Statement</a>
                                     {{-- <a href="#" class="side-link">Account Register</a> --}}
-                                    <a href="{{route('loan-garantor.index')}}" class="side-link">Loan Guarentor Report</a>
-                                    <a href="{{route('demand-list.index')}}" class="side-link">Demand List</a>
+                                    <a href="{{route('loan-garantor.index')}}" class="side-link">👥 Loan Guarentor
+                                        Report</a>
+                                    <a href="{{route('demand-list.index')}}" class="side-link">📋 Demand List</a>
                                 </div>
                             </div>
                         </div>
@@ -220,16 +242,16 @@
                         <div class="accordion-item bg-transparent border-0">
                             <h2 class="accordion-header">
                                 <button class="accordion-button bg-transparent text-white" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#generalReports">
-                                    Printing
+                                    data-bs-toggle="collapse" data-bs-target="#printingReports">
+                                    🖨️ Printing
                                 </button>
                             </h2>
                             <div id="printingReports" class="accordion-collapse collapse"
                                 data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
-                                    <a href="#">Duplicate Printing</a>
-                                    <a href="#">Passbook Printing</a>
-                                    <a href="#">FD Rec Printing General</a>
+                                    <a href="#">🖨️ Duplicate Printing</a>
+                                    <a href="#">📒 Passbook Printing</a>
+                                    <a href="#">🏦 FD Rec Printing General</a>
                                 </div>
                             </div>
                         </div>
@@ -239,16 +261,16 @@
                         <div class="accordion-item bg-transparent border-0">
                             <h2 class="accordion-header">
                                 <button class="accordion-button bg-transparent text-white" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#generalReports">
-                                    Audit
+                                    data-bs-toggle="collapse" data-bs-target="#auditReports">
+                                    🧾 Audit
                                 </button>
                             </h2>
                             <div id="auditReports" class="accordion-collapse collapse"
                                 data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
-                                    <a href="{{route('trial-balance.index')}}" class="side-link">Trial Balance</a>
-                                    <a href="{{route('balance-sheet.index')}}" class="side-link">Balance Sheet</a>
-                                    <a href="{{route('profit-loss.index')}}" class="side-link">Profit Loss</a>
+                                    <a href="{{route('trial-balance.index')}}" class="side-link">📑 Trial Balance</a>
+                                    <a href="{{route('balance-sheet.index')}}" class="side-link">📊 Balance Sheet</a>
+                                    <a href="{{route('profit-loss.index')}}" class="side-link">📈 Profit Loss</a>
                                 </div>
                             </div>
                         </div>

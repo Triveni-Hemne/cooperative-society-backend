@@ -127,7 +127,6 @@ td {
     background-color: var(--secondary-color);
     color: var(--primary-color);
 }
-/* ----------------- Sidebar Ends Here ------------------- */
 .accordion-button:not(.collapsed),
 .active-menu {
     background-color: var(--primary-color) !important;
@@ -149,11 +148,58 @@ td {
 .accordion-button.no-caret::after {
     display: none;
 }
-
-.nav-link.active {
-    background-color: transparent !important;
+/* Prevent hover effects on the Interest Calculator link */
+.interest-link:hover {
+    background-color: inherit !important;
     color: inherit !important;
 }
+/* Prevent hover effects on the active Interest Calculator link */
+.nav-link.active:hover {
+    background-color: inherit !important;
+    color: inherit !important;
+}
+/* ----------------- Sidebar Ends Here ------------------- */
+
+/* ----------------- Header Starts Here ------------------ */
+/* Container for the profile dropdown */
+.profile-dropdown {
+    position: relative;
+}
+
+/* Dropdown menu styling */
+.custom-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #ffffff;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    border-radius: 0.25rem;
+    padding: 0.5rem 0;
+}
+
+/* Show dropdown on hover */
+.profile-dropdown:hover .custom-dropdown-menu {
+    display: block;
+}
+
+/* Dropdown item styling */
+.custom-dropdown-menu .dropdown-item {
+    padding: 0.5rem 1rem;
+    color: #212529;
+    text-decoration: none;
+    display: block;
+}
+
+/* Hover effect for dropdown items */
+.custom-dropdown-menu .dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #16181b;
+}
+
+/* ----------------- Header Ends Here ------------------ */
 
 /* Hero Text Font for Small Screen */
 @media (max-width: 1199.98px) {
