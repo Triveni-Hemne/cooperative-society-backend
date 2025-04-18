@@ -359,16 +359,12 @@
     background-color: rgba(255, 255, 255, 0.05);
     /* subtle white opacity */
     border-radius: 4px;
-    padding: 6px 8px;
-    margin-left: -8px;
-    margin-right: -8px;
     display: block;
 }
 
 .side-link {
     display: block;
     color: #adb5bd;
-    padding: 6px 0;
     text-decoration: none;
     transition: color 0.2s, padding-left 0.2s;
 }
@@ -387,7 +383,6 @@ a.dashboard-link:hover {
     background-color: white !important;
     color: black !important;
     border-radius: 4px;
-    padding: 6px 8px;
     display: inline-block;
 }
 
@@ -412,28 +407,8 @@ a.dashboard-link:hover {
     transition: color 0.8s ease, padding-left 0.3s ease, background-color 0.8s ease;
 }
 
-.side-link:hover {
-    color: white;
-    padding-left: 10px;
-    background-color: rgba(255, 255, 255, 0.05);
-    /* subtle white opacity */
-    border-radius: 4px;
-    padding: 6px 8px;
-    margin-left: -8px;
-    margin-right: -8px;
-    display: block;
-}
-
 /* Dashboard link hover effect */
 .dashboard-link {
     transition: background-color 0.8s ease, color 0.8s ease;
-}
-
-.dashboard-link:hover {
-    background-color: white;
-    color: black;
-    border-radius: 4px;
-    padding: 6px 8px;
-    display: inline-block;
 }
 </style>
