@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\MemberLoanAccount;
 use App\Models\Member;
+use App\Models\Branch;
 use App\Models\Account;
 use App\Models\GeneralLedger;
 use App\Models\Nominee;
@@ -14,19 +15,37 @@ use App\Models\LoanGuarantor;
 use App\Models\LoanInstallment;
 use App\Models\LoanResolutionDetail;
 use Illuminate\Validation\Rule;
-
+use Illuminate\Support\Facades\Auth;
 class MemberLoanAccountController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-       $loanAccounts = MemberLoanAccount::with(['member', 'ledger'])->paginate(5);
-       $ledgers = GeneralLedger::all();
-       $members = Member::all();
-       $accounts = Account::all();
-        return view('accounts.loan-acc-opening.list', compact('loanAccounts','ledgers','members','accounts'));
+        $user = Auth::user();
+        $branchId = null;
+        // Determine branch filter based on role
+        if ($user->role === 'Admin') {
+            $branchId = $request->branch_id; // admin can filter via dropdown
+        } else {
+            $branchId = $user->branch_id; // normal user only sees their branch
+        }
+
+        $loanAccounts = MemberLoanAccount::with('member', 'ledger', 'member.user')
+        ->when($branchId, function ($query) use ($branchId) {
+            $query->whereHas('member.user', function ($q) use ($branchId) {
+                $q->where('branch_id', $branchId);
+            });
+        })
+        ->paginate(5);
+
+    //    $loanAccounts = MemberLoanAccount::with(['member', 'ledger'])->paginate(5);
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+        $ledgers = GeneralLedger::all();
+        $members = Member::all();
+        $accounts = Account::all();
+        return view('accounts.loan-acc-opening.list', compact('loanAccounts','ledgers','members','accounts','branches'));
     }
 
     /**

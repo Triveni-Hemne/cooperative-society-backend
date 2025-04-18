@@ -11,15 +11,30 @@ use App\Models\MemberDepoAccount;
 use App\Models\MemberLoanAccount;
 use App\Models\User;
 use App\Models\Branch;
-
+use Illuminate\Support\Facades\Auth;
 class VoucherEntryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $voucherEntries = VoucherEntry::paginate(5);
+        $user = Auth::user();
+        $branchId = null;
+        // Determine branch filter based on role
+        if ($user->role === 'Admin') {
+            $branchId = $request->branch_id; // admin can filter via dropdown
+        } else {
+            $branchId = $user->branch_id; // normal user only sees their branch
+        }
+
+       $voucherEntries = VoucherEntry::with('branch')
+        ->when($branchId, function ($query) use ($branchId) {
+            $query->where('branch_id', $branchId);
+        })
+        ->paginate(5);
+
+        // $voucherEntries = VoucherEntry::paginate(5);
         $ledgers = GeneralLedger::all();
         $accounts = Account::all();
         $depoAccounts = MemberDepoAccount::all();

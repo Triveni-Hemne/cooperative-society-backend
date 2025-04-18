@@ -51,7 +51,7 @@
                                 <label for="createdBy">Created By</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="created_by" id="createdBy" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->name}}" type="text" disabled>
+                                <input name="created_by" id="createdBy" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->name}}" type="text" disabled required>
                                 @error('created_by')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror

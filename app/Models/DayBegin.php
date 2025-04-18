@@ -20,6 +20,6 @@ class DayBegin extends Model
     }
     public function user()
     {
-        return $this->hasOne(User::class, 'created_by');
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

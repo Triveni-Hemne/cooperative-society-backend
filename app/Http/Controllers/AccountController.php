@@ -8,19 +8,40 @@ use App\Models\Account;
 use App\Models\GeneralLedger;
 use App\Models\Member;
 use App\Models\Agent;
+use App\Models\Branch;
+use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $accounts = Account::paginate(5);
+        $user = Auth::user();
+        $branchId = null;
+        // Determine branch filter based on role
+        if ($user->role === 'Admin') {
+            $branchId = $request->branch_id; // admin can filter via dropdown
+        } else {
+            $branchId = $user->branch_id; // normal user only sees their branch
+        }
+
+        $accounts = Account::with('member.user')
+        ->when($branchId, function ($query) use ($branchId) {
+            $query->whereHas('member.user', function ($q) use ($branchId) {
+                $q->where('branch_id', $branchId);
+            });
+        })
+        ->paginate(5);
+        
+        // $accounts = Account::paginate(5);
         $ledgers = GeneralLedger::all();
         $members = Member::all();
         $agents = Agent::all();
-        return view('accounts.general-acc.list', compact('accounts','ledgers','members','agents'));
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+
+        return view('accounts.general-acc.list', compact('accounts','ledgers','members','agents','branches'));
     }
 
     /**

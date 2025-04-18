@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('installment_amount', 10, 2);
             $table->decimal('installment_with_interest', 10, 2);
             $table->integer('total_installments_paid')->default(0);
+             $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
     }

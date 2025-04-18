@@ -14,13 +14,43 @@
                         <div class="alert alert-danger">{{Session::get('error')}}</div>
                     @endif
                     <div class="mx-auto p-5 my-model text-white">
-
+                        @isset($employees) 
+                        <div class="row mb-3">
+                            <div class="col-2 ps-5 d-none d-xl-block">
+                                <label for="employee">Employee  (optional)</label>
+                            </div>
+                            @if ($employees->isNotEmpty())
+                            <div class="col pe-0 pe-xl-5">
+                                <select name="employee_id" id="employee"  class="w-100 px-2 py-1 @error('employee_id') is-invalid @enderror">
+                                    <option value="" selected>---------- Select ----------</option>
+                                    @foreach ($employees as $employee)
+                                        <option value="{{ $employee->id }}"  
+                                        {{ old('employee_id') == $employee->id ? 'selected' : '' }}
+                                        >
+                                        {{ $employee->member->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('employee_id')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
+                            </div>
+                            @else
+                             <div class="col pe-0 pe-xl-5">
+                                <select class="w-100 px-2 py-1" disabled>
+                                    <option>No branches available. Please add branches first.</option>
+                                </select>
+                                <small class="text-danger">⚠️ You must add branches before submitting the form.</small>
+                            </div>
+                            @endif
+                        </div>
+                        @endisset
                     <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="name">Name</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="name" id="name" class="w-100 px-2 py-1 @error('name') is-invalid @enderror" value="{{ old('name') }}" type="text" placeholder="Name">
+                                <input name="name" id="userName" class="w-100 px-2 py-1 @error('name') is-invalid @enderror" value="{{ old('name') }}" type="text" placeholder="Name">
                                 @error('name')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -31,7 +61,7 @@
                                 <label for="email">Email</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="email" id="email" class="w-100 px-2 py-1 @error('email') is-invalid @enderror" value="{{ old('email') }}" type="email" placeholder="Email">
+                                <input name="email" id="userEmail" class="w-100 px-2 py-1 @error('email') is-invalid @enderror" value="{{ old('email') }}" type="email" placeholder="Email">
                                 @error('email')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -50,10 +80,10 @@
                     </div>
                      <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="name">Role</label>
+                                <label for="role">Role</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <select name="role" id="userId"  class="w-100 px-2 py-1 @error('role') is-invalid @enderror">
+                                <select name="role" id="role"  class="w-100 px-2 py-1 @error('role') is-invalid @enderror">
                                         <option value="User" selected>
                                         User
                                         </option>
@@ -71,7 +101,7 @@
                             </div>
                             @if ($branches->isNotEmpty())
                             <div class="col pe-0 pe-xl-5">
-                                <select name="branch_id" id="userId"  class="w-100 px-2 py-1 @error('branch_id') is-invalid @enderror">
+                                <select name="branch_id" id="branch"  class="w-100 px-2 py-1 @error('branch_id') is-invalid @enderror">
                                     <option value="" disabled selected>---------- Select ----------</option>
                                     @foreach ($branches as $branch)
                                         <option value="{{ $branch->id }}"  

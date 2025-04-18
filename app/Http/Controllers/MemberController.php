@@ -29,10 +29,25 @@ class MemberController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-    //    $members = Member::paginate(5);
-       $members = Member::paginate(5);    
+        $user = Auth::user();
+        $branchId = null;
+        // Determine branch filter based on role
+        if ($user->role === 'Admin') {
+            $branchId = $request->branch_id; // admin can filter via dropdown
+        } else {
+            $branchId = $user->branch_id; // normal user only sees their branch
+        }
+
+        $members = Member::with('user') // assuming 'user' is the relationship
+            ->when($branchId, function ($query) use ($branchId) {
+                $query->whereHas('user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                });
+            })
+            ->paginate(5);
+    //    $members = Member::paginate(5);    
        $departments = Department::all();
        $subcates = Subcaste::all();
        $directors = Director::all();
@@ -41,7 +56,10 @@ class MemberController extends Controller
        $divisions = Division::all();
        $subdivisions = Subdivision::all();
        $designations = Designation::all();
-        return view('accounts.member.list', compact('departments','subcates','members','directors','centers','divisions','subdivisions','designations','user'));
+
+       $branches = $user->role === 'Admin' ? Branch::all() : null;
+       
+       return view('accounts.member.list', compact('departments','subcates','members','directors','centers','divisions','subdivisions','designations','user','branches'));
     }
 
     /**

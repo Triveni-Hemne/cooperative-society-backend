@@ -19,10 +19,10 @@
                 @endif
             <!-- Email or Username -->
             <div class="mb-3">
-                <label for="adminEmail" class="form-label">Email or Username</label>
-                <input type="text" name="email" class="form-control" @error('email') is-invalid @enderror id="adminEmail" placeholder="Enter your email or username"
-                   value="{{ old('email')}}" required>
-                    @error('email')
+                <label for="adminEmail" class="form-label">Username</label>
+                <input type="text" name="name" class="form-control" @error('name') is-invalid @enderror id="adminEmail" placeholder="Enter your name or username"
+                   value="{{ old('name')}}" required>
+                    @error('name')
                         <p class="invalid-feedback">{{$message}}</p>
                     @enderror
             </div>

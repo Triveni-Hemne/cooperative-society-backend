@@ -33,4 +33,8 @@ class Employee extends Model
     public function center() {
         return $this->belongsTo(Center::class);
     }
+     public function user()
+    {
+        return $this->hasOne(User::class, 'employee_id');
+    }
 }

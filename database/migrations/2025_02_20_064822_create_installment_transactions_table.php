@@ -19,6 +19,8 @@ return new class extends Migration
             $table->date('payment_date');
             $table->decimal('interest_earned', 10, 2)->nullable();
             $table->decimal('total_balance', 12, 2);
+            $table->decimal('total_balance', 12, 2);
+             $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
     }

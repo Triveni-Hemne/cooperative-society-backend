@@ -8,20 +8,38 @@ use App\Models\BankInvestment;
 use App\Models\Account;
 use App\Models\MemberDepoAccount;
 use App\Models\GeneralLedger;
+use App\Models\Branch;
+use Illuminate\Support\Facades\Auth;
 
 class BankInvestmentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $bankInvestments = BankInvestment::paginate(5);
+        $user = Auth::user();
+        $branchId = null;
+        // Determine branch filter based on role
+        if ($user->role === 'Admin') {
+            $branchId = $request->branch_id; // admin can filter via dropdown
+        } else {
+            $branchId = $user->branch_id; // normal user only sees their branch
+        }
+
+        $bankInvestments = BankInvestment::with('depositAccount.member.user')
+        ->when($branchId, function ($query) use ($branchId) {
+            $query->whereHas('depositAccount.member.user', function ($q) use ($branchId) {
+                $q->where('branch_id', $branchId);
+            });
+        })
+        ->paginate(5);
+        // $bankInvestments = BankInvestment::paginate(5);
         $accounts = Account::all();
         $depoAccounts = MemberDepoAccount::all();
         $ledgers = GeneralLedger::all();
-        // return response()->json($bankInvestments);
-        return view('accounts.bank-investment.list', compact('bankInvestments','accounts','depoAccounts','ledgers'));
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+        return view('accounts.bank-investment.list', compact('bankInvestments','accounts','depoAccounts','ledgers','branches'));
 
     }
 

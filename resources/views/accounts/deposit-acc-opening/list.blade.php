@@ -11,23 +11,21 @@
 <div class="mb-3">
     <h3>Deposit Account Opening</h3>
     <div class="row">
-            <!-- Search Bar -->
-            <div class="col">
-                <input type="search" id="searchInput" placeholder="Search Here..." class="w-100 px-3 py-2 rounded search-bar">
+        <div class="col-5">
+               @include('layouts.tableSearchInput')
             </div>
-
-            <!-- Add New Button (Moves Above Sidebar in Small Screens) -->
-            <a href="#" class="col d-flex gap-2 text-decoration-none align-items-center justify-content-end py-1 ms-auto" data-bs-toggle="modal"
-                data-bs-target="#depositAccOpeningModal">
-                <p class="d-block d-md-none my-bg-primary rounded-circle d-flex justify-content-center align-items-center"
-                    style="width: 30px; height: 30px;">
-                    <i class="fa fa-plus text-white" style="font-size:20px"></i>
-                </p>
-                <p class="d-none d-md-block btn my-bg-primary text-light">
-                    <i class="fa fa-plus me-1" style=""></i>Add New
-                </p> <!-- Hidden on small screens -->
-            </a>
-    </div>
+            <div class="col">   
+               @include('layouts.branchFilterInput', [
+                    'action' => route('member-depo-accounts.index')
+                ])
+            </div>
+            <div class="col col-md-2">
+            @include('layouts.add-button', [
+                    'target' => '#depositAccOpeningModal',
+                    'text' => 'Add New'
+                ])
+            </div>
+        </div>
 </div>
 
 <div class="d-flex flex-column justify-content-between" style="height: 82%">

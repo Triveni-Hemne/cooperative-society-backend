@@ -406,10 +406,10 @@
                                 <select id="branchId" name="branch_id" class="w-100 px-2 py-1 @error('branch_id') is-invalid @enderror">
                                     <option value="">-----Select Branch-----</option>
                                    @foreach ($branches as $branch)
-                                        <option value="{{ $branches->id }}"  
-                                        {{ old('branch_id') == $branches->id ? 'selected' : '' }}
+                                        <option value="{{ $branch->id }}"  
+                                        {{ old('branch_id') == $branch->id ? 'selected' : '' }}
                                         >
-                                        {{ $branches->name }}
+                                        {{ $branch->name }}
                                         </option>
                                     @endforeach
                                 </select>

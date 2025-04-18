@@ -10,10 +10,14 @@ class InstallmentTransaction extends Model
 
     protected $fillable = [
         'deposit_account_id', 'installment_no', 'amount_paid',
-        'payment_date', 'interest_earned', 'total_balance'
+        'payment_date', 'interest_earned', 'total_balance','created_by'
     ];
 
     public function depositAccount() {
         return $this->belongsTo(MemberDepoAccount::class);
+    }
+     public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

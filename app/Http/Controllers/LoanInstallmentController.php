@@ -5,15 +5,38 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\LoanInstallment;
+use App\Models\MemberLoanAccount;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Branch;
 
 class LoanInstallmentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-       return response()->json(LoanInstallment::all(), 200);
+       $user = Auth::user();
+        $branchId = null;
+        // Determine branch filter based on role
+        if ($user->role === 'Admin') {
+            $branchId = $request->branch_id; // admin can filter via dropdown
+        } else {
+            $branchId = $user->branch_id; // normal user only sees their branch
+        }
+
+        $LoanInstallments = LoanInstallment::with('user')
+        ->when($branchId, function ($query) use ($branchId) {
+            $query->whereHas('user', function ($q) use ($branchId) {
+                $q->where('branch_id', $branchId);
+            });
+        })
+        ->paginate(5);
+        // $LoanInstallment = BankInvestment::paginate(5);
+        $loanAccount = MemberLoanAccount::all();
+        // $ledgers = GeneralLedger::all();
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+        return view('transactions.loan-installment.list', compact('LoanInstallments','loanAccount','branches','user'));
     }
 
     /**

@@ -25,7 +25,9 @@
                     <a href="{{route('agents.index')}}" class="side-link">🤝 Agent</a>
                     <a href="{{route('branches.index')}}" class="side-link">🏢 Branch</a>
                     <a href="{{route('departments.index')}}" class="side-link">🏛️ Department</a>
-                    <a href="{{route('users.index')}}" class="side-link">User</a>
+                    @if(Auth::user()->role === "Admin")
+                    <a href="{{route('users.index')}}" class="side-link">👥 User</a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -70,6 +72,7 @@
                     <a href="{{route('branch-ledger.index')}}" class="side-link">📘 Branch Ledger</a>
                     <a href="{{route('day-end.index')}}" class="side-link">📆 Day Ends</a>
                     <a href="{{route('installment-transactions.index')}}" class="side-link">💳 Installment</a>
+                    <a href="{{route('loan-installment.index')}}" class="side-link">💳Loan Installment</a>
                 </div>
             </div>
         </div>

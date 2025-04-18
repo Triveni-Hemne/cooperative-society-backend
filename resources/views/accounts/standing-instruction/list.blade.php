@@ -11,21 +11,16 @@
 <div class="mb-3">
     <h3>Standing Instruction Master</h3>
     <div class="row">
-            <!-- Search Bar -->
-            <div class="col">
-                <input type="search" id="searchInput" placeholder="Search Here..." class="w-100 px-3 py-2 rounded search-bar">
-            </div>
-            <!-- Add New Button (Moves Above Sidebar in Small Screens) -->
-            <a href="#" class="col d-flex gap-2 text-decoration-none align-items-center justify-content-end py-1 ms-auto" data-bs-toggle="modal"
-                data-bs-target="#standingInstructionModal">
-                <p class="d-block d-md-none my-bg-primary rounded-circle d-flex justify-content-center align-items-center"
-                    style="width: 30px; height: 30px;">
-                    <i class="fa fa-plus text-white" style="font-size:20px"></i>
-                </p>
-                <p class="d-none d-md-block btn my-bg-primary text-light">
-                    <i class="fa fa-plus me-1" style=""></i>Add New
-                </p> <!-- Hidden on small screens -->
-            </a>
+        <div class="col-5">
+            @include('layouts.tableSearchInput')
+        </div>
+        <div class="col"> </div>
+        <div class="col col-md-2">
+        @include('layouts.add-button', [
+                'target' => '#standingInstructionModal',
+                'text' => 'Add New'
+            ])
+        </div>    
     </div>
 </div>
 

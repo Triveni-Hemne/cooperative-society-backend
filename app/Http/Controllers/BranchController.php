@@ -36,7 +36,7 @@ class BranchController extends Controller
             'branch_code' => 'required|string|max:20|unique:branches,branch_code',
             'name' => 'required|string|max:100',
             'location' => 'required|string',
-            'manager_id' => 'required|exists:employees,id'
+            // 'manager_id' => 'required|exists:employees,id'
         ]);
 
         $branch = Branch::create($request->all());
@@ -71,7 +71,7 @@ class BranchController extends Controller
             'branch_code' => 'sometimes|string|max:20|unique:branches,branch_code,' . $id,
             'name' => 'sometimes|string|max:100',
             'location' => 'sometimes|string',
-            'manager_id' => 'sometimes|exists:employees,id'
+            // 'manager_id' => 'sometimes|exists:employees,id'
         ]);
 
         $branch->update($request->all());

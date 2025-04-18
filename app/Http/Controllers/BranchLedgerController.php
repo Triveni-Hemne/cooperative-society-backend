@@ -6,19 +6,35 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BranchLedger;
 use Illuminate\Support\Facades\Auth;
-use App\Models\GeneralLedger;
-
+use App\Models\Branch;
 class BranchLedgerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $branchLedgers = BranchLedger::paginate(5);
-        $ledgers = GeneralLedger::all();        
         $user = Auth::user();
-        return view('transactions.branch-ledger.list', compact('branchLedgers','ledgers','user'));
+        $branchId = null;
+        // Determine branch filter based on role
+        if ($user->role === 'Admin') {
+            $branchId = $request->branch_id; // admin can filter via dropdown
+        } else {
+            $branchId = $user->branch_id; // normal user only sees their branch
+        }
+
+        $branchLedgers = BranchLedger::with('user')
+        ->when($branchId, function ($query) use ($branchId) {
+            $query->whereHas('user', function ($q) use ($branchId) {
+                $q->where('branch_id', $branchId);
+            });
+        })
+        ->paginate(5);
+        // $branchLedgers = BranchLedger::paginate(5);
+        $ledgers = BranchLedger::all();        
+        $user = Auth::user();
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+        return view('transactions.branch-ledger.list', compact('branchLedgers','ledgers','user','branches'));
     }
 
     /**

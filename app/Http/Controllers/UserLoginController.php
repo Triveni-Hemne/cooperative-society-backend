@@ -18,7 +18,6 @@ class UserLoginController extends Controller
     public function index()
     {
                 return view('login');
-                // return "Login Here";
     }
 
     /**
@@ -28,7 +27,7 @@ class UserLoginController extends Controller
     {   
         // Validate the input
     $validator = Validator::make($request->all(), [
-        'email' => 'required|email',
+        'name' => 'required|string',
         'password' => 'required',
     ]);
 
@@ -36,10 +35,10 @@ class UserLoginController extends Controller
     if ($validator->passes()) {
 
         // Attempt to authenticate the user
-        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (Auth::guard('admin')->attempt(['name' => $request->name, 'password' => $request->password])) {
             
             // Check if the user has an authorized role
-            if (Auth::guard('admin')->user()->role === 'Admin' || Auth::guard('admin')->user()->role === 'Agent') {
+            if (Auth::guard('admin')->user()->role === 'Admin' || Auth::guard('admin')->user()->role === 'User') {
                 // Redirect to dashboard if the user has the right role
                 // dd('User role check passed! Redirecting...');
                 return redirect()->intended(route('user.dashboard'));
@@ -54,7 +53,7 @@ class UserLoginController extends Controller
         } else {
             // Authentication failed
             return redirect()->route('user.login')
-                ->with('error', 'Either email or password is incorrect.');
+                ->with('error', 'Either name or password is incorrect.');
         }
         
     } else {

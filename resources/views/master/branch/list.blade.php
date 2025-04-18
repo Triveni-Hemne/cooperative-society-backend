@@ -42,7 +42,7 @@
                     <th scope="col">Branch Code</th>
                     <th scope="col">Name</th>
                     <th scope="col">Location</th>
-                    <th scope="col">Manager</th>
+                    {{-- <th scope="col">Manager</th> --}}
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -56,9 +56,9 @@
                     <td>{{$branch->branch_code}}</td>
                     <td>{{$branch->name}}</td>
                     <td>{{$branch->location}}</td>
-                    <td>{{$branch->manager->member->name}}</td>
+                    {{-- <td>{{$branch->manager->member->name}}</td> --}}
                     <td>
-                        <a href="#" data-id="{{$branch->id }}" data-name="{{$branch->name ?? ''}}" data-branch-code="{{$branch->branch_code ?? ''}}" data-branch-location="{{$branch->location ?? ''}}" data-branch-manager="{{$branch->manager->id ?? ''}}" data-route="{{ route('branches.update', $branch->id) }}"  class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$branch->id }}" data-name="{{$branch->name ?? ''}}" data-branch-code="{{$branch->branch_code ?? ''}}" data-branch-location="{{$branch->location ?? ''}}"  data-route="{{ route('branches.update', $branch->id) }}"  class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#branchModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
@@ -106,7 +106,6 @@ document.addEventListener("DOMContentLoaded", function () {
             let name = this.getAttribute("data-name");
             let branchCode = this.getAttribute("data-branch-code");
             let location = this.getAttribute("data-branch-location"); 
-            let manager = this.getAttribute("data-branch-manager"); 
             let route = this.getAttribute("data-route");
 
             let modal = document.getElementById("branchModal");
@@ -116,11 +115,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Populate form fields
             document.getElementById("branchId").value = id;
-            document.getElementById("name").value = name;
+            document.getElementById("branchName").value = name;
+            console.log("branchName"+name);
+            
             document.getElementById("branchCode").value = branchCode;
             document.getElementById("location").value = location;
-            document.getElementById("manager").value = manager;
-            console.log('manager: '+manager)
             // Change form action to update route and set PUT method
             let form = document.getElementById("branchForm");
             form.setAttribute("action", route);

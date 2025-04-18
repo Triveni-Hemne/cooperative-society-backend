@@ -56,10 +56,10 @@
                     <td>{{$user->id}}</td>
                     <td>{{$user->name}}</td>
                     <td>{{$user->email}}</td>
-                    <td>{{$user->branch}}</td>
+                    <td>{{$user->branch->name ?? ''}}</td>
                     {{-- <td>{{$user->status}}</td> --}}
                     <td>
-                        <a href="#" data-id="{{$user->id }}" data-name="{{$user->name}}" data-email="{{$user->email}}" data-branch="{{$user->branch}}" data-route="{{ route('users.update', $user->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$user->id }}" data-employee="{{$user->employee_id }}" data-name="{{$user->name}}" data-email="{{$user->email}}" data-branch="{{$user->branch_id}}" data-route="{{ route('users.update', $user->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#userModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
@@ -99,6 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".edit-btn").forEach(button => {
         button.addEventListener("click", function () {
             let id = this.getAttribute("data-id");
+            let employee = this.getAttribute("data-employee");
             let name = this.getAttribute("data-name");
             let email = this.getAttribute("data-email");
             let branch = this.getAttribute("data-branch");
@@ -107,12 +108,13 @@ document.addEventListener("DOMContentLoaded", function () {
             let modal = document.getElementById("userModal");
 
             // Update modal title
-            document.getElementById("userModalLabel").textContent = "Edit Agent";
+            document.getElementById("userModalLabel").textContent = "Edit User";
 
             // Populate form fields
             document.getElementById("userId").value = id;
-            document.getElementById("name").value = name;
-            document.getElementById("email").value = email;
+            document.getElementById("employee").value = employee;
+            document.getElementById("userName").value = name;
+            document.getElementById("userEmail").value = email;
             document.getElementById("branch").value = branch;
             
             // Change form action to update route and set PUT method

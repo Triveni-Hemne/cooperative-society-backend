@@ -39,7 +39,7 @@
                                         <option value="{{ $employee->id }}"  
                                         {{ old('head_id') == $employee->id ? 'selected' : '' }}
                                         >
-                                        {{ $employee->name }}
+                                        {{ $employee->member->name }}
                                         </option>
                                     @endforeach
                                 </select>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Branch;
+use App\Models\Employee;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -18,7 +19,8 @@ class UserController extends Controller
     {
          $users = User::paginate(5);
          $branches = Branch::all();
-         return view('master.user.list', compact('users','branches'));
+         $employees = Employee::all();
+         return view('master.user.list', compact('users','branches','employees'));
     }
 
     /**
@@ -38,9 +40,10 @@ class UserController extends Controller
             'name' => 'required|string|max:100',
             'email' => 'nullable|email|unique:users,email|max:100',
             'password' => 'required|min:6',
-            'role' => 'required|in:Director,Admin,Employee,Agent',
+            'role' => 'required|in:Director,Admin,Employee,Agent,User',
             // 'status' => 'required|in:Active,Inactive',
-            'member_id' => 'nullable|exists:members,id',
+            'employee_id' => 'nullable|exists:employees,id',
+            'branch_id' => 'nullable|exists:branches,id',
         ]);
 
         $user = User::create([
@@ -48,7 +51,8 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
-            'member_id' => $request->member_id,
+            'employee_id' => $request->employee_id,
+            'branch_id' => $request->branch_id,
         ]);
         return redirect()->back()->with('success','User Created Successfully');
     }
@@ -82,8 +86,9 @@ class UserController extends Controller
             'name' => 'string|max:100',
             'email' => 'email|max:100|unique:users,email,' . $id,
             'password' => 'nullable|min:6',
-            'role' => 'in:Director,Admin,Employee,Agent',
-            'member_id' => 'nullable|exists:members,id',
+            'role' => 'in:Director,Admin,Employee,Agent,User',
+            'employee_id' => 'nullable|exists:employees,id',
+            'branch_id' => 'nullable|exists:branches,id',
         ]);
 
         $user->update([
@@ -91,7 +96,8 @@ class UserController extends Controller
             'email' => $request->email ?? $user->email,
             'password' => $request->password ? Hash::make($request->password) : $user->password,
             'role' => $request->role ?? $user->role,
-            'member_id' => $request->member_id ?? $user->member_id,
+            'employee_id' => $request->employee_id ?? $user->employee_id,
+            'branch_id' => $request->branch_id ?? $user->branch_id,
         ]);
 
         return redirect()->back()->with('success','User Updated Successfully');

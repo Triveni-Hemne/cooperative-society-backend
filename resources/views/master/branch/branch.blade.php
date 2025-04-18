@@ -16,7 +16,7 @@
                     <div class="mx-auto p-5 my-model text-white">
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="name">Branch Code</label>
+                                <label for="branchCode">Branch Code</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
                                 <input name="branch_code" id="branchCode" class="w-100 px-2 py-1 @error('branch_code') is-invalid @enderror" value="{{ old('branch_code') }}" type="text" placeholder="Branch Code">
@@ -28,10 +28,10 @@
 
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="name">Name</label>
+                                <label for="branchName">Name</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="name" id="name" class="w-100 px-2 py-1 @error('name') is-invalid @enderror" value="{{ old('name') }}" type="text" placeholder="Name">
+                                <input name="name" id="branchName" class="w-100 px-2 py-1 @error('name') is-invalid @enderror" value="{{ old('name') }}" type="text" placeholder="Name">
                                 @error('name')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -50,7 +50,7 @@
                             </div>
                         </div>
 
-                         @isset($employees) 
+                         {{-- @isset($employees) 
                          <div class="row mb-3">
                              <div class="col-2 ps-5 d-none d-xl-block">
                                  <label for="manager">Manager</label>
@@ -80,7 +80,7 @@
                             </div>
                             @endif
                         </div>
-                        @endisset
+                        @endisset --}}
                     </div>
                 </div>
                 <div class="modal-footer">

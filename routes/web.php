@@ -33,6 +33,7 @@ use App\Http\Controllers\MemberFinancialController;
 use App\Http\Controllers\InterestLedgerController;
 use App\Http\Controllers\DepositNomineeController;
 use App\Http\Controllers\InstallmentTransactionController;
+use App\Http\Controllers\LoanInstallmentController;
 use App\Http\Controllers\RecurringDepositController;
 use App\Http\Controllers\LoanGuarantorController;
 
@@ -84,6 +85,7 @@ Route::get('/csrf-token', function () {
         Route::resource('branches', BranchController::class)->names('branches');
         Route::resource('member-financials', MemberFinancialController::class);
         Route::resource('installment-transactions', InstallmentTransactionController::class)->names('installment-transactions');
+        Route::resource('loan-installment', LoanInstallmentController::class)->names('loan-installment');
         Route::resource('recurring-deposits', RecurringDepositController::class);
         Route::resource('loan-guarantors', LoanGuarantorController::class);
         Route::get('/interest-calculator', function () {
