@@ -57,7 +57,37 @@
                                 @enderror
                             </div>
                         </div>
-
+                        @if(Auth::user()->role === 'Admin')
+                        <div class="row mb-2">
+                             @isset($branches) 
+                             <div class="col-2 ps-5 d-none d-xl-block">
+                                 <label for="branchId">Branch</label>
+                                </div>
+                                <div class="col pe-0 pe-xl-5">
+                                @if ($branches->isNotEmpty())
+                                 <select name="branch_id" id="userId"  class="w-100 px-2 py-1 @error('branch_id') is-invalid @enderror">
+                                    <option value="" disabled selected>---------- Select ----------</option>
+                                    @foreach ($branches as $branch)
+                                        <option value="{{ $branch->id }}"  
+                                        {{ old('branch_id') == $branch->id ? 'selected' : '' }}
+                                        >
+                                        {{ $branch->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('branch_id')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
+                                  @else
+                                    <select class="w-100 px-2 py-1" disabled>
+                                            <option>No branches available. Please add branches first.</option>
+                                    </select>
+                                    <small class="text-danger">⚠️ You must add branches before submitting the form.</small>
+                                @endif
+                            </div>
+                        @endisset
+                        </div>
+                        @endif
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
                                 <label for="name">Name</label>

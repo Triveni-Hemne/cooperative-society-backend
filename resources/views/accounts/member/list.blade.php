@@ -61,26 +61,27 @@
                 <tr>
                     <th scope="row">{{$i}}</th>
                     <th scope="row">{{$member->id}}</th>
-                    <th scope="row">{{$member->name}}</th>
-                    <th scope="row">{{ optional($member->department)->name }}</th>
-                    <th scope="row">{{$member->dob}}</th>
-                    <th scope="row">{{$member->gender}}</th>
-                    <th scope="row">{{$member->age}}</th>
-                    <th scope="row">{{$member->date_of_joining}}</th>
-                    <th scope="row">{{$member->religion}}</th>
-                    <th scope="row">{{$member->category}}</th>
-                    <th scope="row">{{$member->caste}}</th>
-                    <th scope="row">{{$member->subcaste->name}}</th>
-                    <th scope="row">{{$member->m_reg_no}}</th>
-                    <th scope="row">{{$member->pan_no}}</th>
-                    <th scope="row">{{$member->adhar_no}}</th>
-                    <th scope="row">{{$member->user->name ?? ''}}</th>
+                    <th scope="row">{{$member->name ?? ''}}</th>
+                    <th scope="row">{{ optional($member->department)->name  ?? ''}}</th>
+                    <th scope="row">{{$member->dob ?? ''}}</th>
+                    <th scope="row">{{$member->gender ?? ''}}</th>
+                    <th scope="row">{{$member->age ?? ''}}</th>
+                    <th scope="row">{{$member->date_of_joining ?? ''}}</th>
+                    <th scope="row">{{$member->religion ?? ''}}</th>
+                    <th scope="row">{{$member->category ?? ''}}</th>
+                    <th scope="row">{{$member->caste ?? ''}}</th>
+                    <th scope="row">{{$member->subcaste->name ?? ''}}</th>
+                    <th scope="row">{{$member->m_reg_no  ?? ''}}</th>
+                    <th scope="row">{{$member->pan_no ?? ''}} </th>
+                    <th scope="row">{{$member->adhar_no ?? ''}} </th>
+                    <th scope="row">{{$member->user ?? ''}}</th>
                     <td>
                        <a href="#" 
                             data-id="{{$member->id}}" data-nominee-id="{{optional($member->nominee)->member_id }}" 
                             data-name="{{$member->name ?? '' }}" 
                             data-naav="{{$member->naav ?? '' }}" 
-                            data-created-by="{{$member->user->name ?? '' }}" 
+                            data-created-by="{{$member->user->id ?? '' }}" 
+                            data-branch-id="{{$member->branch->id ?? '' }}" 
                             data-route="{{ route('members.update', $member->id) }}" 
                             data-subcaste-id="{{$member->subcaste->id ?? ''}}" 
                             data-subcaste-name="{{$member->subcaste->name ?? ''}}" 
@@ -191,6 +192,7 @@
             let name = this.getAttribute("data-name");
             let naav = this.getAttribute("data-naav");
             let createdBy = this.getAttribute("data-created-by");
+            let branchId = this.getAttribute("data-branch-id");
             let route = this.getAttribute("data-route");
             let subcasteId = this.getAttribute("data-subcaste-id");
             let subcasteName = this.getAttribute("data-subcaste-name");
@@ -273,6 +275,9 @@
             document.getElementById("name").value = name;
             document.getElementById("marathiName").value = naav;
             document.getElementById("createdBy").value = createdBy;
+            console.log(createdBy);
+            
+            document.getElementById("branchId").value = branchId;
             
             document.getElementById("subcasteId").value = subcasteId;
             // document.getElementById("subcasteName").value = subcasteName;

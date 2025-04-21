@@ -36,6 +36,7 @@ class DesignationController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request;
         $validated = $request->validate([
             'division_id' => 'required|exists:divisions,id',
             'subdivision_id' => 'required|exists:subdivisions,id',

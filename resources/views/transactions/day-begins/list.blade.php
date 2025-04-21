@@ -37,9 +37,12 @@
                     <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
                     <th scope="col">Date</th>
-                    <th scope="col">Member</th>
+                    <th scope="col">User</th>
                     <th scope="col">Created By</th>
+                    <th scope="col">Branch</th>
+                    <th scope="col">Opening Cash Balance</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Remarks</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -51,15 +54,18 @@
                     <th scope="row">{{$i}}</th>
                     <td>{{$dayBegin->id}}</td>
                     <td>{{$dayBegin->date}}</td>
-                    <td>{{$dayBegin->member->name}}</td>
-                    <td>{{$dayBegin->created_by ??''}}</td>
+                    <td>{{$dayBegin->users->name ?? ''}}</td>
+                    <td>{{$dayBegin->user->name ??''}}</td>
+                    <td>{{$dayBegin->branch->name ??''}}</td>
+                    <td>{{$dayBegin->opening_cash_balance ??''}}</td>
                     <td>{{$dayBegin->status}}</td>  
+                    <td>{{$dayBegin->remarks}}</td>  
                     <td>
-                        <a href="#" data-id="{{$dayBegin->id }}" data-date="{{$dayBegin->date}}" data-member-id="{{$dayBegin->member->id}}" data-status="{{$dayBegin->status}}" data-created-by="{{$entry->created_by->name ?? ''}}" data-route="{{ route('day-begins.update', $dayBegin->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$dayBegin->id }}" data-date="{{$dayBegin->date}}" data-user-id="{{$dayBegin->user->id ?? ''}}" data-status="{{$dayBegin->status}}" data-created-by="{{$entry->created_by->name ?? ''}}" data-branch-id="{{$entry->branch_id ?? ''}}" data-opening-cash-balance="{{$entry->opening_cash_balance ?? ''}}"  data-remarks="{{$entry->remarks ?? ''}}" data-route="{{ route('day-begins.update', $dayBegin->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#dayBeginsModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" data-id="{{$dayBegin->id }}" data-route="{{ route('day-begins.destroy', $dayBegin->id) }}" data-name="{{$dayBegin->member->name}}"  class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <a href="#" data-id="{{$dayBegin->id }}" data-route="{{ route('day-begins.destroy', $dayBegin->id) }}" data-name="{{$dayBegin->user->name ?? ''}}"  class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
                         </a>
                     </td>
@@ -101,9 +107,12 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", function () {
             let id = this.getAttribute("data-id");
             let date = this.getAttribute("data-date");
-            let memberId = this.getAttribute("data-member-id");
+            let userId = this.getAttribute("data-user-id");
+            let branchId = this.getAttribute("data-branch-id");
+            let openingCashBalance = this.getAttribute("data-opening-cash-balance");
             let createdBy = this.getAttribute("data-created-by");
             let status = this.getAttribute("data-status");
+            let remarks = this.getAttribute("data-remarks");
             let route = this.getAttribute("data-route");
 
             let modal = document.getElementById("dayBeginsModal");
@@ -114,7 +123,10 @@ document.addEventListener("DOMContentLoaded", function () {
             // Populate form fields
             document.getElementById("dayBeginId").value = id;
             document.getElementById("date").value = date;
-            document.getElementById("memberId").value = memberId;
+            document.getElementById("userId").value = userId;
+            document.getElementById("branchId").value = branchId;
+            document.getElementById("openingCashBalance").value = openingCashBalance;
+            document.getElementById("remarks").value = remarks;
             document.getElementById("createdBy").value = createdBy;
             document.getElementById("status").value = status;
             

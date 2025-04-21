@@ -10,7 +10,7 @@ class TransferEntry extends Model
 
     protected $fillable = [
         'transaction_type', 'date', 'receipt_id', 'payment_id', 
-        'ledger_id', 'opening_balance', 'current_balance', 'narration', 'm_narration', 'created_by'
+        'ledger_id', 'opening_balance', 'current_balance', 'narration', 'm_narration', 'created_by','branch_id'
     ];
 
     public function ledger() {
@@ -19,5 +19,9 @@ class TransferEntry extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+    public function branch()
+    {
+        return $this->belongsTo(branch::class, 'branch_id');
     }
 }

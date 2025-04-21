@@ -52,7 +52,7 @@ class BranchLedgerController extends Controller
     {
         $request->validate([
             'branch_code' => 'required|string|max:20',
-            // 'gl_id' => 'required|exists:general_ledgers,id',
+            'gl_id' => 'nullable|exists:general_ledgers,id',
             'open_date' => 'required|date',
             'open_balance' => 'required|numeric',
             'balance' => 'required|numeric',
@@ -94,7 +94,7 @@ class BranchLedgerController extends Controller
 
         $request->validate([
             'branch_code' => 'string|max:20',
-            'gl_id' => 'exists:general_ledgers,id',
+            'gl_id' => 'nullable|exists:general_ledgers,id',
             'open_date' => 'date',
             'open_balance' => 'numeric',
             'balance' => 'numeric',

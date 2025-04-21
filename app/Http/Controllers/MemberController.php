@@ -94,6 +94,7 @@ class MemberController extends Controller
             // Member Validation
             'subcaste_id' => 'nullable|exists:subcastes,id',
             'department_id' => 'nullable|exists:departments,id',
+            'branch_id' => 'nullable|exists:branches,id',
             'name' => 'required|string|max:255',
             'naav' => 'nullable|string|max:255',
             'dob' => 'required|date',
@@ -272,6 +273,7 @@ class MemberController extends Controller
         $member_validated = $request->validate([
             'subcaste_id' => 'nullable|exists:subcastes,id',
             'department_id' => 'nullable|exists:departments,id',
+            'branch_id' => 'nullable|exists:branches,id',
             'name' => 'required|string|max:255',
             'naav' => 'nullable|string|max:255',
             'dob' => 'required|date',

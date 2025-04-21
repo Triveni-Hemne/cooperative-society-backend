@@ -96,7 +96,7 @@
                 </tr>
                  @php $i++ @endphp
                  @endforeach
-                 @isset($bankInvestments)
+                 @endisset
                  @else
                     <tr>
                         <td colspan="7" style="text-align:center; padding: 20px; color: #888;">

@@ -10,16 +10,26 @@ class DayBegin extends Model
 
     protected $fillable = [
         'date',
-        'member_id',
+        'branch_id',
+        'user_id',
+        'opening_cash_balance',
         'status',
+        'remarks',
         'created_by'
     ];
 
-    public function member() {
-        return $this->belongsTo(Member::class, 'member_id');
-    }
+    // creator
     public function user()
     {
         return $this->belongsTo(User::class, 'created_by');
+    } 
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id');
     }
+    // day beginner
+     public function users()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    } 
 }

@@ -23,7 +23,7 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <style>
     @media (max-width: 992px) {
         .sidebar-container {
@@ -38,7 +38,7 @@
     </style>
 </head>
 
-<body>
+<body class="bg-light">
     <div class="bg-primary" style="height: 9.3vh;">
         <!-- @include('layouts.header') -->
     </div>
@@ -47,7 +47,7 @@
         <div class="sidebar-container p-0 bg-light" style="width: 18%;">
             @include('layouts.sidebar')
         </div>
-        <div class="content-container px-5 py-3" style="width: 82%; height: 100%;">
+        <div class="content-container container-fluid p-5 m-1" style="width: 82%; height: 100%;">
             @yield('content')
         </div>
     </div>

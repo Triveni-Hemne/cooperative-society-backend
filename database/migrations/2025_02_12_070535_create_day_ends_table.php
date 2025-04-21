@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('day_ends', function (Blueprint $table) {
             $table->id();
-            $table->date('date')->unique();
-            $table->decimal('opening_cash', 12, 2);
+            $table->date('date');
             $table->decimal('total_credit_rs', 12, 2);
             $table->integer('total_credit_chalans');
             $table->decimal('total_debit_rs', 12, 2);

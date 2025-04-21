@@ -37,11 +37,21 @@
                     <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
                     <th scope="col">Date</th>
+                    <th scope="col">Created By</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Branch</th>
+                    <th scope="col">Closing Cash Balance</th>
+                    <th scope="col">Total Receipt</th>
+                    <th scope="col">Total Payments</th>
+                    <th scope="col">System Closing Balance</th>
+                    <th scope="col">Difference Amount</th>
+                    <th scope="col">Is Day Closed</th>
                     <th scope="col">Opening Cash</th>
                     <th scope="col">Total Credit Rs.</th>
                     <th scope="col">Total Credit Chalans</th>
                     <th scope="col">Total Debit Rs.</th>
                     <th scope="col">Total Debit Chalans</th>
+                    <th scope="col">Remarks</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -52,14 +62,36 @@
                 <tr>
                     <th scope="row">{{$i}}</th>
                     <td>{{$dayEnd->id}}</td>
-                    <td>{{$dayEnd->date}}</td>
-                    <td>{{$dayEnd->opening_cash}}</td>
-                    <td>{{$dayEnd->total_credit_rs}}</td>
+                    <td>{{$dayEnd->date ?? ''}}</td>
+                    <td>{{$dayEnd->user->name ?? ''}}</td>
+                    <td>{{$dayEnd->branch->name ?? ''}}</td>
+                    <td>{{$dayEnd->closing_cash_balance ?? ''}}</td>
+                    <td>{{$dayEnd->total_receipts ?? ''}}</td>
+                    <td>{{$dayEnd->total_payments ?? ''}}</td>
+                    <td>{{$dayEnd->system_closing_balance ?? ''}}</td>
+                    <td>{{$dayEnd->difference_amount ?? ''}}</td>
+                    <td>{{$dayEnd->is_day_closed ?? ''}}</td>
+                    <td>{{$dayEnd->opening_cash ?? ''}}</td>
+                    <td>{{$dayEnd->total_credit_rs ?? ''}}</td>
                     <td>{{$dayEnd->total_credit_chalans}}</td>
-                    <td>{{$dayEnd->total_debit_rs}}</td>
-                    <td>{{$dayEnd->total_debit_challans}}</td>
+                    <td>{{$dayEnd->total_debit_rs ?? ''}}</td>
+                    <td>{{$dayEnd->total_debit_challans ?? ''}}</td>
+                    <td>{{$dayEnd->remarks ?? ''}}</td>
                     <td>
-                        <a href="#"  data-id="{{$dayEnd->id}}" data-date="{{$dayEnd->date}}" data-opening-cash="{{$dayEnd->opening_cash}}" data-total-credit-rs="{{$dayEnd->total_credit_rs}}" data-total-credit-chalans="{{$dayEnd->total_credit_chalans}}" data-total-debit-rs="{{$dayEnd->total_debit_rs}}" data-total-debit-challans="{{$dayEnd->total_debit_challans}}" data-route="{{ route('day-end.update', $dayEnd->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#"  data-id="{{$dayEnd->id}}" 
+                            data-date="{{$dayEnd->date}}" 
+                            data-user-id="{{$dayEnd->user->id}}" 
+                            data-created-by="{{$dayEnd->created_by}}" 
+                            data-branch-id="{{$dayEnd->branch_id}}" 
+                            data-closing-cash-balance="{{$dayEnd->closing_cash_balance}}" 
+                            data-total-receipts="{{$dayEnd->total_receipts}}" 
+                            data-total-payments="{{$dayEnd->total_payments}}" 
+                            data-system-closing-balance="{{$dayEnd->system_closing_balance}}" 
+                            data-difference-amount="{{$dayEnd->difference_amount}}" 
+                            data-is-day-closed="{{$dayEnd->is_day_closed}}" 
+                            data-remarks="{{$dayEnd->remarks}}" 
+                            data-opening-cash="{{$dayEnd->opening_cash}}" data-total-credit-rs="{{$dayEnd->total_credit_rs}}" data-total-credit-chalans="{{$dayEnd->total_credit_chalans}}" 
+                            data-total-debit-rs="{{$dayEnd->total_debit_rs}}" data-total-debit-challans="{{$dayEnd->total_debit_challans}}" data-route="{{ route('day-end.update', $dayEnd->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#dayEndsModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
@@ -103,7 +135,17 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".edit-btn").forEach(button => {
         button.addEventListener("click", function () {
             let id = this.getAttribute("data-id");
-            let date = this.getAttribute("data-date").split(" ")[0];;
+            let date = this.getAttribute("data-date").split(" ")[0];
+            let userId = this.getAttribute("data-user-id");
+            let createdBy = this.getAttribute("data-created-by");
+            let branchId = this.getAttribute("data-branch-id");
+            let closingCashBalance = this.getAttribute("data-closing-cash-balance");
+            let totalReceipts = this.getAttribute("data-total-receipts");
+            let totalPayments = this.getAttribute("data-total-payments");
+            let systemClosingBalance = this.getAttribute("data-system-closing-balance");
+            let differenceAmount = this.getAttribute("data-difference-amount");
+            let isDayClosed = this.getAttribute("data-is-day-closed");
+            let remarks = this.getAttribute("data-remarks");
             let openingCash = this.getAttribute("data-opening-cash");
             let totalCreditRs = this.getAttribute("data-total-credit-rs");
             let totalCreditChalans = this.getAttribute("data-total-credit-chalans");
@@ -119,6 +161,16 @@ document.addEventListener("DOMContentLoaded", function () {
             // Populate form fields
             document.getElementById("dayEndsId").value = id;
             document.getElementById("date").value = date;
+            document.getElementById("userId").value = userId;
+            document.getElementById("createdBy").value = createdBy;
+            document.getElementById("branchId").value = branchId;
+            document.getElementById("closingCashBalance").value = closingCashBalance;
+            document.getElementById("totalReceipts").value = totalReceipts;
+            document.getElementById("totalPayments").value = totalPayments;
+            document.getElementById("systemClosingBalance").value = systemClosingBalance;
+            document.getElementById("differenceAmount").value = differenceAmount;
+            document.getElementById("isDayClosed").value = isDayClosed;
+            document.getElementById("remarks").value = remarks;
             document.getElementById("openingCash").value = openingCash;
             document.getElementById("totalCreditRs").value = totalCreditRs;
             document.getElementById("totalCreditChalans").value = totalCreditChalans;

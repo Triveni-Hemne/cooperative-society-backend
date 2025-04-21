@@ -60,11 +60,13 @@ class LoanInstallmentController extends Controller
             'total_installments' => 'required|integer|min:1',
             'installment_amount' => 'required|numeric|min:0',
             'installment_with_interest' => 'required|numeric|min:0',
+            'created_by' => 'nullable|string|users,id',
             'total_installments_paid' => 'integer|min:0',
+            'created_by' => 'nullable|string|exists:users:id',
         ]);
 
         $loanInstallment = LoanInstallment::create($request->all());
-        return response()->json($loanInstallment, 201);
+        return redirect()->back()->with('success','Loan Installment Created Successfully');
     }
 
     /**
@@ -104,7 +106,7 @@ class LoanInstallmentController extends Controller
         ]);
 
         $loanInstallment->update($request->all());
-        return response()->json($loanInstallment, 200);
+        return redirect()->back()->with('success','Loan Installment Updated Successfully');
     }
 
     /**
@@ -116,6 +118,6 @@ class LoanInstallmentController extends Controller
         if (!$loanInstallment) return response()->json(['message' => 'Not Found'], 404);
 
         $loanInstallment->delete();
-        return response()->json(['message' => 'Deleted Successfully'], 200);
+        return redirect()->back()->with('success','Loan Installment Deleted Successfully');
     }
 }

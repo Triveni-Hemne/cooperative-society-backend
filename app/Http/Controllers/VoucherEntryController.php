@@ -89,7 +89,7 @@ class VoucherEntryController extends Controller
         ]);
         
         $voucherEntry = VoucherEntry::create($request->all());
-        return redirect()->back()->with('success', 'Voucher Entry  acreated successfully');
+        return redirect()->back()->with('success', 'Voucher Entry created successfully');
     }
 
     /**

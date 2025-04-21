@@ -13,7 +13,7 @@ class Member extends Model
     protected $fillable = [
         'member_id','employee_id','department_id', 'subcaste_id', 'name','naav', 'dob', 'gender', 'age',
         'date_of_joining', 'religion', 'category', 'caste', 'm_reg_no',
-        'pan_no', 'adhar_no','branch_id', 'created_by'
+        'pan_no', 'adhar_no','branch_id', 'created_by',
     ];
 
     public function subcaste() {
@@ -45,6 +45,10 @@ class Member extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id');
     }
 
     public function routeNotificationForWhatsApp()

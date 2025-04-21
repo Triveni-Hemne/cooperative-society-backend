@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DayEnd;
 use App\Models\Branch;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class DayEndController extends Controller
@@ -16,6 +17,7 @@ class DayEndController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
+        $users = User::all();
         $branchId = null;
         // Determine branch filter based on role
         if ($user->role === 'Admin') {
@@ -52,11 +54,20 @@ class DayEndController extends Controller
     {
         $request->validate([
             'date' => 'required|date',
+            'branch_id' => 'required|exists:branches,id',
+            'user_id' => 'nullable|exists:users,id',
+            'closing_cash_balance' => 'required|numeric',
+            'total_receipts' => 'required|numeric',
+            'total_payments' => 'required|numeric',
+            'system_closing_balance' => 'required|numeric',
+            'difference_amount' => 'required|numeric',
+            'is_day_closed' => 'required|boolean',
             'opening_cash' => 'required|numeric',
             'total_credit_rs' => 'required|numeric',
             'total_credit_chalans' => 'required|integer',
             'total_debit_rs' => 'required|numeric',
             'total_debit_challans' => 'required|integer',
+            'remarks' => 'required|string',
             'created_by' => 'nullable|string|users,id',
         ]);
 
@@ -92,11 +103,20 @@ class DayEndController extends Controller
 
         $request->validate([
             'date' => 'required|date',
+            'branch_id' => 'required|exists:branches,id',
+            'user_id' => 'nullable|exists:users,id',
+            'closing_cash_balance' => 'required|numeric',
+            'total_receipts' => 'required|numeric',
+            'total_payments' => 'required|numeric',
+            'system_closing_balance' => 'required|numeric',
+            'difference_amount' => 'required|numeric',
+            'is_day_closed' => 'required|boolean',
             'opening_cash' => 'required|numeric',
             'total_credit_rs' => 'required|numeric',
             'total_credit_chalans' => 'required|integer',
             'total_debit_rs' => 'required|numeric',
             'total_debit_challans' => 'required|integer',
+            'remarks' => 'required|string',
             'created_by' => 'nullable|string|exists:users:id',
         ]);
 

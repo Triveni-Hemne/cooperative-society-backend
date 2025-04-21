@@ -18,6 +18,7 @@ class DayBeginController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
+        $users = User::all();
         $branchId = null;
         // Determine branch filter based on role
         if ($user->role === 'Admin') {
@@ -34,10 +35,9 @@ class DayBeginController extends Controller
         })
         ->paginate(5);
         // $dayBegins = DayBegin::paginate(5);
-        $members = Member::all();
         $user = Auth::user();
         $branches = $user->role === 'Admin' ? Branch::all() : null;
-        return view('transactions.day-begins.list', compact('dayBegins','members','user','branches'));
+        return view('transactions.day-begins.list', compact('users','dayBegins','user','branches'));
     }
 
     /**
@@ -55,8 +55,11 @@ class DayBeginController extends Controller
     {
         $request->validate([
             'date' => 'required|date',
-            'member_id' => 'required|exists:members,id',
+            'branch_id' => 'required|exists:branches,id',
+            'user_id' => 'nullable|exists:users,id',
             'status' => 'required|in:Open,Closed',
+            'opening_cash_balance' => 'required|numeric',
+            'remarks' => 'nullable|string',
             'created_by' => 'nullable|string|users,id',
         ]);
         
@@ -92,9 +95,12 @@ class DayBeginController extends Controller
         
         $request->validate([
             'date' => 'date',
-            'member_id' => 'required|exists:members,id',
+            'branch_id' => 'required|exists:branches,id',
+            'user_id' => 'nullable|exists:users,id',
             'status' => 'in:Open,Closed',
+            'opening_cash_balance' => 'required|numeric',
             'created_by' => 'nullable|string|exists:users:id',
+            'remarks' => 'nullable|string',
         ]);
         
         $dayBegin->update($request->all());
