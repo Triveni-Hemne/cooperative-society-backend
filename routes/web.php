@@ -85,7 +85,7 @@ Route::get('/csrf-token', function () {
         Route::resource('branches', BranchController::class)->names('branches');
         Route::resource('member-financials', MemberFinancialController::class);
         Route::resource('installment-transactions', InstallmentTransactionController::class)->names('installment-transactions');
-        Route::resource('loan-installment', LoanInstallmentController::class)->names('loan-installment');
+        Route::resource('loan-installments', LoanInstallmentController::class)->names('loan-installments');
         Route::resource('recurring-deposits', RecurringDepositController::class);
         Route::resource('loan-guarantors', LoanGuarantorController::class);
         Route::get('/interest-calculator', function () {

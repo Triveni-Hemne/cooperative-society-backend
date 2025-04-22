@@ -27,12 +27,24 @@ class DashboardController extends Controller
             $branchId = $user->branch_id; // Force branch filter for non-admins
         }
 
-        // Filtered queries
-        $members = Member::whereHas('user', function ($query) use ($branchId) {
-            if ($branchId) {
+        if ($branchId) {
+            $members = Member::whereHas('user', function ($query) use ($branchId) {
                 $query->where('branch_id', $branchId);
-            }
-        })->get();
+            })->get();
+            $deposits = MemberDepoAccount::whereHas('member.user', function ($query) use ($branchId) {
+                $query->where('branch_id', $branchId);
+            })->get();
+            $loans = MemberLoanAccount::whereHas('member.user', function ($query) use ($branchId) {
+                $query->where('branch_id', $branchId);
+            })->get();
+            $transactions = VoucherEntry::where('branch_id', $branchId)->count();
+        } else {
+            $members = Member::all();
+            $deposits = MemberDepoAccount::all();
+            $loans = MemberLoanAccount::all();
+            $transactions = VoucherEntry::all()->count();
+        }
+
         $totalMembers = $members->count();
         $members = $members->map(function ($member) {
             return [
@@ -41,11 +53,6 @@ class DashboardController extends Controller
             ];
         });
 
-        $deposits = MemberDepoAccount::whereHas('member.user', function ($query) use ($branchId) {
-            if ($branchId) {
-                $query->where('branch_id', $branchId);
-            }
-        })->get();
         $totalDeposits = $deposits->sum('balance');
          $deposits = $deposits->map(function ($deposit) {
             return [
@@ -54,11 +61,6 @@ class DashboardController extends Controller
             ];
         });
 
-        $loans = MemberLoanAccount::whereHas('member.user', function ($query) use ($branchId) {
-            if ($branchId) {
-                $query->where('branch_id', $branchId);
-            }
-        })->get();
         $totalLoans = $loans->sum('balance');
         $loans = $loans->map(function ($loan) {
             return [
@@ -67,7 +69,6 @@ class DashboardController extends Controller
             ];
         });
 
-        $transactions = VoucherEntry::where('branch_id', $branchId)->count();
 
         $monthlyDeposits = DB::table('voucher_entries')
             ->select(DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month"), DB::raw("SUM(credit_amount) as amount"))

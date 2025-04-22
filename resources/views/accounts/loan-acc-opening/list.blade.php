@@ -37,12 +37,35 @@
                     <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
                     <th scope="col">Ledger</th>
-                    <th scope="col">member</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Member Name</th>
                     <th scope="col">Account No. </th>
                     <th scope="col">Loan Type</th>
-                    <th scope="col">name</th>
                     <th scope="col">Acc Start Date</th>
+                    <th scope="col">Open. Balance</th>
+                    <th scope="col">Purpose</th>
+                    <th scope="col">Principal Amount</th>
+                    <th scope="col">Interest Rate</th>
+                    <th scope="col">Tenure</th>
+                    <th scope="col">IMI Amount</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
                     <th scope="col">Balance</th>
+                    <th scope="col">Priority</th>
+                    <th scope="col">Loan Amount</th>
+                    <th scope="col">Collateral Type</th>
+                    <th scope="col">Collateral Value</th>
+                    <th scope="col">Add To Demand</th>
+                    <th scope="col">Is Loss Asset</th>
+                    <th scope="col">Case Flag</th>
+                    <th scope="col">Page No.</th>
+                    <th scope="col">Interest</th>
+                    <th scope="col">Postage</th>
+                    <th scope="col">Insurance</th>
+                    <th scope="col">Open. Interest</th> 
+                    <th scope="col">Penal Interest</th>
+                    <th scope="col">Notice Fee</th>
+                    <th scope="col">Insurance Date</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -54,12 +77,35 @@
                     <th scope="row">{{$i}}</th>
                     <td>{{$account->id}}</td>
                     <td>{{$account->ledger->name}}</td>
-                    <td>{{$account->member->name}}</td>
+                    <td>{{$account->images ?? ''}}</td>
+                    <td>{{$account->name ?? ''}}</td>
                     <td>{{$account->acc_no}}</td>
                     <td>{{$account->loan_type}}</td>
-                    <td>{{$account->name}}</td>
                     <td>{{$account->ac_start_date}}</td>
-                    <td>{{$account->balance}}</td>
+                    <td>{{$account->open_balance ?? ''}}</td>
+                    <td>{{$account->purpose ?? ''}}</td>
+                    <td>{{$account->principal_amount ?? ''}}</td>
+                    <td>{{$account->interest_rate ?? ''}}</td>
+                    <td>{{$account->tenure ?? ''}}</td>
+                    <td>{{$account->emi_amount ?? ''}}</td>
+                    <td>{{$account->start_date ?? ''}}</td>
+                    <td>{{$account->end_date ?? ''}}</td>
+                    <td>{{$account->balance ?? ''}}</td>
+                    <td>{{$account->priority ?? ''}}</td>
+                    <td>{{$account->loan_amount ?? ''}}</td>
+                    <td>{{$account->collateral_type ?? ''}}</td>
+                    <td>{{$account->collateral_value ?? ''}}</td>
+                    <td>{{$account->add_to_demand ?? ''}}</td>
+                    <td>{{$account->is_loss_asset ?? ''}}</td>
+                    <td>{{$account->case_flag ?? ''}}</td>
+                    <td>{{$account->page_no ?? ''}}</td>
+                    <td>{{$account->interest ?? ''}}</td>
+                    <td>{{$account->postage ?? ''}}</td>
+                    <td>{{$account->insurance ?? ''}}</td>
+                    <td>{{$account->open_interest ?? ''}}</td>
+                    <td>{{$account->penal_interest ?? ''}}</td>
+                    <td>{{$account->notice_fee ?? ''}}</td>
+                    <td>{{$account->insurance_date ?? ''}}</td>
                     <td>
                         <a href="#" data-id="{{$account->id }}" data-ledger-id="{{$account->ledger_id ?? ''}}" data-member-id="{{$account->member_id ?? ''}}" data-account-id="{{$account->account_id ?? ''}}" data-acc-no="{{$account->acc_no ?? ''}}" data-loan-type="{{$account->loan_type ?? ''}}" data-name="{{$account->name ?? ''}}"data-ac-start-date="{{$account->ac_start_date ?? ''}}" data-open-balance="{{$account->open_balance ?? ''}}" data-purpose="{{$account->purpose ?? ''}}" data-principal-amount="{{$account->principal_amount ?? ''}}" data-interest-rate="{{$account->interest_rate ?? ''}}" data-tenure="{{$account->tenure ?? ''}}" data-emi-amount="{{$account->emi_amount ?? ''}}" data-start-date="{{$account->start_date ?? ''}}" data-end-date="{{$account->end_date ?? ''}}" data-balance="{{$account->balance ?? ''}}" data-priority="{{$account->priority ?? ''}}" data-loan-amount="{{$account->loan_amount ?? ''}}" data-collateral-type="{{$account->collateral_type ?? ''}}" data-collateral-value="{{$account->collateral_value ?? ''}}" data-status="{{$account->status ?? ''}}" data-add-to-demand="{{$account->add_to_demand ?? ''}}" data-is-loss-asset="{{$account->is_loss_asset ?? ''}}" data-case-flag="{{$account->case_flag ?? ''}}" data-page-no="{{$account->page_no ?? ''}}" data-interest="{{$account->interest ?? ''}}" data-postage="{{$account->postage ?? ''}}" data-insurance="{{$account->insurance ?? ''}}" data-open-interest="{{$account->open_interest ?? ''}}" data-penal-interest="{{$account->penal_interest ?? ''}}" data-notice-fee="{{$account->notice_fee ?? ''}}" data-insurance-date="{{$account->insurance_date ?? ''}}" 
 

@@ -42,6 +42,8 @@
                     <th scope="col">Name</th>
                     <th scope="col">contact no. 1</th>
                     <th scope="col">contact no. 2</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Designation</th>
                     <th scope="col">From</th>
                     <th scope="col">To</th>
                     <th scope="col">Action</th>
@@ -58,6 +60,8 @@
                     @foreach(explode(',', $director->contact_nos) as $contact)
                         <td>{{ $contact }}</td>
                     @endforeach
+                    <td>{{$director->email}}</td>
+                    <td>{{$director->designation->name}}</td>
                     <td>{{$director->from_date}}</td>
                     <td>{{$director->to_date}}</td>
                     <td>

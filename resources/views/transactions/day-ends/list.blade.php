@@ -37,8 +37,8 @@
                     <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
                     <th scope="col">Date</th>
-                    <th scope="col">Created By</th>
                     <th scope="col">User</th>
+                    <th scope="col">Created By</th>
                     <th scope="col">Branch</th>
                     <th scope="col">Closing Cash Balance</th>
                     <th scope="col">Total Receipt</th>
@@ -46,7 +46,6 @@
                     <th scope="col">System Closing Balance</th>
                     <th scope="col">Difference Amount</th>
                     <th scope="col">Is Day Closed</th>
-                    <th scope="col">Opening Cash</th>
                     <th scope="col">Total Credit Rs.</th>
                     <th scope="col">Total Credit Chalans</th>
                     <th scope="col">Total Debit Rs.</th>

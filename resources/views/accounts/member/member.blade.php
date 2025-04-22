@@ -194,16 +194,16 @@
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
                                         </div>
-                                        <div class="col-1 d-none d-xl-block">
+                                        {{-- <div class="col-1 d-none d-xl-block">
                                             <label for="phoneNo" class="w-100">Phone No.</label>
-                                        </div>
-                                        <div class="col-3 pe-0 pe-xl-5">
+                                        </div> --}}
+                                        {{-- <div class="col-3 pe-0 pe-xl-5">
                                             <input name="phone_no" id="phoneNo" class="w-100 px-2 py-1 @error('phone_no') is-invalid @enderror" value="{{ old('phone_no') }}" type="tel"
                                                 placeholder="Phone no">
                                                 @error('phone_no')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
-                                        </div>
+                                        </div> --}}
                                         <div class="col-1 d-none d-xl-block">
                                             <label for="gender">Gender</label>
                                         </div>

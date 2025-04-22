@@ -43,6 +43,8 @@
                     <th scope="col">User Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Branch</th>
+                    <th scope="col">Employee Code</th>
+                    <th scope="col">Designation</th>
                     {{-- <th scope="col">Status</th> --}}
                     <th scope="col">Action</th>
                 </tr>
@@ -57,6 +59,8 @@
                     <td>{{$user->name}}</td>
                     <td>{{$user->email}}</td>
                     <td>{{$user->branch->name ?? ''}}</td>
+                    <td>{{$user->employee->emp_code ?? ''}}</td>
+                    <td>{{$user->employee->designation_id ?? ''}}</td>
                     {{-- <td>{{$user->status}}</td> --}}
                     <td>
                         <a href="#" data-id="{{$user->id }}" data-employee="{{$user->employee_id }}" data-name="{{$user->name}}" data-email="{{$user->email}}" data-branch="{{$user->branch_id}}" data-route="{{ route('users.update', $user->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"

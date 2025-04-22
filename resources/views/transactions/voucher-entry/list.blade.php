@@ -41,7 +41,7 @@
                     <th scope="col">Transaction Type</th>
                     <th scope="col">Voucher Number</th>
                     <th scope="col">Token Number</th>
-                    <th scope="col">serial_no</th>
+                    <th scope="col">Serial No.</th>
                     <th scope="col">Date</th>
                     <th scope="col">Receipt No.</th>
                     <th scope="col">Payment No.</th>
@@ -49,10 +49,20 @@
                     <th scope="col">Account</th>
                     <th scope="col">Depo Account</th>
                     <th scope="col">Loan Account</th>
-                    <th scope="col">From Date</th>
-                    <th scope="col">To Date</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Debit Amount</th>
+                    <th scope="col">Credit Amount</th>
                     <th scope="col">Opening Balance</th>
                     <th scope="col">Current Balance</th>
+                    <th scope="col">Transaction Mode</th>
+                    <th scope="col">Reference No.</th>
+                    <th scope="col">Is Reversed</th>
+                    <th scope="col">Approved By</th>
+                    <th scope="col">Approved At</th>
+                    <th scope="col">Entered By</th>
+                    <th scope="col">Branch</th>
+                    <th scope="col">From Date</th>
+                    <th scope="col">To Date</th>
                     <th scope="col">Naration</th>
                     <th scope="col">M_Naration</th>
                     <th scope="col">Status</th>
@@ -77,10 +87,20 @@
                     <td>{{$entry->account->name ?? ''}}</td>
                     <td>{{$entry->memberDepositAccount->name ?? '' }}</td>
                     <td>{{$entry->memberLoanAccount->name ?? ''   }}</td>
-                    <td>{{$entry->from_date  }}</td>
-                    <td>{{$entry->to_date  }}</td>
+                    <td>{{$entry->amount ?? '' }}</td>
+                    <td>{{$entry->debit_amount ?? '' }}</td>
+                    <td>{{$entry->credit_amount ?? '' }}</td>
                     <td>{{$entry->opening_balance ?? '' }}</td>
                     <td>{{$entry->current_balance ?? '' }}</td>
+                    <td>{{$entry->transaction_mode ?? '' }}</td>
+                    <td>{{$entry->payment_mode ?? '' }}</td>
+                    <td>{{$entry->reference_no ?? '' }}</td>
+                    <td>{{$entry->is_reversed ?? '' }}</td>
+                    <td>{{$entry->approved_by ?? '' }}</td>
+                    <td>{{$entry->entered_by ?? '' }}</td>
+                    <td>{{$entry->branch->name ?? '' }}</td>
+                    <td>{{$entry->from_date ?? '' }}</td>
+                    <td>{{$entry->to_date  ?? ''}}</td>
                     <td>{{$entry->narration  ?? ''}}</td>
                     <td>{{$entry->m_narration ?? '' }}</td>
                     <td>{{$entry->status  }}</td>

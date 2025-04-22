@@ -72,7 +72,7 @@
                     <td>{{$generalLedger->id}}</td>
                     <td>{{$generalLedger->ledger_no}}</td>
                     <td>{{$generalLedger->name}}</td>
-                    <td>{{ optional($generalLedger->parent_ledgers)->name ?? 'Ledger not found' }}</td>
+                    <td>{{ optional($generalLedger->parentLedger)->name ?? 'Ledger not found' }}</td>
                     <td>{{$generalLedger->balance}}</td>
                     <td>{{$generalLedger->balance_type}}</td>
                     <td>{{$generalLedger->open_balance}}</td>

@@ -36,6 +36,7 @@
                 <tr>
                     <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
+                    <th scope="col">Branch</th>
                     <th scope="col">Transation Type</th>
                     <th scope="col">Date</th>
                     <th scope="col">Receipt No. </th>
@@ -56,6 +57,7 @@
                 <tr>
                     <th scope="row">{{$i}}</th>
                     <th scope="row">{{$entry->id}}</th>
+                    <th scope="row">{{$entry->branch->name ?? ''}}</th>
                     <th scope="row">{{$entry->transaction_type}}</th>
                     <th scope="row">{{$entry->date}}</th>
                     <th scope="row">{{$entry->receipt_id ?? ''}}</th>

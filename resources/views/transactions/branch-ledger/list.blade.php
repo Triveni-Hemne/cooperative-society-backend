@@ -36,12 +36,14 @@
                 <tr>
                     <th scope="col">Sr. No.</th>
                     <th scope="col">#</th>
+                    <th scope="col">Branch</th>
                     <th scope="col">Branch code</th>
                     <th scope="col">Ledger</th>
                     <th scope="col">Open Date</th>
                     <th scope="col">Open Balance</th>
                     <th scope="col">Balance</th>
-                    <th scope="col">Balance< Type/th>
+                    <th scope="col">Balance Type</th>
+                    <th scope="col">Item Type</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -52,6 +54,7 @@
                 <tr>
                     <th scope="row">{{$i}}</th>
                     <td>{{$ledger->id}}</td>
+                    <td>{{$ledger->branch->name ?? ''}}</td>
                     <td>{{$ledger->branch_code}}</td>
                     <td>{{$ledger->ledger->name ?? ''}}</td>
                     <td>{{$ledger->open_date}}</td>

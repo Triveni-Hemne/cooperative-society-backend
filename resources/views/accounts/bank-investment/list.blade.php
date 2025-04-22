@@ -38,11 +38,23 @@
                     <th scope="col">#</th>
                     <th scope="col">Ledger</th>
                     <th scope="col">Account</th>
-                    <th scope="col">Name</th>
+                    <th scope="col">Member Name</th>
                     <th scope="col">Investment Type</th>
                     <th scope="col">Interest Rate</th>
+                    <th scope="col">Opening Date</th>
                     <th scope="col">Opening Balance</th>
                     <th scope="col">Current Balance</th>
+                    <th scope="col">Maturity Date</th>
+                    <th scope="col">Deposit Term Days</th>
+                    <th scope="col">Months</th>
+                    <th scope="col">Years</th>
+                    <th scope="col">FD Amount</th>
+                    <th scope="col">Monthly Deposit</th>
+                    <th scope="col">RD Term Months</th>
+                    <th scope="col">Maturity Amount</th>
+                    <th scope="col">Interest</th>
+                    <th scope="col">Interest Receivable</th>
+                    <th scope="col">Interest Frequency</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -55,12 +67,24 @@
                     <th scope="row">{{$i}}</th>
                     <td>{{$bankInvestment->id}}</td>
                     <td>{{$bankInvestment->ledger->name}}</td>
-                    <td>{{ optional($bankInvestment->account)->name ?? optional($bankInvestment->depositAccount)->name }}</td>
+                    <td>{{ optional($bankInvestment->account)->account_no ?? optional($bankInvestment->depositAccount)->acc_no }}</td>
                     <td>{{$bankInvestment->name}}</td>
                     <td>{{$bankInvestment->investment_type}}</td>
                     <td>{{$bankInvestment->interest_rate}}</td>
+                    <td>{{$bankInvestment->opening_date}}</td>
                     <td>{{$bankInvestment->opening_balance}}</td>
                     <td>{{$bankInvestment->current_balance}}</td>
+                    <td>{{$bankInvestment->maturity_date}}</td>
+                    <td>{{$bankInvestment->deposit_term_days}}</td>
+                    <td>{{$bankInvestment->months}}</td>
+                    <td>{{$bankInvestment->years}}</td>
+                    <td>{{$bankInvestment->fd_amount}}</td>
+                    <td>{{$bankInvestment->monthly_deposit}}</td>
+                    <td>{{$bankInvestment->rd_term_months}}</td>
+                    <td>{{$bankInvestment->maturity_amount}}</td>
+                    <td>{{$bankInvestment->interest}}</td>
+                    <td>{{$bankInvestment->interest_receivable}}</td>
+                    <td>{{$bankInvestment->interest_frequency}}</td>
                     <td>
                         <a href="#" data-id="{{$bankInvestment->id }}" data-ledger-id="{{$bankInvestment->ledger_id}}" data-account-id="{{$bankInvestment->account_id  ?? '' }}" data-depo-account-id="{{$bankInvestment->depo_account_id  ?? '' }}" data-name="{{$bankInvestment->name  ?? '' }}" data-investment-type="{{$bankInvestment->investment_type  ?? '' }}" data-interest-rate="{{$bankInvestment->interest_rate   ?? '' }}" data-opening-date="{{$bankInvestment->opening_date   ?? '' }}" data-opening-balance="{{$bankInvestment->opening_balance  ?? '' }}" data-current-balance="{{$bankInvestment->current_balance  ?? '' }}" 
                             

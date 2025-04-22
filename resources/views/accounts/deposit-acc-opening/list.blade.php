@@ -38,11 +38,26 @@
                     <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
                     <th scope="col">ledger</th>
-                    <th scope="col">member</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Member Name</th>
                     <th scope="col">Account No.</th>
                     <th scope="col">Deposit Type</th>
                     <th scope="col">Interest Rate</th>
+                    <th scope="col">Account Start Date</th>
+                    <th scope="col">Opening Balance</th>
                     <th scope="col">Balance</th>
+                    <th scope="col">Closing Flag</th>
+                    <th scope="col">Add To Demand</th>
+                    <th scope="col">Agent</th>
+                    <th scope="col">Page No.</th>
+                    <th scope="col">Intallment Type</th>
+                    <th scope="col">Intallment Amount</th>
+                    <th scope="col">Total Installments</th>
+                    <th scope="col">Total Installments</th>
+                    <th scope="col">Total Installments Paid</th>
+                    <th scope="col">Acc. Closing Date</th>
+                    <th scope="col">Interest Payable</th>
+                    <th scope="col">Open. Interest</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -54,11 +69,26 @@
                     <th scope="row">{{$i}}</th>
                     <th scope="row">{{$account->id}}</th>
                     <th scope="row">{{$account->ledger->name}}</th>
+                    <th scope="row">{{$account->images ?? ''}}</th>
                     <th scope="row">{{$account->member->name}}</th>
                     <th scope="row">{{$account->acc_no}}</th>
                     <th scope="row">{{$account->deposit_type}}</th>
                     <th scope="row">{{$account->interest_rate}}</th>
+                    <th scope="row">{{$account->ac_start_date ?? ''}}</th>
+                    <th scope="row">{{$account->open_balance ?? ''}}</th>
                     <th scope="row">{{$account->balance}}</th>
+                    <th scope="row">{{$account->closing_flag ?? ''}}</th>
+                    <th scope="row">{{$account->add_to_demand ?? ''}}</th>
+                    <th scope="row">{{$account->agent->user->name ?? ''}}</th>
+                    <th scope="row">{{$account->page_no ?? ''}}</th>
+                    <th scope="row">{{$account->installment_type ?? ''}}</th>
+                    <th scope="row">{{$account->installment_amount ?? ''}}</th>
+                    <th scope="row">{{$account->total_installments ?? ''}}</th>
+                    <th scope="row">{{$account->total_payable_amount ?? ''}}</th>
+                    <th scope="row">{{$account->total_installments_paid ?? ''}}</th>
+                    <th scope="row">{{$account->acc_closing_date ?? ''}}</th>
+                    <th scope="row">{{$account->interest_payable ?? ''}}</th>
+                    <th scope="row">{{$account->open_interest ?? ''}}</th>
                 
                     <td>
                         <a href="#"  data-id="{{$account->id }}" data-member-id="{{$account->member_id ?? ''}}" data-ledger-id="{{$account->ledger_id}}" data-account-id="{{$account->account_id ?? null}}" data-acc-no="{{$account->acc_no ?? ''}}" data-deposit-type="{{$account->deposit_type}}" data-name="{{$account->name ?? ''}}" data-interest-rate="{{$account->interest_rate ?? ''}}" data-ac-start-date="{{$account->ac_start_date ?? ''}}" data-open-balance="{{$account->open_balance ?? ''}}" data-balance="{{$account->balance ?? ''}}"data-closing-flag="{{$account->closing_flag ?? ''}}" data-add-to-demand="{{$account->add_to_demand ?? ''}}" data-agent-id="{{$account->agent_id ?? ''}}" data-page-no="{{$account->page_no ?? ''}}" data-installment-type="{{$account->installment_type ?? ''}}" data-installment-amount="{{$account->installment_amount ?? ''}}"data-total-installments="{{$account->total_installments ?? ''}}" data-total-payable-amount="{{$account->total_payable_amount ?? ''}}" data-total-installments-paid="{{$account->total_installments_paid ?? ''}}" data-acc-closing-date="{{$account->acc_closing_date}}" data-interest-payable="{{$account->interest_payable ?? ''}}" data-open-interest="{{$account->open_interest ?? ''}}" data-route="{{ route('member-depo-accounts.update', $account->id) }}"

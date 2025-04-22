@@ -37,15 +37,21 @@
                     <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
                     <th scope="col">Ledger</th>
-                    <th scope="col">Member</th>
+                    <th scope="col">Member Name</th>
                     <th scope="col">Account No.</th>
                     <th scope="col">Account Name</th>
-                    <th scope="col">Name</th>
                     <th scope="col">Account Type </th>
                     <th scope="col">Interest Rate </th>
                     <th scope="col">Start Date</th>
+                    <th scope="col">Opening Balance</th>
                     <th scope="col">Balance</th>
+                    <th scope="col">Closing Flag</th>
+                    <th scope="col">Add To Demand</th>
+                    <th scope="col">Agent</th>
+                    <th scope="col">Installment Type</th>
+                    <th scope="col">Installment Amount </th>
                     <th scope="col">Total Installment Paid</th>
+                    <th scope="col">Closing Date</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -56,16 +62,22 @@
                 <tr>
                     <th scope="row">{{$i}}</th>
                     <td>{{$account->id}}</td>
-                    <td>{{$account->ledger->name}}</td>
-                    <td>{{$account->member->name}}</td>
-                    <td>{{$account->account_no}}</td>
-                    <td>{{$account->account_name}}</td>
-                    <td>{{$account->name}}</td>
-                    <td>{{$account->account_type}}</td>
-                    <td>{{$account->interest_rate}}</td>
-                    <td>{{$account->start_date}}</td>
-                    <td>{{$account->balance}}</td>
-                    <td>{{$account->total_installments_paid}}</td>
+                    <td>{{$account->ledger->name  ?? ''}}</td>
+                    <td>{{$account->name  ?? ''}}</td>
+                    <td>{{$account->account_no  ?? ''}}</td>
+                    <td>{{$account->account_name  ?? ''}}</td>
+                    <td>{{$account->account_type  ?? ''}}</td>
+                    <td>{{$account->interest_rate  ?? ''}}</td>
+                    <td>{{$account->start_date  ?? ''}}</td>
+                    <td>{{$account->open_balance  ?? ''}}</td>
+                    <td>{{$account->balance  ?? ''}}</td>
+                    <td>{{$account->closing_flag  ?? ''}}</td>
+                    <td>{{$account->add_to_demand  ?? ''}}</td>
+                    <td>{{$account->agent->user->name ?? ''}}</td>
+                    <td>{{$account->installment_type ?? ''}}</td>
+                    <td>{{$account->installment_amount ?? ''}}</td>
+                    <td>{{$account->total_installments_paid  ?? ''}}</td>
+                    <td>{{$account->closing_date ?? ''}}</td>
                     <td>
                         <a href="#" data-id="{{$account->id }}" data-ledger-id ="{{$account->ledger_id}}" data-member-id="{{$account->member_id}}" data-account-no="{{$account->account_no}}" data-account-name="{{$account->account_name}}" data-name="{{$account->name}}" data-account-type="{{$account->account_type}}" data-interest-rate="{{$account->interest_rate}}" data-start-date="{{$account->start_date}}" data-open-balance="{{$account->open_balance}}" data-balance="{{$account->balance}}" data-closing-flag="{{$account->closing_flag}}" data-add-to-demand="{{$account->add_to_demand}}" data-agent-id="{{$account->agent_id}}"data-installment-type="{{$account->installment_type}}" data-installment-amount="{{$account->installment_amount}}" data-total-installments-paid="{{$account->total_installments_paid}}" data-closing-date="{{$account->closing_date}}" data-route="{{ route('accounts.update', $account->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#generalAccModal">

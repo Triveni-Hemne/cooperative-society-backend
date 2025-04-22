@@ -36,6 +36,7 @@
                 <tr>
                     <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
+                    <th scope="col">Branch</th>
                     <th scope="col">Date</th>
                     <th scope="col">User</th>
                     <th scope="col">Created By</th>
@@ -53,6 +54,7 @@
                 <tr>
                     <th scope="row">{{$i}}</th>
                     <td>{{$dayBegin->id}}</td>
+                    <td>{{$dayBegin->branch->name ?? ''}}</td>
                     <td>{{$dayBegin->date}}</td>
                     <td>{{$dayBegin->users->name ?? ''}}</td>
                     <td>{{$dayBegin->user->name ??''}}</td>

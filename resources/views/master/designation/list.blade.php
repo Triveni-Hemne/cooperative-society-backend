@@ -42,6 +42,8 @@
                     <th scope="col">Naav</th>
                     <th scope="col">Division</th>
                     <th scope="col">Sub Division</th>
+                    <th scope="col">Center</th>
+                    <th scope="col">Description</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,9 +54,11 @@
                     <th scope="row">{{$i}}</th>
                     <td>{{$designation->id}}</td>
                     <td>{{$designation->name}}</td>
-                    <td>{{$designation->naav}}</td>
-                    <td>{{$designation->division->name}}</td>
-                    <td>{{$designation->subdivision->name}}</td>
+                    <td>{{$designation->naav ?? ''}}</td>
+                    <td>{{$designation->division->name ?? ''}}</td>
+                    <td>{{$designation->subdivision->name ?? ''}}</td>
+                    <td>{{$designation->center->name ?? ''}}</td>
+                    <td>{{$designation->Description ?? ''}}</td>
                     <td>
                         <a href="#" data-id="{{$designation->id }}" data-name="{{$designation->name ?? ''}}" data-naav="{{$designation->naav ?? ''}}" data-route="{{ route('designations.update', $designation->id) }}" data-division-id="{{$designation->division->id ?? ''}}" data-sub-division-id="{{$designation->subdivision->id ?? ''}}" data-center-id="{{$designation->center->id ?? ''}}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#designationModal">
