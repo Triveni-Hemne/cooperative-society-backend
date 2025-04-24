@@ -103,7 +103,6 @@
 @endsection
 
 @section('customeJs')
-@endsection
 {{-- Script to send data to the edit modal --}}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -171,5 +170,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("#standingInstructionModal .btn-primary").textContent = "Save Changes";
     });
 });
-
 </script>
+{{-- <script src="{{asset('assets\js\autofill-calc-standing-instruction.js')}}"></script> --}}
+@endsection

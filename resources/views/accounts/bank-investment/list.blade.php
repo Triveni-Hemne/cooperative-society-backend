@@ -147,8 +147,6 @@
 @endsection
 
 @section('customeJs')
-@endsection
-
 {{-- Script to send data to the edit modal --}}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -272,3 +270,5 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 </script>
+<script src="{{asset('assets\js\autofill-calc-bank-investment.js')}}"></script>
+@endsection

@@ -343,5 +343,5 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("#loanAccOpeningModal .btn-primary").textContent = "Save Changes";
     });
 });
-
 </script>
+<script src="{{asset('assets/js/autofill-calc-loan-acc-form.js')}}"></script>

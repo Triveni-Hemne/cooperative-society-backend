@@ -271,8 +271,6 @@
 @endsection
 
 @section('customeJs')
-@endsection
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".edit-member-btn").forEach(button => {
@@ -481,5 +479,6 @@
         document.querySelector("#memberModal .btn-primary").textContent = "Save Changes";
     });
 });
-
 </script>
+<script src="{{asset('assets/js/autofill-calc-member-from.js')}}"></script>
+@endsection

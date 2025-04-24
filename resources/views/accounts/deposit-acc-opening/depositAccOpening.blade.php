@@ -23,7 +23,7 @@
                         <div class="col pe-0 pe-xl-5">
                             @if ($ledgers->isNotEmpty())
                             <select id="ledgerId" name="ledger_id" class="w-100 px-2 py-1">
-                                <option value="select" disabled>------ Select Ledger ------</option>
+                                <option value="select" >------ Select Ledger ------</option>
                                 @foreach ($ledgers as $ledger)
                                     <option value="{{ $ledger->id }}"  
                                     {{ old('ledger_id') == $ledger->id ? 'selected' : '' }}
@@ -62,7 +62,7 @@
                             <div class="col pe-0 pe-xl-5">
                                 @if ($members->isNotEmpty())
                                 <select id="memberId" name="member_id" class="w-100 px-2 py-1">
-                                    <option value="select" disabled>------ Select Member ------</option>
+                                    <option value="select" >------ Select Member ------</option>
                                     @foreach ($members as $member)
                                         <option value="{{ $member->id }}"  
                                         {{ old('member_id') == $member->id ? 'selected' : '' }}
@@ -102,7 +102,7 @@
                             <div class="col-4 pe-0 pe-xl-5">
                                 @if ($accounts->isNotEmpty())
                                 <select id="accountId" name="account_id" class="w-100 px-2 py-1">
-                                    <option value="select" disabled>------ Select Account ------</option>
+                                    <option value="select" >------ Select Account ------</option>
                                     @foreach ($accounts as $account)
                                         <option value="{{ $account->id }}"  
                                         {{ old('account_id') == $account->id ? 'selected' : '' }}>
@@ -216,7 +216,7 @@
                             <div class="col pe-0 pe-xl-5">
                                 @if ($agents->isNotEmpty())
                                 <select id="agentId" name="agent_id" class="w-100 px-2 py-1">
-                                    <option value="select" disabled>------ Select Account ------</option>
+                                    <option value="select" >------ Select Agent ------</option>
                                     @foreach ($agents as $agent)
                                         <option value="{{ $agent->id }}"  
                                         {{ old('agent_id') == $agent->id ? 'selected' : '' }}>
@@ -570,98 +570,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="row mb-1">
-                                        <div class="col-2 ps-5 d-none d-xl-block">
-                                            <label for="nomineeName">Name</label>
-                                        </div>
-                                        <div class="col pe-0 pe-xl-5">
-                                            <input id="nomineeName" class="w-100 px-2 py-1" type="text"
-                                                placeholder="Nominee Name">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-1">
-                                        <div class="col-2 ps-5 d-none d-xl-block">
-                                            <label for="marathiNomineeName">नाव</label>
-                                        </div>
-                                        <div class="col pe-0 pe-xl-5">
-                                            <input id="marathiNomineeName" class="w-100 px-2 py-1" type="text"
-                                                placeholder="नाव">
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-1">
-                                        <div class="col-2 ps-5 d-none d-xl-block">
-                                            <label for="nomineeAddress">Address</label>
-                                        </div>
-                                        <div class="col pe-0 pe-xl-5">
-                                            <textarea id="nomineeAddress" placeholder="Nominee Address"
-                                                class="w-100 px-2 py-1" rows="1" style="resize:none"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-1">
-                                        <div class="col-2 ps-5 d-none d-xl-block">
-                                            <label for="marathiNomineeAddress">पत्ता</label>
-                                        </div>
-                                        <div class="col pe-0 pe-xl-5">
-                                            <textarea id="marathiNomineeAddress" placeholder="पत्ता"
-                                                class="w-100 px-2 py-1" rows="1" style="resize:none"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-2">
-                                        <div class="col-2 ps-5 d-none d-xl-block">
-                                            <label for="nomineeAge">Age</label>
-                                        </div>
-                                        <div class="col-2 pe-0 pe-xl-5">
-                                            <input id="nomineeAge" class="w-100 px-2 py-1" type="number"
-                                                placeholder="Nominee Age">
-                                        </div>
-
-                                        <div class="col-1 d-none d-xl-block">
-                                            <label for="nomineeGender">Gender</label>
-                                        </div>
-                                        <div class="col-3 pe-0 pe-xl-5">
-                                            <select id="nomineeGender" class="w-100 px-2 py-1">
-                                                <option value="male">Male</option>
-                                                <option value="female">Female</option>
-                                                <option value="other">Other</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-1 d-none d-xl-block">
-                                            <label for="relation">Relation</label>
-                                        </div>
-                                        <div class="col-3 pe-0 pe-xl-5">
-                                            <select id="relation" class="w-100 px-2 py-1">
-                                                <option value="">------ Select Relation with Nominee ------</option>
-                                                <option value="husband">Husband</option>
-                                                <option value="wife">Wife</option>
-                                                <option value="daughter">Daughter</option>
-                                                <option value="son">Son</option>
-                                                <option value="Sister">Sister</option>
-                                                <option value="brother">Brother</option>
-                                                <option value="other">Other</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-2 ps-5 d-none d-xl-block">
-                                            <label for="aadhar">Aadhar No.</label>
-                                        </div>
-                                        <div class="col-4 pe-0 pe-xl-5">
-                                            <input id="aadhar" class="w-100 px-2 py-1" type="number"
-                                                placeholder="Nominee Aadhar No.">
-                                        </div>
-                                        <div class="col-2 d-none d-xl-block">
-                                            <label for="aadhar">Nominee Photo</label>
-                                        </div>
-                                        <div class="col-4 pe-0 pe-xl-5">
-                                            <input id="aadhar" class="w-100 px-2 py-1" type="file" accept="image/*"
-                                                placeholder="Nominee Photo">
-                                        </div>
-                                    </div> -->
                                 </div>
 
                                 <!-- RD Tab -->
@@ -693,7 +601,7 @@
                                     </div>
                                     <div class="row mb-1">
                                         <div class="col-3 ps-5 d-none d-xl-block">
-                                            <label for="rdMaturityAmount">RD Term Months</label>
+                                            <label for="rdMaturityAmount">Maturity Amount</label>
                                         </div>
                                         <div class="col-4 pe-0 pe-xl-5">
                                             <input name="maturity_amount_rd" id="rdMaturityAmount" class="w-100 px-2 py-1 @error('maturity_amount_rd') is-invalid @enderror" value="{{ old('maturity_amount_rd') }}" type="number"
@@ -774,3 +682,4 @@
         </div>
     </div>
 </div>
+

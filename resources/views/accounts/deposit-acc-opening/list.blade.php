@@ -58,6 +58,10 @@
                     <th scope="col">Acc. Closing Date</th>
                     <th scope="col">Interest Payable</th>
                     <th scope="col">Open. Interest</th>
+                    <th scope="col">Nominees dtl</th>
+                    <th scope="col">FD dtl</th>
+                    <th scope="col">RD dtl</th>
+                    <th scope="col">Saving dtl</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -66,30 +70,63 @@
                  @php $i = 1; @endphp
                  @foreach ($depo_accounts as $account)
                  <tr>
-                    <th scope="row">{{$i}}</th>
-                    <th scope="row">{{$account->id}}</th>
-                    <th scope="row">{{$account->ledger->name}}</th>
-                    <th scope="row">{{$account->images ?? ''}}</th>
-                    <th scope="row">{{$account->member->name}}</th>
-                    <th scope="row">{{$account->acc_no}}</th>
-                    <th scope="row">{{$account->deposit_type}}</th>
-                    <th scope="row">{{$account->interest_rate}}</th>
-                    <th scope="row">{{$account->ac_start_date ?? ''}}</th>
-                    <th scope="row">{{$account->open_balance ?? ''}}</th>
-                    <th scope="row">{{$account->balance}}</th>
-                    <th scope="row">{{$account->closing_flag ?? ''}}</th>
-                    <th scope="row">{{$account->add_to_demand ?? ''}}</th>
-                    <th scope="row">{{$account->agent->user->name ?? ''}}</th>
-                    <th scope="row">{{$account->page_no ?? ''}}</th>
-                    <th scope="row">{{$account->installment_type ?? ''}}</th>
-                    <th scope="row">{{$account->installment_amount ?? ''}}</th>
-                    <th scope="row">{{$account->total_installments ?? ''}}</th>
-                    <th scope="row">{{$account->total_payable_amount ?? ''}}</th>
-                    <th scope="row">{{$account->total_installments_paid ?? ''}}</th>
-                    <th scope="row">{{$account->acc_closing_date ?? ''}}</th>
-                    <th scope="row">{{$account->interest_payable ?? ''}}</th>
-                    <th scope="row">{{$account->open_interest ?? ''}}</th>
-                
+                    <td scope="row">{{$i}}</td>
+                    <td scope="row">{{$account->id}}</td>
+                    <td scope="row">{{$account->ledger->name}}</td>
+                    <td scope="row">{{$account->images ?? ''}}</td>
+                    <td scope="row">{{$account->member->name}}</td>
+                    <td scope="row">{{$account->acc_no}}</td>
+                    <td scope="row">{{$account->deposit_type}}</td>
+                    <td scope="row">{{$account->interest_rate}}</td>
+                    <td scope="row">{{$account->ac_start_date ?? ''}}</td>
+                    <td scope="row">{{$account->open_balance ?? ''}}</td>
+                    <td scope="row">{{$account->balance}}</td>
+                    <td scope="row">{{$account->closing_flag ?? ''}}</td>
+                    <td scope="row">{{$account->add_to_demand ?? ''}}</td>
+                    <td scope="row">{{$account->agent->user->name ?? ''}}</td>
+                    <td scope="row">{{$account->page_no ?? ''}}</td>
+                    <td scope="row">{{$account->installment_type ?? ''}}</td>
+                    <td scope="row">{{$account->installment_amount ?? ''}}</td>
+                    <td scope="row">{{$account->total_installments ?? ''}}</td>
+                    <td scope="row">{{$account->total_payable_amount ?? ''}}</td>
+                    <td scope="row">{{$account->total_installments_paid ?? ''}}</td>
+                    <td scope="row">{{$account->acc_closing_date ?? ''}}</td>
+                    <td scope="row">{{$account->interest_payable ?? ''}}</td>
+                    <td scope="row">{{$account->open_interest ?? ''}}</td>
+                    <td class="row">
+                        @foreach ($account->nominees as $nominee)
+                            <ul class="col" style="list-style: none">
+                                <li>Name: {{ $nominee->nominee_name }}</li>
+                                <li>Naav: {{$nominee->nominee_naav ?? ''}}</li>
+                                <li>Age: {{$nominee->nominee_age ?? ''}}</li>
+                                <li>Gender{{$nominee->nominee_gender ?? ''}}</li>
+                                <li>Relation: {{$nominee->relation ?? ''}}</li>
+                                <li>Image: {{$nominee->nominee_image ?? ''}}</li>
+                                <li>Address: {{$nominee->nominee_address ?? ''}}</li>
+                                <li>Marathi Address: {{$nominee->nominee_marathi_address ?? ''}}</li>
+                                <li>Adhar No. {{$nominee->nominee_adhar_no ?? ''}}</li>
+                            </ul>
+                        @endforeach
+                    </td> 
+                    <td>
+                        <ul class="col" style="list-style: none">
+                                <li>FD Term Months: {{$account->fixedDeposit->fd_term_months ?? ''}}</li>
+                                <li>Maturity Amount: {{$account->fixedDeposit->maturity_amount ?? ''}}</li>
+                        </ul>
+                    </td> 
+                    <td>
+                        <ul class="col" style="list-style: none">
+                                <li>RD Tem Months: {{$account->recurringDeposit->rd_term_months ?? ''}}</li>
+                                <li>Open Interest:{{$account->recurringDeposit->open_interest ?? ''}}</li>
+                                <li>Maturity Amount: {{$account->recurringDeposit->maturity_amount ?? ''}}</li>
+                        </ul>
+                    </td> 
+                    <td>
+                        <ul class="col" style="list-style: none">
+                                <li>Balance: {{$account->saveDeposit->balance ?? ''}}</li>
+                                <li>Interest Rate: {{$account->saveDeposit->interest_rate ?? ''}}</li>
+                        </ul>
+                    </td>              
                     <td>
                         <a href="#"  data-id="{{$account->id }}" data-member-id="{{$account->member_id ?? ''}}" data-ledger-id="{{$account->ledger_id}}" data-account-id="{{$account->account_id ?? null}}" data-acc-no="{{$account->acc_no ?? ''}}" data-deposit-type="{{$account->deposit_type}}" data-name="{{$account->name ?? ''}}" data-interest-rate="{{$account->interest_rate ?? ''}}" data-ac-start-date="{{$account->ac_start_date ?? ''}}" data-open-balance="{{$account->open_balance ?? ''}}" data-balance="{{$account->balance ?? ''}}"data-closing-flag="{{$account->closing_flag ?? ''}}" data-add-to-demand="{{$account->add_to_demand ?? ''}}" data-agent-id="{{$account->agent_id ?? ''}}" data-page-no="{{$account->page_no ?? ''}}" data-installment-type="{{$account->installment_type ?? ''}}" data-installment-amount="{{$account->installment_amount ?? ''}}"data-total-installments="{{$account->total_installments ?? ''}}" data-total-payable-amount="{{$account->total_payable_amount ?? ''}}" data-total-installments-paid="{{$account->total_installments_paid ?? ''}}" data-acc-closing-date="{{$account->acc_closing_date}}" data-interest-payable="{{$account->interest_payable ?? ''}}" data-open-interest="{{$account->open_interest ?? ''}}" data-route="{{ route('member-depo-accounts.update', $account->id) }}"
                         @php $j = 1; @endphp 
@@ -137,8 +174,6 @@
 @endsection
 
 @section('customeJs')
-@endsection
-
 {{-- Script to send data to the edit modal --}}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -275,5 +310,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("#depositAccOpeningModal .btn-primary").textContent = "Save Changes";
     });
 });
-
 </script>
+<script src="{{asset('assets/js/autofill-calc-deposit-acc-form.js')}}"></script>
+@endsection

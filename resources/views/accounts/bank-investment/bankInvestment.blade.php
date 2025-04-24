@@ -339,7 +339,7 @@
                                         </div>
                                         <div class="row mb-1">
                                             <div class="col-2 d-none d-xl-block">
-                                                <label for="fdAmount">RD Amount</label>
+                                                <label for="fdAmount">FD Amount</label>
                                             </div>
                                             <div class="col pe-0 pe-xl-5">
                                                 <input name="fd_amount" id="fdAmount" class="w-100 px-2 py-1 @error('fd_amount') is-invalid @enderror" value="{{ old('fd_amount') }}" type="number"

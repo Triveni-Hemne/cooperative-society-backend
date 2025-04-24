@@ -23,6 +23,7 @@
                             <div class="col pe-0 pe-xl-5">
                                 @if ($ledgers->isNotEmpty())
                                 <select id="ledgerId" name="ledger_id" class="w-100 px-2 py-1 @error('ledger_id') is-invalid @enderror">
+                                <option value="select" >------ Select Ledger ------</option>
                                     @foreach ($ledgers as $ledger)
                                         <option value="{{ $ledger->id }}"  
                                         {{ old('ledger_id') == $ledger->id ? 'selected' : '' }}>
@@ -61,6 +62,7 @@
                                 <div class="col pe-0 pe-xl-5">
                                 @if ($members->isNotEmpty())
                                 <select id="memberId" name="member_id" class="w-100 px-2 py-1">
+                                <option value="select" >------ Select Member ------</option>
                                     @foreach ($members as $member)
                                         <option value="{{ $member->id }}"  
                                         {{ old('member_id') == $member->id ? 'selected' : '' }}>
@@ -99,6 +101,7 @@
                             <div class="col pe-0 pe-xl-5">
                                 @if ($accounts->isNotEmpty())
                                 <select id="accountId" name="account_id" class="w-100 px-2 py-1 @error('account_id') is-invalid @enderror">
+                                <option value="select" >------ Select Account ------</option>
                                     @foreach ($accounts as $account)
                                         <option value="{{ $account->id }}"  
                                         {{ old('account_id') == $account->id ? 'selected' : '' }}>
@@ -216,7 +219,7 @@
                             </div>
                             <div class="col pe-0 pe-xl-5">
                                  <select id="purpose" name="purpose" class="w-100 px-2 py-1">
-                                    <option value="select">------ Select Loan Type ------</option>
+                                    <option value="select">------ Select Purpose ------</option>
                                     <option value="Agriculture" {{ old('purpose') == 'Agriculture' ? 'selected' : '' }}>Agriculture</option>
                                     <option value="Construction" {{ old('purpose') == 'Construction' ? 'selected' : '' }}>Construction</option>
                                     <option value="Cottage" {{ old('purpose') == 'Cottage' ? 'selected' : '' }}>Cottage</option>
