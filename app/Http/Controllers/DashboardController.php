@@ -18,26 +18,42 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
         $branchId = $request->get('branch_id');
-
         // Branches only for Admin
         $branches = [];
         if ($user->role === 'Admin') {
             $branches = Branch::all();
         } else {
             $branchId = $user->branch_id; // Force branch filter for non-admins
+            // dd($user);
         }
-
         if ($branchId) {
-            $members = Member::whereHas('user', function ($query) use ($branchId) {
-                $query->where('branch_id', $branchId);
+            $members = Member::where(function ($query) use ($branchId) {
+                $query->whereHas('user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
             })->get();
-            $deposits = MemberDepoAccount::whereHas('member.user', function ($query) use ($branchId) {
-                $query->where('branch_id', $branchId);
+            
+            $deposits = MemberDepoAccount::where(function ($query) use ($branchId) {
+                $query->whereHas('member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
             })->get();
-            $loans = MemberLoanAccount::whereHas('member.user', function ($query) use ($branchId) {
-                $query->where('branch_id', $branchId);
+
+            $loans = MemberLoanAccount::where(function ($query) use ($branchId) {
+                $query->whereHas('member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
             })->get();
-            $transactions = VoucherEntry::where('branch_id', $branchId)->count();
+
+            $transactions = VoucherEntry::where('branch_id', $branchId)
+            ->whereDate('created_at', now()->toDateString())
+            ->count();
         } else {
             $members = Member::all();
             $deposits = MemberDepoAccount::all();
@@ -73,12 +89,18 @@ class DashboardController extends Controller
         $monthlyDeposits = DB::table('voucher_entries')
             ->select(DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month"), DB::raw("SUM(credit_amount) as amount"))
             ->where('transaction_type', 'Deposit')
+            ->when($branchId, function ($query) use ($branchId) {
+                    return $query->where('branch_id', $branchId);
+                })
             ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m')"))
             ->pluck('amount', 'month'); // returns ['2025-01' => 12000, ...]
 
         $monthlyWithdrawals = DB::table('voucher_entries')
             ->select(DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month"), DB::raw("SUM(debit_amount) as amount"))
             ->where('transaction_type', 'Withdrawal')
+            ->when($branchId, function ($query) use ($branchId) {
+                    return $query->where('branch_id', $branchId);
+                })
             ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m')"))
             ->pluck('amount', 'month');
 
@@ -98,6 +120,9 @@ class DashboardController extends Controller
         $loanDisbursements = DB::table('voucher_entries')
             ->select(DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month"), DB::raw("SUM(debit_amount) as total_disbursed"))
             ->where('transaction_type', 'Loan Payment') // Make sure this is the correct type for disbursement
+            ->when($branchId, function ($query) use ($branchId) {
+                    return $query->where('branch_id', $branchId);
+                })
             ->groupBy(DB::raw("DATE_FORMAT(created_at, '%Y-%m')"))
             ->orderBy('month')
             ->pluck('total_disbursed', 'month');

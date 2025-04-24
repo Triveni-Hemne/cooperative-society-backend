@@ -14,7 +14,11 @@
         <div class="col-5">
             @include('layouts.tableSearchInput')
         </div>
-        <div class="col"> </div>
+        <div class="col">   
+            @include('layouts.branchFilterInput', [
+                'action' => route('standing-instructions.index')
+            ])
+        </div>
         <div class="col col-md-2">
         @include('layouts.add-button', [
                 'target' => '#standingInstructionModal',

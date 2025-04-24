@@ -16,7 +16,7 @@ class InstallmentTransaction extends Model
     public function depositAccount() {
         return $this->belongsTo(MemberDepoAccount::class);
     }
-     public function user()
+    public function user()
     {
         return $this->belongsTo(User::class, 'created_by');
     }

@@ -27,13 +27,16 @@ class AccountController extends Controller
             $branchId = $user->branch_id; // normal user only sees their branch
         }
 
-        $accounts = Account::with('member.user')
-        ->when($branchId, function ($query) use ($branchId) {
-            $query->whereHas('member.user', function ($q) use ($branchId) {
-                $q->where('branch_id', $branchId);
+       $accounts = Account::with('member.user')
+       ->when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
             });
-        })
-        ->paginate(5);
+        })->paginate(5);
         
         // $accounts = Account::paginate(5);
         $ledgers = GeneralLedger::all();

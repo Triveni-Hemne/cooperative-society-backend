@@ -20,7 +20,9 @@ class StandingInstruction extends Model
         'no_of_times',
         'bal_installment',
         'execution_date',
-        'amount'
+        'amount',
+        'created_by',
+        'branch_id'
     ];
 
     public function creditLedger() {
@@ -37,5 +39,15 @@ class StandingInstruction extends Model
 
     public function debitAccount() {
         return $this->belongsTo(Account::class, 'debit_account_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+    
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id');
     }
 }

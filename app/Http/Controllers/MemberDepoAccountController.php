@@ -32,14 +32,16 @@ class MemberDepoAccountController extends Controller
         } else {
             $branchId = $user->branch_id; // normal user only sees their branch
         }
-
-        $depo_accounts = MemberDepoAccount::with('fixedDeposit', 'recurringDeposit', 'saveDeposit', 'member.user')
-        ->when($branchId, function ($query) use ($branchId) {
-            $query->whereHas('member.user', function ($q) use ($branchId) {
-                $q->where('branch_id', $branchId);
+       $depo_accounts = MemberDepoAccount::with('fixedDeposit', 'recurringDeposit', 'saveDeposit', 'member.user')
+       ->when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
             });
-        })
-        ->paginate(5);
+        })->paginate(5);
 
         // $depo_accounts = MemberDepoAccount::with('fixedDeposit','recurringDeposit','saveDeposit')->paginate(5);
         $ledgers = GeneralLedger::all();

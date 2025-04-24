@@ -39,14 +39,16 @@ class MemberController extends Controller
         } else {
             $branchId = $user->branch_id; // normal user only sees their branch
         }
-
-        $members = Member::with('user') // assuming 'user' is the relationship
-            ->when($branchId, function ($query) use ($branchId) {
+       $members = Member::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
                 $query->whereHas('user', function ($q) use ($branchId) {
                     $q->where('branch_id', $branchId);
+                })->orWhereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
                 });
-            })
-            ->paginate(5);
+            });
+        })->paginate(5);
+
     //    $members = Member::paginate(5);    
        $departments = Department::all();
        $subcates = Subcaste::all();
@@ -107,7 +109,7 @@ class MemberController extends Controller
             'm_reg_no' => 'nullable|string|max:50',
             'pan_no' => 'nullable|string|max:20',
             'adhar_no' => 'nullable|string|max:20',
-            'created_by' => 'nullable|string|users,id',
+            'created_by' => 'required|string|users,id',
 
             // Contact Validation
             'address' => 'required|string',
@@ -286,7 +288,7 @@ class MemberController extends Controller
             'm_reg_no' => 'nullable|string|max:50',
             'pan_no' => 'nullable|string|max:20',
             'adhar_no' => ['nullable', 'string', 'max:20', Rule::unique('members', 'adhar_no')->ignore($id)],
-            'created_by' => 'nullable|string|exists:users:id',
+            'created_by' => 'required|string|exists:users:id',
         ]);
 
         $contact_validated = $request->validate([

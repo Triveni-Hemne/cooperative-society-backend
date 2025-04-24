@@ -32,13 +32,16 @@ class MemberLoanAccountController extends Controller
             $branchId = $user->branch_id; // normal user only sees their branch
         }
 
-        $loanAccounts = MemberLoanAccount::with('member', 'ledger', 'member.user')
-        ->when($branchId, function ($query) use ($branchId) {
-            $query->whereHas('member.user', function ($q) use ($branchId) {
-                $q->where('branch_id', $branchId);
+       $loanAccounts = MemberLoanAccount::with('member', 'ledger', 'member.user')
+       ->when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
             });
-        })
-        ->paginate(5);
+        })->paginate(5);        
 
     //    $loanAccounts = MemberLoanAccount::with(['member', 'ledger'])->paginate(5);
         $branches = $user->role === 'Admin' ? Branch::all() : null;

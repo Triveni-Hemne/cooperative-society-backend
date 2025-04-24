@@ -24,15 +24,16 @@ class TransferEntryController extends Controller
         } else {
             $branchId = $user->branch_id; // normal user only sees their branch
         }
-
         $transferEntries = TransferEntry::with('user')
         ->when($branchId, function ($query) use ($branchId) {
-            $query->whereHas('user', function ($q) use ($branchId) {
-                $q->where('branch_id', $branchId);
-            });
-        })
-        ->paginate(5);
-        // $transferEntries = TransferEntry::paginate(5);
+                $query->where(function ($query) use ($branchId) {
+                    $query->whereHas('user', function ($q) use ($branchId) {
+                        $q->where('branch_id', $branchId);
+                    })->orWhereHas('branch', function ($q) use ($branchId) {
+                        $q->where('id', $branchId);
+                    });
+                });
+            })->paginate(5);
         $ledgers = GeneralLedger::all();
         $user = Auth::user();
         $branches = $user->role === 'Admin' ? Branch::all() : null;

@@ -29,12 +29,14 @@ class DayBeginController extends Controller
 
         $dayBegins = DayBegin::with('user')
         ->when($branchId, function ($query) use ($branchId) {
-            $query->whereHas('user', function ($q) use ($branchId) {
-                $q->where('branch_id', $branchId);
-            });
-        })
-        ->paginate(5);
-        // $dayBegins = DayBegin::paginate(5);
+                $query->where(function ($query) use ($branchId) {
+                    $query->whereHas('user', function ($q) use ($branchId) {
+                        $q->where('branch_id', $branchId);
+                    })->orWhereHas('branch', function ($q) use ($branchId) {
+                        $q->where('id', $branchId);
+                    });
+                });
+            })->paginate(5);
         $user = Auth::user();
         $branches = $user->role === 'Admin' ? Branch::all() : null;
         return view('transactions.day-begins.list', compact('users','dayBegins','user','branches'));

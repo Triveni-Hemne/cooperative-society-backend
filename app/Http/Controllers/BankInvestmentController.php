@@ -26,15 +26,16 @@ class BankInvestmentController extends Controller
         } else {
             $branchId = $user->branch_id; // normal user only sees their branch
         }
-
         $bankInvestments = BankInvestment::with('depositAccount.member.user')
-        ->when($branchId, function ($query) use ($branchId) {
-            $query->whereHas('depositAccount.member.user', function ($q) use ($branchId) {
-                $q->where('branch_id', $branchId);
+       ->when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('depositAccount.member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('depositAccount.member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
             });
-        })
-        ->paginate(5);
-        // $bankInvestments = BankInvestment::paginate(5);
+        })->paginate(5);
         $accounts = Account::all();
         $depoAccounts = MemberDepoAccount::all();
         $ledgers = GeneralLedger::all();

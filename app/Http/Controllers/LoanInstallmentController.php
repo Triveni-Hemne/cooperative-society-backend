@@ -27,11 +27,14 @@ class LoanInstallmentController extends Controller
 
         $LoanInstallments = LoanInstallment::with('user')
         ->when($branchId, function ($query) use ($branchId) {
-            $query->whereHas('user', function ($q) use ($branchId) {
-                $q->where('branch_id', $branchId);
-            });
-        })
-        ->paginate(5);
+                $query->where(function ($query) use ($branchId) {
+                    $query->whereHas('user', function ($q) use ($branchId) {
+                        $q->where('branch_id', $branchId);
+                    })->orWhereHas('loan.member.branch', function ($q) use ($branchId) {
+                        $q->where('id', $branchId);
+                    });
+                });
+            })->paginate(5);
         // $LoanInstallment = BankInvestment::paginate(5);
         $loanAccount = MemberLoanAccount::all();
         // $ledgers = GeneralLedger::all();

@@ -13,9 +13,11 @@
          <h3 class="">Welcome back, {{ Auth::user()->name }} 👋</h3>
       </div>
       <div class="col ">
+         @if(Auth::user()->role == 'Admin')
             @include('layouts.branchFilterInput', [
                   'action' => route('user.dashboard')
                ])
+         @endif
       </div>
    </div>
    <!-- Quick Stats -->

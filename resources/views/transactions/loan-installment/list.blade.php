@@ -16,7 +16,7 @@
         </div>
         <div class="col">   
             @include('layouts.branchFilterInput', [
-                'action' => route('installment-transactions.index')
+                'action' => route('loan-installments.index')
             ])
         </div>
         <div class="col col-md-2">

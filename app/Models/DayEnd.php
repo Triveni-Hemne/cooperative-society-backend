@@ -21,5 +21,8 @@ class DayEnd extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
-
+     public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id');
+    }
 }

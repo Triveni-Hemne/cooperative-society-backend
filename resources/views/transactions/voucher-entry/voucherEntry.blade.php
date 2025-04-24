@@ -30,7 +30,6 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                             </div>
-
                         @isset($depoAccounts) 
                         <div class="col-2 ps-5 d-none d-xl-block">
                             <label for="memberDepoAccountId">Member Deposit Acc.</label>
@@ -373,7 +372,7 @@
                         </div>
                         <div class="col pe-0 pe-xl-5">
                                 @if ($users->isNotEmpty())
-                                <select id="enteredBy" name="entered_by" class="w-100 px-2 py-1 @error('entered_by') is-invalid @enderror">
+                                <select id="enteredBy" name="entered_by" class="w-100 px-2 py-1 @error('entered_by') is-invalid @enderror" required>
                                     <option value="">-----Select Entered By-----</option>
                                    @foreach ($users as $user)
                                         <option value="{{ $user->id }}"  
@@ -403,7 +402,7 @@
                         </div>
                         <div class="col pe-0 pe-xl-5">
                                 @if ($branches->isNotEmpty())
-                                <select id="branchId" name="branch_id" class="w-100 px-2 py-1 @error('branch_id') is-invalid @enderror">
+                                <select id="branchId" name="branch_id" class="w-100 px-2 py-1 @error('branch_id') is-invalid @enderror" required>
                                     <option value="">-----Select Branch-----</option>
                                    @foreach ($branches as $branch)
                                         <option value="{{ $branch->id }}"  

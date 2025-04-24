@@ -28,11 +28,16 @@ class VoucherEntryController extends Controller
             $branchId = $user->branch_id; // normal user only sees their branch
         }
 
-       $voucherEntries = VoucherEntry::with('branch')
+        $voucherEntries = VoucherEntry::with('branch')
         ->when($branchId, function ($query) use ($branchId) {
-            $query->where('branch_id', $branchId);
-        })
-        ->paginate(5);
+                $query->where(function ($query) use ($branchId) {
+                    $query->whereHas('enteredBy', function ($q) use ($branchId) {
+                        $q->where('branch_id', $branchId);
+                    })->orWhereHas('branch', function ($q) use ($branchId) {
+                        $q->where('id', $branchId);
+                    });
+                });
+            })->paginate(5);
 
         // $voucherEntries = VoucherEntry::paginate(5);
         $ledgers = GeneralLedger::all();

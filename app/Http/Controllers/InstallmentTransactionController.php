@@ -24,14 +24,16 @@ class InstallmentTransactionController extends Controller
         } else {
             $branchId = $user->branch_id; // normal user only sees their branch
         }
-
-        $transactions = InstallmentTransaction::with('user') // assuming 'user' is the relationship
-            ->when($branchId, function ($query) use ($branchId) {
-                $query->whereHas('user', function ($q) use ($branchId) {
-                    $q->where('branch_id', $branchId);
+        $transactions = InstallmentTransaction::with('user')
+        ->when($branchId, function ($query) use ($branchId) {
+                $query->where(function ($query) use ($branchId) {
+                    $query->whereHas('depositAccount.member.user', function ($q) use ($branchId) {
+                        $q->where('branch_id', $branchId);
+                    })->orWhereHas('depositAccount.member.branch', function ($q) use ($branchId) {
+                        $q->where('id', $branchId);
+                    });
                 });
-            })
-            ->paginate(5);
+            })->paginate(5);
         $transactions = InstallmentTransaction::paginate(5);
         $memberDepoAccounts = MemberDepoAccount::all();
         $user = Auth::user();
