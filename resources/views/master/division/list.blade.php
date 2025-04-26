@@ -96,7 +96,15 @@
 @endsection
 
 @section('customeJs')
-@endsection
+@if ($errors->any())
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let modal = new bootstrap.Modal(document.getElementById('divisionModal'));
+            modal.show();
+        });
+    </script>
+@endif
+<script src="{{asset('/assets/js/marathi-validate-fields.js')}}"></script>
 {{-- Script to send data to the edit modal --}}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -145,3 +153,4 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+@endsection

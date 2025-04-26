@@ -61,7 +61,7 @@ class InstallmentTransactionController extends Controller
             'payment_date' => 'required|date',
             'interest_earned' => 'nullable|numeric|min:0',
             'total_balance' => 'required|numeric|min:0',
-            'created_by' => 'nullable|string|users,id',
+            'created_by' => 'nullable|exists:users,id',
         ]);
 
         $transaction = InstallmentTransaction::create($request->all());
@@ -99,7 +99,7 @@ class InstallmentTransactionController extends Controller
             'payment_date' => 'sometimes|date',
             'interest_earned' => 'nullable|numeric|min:0',
             'total_balance' => 'sometimes|numeric|min:0',
-            'created_by' => 'nullable|string|exists:users:id',
+            'created_by' => 'nullable|exists:users:id',
         ]);
 
         $transaction->update($request->all());

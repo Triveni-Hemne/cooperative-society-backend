@@ -101,10 +101,14 @@
 @endsection
 
 @section('customeJs')
-@endsection
-
-
-
+@if ($errors->any())
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let modal = new bootstrap.Modal(document.getElementById('subDivisionModal'));
+            modal.show();
+        });
+    </script>
+@endif
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".edit-btn").forEach(button => {
@@ -172,3 +176,4 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+@endsection

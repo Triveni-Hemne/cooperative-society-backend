@@ -64,7 +64,7 @@ class TransferEntryController extends Controller
             'current_balance' => 'required|numeric',
             'narration' => 'nullable|string',
             'm_narration' => 'nullable|string',
-            'created_by' => 'nullable|string|users,id',
+            'created_by' => 'nullable|exists:users,id',
 
         ]);
         // return $request->all();
@@ -110,7 +110,7 @@ class TransferEntryController extends Controller
             'current_balance' => 'required|numeric',
             'narration' => 'nullable|string',
             'm_narration' => 'nullable|string',
-            'created_by' => 'nullable|string|exists:users:id',
+            'created_by' => 'required|exists:users:id',
 
 
         ]);

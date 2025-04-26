@@ -63,9 +63,8 @@ class LoanInstallmentController extends Controller
             'total_installments' => 'required|integer|min:1',
             'installment_amount' => 'required|numeric|min:0',
             'installment_with_interest' => 'required|numeric|min:0',
-            'created_by' => 'nullable|string|users,id',
             'total_installments_paid' => 'integer|min:0',
-            'created_by' => 'nullable|string|exists:users:id',
+            'created_by' => 'nullable|exists:users,id',
         ]);
 
         $loanInstallment = LoanInstallment::create($request->all());
@@ -99,6 +98,7 @@ class LoanInstallmentController extends Controller
         if (!$loanInstallment) return response()->json(['message' => 'Not Found'], 404);
 
         $request->validate([
+            'loan_id' => 'required|exists:member_loan_accounts,id',
             'installment_type' => 'in:Monthly,Quarterly,Yearly',
             'mature_date' => 'nullable|date',
             'first_installment_date' => 'nullable|date',
@@ -106,6 +106,7 @@ class LoanInstallmentController extends Controller
             'installment_amount' => 'numeric|min:0',
             'installment_with_interest' => 'numeric|min:0',
             'total_installments_paid' => 'integer|min:0',
+            'created_by' => 'nullable|exists:users,id',
         ]);
 
         $loanInstallment->update($request->all());

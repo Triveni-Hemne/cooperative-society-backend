@@ -20,7 +20,8 @@
                                 <label for="createdBy">Created By</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="created_by" id="createdBy" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->name}}" type="text" disabled required>
+                                <input name="" id="createdBy" class="w-100 px-2 py-1 " value="{{$user->name}}" type="text" readonly required>
+                                <input name="created_by" id="" class="w-100 px-2 py-1 " value="{{$user->id}}" type="text" hidden required>
                                 @error('created_by')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -34,8 +35,8 @@
                                 </div>
                                 <div class="col pe-0 pe-xl-5">
                                 @if ($branches->isNotEmpty())
-                                 <select name="branch_id" id="userId"  class="w-100 px-2 py-1 @error('branch_id') is-invalid @enderror" required>
-                                    <option value="" disabled selected>---------- Select ----------</option>
+                                 <select name="branch_id" id="branchId"  class="w-100 px-2 py-1 @error('branch_id') is-invalid @enderror" required>
+                                    <option value="" disabled {{old('branch_id') ? '' : 'selected'}}>---------- Select ----------</option>
                                     @foreach ($branches as $branch)
                                         <option value="{{ $branch->id }}"  
                                         {{ old('branch_id') == $branch->id ? 'selected' : '' }}
@@ -75,7 +76,7 @@
                             <div class="col pe-0 pe-xl-5">
                                 @if ($ledgers->isNotEmpty())
                                 <select id="glId" name="gl_id" class="w-100 px-2 py-1 @error('gl_id') is-invalid @enderror">
-                                    <option value="">------ Select Ledger ------</option>
+                                    <option value="" {{old('gl_id') ? '' : 'selected'}}>------ Select Ledger ------</option>
                                     @foreach ($ledgers as $ledger)
                                         <option value="{{ $ledger->id }}"  
                                         {{ old('gl_id') == $ledger->id ? 'selected' : '' }}
@@ -134,7 +135,7 @@
                             </div>
                             <div class="col pe-0 pe-xl-5">
                                 <select id="balanceType" name="balance_type" class="w-100 px-2 py-1 @error('balance_type') is-invalid @enderror">
-                                    <option value="">------ Select Balance Type ------</option>
+                                    <option value="" {{old('balance_type') ? '' : 'selected'}}>------ Select Balance Type ------</option>
                                     <option value="Credit" {{ old('balance_type') == 'Credit' ? 'selected' : '' }}>Credit</option>
                                     <option value="Debit" {{ old('balance_type') == 'Debit' ? 'selected' : '' }}>Debit</option>
                                 </select>
@@ -150,7 +151,7 @@
                             </div>
                             <div class="col-4 pe-0 pe-xl-5">
                                 <select id="itemType" name="item_type" class="w-100 px-2 py-1 @error('item_type') is-invalid @enderror">
-                                    <option value="">------ Select Item Type ------</option>
+                                    <option value="" {{old('item_type') ? '' : 'selected'}}>------ Select Item Type ------</option>
                                     <option value="Asset" {{ old('item_type') == 'Asset' ? 'selected' : '' }}>Asset</option>
                                     <option value="Liability" {{ old('item_type') == 'Liability' ? 'selected' : '' }}>Liability</option>
                                     <option value="Income" {{ old('item_type') == 'Income' ? 'selected' : '' }}>Income</option>

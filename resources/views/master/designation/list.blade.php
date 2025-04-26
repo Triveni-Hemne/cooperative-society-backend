@@ -97,8 +97,14 @@
 @endsection
 
 @section('customeJs')
-@endsection
-
+@if ($errors->any())
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let modal = new bootstrap.Modal(document.getElementById('designationModal'));
+            modal.show();
+        });
+    </script>
+@endif
 {{-- Script to send data to the edit modal --}}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -177,5 +183,5 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("#designationModal .btn-primary").textContent = "Save Changes";
     });
 });
-
 </script>
+@endsection

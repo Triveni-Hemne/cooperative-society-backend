@@ -36,10 +36,11 @@ class DirectorController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'member_id' => 'required|exists:members,id',
+            'member_id' => 'nullable|exists:members,id',
             'name' => 'required|string|max:255',
-            'designation_id' => 'required|exists:designations,id',
+            'designation_id' => 'nullable|exists:designations,id',
             'contact_nos'=>'required|array|min:1',
+            'contact_nos.*' => 'required|numeric',
             'email' => 'nullable|email|unique:directors,email',
             'from_date' => 'required|date',
             'to_date' => 'nullable|date|after_or_equal:from_date',
@@ -76,9 +77,9 @@ class DirectorController extends Controller
     {
         $director = Director::findOrFail($id);
         $validated = $request->validate([
-            'member_id' => 'required|exists:members,id',
+            'member_id' => 'nullable|exists:members,id',
             'name' => 'required|string|max:255',
-            'designation_id' => 'required|exists:designations,id',
+            'designation_id' => 'nullable|exists:designations,id',
             'contact_nos' => 'required|array|min:1', // Ensure at least one number is provided
             'email' => ['nullable', 'email', Rule::unique('directors', 'email')->ignore($director->id)],
             'from_date' => 'required|date',

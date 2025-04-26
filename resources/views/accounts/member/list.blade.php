@@ -271,6 +271,14 @@
 @endsection
 
 @section('customeJs')
+@if ($errors->any())
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let modal = new bootstrap.Modal(document.getElementById('memberModal'));
+            modal.show();
+        });
+    </script>
+@endif
 <script>
     document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".edit-member-btn").forEach(button => {

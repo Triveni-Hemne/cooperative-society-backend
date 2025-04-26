@@ -19,7 +19,7 @@
                                 <label for="branchCode">Branch Code</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="branch_code" id="branchCode" class="w-100 px-2 py-1 @error('branch_code') is-invalid @enderror" value="{{ old('branch_code') }}" type="text" placeholder="Branch Code">
+                                <input name="branch_code" id="branchCode" class="w-100 px-2 py-1 @error('branch_code') is-invalid @enderror" value="{{ old('branch_code') }}" type="text" placeholder="Branch Code" required>
                                 @error('branch_code')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -31,7 +31,7 @@
                                 <label for="branchName">Name</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="name" id="branchName" class="w-100 px-2 py-1 @error('name') is-invalid @enderror" value="{{ old('name') }}" type="text" placeholder="Name">
+                                <input name="name" id="branchName" class="w-100 px-2 py-1 @error('name') is-invalid @enderror" value="{{ old('name') }}" type="text" placeholder="Name" required>
                                 @error('name')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -43,7 +43,7 @@
                                 <label for="location">Location</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="location" id="location" class="w-100 px-2 py-1 @error('location') is-invalid @enderror" value="{{ old('location') }}" type="text" placeholder="Location">
+                                <input name="location" id="location" class="w-100 px-2 py-1 @error('location') is-invalid @enderror" value="{{ old('location') }}" type="text" placeholder="Location" required>
                                 @error('location')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror

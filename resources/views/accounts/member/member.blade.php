@@ -51,7 +51,8 @@
                                 <label for="createdBy">Created By</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="created_by" id="createdBy" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->name}}" type="text" disabled required>
+                                <input id="createdBy" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->name}}" type="text" readonly required>
+                                <input name="created_by" id="createdBy" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->id}}" hidden type="text" readonly required>
                                 @error('created_by')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -152,7 +153,7 @@
                                             <label for="address">Address</label>
                                         </div>
                                         <div class="col pe-0 pe-xl-5">
-                                            <textarea name="address" id="address" placeholder="Address" class="w-100 px-2 py-1 @error('address') is-invalid @enderror" rows="1">{{ old('address') }}</textarea>
+                                            <textarea name="address" id="address" placeholder="Address" class="w-100 px-2 py-1 @error('address') is-invalid @enderror" rows="1" required>{{ old('address') }}</textarea>
                                                  @error('address')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
@@ -178,7 +179,7 @@
                                             <label for="city">City</label>
                                         </div>
                                         <div class="col-3 pe-0 pe-xl-5">
-                                            <input name="city" id="city" class="w-100 px-2 py-1 @error('city') is-invalid @enderror" value="{{ old('city') }}" type="text" placeholder="City">
+                                            <input name="city" id="city" class="w-100 px-2 py-1 @error('city') is-invalid @enderror" value="{{ old('city') }}" type="text" placeholder="City" required>
                                             @error('city')
                                                 <div class="invalid-feedback">{{$message}}</div>
                                             @enderror
@@ -189,7 +190,7 @@
                                         <div class="col-3 pe-0 pe-xl-5">
                                             <input name="mobile_no" id="mobileNo" class="w-100 px-2 py-1 @error('mobile_no') is-invalid @enderror" 
                                             value="{{ old('mobile_no') }}" type="text" placeholder="Mobile No." 
-                                            pattern="[0-9]{10}" title="Enter a valid 10-digit mobile number">
+                                            pattern="[0-9]{10}" title="Enter a valid 10-digit mobile number" required>
                                                 @error('mobile_no')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
@@ -208,7 +209,7 @@
                                             <label for="gender">Gender</label>
                                         </div>
                                         <div class="col-3 pe-0 pe-xl-5">
-                                            <select name="gender" id="gender" class="w-100 px-2 py-1 @error('gender') is-invalid @enderror">
+                                            <select name="gender" id="gender" class="w-100 px-2 py-1 @error('gender') is-invalid @enderror" required>
                                                 <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male</option>
                                                 <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>Female</option>
                                                 <option value="Other" {{ old('gender') == 'Other' ? 'selected' : '' }}>Other</option>
@@ -222,7 +223,7 @@
                                             <label for="dob">Date of Birth</label>
                                         </div>
                                         <div class="col-2 pe-0 pe-xl-5">
-                                            <input name="dob" id="dob" class="w-100 px-2 py-1 @error('dob') is-invalid @enderror" value="{{ old('dob') }}" type="date" placeholder="DOB">
+                                            <input name="dob" id="dob" class="w-100 px-2 py-1 @error('dob') is-invalid @enderror" value="{{ old('dob') }}" type="date" placeholder="DOB" required>
                                             @error('dob')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                             @enderror
@@ -231,7 +232,7 @@
                                             <label for="age">Age</label>
                                         </div>
                                         <div class="col-2 pe-0 pe-xl-5">
-                                            <input name="age" id="age" class="w-100 px-2 py-1 @error('age') is-invalid @enderror" value="{{ old('age') }}" type="number" placeholder="Age">
+                                            <input name="age" id="age" class="w-100 px-2 py-1 @error('age') is-invalid @enderror" value="{{ old('age') }}" type="number" placeholder="Age" required>
                                              @error('age')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
@@ -263,7 +264,7 @@
                                             <label for="caste">Caste</label>
                                         </div>
                                         <div class="col-3 pe-0 pe-xl-5">
-                                            <select name="caste" id="caste" class="w-100 px-2 py-1 @error('caste') is-invalid @enderror" value="{{ old('caste') }}">
+                                            <select name="caste" id="caste" class="w-100 px-2 py-1 @error('caste') is-invalid @enderror" value="{{ old('caste') }}" required>
                                                 <option value="mahar">Mahar</option>
                                                 <option value="kunbi">Kunbi</option>
                                                 <option value="kalar">Kalar</option>
@@ -294,7 +295,7 @@
                                             <label for="category">Category</label>
                                         </div>
                                         <div class="col-3 pe-0 pe-xl-5">
-                                            <select name="category" id="category" class="w-100 px-2 py-1 @error('category') is-invalid @enderror" >
+                                            <select name="category" id="category" class="w-100 px-2 py-1 @error('category') is-invalid @enderror" required>
                                                 <option value="SC" {{ old('category') == 'SC' ? 'selected' : '' }}>SC</option>
                                                 <option value="ST" {{ old('category') == 'ST' ? 'selected' : '' }}>ST</option>
                                                 <option value="OBC" {{ old('category') == 'OBC' ? 'selected' : '' }}>OBC</option>
@@ -362,7 +363,7 @@
                                 <!-- Nominee Details -->
                                 <div class="tab-pane fade p-3" id="nominee-tab-pane" role="tabpanel"
                                     aria-labelledby="nominee-tab" tabindex="0">
-                                     @isset($members)
+                                     {{-- @isset($members)
                                      <div class="row mb-3">
                                          <div class="col-2 ps-5 d-none d-xl-block">
                                              <label for="nomineeId">Member</label>
@@ -392,14 +393,14 @@
                                         </div>
                                         @endif
                                     </div>
-                                    @endisset
+                                    @endisset --}}
                                     <div class="row mb-1">
                                         <div class="col-2 ps-5 d-none d-xl-block">
                                             <label for="nomineeName">Name</label>
                                         </div>
                                         <div class="col pe-0 pe-xl-5">
                                             <input name="nominee_name" id="nomineeName" class="w-100 px-2 py-1 @error('nominee_name') is-invalid @enderror" 
-                                            value="{{ old('nominee_name') }}" type="text" placeholder="Name">
+                                            value="{{ old('nominee_name') }}" type="text" placeholder="Name" required>
                                                  @error('nominee_name')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
@@ -454,7 +455,7 @@
                                         </div>
                                         <div class="col-2 pe-0 pe-xl-5">
                                             <input name="nominee_age" id="nomineeAge" class="w-100 px-2 py-1 @error('nominee_age') is-invalid @enderror" value="{{ old('nominee_age') }}" type="number"
-                                                placeholder="Nominee Age">
+                                                placeholder="Nominee Age" required>
                                                  @error('nominee_age')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
@@ -464,7 +465,7 @@
                                             <label for="nomineeGender">Gender</label>
                                         </div>
                                         <div class="col-3 pe-0 pe-xl-5">
-                                            <select name="nominee_gender" id="nomineeGender" class="w-100 px-2 py-1 @error('nominee_gender') is-invalid @enderror" value="{{ old('nominee_gender') }}">
+                                            <select name="nominee_gender" id="nomineeGender" class="w-100 px-2 py-1 @error('nominee_gender') is-invalid @enderror" value="{{ old('nominee_gender') }}" required>
                                                 <option value="Male" {{ old('nominee_gender') == 'Male' ? 'selected' : '' }}>Male</option>
                                                 <option value="Female" {{ old('nominee_gender') == 'Female' ? 'selected' : '' }}>Female</option><option value="Other" {{ old('nominee_gender') == 'Other' ? 'selected' : '' }}>Other</option>
                                             </select>
@@ -477,7 +478,7 @@
                                             <label for="nomineeRelation">Relation</label>
                                         </div>
                                         <div class="col-3 pe-0 pe-xl-5">
-                                            <select name="relation" id="nomineeRelation" class="w-100 px-2 py-1 @error('relation') is-invalid @enderror" value="{{ old('relation') }}">
+                                            <select name="relation" id="nomineeRelation" class="w-100 px-2 py-1 @error('relation') is-invalid @enderror" value="{{ old('relation') }}" required>
                                                 <option value="">------ Select Relation with Nominee ------</option>
                                                 <option value="husband" {{ old('relation') == 'husband' ? 'selected' : '' }}>Husband</option>
                                                 <option value="wife" {{ old('relation') == 'wife' ? 'selected' : '' }}>Wife</option>
@@ -525,7 +526,7 @@
                                         </div>
                                         <div class="col pe-0 pe-xl-5">
                                             <input name="bank_name" id="bankName" class="w-100 px-2 py-1 @error('bank_name') is-invalid @enderror" value="{{ old('bank_name') }}" type="text"
-                                                placeholder="Bank Name">
+                                                placeholder="Bank Name" required>
                                                  @error('bank_name')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
@@ -537,7 +538,7 @@
                                         </div>
                                         <div class="col pe-0 pe-xl-5">
                                             <input name="branch_name" id="branchName" class="w-100 px-2 py-1 @error('branch_name') is-invalid @enderror" value="{{ old('branch_name') }}" type="text"
-                                                placeholder="Branch Name">
+                                                placeholder="Branch Name" required>
                                                  @error('branch_name')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
@@ -549,7 +550,7 @@
                                         </div>
                                         <div class="col pe-0 pe-xl-5">
                                             <input name="bank_account_no" id="bankAccountNo" class="w-100 px-2 py-1 @error('bank_account_no') is-invalid @enderror" value="{{ old('bank_account_no') }}" type="text"
-                                                placeholder="Account No.">
+                                                placeholder="Account No." required>
                                                  @error('bank_account_no')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
@@ -559,7 +560,7 @@
                                         </div>
                                         <div class="col pe-0 pe-xl-5">
                                             <input name="ifsc_code" id="ifscCode" class="w-100 px-2 py-1 @error('ifsc_code') is-invalid @enderror" value="{{ old('ifsc_code') }}" type="text"
-                                                placeholder="IFSC Code">
+                                                placeholder="IFSC Code" required>
                                                  @error('ifsc_code')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
@@ -648,7 +649,7 @@
                                         </div>
                                         <div class="col pe-0 pe-xl-5">
                                             <input name="emp_code" id="empCode" class="w-100 px-2 py-1 @error('emp_code') is-invalid @enderror" value="{{ old('emp_code') }}" type="text"
-                                                placeholder="Emp Code">
+                                                placeholder="Emp Code" required>
                                                  @error('emp_code')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
@@ -659,7 +660,7 @@
                                         </div>
                                         <div class="col pe-0 pe-xl-5">
                                             @if ($designations->isNotEmpty())
-                                             <select name="designation_id" id="designationId" class="w-100 px-2 py-1 @error('designation_id') is-invalid @enderror">
+                                             <select name="designation_id" id="designationId" class="w-100 px-2 py-1 @error('designation_id') is-invalid @enderror" required>
                                                     <option value="" disabled selected>---------- Select ----------</option>
                                                     @foreach ($designations as $designation)
                                                         <option value="{{ $designation->id }}"  
@@ -687,7 +688,7 @@
                                         </div>
                                         <div class="col pe-0 pe-xl-5">
                                             <input name="salary" id="salary" class="w-100 px-2 py-1 @error('salary') is-invalid @enderror" value="{{ old('salary') }}" type="number"
-                                                placeholder="Salary">
+                                                placeholder="Salary" required>
                                                  @error('salary')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
@@ -710,7 +711,7 @@
                                             </div>
                                             <div class="col-4 pe-0 pe-xl-5">
                                             @if ($divisions->isNotEmpty())
-                                            <select name="division_id" id="divisionId" class="w-100 px-2 py-1 @error('division_id') is-invalid @enderror">
+                                            <select name="division_id" id="divisionId" class="w-100 px-2 py-1 @error('division_id') is-invalid @enderror" required>
                                                     <option value="" disabled selected>---------- Select ----------</option>
                                                     @foreach ($divisions as $division)
                                                         <option value="{{ $division->id }}"  
@@ -737,7 +738,7 @@
                                         </div>
                                         <div class="col-4 pe-0 pe-xl-5">
                                             @if ($subdivisions->isNotEmpty())
-                                            <select name="subdivision_id" id="subdivisionId" class="w-100 px-2 py-1 @error('subdivision_id') is-invalid @enderror">
+                                            <select name="subdivision_id" id="subdivisionId" class="w-100 px-2 py-1 @error('subdivision_id') is-invalid @enderror" required>
                                                     <option value="" disabled selected>---------- Select ----------</option>
                                                     @foreach ($subdivisions as $subdivision)
                                                         <option value="{{ $subdivision->id }}"  
@@ -766,7 +767,7 @@
                                         </div>
                                         <div class="col-4 pe-0 pe-xl-5">
                                             @if ($centers->isNotEmpty())
-                                            <select name="center_id" id="centerId" class="w-100 px-2 py-1 @error('center_id') is-invalid @enderror">
+                                            <select name="center_id" id="centerId" class="w-100 px-2 py-1 @error('center_id') is-invalid @enderror" required>
                                                     <option value="" disabled selected>---------- Select ----------</option>
                                                     @foreach ($centers as $center)
                                                         <option value="{{ $center->id }}"  
@@ -804,7 +805,7 @@
                                         </div>
                                         <div class="col-2 pe-0 pe-xl-5">
                                             <input name="transfer_date" id="transferDate" class="w-100 px-2 py-1 @error('transfer_date') is-invalid @enderror" value="{{ old('transfer_date') }}" type="date"
-                                                placeholder="Transfer Date">
+                                                placeholder="Transfer Date" required>
                                                  @error('transfer_date')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
@@ -910,7 +911,7 @@
                                         </div>
                                         <div class="col pe-0">
                                             <input name="share_amount" id="shareAmount" class="w-100 px-2 py-1 @error('share_amount') is-invalid @enderror" value="{{ old('share_amount') }}" type="number"
-                                                placeholder="Share Amount">
+                                                placeholder="Share Amount" required>
                                                  @error('share_amount')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
@@ -923,7 +924,7 @@
                                         </div>
                                         <div class="col pe-0">
                                             <input name="number_of_shares" id="numberOfShares" class="w-100 px-2 py-1 @error('number_of_shares') is-invalid @enderror" value="{{ old('number_of_shares') }}" type="number"
-                                                placeholder="Number of Share">
+                                                placeholder="Number of Share" required>
                                                  @error('number_of_shares')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
@@ -933,7 +934,7 @@
                                         </div>
                                         <div class="col pe-0">
                                             <input name="current_balance" id="currentBalance" class="w-100 px-2 py-1 @error('current_balance') is-invalid @enderror" value="{{ old('current_balance') }}" type="number"
-                                                placeholder="Current Balance">
+                                                placeholder="Current Balance" required>
                                                  @error('current_balance')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
@@ -946,7 +947,7 @@
                                         </div>
                                         <div class="col pe-0">
                                             <input name="monthly_deposit" id="monthlyDeposit" class="w-100 px-2 py-1 @error('monthly_deposit') is-invalid @enderror" value="{{ old('monthly_deposit') }}" type="number"
-                                                placeholder="Monthly Deposit">
+                                                placeholder="Monthly Deposit" required>
                                                  @error('monthly_deposit')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
@@ -969,7 +970,7 @@
                                         </div>
                                         <div class="col pe-0">
                                             <input name="monthly_balance" id="monthlyBalance" class="w-100 px-2 py-1 @error('monthly_balance') is-invalid @enderror" value="{{ old('monthly_balance') }}" type="number"
-                                                placeholder="Monthly Balance">
+                                                placeholder="Monthly Balance" required>
                                                 @error('monthly_balance')
                                                     <div class="invalid-feedback">{{$message}}</div>
                                                 @enderror
@@ -993,7 +994,7 @@
                                             <label for="type">Account Type</label>
                                         </div>
                                         <div class="col-4 pe-0">
-                                            <select name="type" id="type" class="w-100 px-2 py-1 @error('type') is-invalid @enderror">
+                                            <select name="type" id="type" class="w-100 px-2 py-1 @error('type') is-invalid @enderror" required>
                                                 <option value="Share" {{ old('type') == 'Share' ? 'selected' : '' }}>Share</option>
                                                 <option value="Dividend" {{ old('type') == 'Dividend' ? 'selected' : '' }}>Dividend</option>
                                                 <option value="Deposit" {{ old('type') == 'Deposit' ? 'selected' : '' }}>Deposit</option>

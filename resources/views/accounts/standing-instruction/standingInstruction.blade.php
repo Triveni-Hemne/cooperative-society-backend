@@ -157,7 +157,7 @@
                                 <label for="date">Date</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="date" id="date" class="w-100 px-2 py-1 @error('date') is-invalid @enderror" value="{{ old('date') }}" type="date" placeholder="Date">
+                                <input name="date" id="date" class="w-100 px-2 py-1 @error('date') is-invalid @enderror" value="{{ old('date') }}" type="date" placeholder="Date" required>
                                 @error('date')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -166,7 +166,7 @@
                                 <label for="frequency">Frequency</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <select id="frequency" name="frequency" class="w-100 px-2 py-1 @error('frequency') is-invalid @enderror">
+                                <select id="frequency" name="frequency" class="w-100 px-2 py-1 @error('frequency') is-invalid @enderror" required>
                                     <option value="">------ Select Frequency ------</option>
                                     <option value="Daily" {{ old('frequency') == 'Daily' ? 'selected' : '' }}>Daily</option>
                                     <option value="Weekly" {{ old('frequency') == 'Weekly' ? 'selected' : '' }}>Weekly</option>
@@ -184,7 +184,7 @@
                                 <label for="noOfTimes">No. of Times</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="no_of_times" id="noOfTimes" class="w-100 px-2 py-1 @error('no_of_times') is-invalid @enderror" value="{{ old('no_of_times') }}" type="number" placeholder="No. of Times">
+                                <input name="no_of_times" id="noOfTimes" class="w-100 px-2 py-1 @error('no_of_times') is-invalid @enderror" value="{{ old('no_of_times') }}" type="number" placeholder="No. of Times" required>
                                 @error('no_of_times')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -194,7 +194,7 @@
                             </div>
                             <div class="col pe-0 pe-xl-5">
                                 <input name="bal_installment" id="balInstallment" class="w-100 px-2 py-1 @error('bal_installment') is-invalid @enderror" value="{{ old('bal_installment') }}" type="number"
-                                    placeholder="Balance Installment">
+                                    placeholder="Balance Installment" required>
                                     @error('bal_installment')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -207,7 +207,7 @@
                             </div>
                             <div class="col pe-0 pe-xl-5">
                                 <input name="execution_date" id="executionDate" class="w-100 px-2 py-1 @error('execution_date') is-invalid @enderror" value="{{ old('execution_date') }}" type="date"
-                                    placeholder="Execution Date">
+                                    placeholder="Execution Date" required>
                                     @error('execution_date')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -216,7 +216,7 @@
                                 <label for="amount">Amount</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="amount" id="amount" class="w-100 px-2 py-1 @error('amount') is-invalid @enderror" value="{{ old('amount') }}" type="number" placeholder="Amount">
+                                <input name="amount" id="amount" class="w-100 px-2 py-1 @error('amount') is-invalid @enderror" value="{{ old('amount') }}" type="number" placeholder="Amount" required>
                                 @error('amount')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -228,7 +228,8 @@
                                 <label for="createdBy">Created By</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="created_by" id="createdBy" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->name}}" type="text" disabled required>
+                                <input id="createdBy" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->name}}" type="text" readonly required>
+                                <input name="created_by" id="createdBy" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->id}}" hidden type="text" readonly required>
                                 @error('created_by')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror

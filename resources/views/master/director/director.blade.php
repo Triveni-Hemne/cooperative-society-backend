@@ -23,17 +23,17 @@
                             <div class="col pe-0 pe-xl-5">
                                 <select name="member_id" id="memberId"
                                     class="w-100 px-2 py-1 @error('member_id') is-invalid @enderror">
-                                    <option value="" disabled selected>---------- Select ----------</option>
+                                    <option value="" disabled {{ old('member_id') ? '' : 'selected' }}>---------- Select ----------</option>
                                     @foreach ($members as $member)
                                     <option value="{{ $member->id }}"
                                         {{ old('member_id') == $member->id ? 'selected' : '' }}>
                                         {{ $member->name }}
                                     </option>
                                     @endforeach
-                                    @error('member_id')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                    @enderror
                                 </select>
+                                @error('member_id')
+                                <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                         {{-- @endif --}}
@@ -51,7 +51,7 @@
                             </div>
                             <div class="col pe-0 pe-xl-5">
                                 <input id="name" name="name" class="w-100 px-2 py-1 @error('name') is-invalid @enderror"
-                                    value="{{ old('name') }}" type="text" placeholder="Name">
+                                    value="{{ old('name') }}" type="text" placeholder="Name" required>
                                 @error('name')
                                 <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -67,17 +67,17 @@
                             <div class="col pe-0 pe-xl-5">
                                 <select name="designation_id" id="designationId"
                                     class="w-100 px-2 py-1 @error('designation_id') is-invalid @enderror">
-                                    <option value="" disabled selected>---------- Select ----------</option>
+                                    <option value="" disabled {{ old('member_id') ? '' : 'selected' }}>---------- Select ----------</option>
                                     @foreach ($designations as $designation)
                                     <option value="{{ $designation->id }}"
                                         {{ old('designation_id') == $designation->id ? 'selected' : '' }}>
                                         {{ $designation->name }}
                                     </option>
                                     @endforeach
-                                    @error('designation_id')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                    @enderror
                                 </select>
+                                @error('designation_id')
+                                <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                         @endif
@@ -126,7 +126,7 @@
                             <div class="col mb-3 mb-xl-0 ms-0 ms-xl-3">
                                 <input id="fromDate" name="from_date"
                                     class="w-100 px-2 py-1 @error('from_date') is-invalid @enderror" type="date"
-                                    value="{{ old('from_date') }}">
+                                    value="{{ old('from_date') }}" required>
                                 @error('from_date') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                             <div class="col w-auto ms-0 ms-xl-5">
@@ -150,3 +150,11 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+

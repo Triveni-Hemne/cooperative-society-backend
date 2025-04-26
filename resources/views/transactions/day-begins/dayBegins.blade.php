@@ -19,7 +19,8 @@
                                 <label for="createdBy">Created By</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="created_by" id="createdBy" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->name}}" type="text" disabled placeholder="Crated By" required>
+                                <input name="" id="createdBy" class="w-100 px-2 py-1" value="{{$user->name}}" type="text" disabled required>
+                                <input name="created_by" hidden class="w-100 px-2 py-1" value="{{$user->id}}" type="text" disabled  required>
                                 @error('created_by')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -30,7 +31,7 @@
                                 <label for="date">Date</label>
                             </div>
                             <div class="col-4 pe-0 pe-xl-5">
-                                <input name="date" id="date" class="w-100 px-2 py-1  @error('date') is-invalid @enderror" value="{{ old('date') }}" type="date" placeholder="Date">
+                                <input name="date" id="date" class="w-100 px-2 py-1  @error('date') is-invalid @enderror" value="{{ old('date') }}" type="date" placeholder="Date" required>
                                 @error('date')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -45,7 +46,7 @@
                                 <div class="col pe-0 pe-xl-5">
                                 @if ($users->isNotEmpty())
                                  <select name="user_id" id="userId"  class="w-100 px-2 py-1 @error('user_id') is-invalid @enderror">
-                                    <option value="" disabled selected>---------- Select ----------</option>
+                                    <option value="" disabled  {{ old('user_id') ? '' : 'selected' }}>---------- Select ----------</option>
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}"  
                                         {{ old('user_id') == $user->id ? 'selected' : '' }}
@@ -76,7 +77,7 @@
                                 <div class="col pe-0 pe-xl-5">
                                 @if ($branches->isNotEmpty())
                                  <select name="branch_id" id="userId"  class="w-100 px-2 py-1 @error('branch_id') is-invalid @enderror" required>
-                                    <option value="" disabled selected>---------- Select ----------</option>
+                                    <option value="" disabled {{ old('branch_id') ? '' : 'selected' }}>---------- Select ----------</option>
                                     @foreach ($branches as $branch)
                                         <option value="{{ $branch->id }}"  
                                         {{ old('branch_id') == $branch->id ? 'selected' : '' }}
@@ -103,7 +104,7 @@
                                 <label for="openingCashBalance">Opening Cash Balance</label>
                             </div>
                             <div class="col-4 pe-0 pe-xl-5">
-                                <input name="opening_cash_balance" id="openingCashBalance" class="w-100 px-2 py-1  @error('opening_cash_balance') is-invalid @enderror" value="{{ old('opening_cash_balance') }}" type="number" placeholder="Opening Cash Balance">
+                                <input name="opening_cash_balance" id="openingCashBalance" class="w-100 px-2 py-1  @error('opening_cash_balance') is-invalid @enderror" value="{{ old('opening_cash_balance') }}" type="number" placeholder="Opening Cash Balance" required>
                                 @error('opening_cash_balance')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -115,8 +116,8 @@
                                 <label for="status">Status</label>
                             </div>
                             <div class="col-4 pe-0 pe-xl-5">
-                                <select id="status" name="status" class="w-100 px-2 py-1 @error('status') is-invalid @enderror" >
-                                    <option value="">------ Select Status ------</option>
+                                <select id="status" name="status" class="w-100 px-2 py-1 @error('status') is-invalid @enderror" required>
+                                    <option value="" {{old('status') ? '' : 'selected'}}>------ Select Status ------</option>
                                     <option value="Open" {{ old('status') == 'Open' ? 'selected' : '' }}>Open</option>
                                     <option value="Closed" {{ old('status') == 'Closed' ? 'selected' : '' }}>Closed</option>
                                 </select>

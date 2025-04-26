@@ -21,7 +21,7 @@
                             </div>
                              <div class="col">
                                  <select name="transaction_type" id="transaction_type" class="w-100 px-2 py-1 @error('transaction_type') is-invalid @enderror" required>
-                                    <option value="">Select Transaction Type</option>
+                                    <option value="" {{old('transaction_type') ? '' : 'selected'}}>--Select Transaction Type--</option>
                                     @foreach(['Receipt', 'Payment', 'Journal', 'Deposit', 'Withdrawal', 'Loan Payment', 'Fund Transfer'] as $type)
                                         <option value="{{ $type }}" {{ old('transaction_type') == $type ? 'selected' : '' }}>{{ $type }}</option>
                                     @endforeach
@@ -37,7 +37,7 @@
                         <div class="col pe-0 pe-xl-5">
                                 @if ($depoAccounts->isNotEmpty())
                                 <select id="memberDepoAccountId" name="member_depo_account_id" class="w-100 px-2 py-1 @error('member_depo_account_id') is-invalid @enderror">
-                                    <option value="">------ Select Depo Account ------</option>
+                                    <option value="" {{old('member_depo_account_id') ? '' : 'selected'}}>------ Select Depo Account ------</option>
                                     @foreach ($depoAccounts as $depoAccount)
                                         <option value="{{ $depoAccount->id }}"  
                                         {{ old('member_depo_account_id') == $depoAccount->id ? 'selected' : '' }}
@@ -65,7 +65,7 @@
                         <div class="col-4 pe-0 pe-xl-5">
                                 @if ($loanAccounts->isNotEmpty())
                                 <select id="memberLoanAccountId" name="member_loan_account_id" class="w-100 px-2 py-1 @error('member_loan_account_id') is-invalid @enderror">
-                                    <option value="">------ Select Account ------</option>
+                                    <option value="" {{old('member_loan_account_id') ? '' : 'selected'}}>------ Select Account ------</option>
                                     @foreach ($loanAccounts as $loanAccount)
                                         <option value="{{ $loanAccount->id }}"  
                                         {{ old('member_loan_account_id') == $loanAccount->id ? 'selected' : '' }}
@@ -95,8 +95,8 @@
                         </div>
                         <div class="col pe-0 pe-xl-5">
                                 @if ($ledgers->isNotEmpty())
-                                <select id="ledgerId" name="ledger_id" class="w-100 px-2 py-1 @error('ledger_id') is-invalid @enderror">
-                                    <option value="">------ Select Ledger ------</option>
+                                <select id="ledgerId" name="ledger_id" class="w-100 px-2 py-1 @error('ledger_id') is-invalid @enderror" required>
+                                    <option value="" {{old('ledger_id') ? '' : 'selected'}}>------ Select Ledger ------</option>
                                     @foreach ($ledgers as $ledger)
                                         <option value="{{ $ledger->id }}"  
                                         {{ old('ledger_id') == $ledger->id ? 'selected' : '' }}
@@ -123,7 +123,7 @@
                         <div class="col-4 pe-0 pe-xl-5">
                                 @if ($accounts->isNotEmpty())
                                 <select id="accountId" name="account_id" class="w-100 px-2 py-1 @error('account_id') is-invalid @enderror">
-                                    <option value="">------ Select Account ------</option>
+                                    <option value="" {{old('account_id') ? '' : 'selected'}}>------ Select Account ------</option>
                                     @foreach ($accounts as $account)
                                         <option value="{{ $account->id }}"  
                                         {{ old('account_id') == $account->id ? 'selected' : '' }}
@@ -146,24 +146,6 @@
                         </div>
 
                         <div class="row mb-2">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="transactionType">Transaction Type</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <select id="transactionType" name="transaction_type" class="w-100 px-2 py-1 @error('transaction_type') is-invalid @enderror">
-                                    <option value="">---- Select Transaction Type ----</option>
-                                    <option value="Receipt" {{ old('transaction_type') == 'Receipt' ? 'selected' : '' }}>Receipt</option>
-                                    <option value="Payment" {{ old('transaction_type') == 'Payment' ? 'selected' : '' }}>Payment</option>
-                                    <option value="Journal" {{ old('transaction_type') == 'Journal' ? 'selected' : '' }}>Journal</option>
-                                    <option value="Deposit" {{ old('transaction_type') == 'Deposit' ? 'selected' : '' }}>Deposit</option>
-                                    <option value="Withdrawal" {{ old('transaction_type') == 'Withdrawal' ? 'selected' : '' }}>Withdrawal</option>
-                                    <option value="Loan Payment" {{ old('transaction_type') == 'Loan Payment' ? 'selected' : '' }}>Loan Payment</option>
-                                    <option value="Fund Transfer" {{ old('transaction_type') == 'Fund Transfer' ? 'selected' : '' }}>Fund Transfer</option>
-                                </select>
-                                @error('transaction_type')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
                             <div class="col-2 d-none d-xl-block">
                                 <label for="voucherNum">Voucher No.</label>
                             </div>
@@ -201,7 +183,7 @@
                                 <label for="date">Date</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="date" id="date" class="w-100 px-2 py-1 @error('date') is-invalid @enderror" value="{{ old('date') }}" type="date" placeholder="Date">
+                                <input name="date" id="date" class="w-100 px-2 py-1 @error('date') is-invalid @enderror" value="{{ old('date') }}" type="date" placeholder="Date" required>
                                 @error('date')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -223,7 +205,7 @@
                                 <label for="amount">Amount</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="amount" id="amount" class="w-100 px-2 py-1 @error('amount') is-invalid @enderror" value="{{ old('amount') }}" type="number" placeholder="Amount">
+                                <input name="amount" id="amount" class="w-100 px-2 py-1 @error('amount') is-invalid @enderror" value="{{ old('amount') }}" type="number" placeholder="Amount" required>
                                 @error('amount')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -267,7 +249,7 @@
                             </div>
                             <div class="col-4 pe-0 pe-xl-5">
                                 <select id="status" name="status" class="w-100 px-2 py-1 @error('status') is-invalid @enderror">
-                                    <option value="" disabled>---- Select Status ----</option>
+                                    <option value="" disabled {{old('status') ? '' : 'selected'}}>---- Select Status ----</option>
                                     <option value="Pending" {{ old('status') == 'Pending' ? 'selected' : '' }}>Pending</option>
                                     <option value="Approved" {{ old('status') == 'Approved' ? 'selected' : '' }}>Approved</option>
                                     <option value="Rejected" {{ old('status') == 'Rejected' ? 'selected' : '' }}>Rejected</option>
@@ -284,7 +266,7 @@
                             </div>
                             <div class="col-4 pe-0 pe-xl-5">
                                 <select id="transactionMode" name="transaction_mode" class="w-100 px-2 py-1 @error('transaction_mode') is-invalid @enderror">
-                                    <option value="" disabled>---- Select Transaction Mode ----</option>
+                                    <option value="" disabled {{old('transaction_mode') ? '' : 'selected'}}>---- Select Transaction Mode ----</option>
                                     <option value="Cash" {{ old('transaction_mode') == 'Cash' ? 'selected' : '' }}>Cash</option>
                                     <option value="Bank" {{ old('transaction_mode') == 'Bank' ? 'selected' : '' }}>Bank</option>
                                     <option value="Online" {{ old('transaction_mode') == 'Online' ? 'selected' : '' }}>Online</option>
@@ -299,7 +281,7 @@
                             </div>
                             <div class="col-4 pe-0 pe-xl-5">
                                 <select id="paymentMode" name="payment_mode" class="w-100 px-2 py-1 @error('payment_mode') is-invalid @enderror">
-                                    <option value="" disabled>---- Select Payment Mode ----</option>
+                                    <option value="" disabled {{old('payment_mode') ? '' : 'selected'}}>---- Select Payment Mode ----</option>
                                     <option value="NEFT" {{ old('payment_mode') == 'NEFT' ? 'selected' : '' }}>NEFT</option>
                                     <option value="IMPS" {{ old('payment_mode') == 'IMPS' ? 'selected' : '' }}>IMPS</option>
                                     <option value="UPI" {{ old('payment_mode') == 'UPI' ? 'selected' : '' }}>UPI</option>
@@ -337,7 +319,6 @@
                                 @enderror
                             </div>
                         </div>
-
                         <div class="row mb-2">
                         @isset($users) 
                         <div class="col-2 d-none d-xl-block">
@@ -346,12 +327,12 @@
                         <div class="col pe-0 pe-xl-5">
                                 @if ($users->isNotEmpty())
                                 <select id="approvedBy" name="approved_by" class="w-100 px-2 py-1 @error('approved_by') is-invalid @enderror">
-                                    <option value="">-----Select Approved By-----</option>
-                                   @foreach ($users as $user)
-                                        <option value="{{ $user->id }}"  
-                                        {{ old('approved_by') == $user->id ? 'selected' : '' }}
+                                    <option value="" {{old('approved_by') ? '' : 'selected'}}>-----Select Approved By-----</option>
+                                   @foreach ($users as $usr)
+                                        <option value="{{ $usr->id }}"  
+                                        {{ old('approved_by') == $usr->id ? 'selected' : '' }}
                                         >
-                                        {{ $user->name }}
+                                        {{ $usr->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -366,33 +347,17 @@
                                 @endif
                             </div>
                         @endisset
-                        @isset($users) 
+                        
                         <div class="col-2 d-none d-xl-block">
                             <label for="enteredBy">Entered By</label>
                         </div>
                         <div class="col pe-0 pe-xl-5">
-                                @if ($users->isNotEmpty())
-                                <select id="enteredBy" name="entered_by" class="w-100 px-2 py-1 @error('entered_by') is-invalid @enderror" required>
-                                    <option value="">-----Select Entered By-----</option>
-                                   @foreach ($users as $user)
-                                        <option value="{{ $user->id }}"  
-                                        {{ old('entered_by') == $user->id ? 'selected' : '' }}
-                                        >
-                                        {{ $user->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <input id="enteredBy" name="" class="w-100 px-2 py-1" value="{{$user->name}}"  required>
+                                <input id="enteredBy" hidden name="entered_by" value="{{$user->id}}" class="w-100 px-2 py-1"  required>
                                 @error('entered_by')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
-                               @else
-                                    <select class="w-100 px-2 py-1" disabled>
-                                            <option>No users available. Please add users first.</option>
-                                    </select>
-                                    <small class="text-danger">⚠️ You must add users before submitting the form.</small>
-                                @endif
                             </div>
-                        @endisset
                         </div>
 
                         <div class="row mb-2">
@@ -403,7 +368,7 @@
                         <div class="col pe-0 pe-xl-5">
                                 @if ($branches->isNotEmpty())
                                 <select id="branchId" name="branch_id" class="w-100 px-2 py-1 @error('branch_id') is-invalid @enderror" required>
-                                    <option value="">-----Select Branch-----</option>
+                                    <option value="" {{old('branch_id') ? '' : 'selected'}}>-----Select Branch-----</option>
                                    @foreach ($branches as $branch)
                                         <option value="{{ $branch->id }}"  
                                         {{ old('branch_id') == $branch->id ? 'selected' : '' }}
@@ -452,7 +417,7 @@
                             </div>
                             <div class="col pe-0 pe-xl-5">
                                 <input name="opening_balance" id="openingBalance" class="w-100 px-2 py-1 @error('opening_balance') is-invalid @enderror" value="{{ old('opening_balance') }}" type="number"
-                                    placeholder="Opening Balance">
+                                    placeholder="Opening Balance" required>
                                     @error('opening_balance')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -462,7 +427,7 @@
                             </div>
                             <div class="col pe-0 pe-xl-5">
                                 <input name="current_balance" id="currentBalance" class="w-100 px-2 py-1 @error('current_balance') is-invalid @enderror" value="{{ old('current_balance') }}" type="number"
-                                    placeholder="Current Balance">
+                                    placeholder="Current Balance" required>
                                     @error('current_balance')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror

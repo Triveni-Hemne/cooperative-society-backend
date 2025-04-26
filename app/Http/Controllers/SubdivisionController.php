@@ -17,7 +17,6 @@ class SubdivisionController extends Controller
     {
         $subdivisions = Subdivision::with('division')->paginate(5);
         $divisions = Division::all();
-        // return response()->json($subdivisions);
         return view('master.sub-division.list',compact('subdivisions','divisions'));
     }
 

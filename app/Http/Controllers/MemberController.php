@@ -109,7 +109,7 @@ class MemberController extends Controller
             'm_reg_no' => 'nullable|string|max:50',
             'pan_no' => 'nullable|string|max:20',
             'adhar_no' => 'nullable|string|max:20',
-            'created_by' => 'required|string|users,id',
+            'created_by' => 'required|exists:users,id',
 
             // Contact Validation
             'address' => 'required|string',
@@ -288,7 +288,7 @@ class MemberController extends Controller
             'm_reg_no' => 'nullable|string|max:50',
             'pan_no' => 'nullable|string|max:20',
             'adhar_no' => ['nullable', 'string', 'max:20', Rule::unique('members', 'adhar_no')->ignore($id)],
-            'created_by' => 'required|string|exists:users:id',
+            'created_by' => 'required|exists:users:id',
         ]);
 
         $contact_validated = $request->validate([

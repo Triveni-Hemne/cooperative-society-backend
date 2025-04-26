@@ -19,7 +19,7 @@
                                 <label for="name">Name</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="name" id="name" class="w-100 px-2 py-1 @error('name') is-invalid @enderror" value="{{ old('name') }}" type="text" placeholder="Name">
+                                <input name="name" id="name" class="w-100 px-2 py-1 @error('name') is-invalid @enderror" value="{{ old('name') }}" type="text" placeholder="Name" required>
                                 @error('name')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -46,7 +46,7 @@
                             </div>
                         @if ($divisions->isNotEmpty())
                             <div class="col pe-0 pe-xl-5">
-                                <select name="division_id" id="division_id"  class="w-100 px-2 py-1 @error('division_id') is-invalid @enderror">
+                                <select name="division_id" id="division_id"  class="w-100 px-2 py-1 @error('division_id') is-invalid @enderror" required>
                                     <option value="" disabled selected>---------- Select ----------</option>
                                     @foreach ($divisions as $division)
                                         <option value="{{ $division->id }}"  
@@ -56,6 +56,9 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                @error('division_id')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
                             </div>
                            @else
                             <div class="col pe-0 pe-xl-5">
@@ -74,7 +77,7 @@
                             </div>
                             @if ($subdivisions->isNotEmpty())
                             <div class="col pe-0 pe-xl-5">
-                                <select name="subdivision_id" id="subdivision_id" class="w-100 px-2 py-1 @error('subdivision_id') is-invalid @enderror">
+                                <select name="subdivision_id" id="subdivision_id" class="w-100 px-2 py-1 @error('subdivision_id') is-invalid @enderror" required>
                                     <option value="" disabled selected>---------- Select ----------</option>
                                     @foreach ($subdivisions as $subdivision)
                                         <option value="{{ $subdivision->id }}" 
@@ -84,6 +87,9 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                @error('subdivision_id')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
                             </div>
                              @else
                              <div class="col pe-0 pe-xl-5">
@@ -112,6 +118,9 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                 @error('center_id')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                @enderror
                             </div>
                             @else
                              <div class="col pe-0 pe-xl-5">

@@ -21,7 +21,7 @@
                             </div>
                             @if ($users->isNotEmpty())
                             <div class="col pe-0 pe-xl-5">
-                                <select name="user_id" id="userId"  class="w-100 px-2 py-1 @error('user_id') is-invalid @enderror">
+                                <select name="user_id" id="userId"  class="w-100 px-2 py-1 @error('user_id') is-invalid @enderror" required>
                                     <option value="" disabled selected>---------- Select ----------</option>
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}"  
@@ -51,7 +51,7 @@
                                 <label for="agentCode">Agent Code</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="agent_code" id="agentCode" class="w-100 px-2 py-1 @error('agent_code') is-invalid @enderror" value="{{ old('agent_code') }}" type="text" placeholder="Agent code">
+                                <input name="agent_code" id="agentCode" class="w-100 px-2 py-1 @error('agent_code') is-invalid @enderror" value="{{ old('agent_code') }}" type="text" placeholder="Agent code" required>
                                 @error('agent_code')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -63,7 +63,7 @@
                                 <label for="commitionRate">Commition Rate</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="commition_rate" id="commitionRate" class="w-100 px-2 py-1 @error('commition_rate') is-invalid @enderror" value="{{ old('commition_rate') }}" type="number" placeholder="commition Rate">
+                                <input name="commition_rate" id="commitionRate" class="w-100 px-2 py-1 @error('commition_rate') is-invalid @enderror" value="{{ old('commition_rate') }}" type="number" placeholder="commition Rate" required>
                                 @error('commition_rate')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror

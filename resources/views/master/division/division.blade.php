@@ -28,7 +28,7 @@
                                 <label for="name">Name</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="name" id="name" class="w-100 px-2 py-1 @error('name') is-invalid @enderror" type="text" value="{{ old('name') }}" placeholder="Name">
+                                <input name="name" id="name" class="w-100 px-2 py-1 @error('name') is-invalid @enderror" type="text" value="{{ old('name') }}" placeholder="Name" required>
                                 @error('name')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -86,6 +86,7 @@
     </div>
 </div>
 
-<script src="{{asset('/assets/js/marathi-validate-fields.js')}}"></script>
+
+
 
           

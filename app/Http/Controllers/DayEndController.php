@@ -71,7 +71,7 @@ class DayEndController extends Controller
             'total_debit_rs' => 'required|numeric',
             'total_debit_challans' => 'required|integer',
             'remarks' => 'required|string',
-            'created_by' => 'nullable|string|users,id',
+            'created_by' => 'nullable|exists:users,id',
         ]);
 
         $dayEnd = DayEnd::create($request->all());
@@ -119,8 +119,8 @@ class DayEndController extends Controller
             'total_credit_chalans' => 'required|integer',
             'total_debit_rs' => 'required|numeric',
             'total_debit_challans' => 'required|integer',
-            'remarks' => 'required|string',
-            'created_by' => 'nullable|string|exists:users:id',
+            'remarks' => 'nullable|string',
+            'created_by' => 'nullable|exists:users:id',
         ]);
 
         $dayEnd->update($request->all());

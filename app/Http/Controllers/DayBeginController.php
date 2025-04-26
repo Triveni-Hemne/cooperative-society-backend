@@ -62,7 +62,7 @@ class DayBeginController extends Controller
             'status' => 'required|in:Open,Closed',
             'opening_cash_balance' => 'required|numeric',
             'remarks' => 'nullable|string',
-            'created_by' => 'nullable|string|users,id',
+            'created_by' => 'required|exists:users,id',
         ]);
         
         $dayBegin = DayBegin::create($request->all());
@@ -101,7 +101,7 @@ class DayBeginController extends Controller
             'user_id' => 'nullable|exists:users,id',
             'status' => 'in:Open,Closed',
             'opening_cash_balance' => 'required|numeric',
-            'created_by' => 'nullable|string|exists:users:id',
+            'created_by' => 'nullable|exists:users:id',
             'remarks' => 'nullable|string',
         ]);
         

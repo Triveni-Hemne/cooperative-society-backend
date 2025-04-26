@@ -96,6 +96,14 @@
 @endsection
 
 @section('customeJs')
+@if ($errors->any())
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let modal = new bootstrap.Modal(document.getElementById('agentModal'));
+            modal.show();
+        });
+    </script>
+@endif
 @endsection
 
 {{-- Script to send data to the edit modal --}}

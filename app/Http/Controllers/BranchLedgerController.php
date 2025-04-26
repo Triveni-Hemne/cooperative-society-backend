@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\BranchLedger;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Branch;
+use App\Models\GeneralLedger;
+
 class BranchLedgerController extends Controller
 {
     /**
@@ -32,7 +34,7 @@ class BranchLedgerController extends Controller
                     });
                 });
             })->paginate(5);
-        $ledgers = BranchLedger::all();        
+        $ledgers = GeneralLedger::all();        
         $user = Auth::user();
         $branches = $user->role === 'Admin' ? Branch::all() : null;
         return view('transactions.branch-ledger.list', compact('branchLedgers','ledgers','user','branches'));
@@ -59,7 +61,7 @@ class BranchLedgerController extends Controller
             'balance' => 'required|numeric',
             'balance_type' => 'required|in:Credit,Debit',
             'item_type' => 'required|in:Asset,Liability,Income,Expense',
-            'created_by' => 'nullable|string|users,id',
+            'created_by' => 'nullable|exists:users,id',
         ]);
         
         $branchLedger = BranchLedger::create($request->all());
@@ -101,7 +103,7 @@ class BranchLedgerController extends Controller
             'balance' => 'numeric',
             'balance_type' => 'in:Credit,Debit',
             'item_type' => 'in:Asset,Liability,Income,Expense',
-             'created_by' => 'nullable|string|exists:users:id',
+             'created_by' => 'nullable|exists:users:id',
 
         ]);
 

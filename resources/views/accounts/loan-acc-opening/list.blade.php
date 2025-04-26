@@ -160,7 +160,14 @@
 @endsection
 
 @section('customeJs')
-@endsection
+@if ($errors->any())
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let modal = new bootstrap.Modal(document.getElementById('loanAccOpeningModal'));
+            modal.show();
+        });
+    </script>
+@endif
 {{-- Script to send data to the edit modal --}}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -345,3 +352,4 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 <script src="{{asset('assets/js/autofill-calc-loan-acc-form.js')}}"></script>
+@endsection

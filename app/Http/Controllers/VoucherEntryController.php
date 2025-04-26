@@ -46,7 +46,7 @@ class VoucherEntryController extends Controller
         $loanAccounts = MemberLoanAccount::all();
         $users = User::all();
         $branches = Branch::all();
-        return view('transactions.voucher-entry.list', compact('voucherEntries', 'ledgers','accounts','depoAccounts','loanAccounts','users','branches'));
+        return view('transactions.voucher-entry.list', compact('voucherEntries', 'ledgers','accounts','depoAccounts','loanAccounts','users','branches','user'));
     }
 
     /**

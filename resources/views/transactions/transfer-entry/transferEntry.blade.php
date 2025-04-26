@@ -20,7 +20,8 @@
                                 <label for="createdBy">Created By</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="created_by" id="createdBy" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->name}}" type="text" disabled placeholder="Crated By" required>
+                                <input name="" id="createdBy" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->name}}" type="text" readonly required>
+                                <input name="created_by"class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->id}}" type="text" hidden required>
                                 @error('created_by')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -62,7 +63,7 @@
                                 <label for="date">Date</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="date" id="date" class="w-100 px-2 py-1 @error('date') is-invalid @enderror" value="{{ old('date') }}" type="date" placeholder="Date">
+                                <input name="date" id="date" class="w-100 px-2 py-1 @error('date') is-invalid @enderror" value="{{ old('date') }}" type="date" placeholder="Date" required>
                                 @error('date')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -73,7 +74,7 @@
                                 <label for="transactionType">Transaction Type</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <select id="transactionType" name="transaction_type" class="w-100 px-2 py-1 @error('transaction_type') is-invalid @enderror">
+                                <select id="transactionType" name="transaction_type" class="w-100 px-2 py-1 @error('transaction_type') is-invalid @enderror" required>
                                     <option value="">---- Select Transaction Type ----</option>
                                     <option value="Credit" {{ old('transaction_type') == 'Credit' ? 'selected' : '' }}>Credit</option>
                                     <option value="Debit" {{ old('transaction_type') == 'Debit' ? 'selected' : '' }}>Debit</option>
@@ -89,7 +90,7 @@
                             </div>
                             <div class="col pe-0 pe-xl-5">
                                     @if ($ledgers->isNotEmpty())
-                                    <select id="ledgerId" name="ledger_id" class="w-100 px-2 py-1 @error('ledger_id') is-invalid @enderror">
+                                    <select id="ledgerId" name="ledger_id" class="w-100 px-2 py-1 @error('ledger_id') is-invalid @enderror" required>
                                         <option value="">------ Select Ledger ------</option>
                                         @foreach ($ledgers as $ledger)
                                             <option value="{{ $ledger->id }}"  
@@ -117,7 +118,7 @@
                                 <label for="receiptId">Receipt</label>
                             </div>
                             <div class="col-4 pe-0 pe-xl-5">
-                                <input name="receipt_id" id="receiptId" class="w-100 px-2 py-1 @error('receipt_id') is-invalid @enderror" value="{{ old('receipt_id') }}" type="text" placeholder="Receipt No.">
+                                <input required name="receipt_id" id="receiptId" class="w-100 px-2 py-1 @error('receipt_id') is-invalid @enderror" value="{{ old('receipt_id') }}" type="text" placeholder="Receipt No.">
                                 @error('receipt_id')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -126,7 +127,7 @@
                                 <label for="paymentId">Payment</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                               <input name="payment_id" id="paymentId" class="w-100 px-2 py-1 @error('payment_id') is-invalid @enderror" value="{{ old('payment_id') }}" type="text" placeholder="Payment No.">
+                               <input required name="payment_id" id="paymentId" class="w-100 px-2 py-1 @error('payment_id') is-invalid @enderror" value="{{ old('payment_id') }}" type="text" placeholder="Payment No.">
                                 @error('payment_id')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -139,7 +140,7 @@
                             </div>
                             <div class="col pe-0 pe-xl-5">
                                 <input name="opening_balance" id="openingBalance" class="w-100 px-2 py-1 @error('opening_balance') is-invalid @enderror" value="{{ old('opening_balance') }}" type="number"
-                                    placeholder="Opening Balance">
+                                    placeholder="Opening Balance" required>
                                     @error('opening_balance')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -149,7 +150,7 @@
                             </div>
                             <div class="col pe-0 pe-xl-5">
                                 <input name="current_balance" id="currentBalance" class="w-100 px-2 py-1 @error('current_balance') is-invalid @enderror" value="{{ old('current_balance') }}" type="number"
-                                    placeholder="Current Balance">
+                                    placeholder="Current Balance" required>
                                     @error('current_balance')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
