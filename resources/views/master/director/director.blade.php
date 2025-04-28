@@ -155,10 +155,10 @@
     </div>
 </div>
 
-<style>
+<!-- <style>
 label.required::after {
     content: " *";
     color: red;
     font-weight: bold;
 }
-</style>
+</style> -->

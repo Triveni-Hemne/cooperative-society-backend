@@ -250,3 +250,10 @@ p.btn.my-bg-primary:hover {
     background-color: #006e6e;
 }
 /* ---------Buttons style Ends-------- */
+
+/* ----------------------------------------------------- New ------------------------------------------------ */
+label.required::after {
+    content: " *";
+    color: red;
+    font-weight: bold;
+}

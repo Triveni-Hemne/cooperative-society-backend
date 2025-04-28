@@ -1,160 +1,168 @@
-<div class="modal fade" id="centerModal" tabindex="-1" aria-labelledby="centerModalLabel" aria-hidden="true">
+<!-- Center Modal -->
+<div class="modal fade" id="centerModal" tabindex="-1" aria-labelledby="centerModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
     <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <form method="POST" action="{{route('centers.store')}}" id="centerForm">
+        <div class="modal-content rounded-4 border-0 shadow">
+            <form method="POST" action="{{ route('centers.store') }}" id="centerForm" class="needs-validation"
+                novalidate>
+                @csrf
                 <input type="hidden" id="centerId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="centerModalLabel">Add Center</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                    @csrf
-                    @if(Session::has('error'))
-                        <div class="alert alert-danger">{{Session::get('error')}}</div>
-                    @endif
-                    <div class="mx-auto p-5 my-model text-white">
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="name">Name</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input name="name" id="name" class="w-100 px-2 py-1 @error('name') is-invalid @enderror" value="{{ old('name') }}" type="text" placeholder="Name">
-                                @error('name')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
+
+                @if(Session::has('error'))
+                <div class="alert alert-danger rounded-0 m-0">{{ Session::get('error') }}</div>
+                @endif
+
+                <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
+                    <h5 class="modal-title fw-bold" id="centerModalLabel"><i class="bi bi-building me-2"></i> Add Center
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body bg-light">
+                    <div class="p-4 bg-white rounded shadow-sm">
+
+                        {{-- Center Name (English) --}}
+                        <div class="form-floating mb-3">
+                            <input type="text" id="name" name="name"
+                                class="form-control @error('name') is-invalid @enderror" placeholder="Name"
+                                value="{{ old('name') }}" required>
+                            <label for="name" class="form-label required">Name</label>
+                            @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="marathiName">नाव</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input name="naav" id="marathiName" class="w-100 px-2 py-1 @error('naav') is-invalid @enderror marathiField" type="text"  value="{{ old('naav') }}" placeholder="नाव">
-                                @error('naav')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                                <p class="errorMsg" style="color:red; display:none;">फक्त मराठी अक्षरे स्वीकारली जातील.</p>
-                            </div>
+                        {{-- Center Name (Marathi) --}}
+                        <div class="form-floating mb-3">
+                            <input type="text" id="marathiName" name="naav"
+                                class="form-control marathiField @error('naav') is-invalid @enderror" placeholder="नाव"
+                                value="{{ old('naav') }}" required>
+                            <label for="marathiName">नाव</label>
+                            @error('naav')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <p class="errorMsg text-danger small d-none">फक्त मराठी अक्षरे स्वीकारली जातील.</p>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="address">Address</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <textarea name="address" id="address" placeholder="Address" class="w-100 px-2 py-1 @error('address') is-invalid @enderror"  rows="3"
-                                    style="resize:none">{{ old('address') }}</textarea>
-                                    @error('address')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                    @enderror
-                            </div>
+                        {{-- Address (English) --}}
+                        <div class="form-floating mb-3">
+                            <textarea id="address" name="address"
+                                class="form-control @error('address') is-invalid @enderror" placeholder="Address"
+                                style="height: 100px; resize: none;" required>{{ old('address') }}</textarea>
+                            <label for="address">Address</label>
+                            @error('address')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="marathiAddress">पत्ता</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <textarea name="marathi_address" id="marathiAddress" placeholder="पत्ता" class="w-100 px-2 py-1 @error('marathi_address') is-invalid @enderror marathiField"  rows="3"
-                                    style="resize:none">{{ old('marathi_address') }}</textarea>
-                                    @error('marathi_address')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                    @enderror
-                                <p class="errorMsg" style="color:red; display:none;">फक्त मराठी अक्षरे स्वीकारली जातील.</p>
-                            </div>
+                        {{-- Address (Marathi) --}}
+                        <div class="form-floating mb-3">
+                            <textarea id="marathiAddress" name="marathi_address"
+                                class="form-control marathiField @error('marathi_address') is-invalid @enderror"
+                                placeholder="पत्ता" style="height: 100px; resize: none;"
+                                required>{{ old('marathi_address') }}</textarea>
+                            <label for="marathiAddress">पत्ता</label>
+                            @error('marathi_address')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <p class="errorMsg text-danger small d-none">फक्त मराठी अक्षरे स्वीकारली जातील.</p>
                         </div>
-                         @isset($divisions)
-                         <div class="row mb-3">
-                             <div class="col-2 ps-5 d-none d-xl-block">
-                                 <label for="division_id">Taluka/Division</label>
-                                </div>
-                                @if ($divisions->isNotEmpty())
-                            <div class="col pe-0 pe-xl-5">
-                                <select name="division_id" id="division_id"  class="w-100 px-2 py-1 @error('division_id') is-invalid @enderror">
-                                    <option value="" disabled selected>---------- Select ----------</option>
-                                    @foreach ($divisions as $division)
-                                        <option value="{{ $division->id }}"  
-                                        {{ old('division_id') == $division->id ? 'selected' : '' }}
-                                        >
-                                        {{ $division->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+
+                        {{-- Division Dropdown --}}
+                        @isset($divisions)
+                        <div class="form-floating mb-3">
+                            @if ($divisions->isNotEmpty())
+                            <select id="division_id" name="division_id"
+                                class="form-select @error('division_id') is-invalid @enderror" required>
+                                <option value="" disabled selected>Select Division</option>
+                                @foreach ($divisions as $division)
+                                <option value="{{ $division->id }}"
+                                    {{ old('division_id') == $division->id ? 'selected' : '' }}>{{ $division->name }}
+                                </option>
+                                @endforeach
+                            </select>
+                            <label for="division_id" class="form-label required">Taluka/Division</label>
+                            @error('division_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                             @else
-                            <div class="col pe-0 pe-xl-5">
-                                <select class="w-100 px-2 py-1" disabled>
-                                    <option>No divisions available. Please add divisions first.</option>
-                                </select>
-                                <small class="text-danger">⚠️ You must add divisions before submitting the form.</small>
+                            <div class="alert alert-warning">
+                                <strong>⚠️ No divisions available.</strong><br>
+                                Please add divisions first.
                             </div>
                             @endif
                         </div>
                         @endisset
-                         @isset($subdivisions) 
-                         <div class="row mb-3">
-                             <div class="col-2 ps-5 d-none d-xl-block">
-                                 <label for="subdivision_id">Sub Division</label>
-                                </div>
+
+                        {{-- Subdivision Dropdown --}}
+                        @isset($subdivisions)
+                        <div class="form-floating mb-3">
                             @if ($subdivisions->isNotEmpty())
-                            <div class="col pe-0 pe-xl-5">
-                                <select name="subdivision_id" id="subdivision_id" class="w-100 px-2 py-1 @error('subdivision_id') is-invalid @enderror">
-                                    <option value="" disabled selected>---------- Select ----------</option>
-                                    @foreach ($subdivisions as $subdivision)
-                                        <option value="{{ $subdivision->id }}" 
-                                        {{ old('subdivision_id') == $subdivision->id ? 'selected' : '' }}
-                                        >
-                                        {{ $subdivision->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                              @else
-                             <div class="col pe-0 pe-xl-5">
-                                <select class="w-100 px-2 py-1" disabled>
-                                    <option>No sub-divisions available. Please add sub-divisions first.</option>
-                                </select>
-                                <small class="text-danger">⚠️ You must add sub-divisions before submitting the form.</small>
+                            <select id="subdivision_id" name="subdivision_id"
+                                class="form-select @error('subdivision_id') is-invalid @enderror" required>
+                                <option value="" disabled selected>Select Sub Division</option>
+                                @foreach ($subdivisions as $subdivision)
+                                <option value="{{ $subdivision->id }}"
+                                    {{ old('subdivision_id') == $subdivision->id ? 'selected' : '' }}>
+                                    {{ $subdivision->name }}</option>
+                                @endforeach
+                            </select>
+                            <label for="subdivision_id" class="form-label required">Sub Division</label>
+                            @error('subdivision_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            @else
+                            <div class="alert alert-warning">
+                                <strong>⚠️ No sub-divisions available.</strong><br>
+                                Please add sub-divisions first.
                             </div>
                             @endif
                         </div>
-                         @endisset
-                         <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="description">Description</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <textarea name="description" id="description" placeholder="description" class="w-100 px-2 py-1 @error('description') is-invalid @enderror"  rows="3"
-                                    style="resize:none">{{ old('description') }}</textarea>
-                                    @error('description')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                    @enderror
-                            </div>
+                        @endisset
+
+                        {{-- Description (English) --}}
+                        <div class="form-floating mb-3">
+                            <textarea id="description" name="description"
+                                class="form-control @error('description') is-invalid @enderror"
+                                placeholder="Description"
+                                style="height: 100px; resize: none;">{{ old('description') }}</textarea>
+                            <label for="description">Description</label>
+                            @error('description')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
-                         <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="marathi_description">वर्णन</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <textarea name="marathi_description" id="marathiDescription" placeholder="वर्णन" class="w-100 px-2 py-1 @error('marathi_description') is-invalid @enderror  marathiField"  rows="3"
-                                    style="resize:none">{{ old('marathi_description') }}</textarea>
-                                    @error('marathi_description')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                    @enderror
-                                <p class="errorMsg" style="color:red; display:none;">फक्त मराठी अक्षरे स्वीकारली जातील.</p>
-                            </div>
+
+                        {{-- Description (Marathi) --}}
+                        <div class="form-floating mb-3">
+                            <textarea id="marathiDescription" name="marathi_description"
+                                class="form-control marathiField @error('marathi_description') is-invalid @enderror"
+                                placeholder="वर्णन"
+                                style="height: 100px; resize: none;">{{ old('marathi_description') }}</textarea>
+                            <label for="marathiDescription">वर्णन</label>
+                            @error('marathi_description')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <p class="errorMsg text-danger small d-none">फक्त मराठी अक्षरे स्वीकारली जातील.</p>
                         </div>
+
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+
+                <div class="modal-footer bg-white rounded-bottom-4">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i> Close
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-save me-1"></i> Save Changes
+                    </button>
                 </div>
+
             </form>
         </div>
     </div>
 </div>
 
-<script src="{{asset('/assets/js/marathi-validate-fields.js')}}"></script>
+<!-- Marathi Field Validation Script -->
+<script src="{{ asset('/assets/js/marathi-validate-fields.js') }}"></script>
