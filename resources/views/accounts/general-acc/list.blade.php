@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("memberId").value = memberId;
             document.getElementById("accountNo").value = accountNo;
             document.getElementById("accountName").value = accountName;
-            document.getElementById("name").value = name;
+            document.getElementById("Name").value = name;
             document.getElementById("accountType").value = accountType;
             document.getElementById("interestRate").value = interestRate;
             document.getElementById("startDate").value = startDate;

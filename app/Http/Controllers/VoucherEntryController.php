@@ -71,9 +71,11 @@ class VoucherEntryController extends Controller
             'receipt_id' => 'nullable|string|max:50|unique:voucher_entries,receipt_id',
             'payment_id' => 'nullable|string|max:50|unique:voucher_entries,payment_id',
             'ledger_id' => 'required|exists:general_ledgers,id',
+
             'account_id' => 'nullable|exists:accounts,id',
             'member_depo_account_id' => 'nullable|exists:member_depo_accounts,id',
             'member_loan_account_id' => 'nullable|exists:member_loan_accounts,id',
+
             'from_date' => 'nullable|date',
             'to_date' => 'nullable|date',
             'opening_balance' => 'required|numeric',
@@ -92,6 +94,20 @@ class VoucherEntryController extends Controller
             'entered_by' => 'nullable|exists:users,id',
             'branch_id' => 'nullable|exists:branches,id',
         ]);
+        
+            $selectedCount = 0;
+
+            if (!empty($request->account_id)) $selectedCount++;
+            if (!empty($request->member_depo_account_id)) $selectedCount++;
+            if (!empty($request->member_loan_account_id)) $selectedCount++;
+
+            if ($selectedCount !== 1) {
+                return back()->withErrors([
+                    'account_id' => 'Please select exactly one account (general, deposit, or loan account).',
+                    'member_depo_account_id' => 'Please select exactly one account (general, deposit, or loan account).',
+                    'member_loan_account_id' => 'Please select exactly one account (general, deposit, or loan account).',
+                ])->withInput();
+            }
         
         $voucherEntry = VoucherEntry::create($request->all());
         return redirect()->back()->with('success', 'Voucher Entry created successfully');
@@ -132,9 +148,11 @@ class VoucherEntryController extends Controller
             'receipt_id' => 'nullable|string|max:50|unique:voucher_entries,receipt_id,' . $voucherEntry->id,
             'payment_id' => 'nullable|string|max:50|unique:voucher_entries,payment_id,' . $voucherEntry->id,
             'ledger_id' => 'required|exists:general_ledgers,id',
+            
             'account_id' => 'nullable|exists:accounts,id',
             'member_depo_account_id' => 'nullable|exists:member_depo_accounts,id',
             'member_loan_account_id' => 'nullable|exists:member_loan_accounts,id',
+            
             'from_date' => 'nullable|date',
             'to_date' => 'nullable|date',
             'opening_balance' => 'required|numeric',
@@ -154,7 +172,19 @@ class VoucherEntryController extends Controller
             'branch_id' => 'nullable|exists:branches,id',
 
         ]);
+         $selectedCount = 0;
 
+        if (!empty($request->account_id)) $selectedCount++;
+        if (!empty($request->member_depo_account_id)) $selectedCount++;
+        if (!empty($request->member_loan_account_id)) $selectedCount++;
+
+        if ($selectedCount !== 1) {
+            return back()->withErrors([
+                'account_id' => 'Please select exactly one account (general, deposit, or loan account).',
+                'member_depo_account_id' => 'Please select exactly one account (general, deposit, or loan account).',
+                'member_loan_account_id' => 'Please select exactly one account (general, deposit, or loan account).',
+            ])->withInput();
+        }
         $voucherEntry->update($request->all());
         return redirect()->back()->with('success', 'Voucher Entry updated successfully');
     }

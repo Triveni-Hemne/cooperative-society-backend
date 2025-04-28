@@ -36,10 +36,10 @@ class LoanInstallmentController extends Controller
                 });
             })->paginate(5);
         // $LoanInstallment = BankInvestment::paginate(5);
-        $loanAccount = MemberLoanAccount::all();
+        $loanAccounts = MemberLoanAccount::all();
         // $ledgers = GeneralLedger::all();
         $branches = $user->role === 'Admin' ? Branch::all() : null;
-        return view('transactions.loan-installment.list', compact('LoanInstallments','loanAccount','branches','user'));
+        return view('transactions.loan-installment.list', compact('LoanInstallments','loanAccounts','branches','user'));
     }
 
     /**

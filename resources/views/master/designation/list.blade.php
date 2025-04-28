@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Populate form fields
             document.getElementById("designationId").value = id;
-            document.getElementById("name").value = name;
+            document.getElementById("Name").value = name;
             document.getElementById("marathiName").value = naav;
 
             // Change form action to update route and set PUT method

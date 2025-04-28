@@ -36,7 +36,6 @@
                 <tr>
                     <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
-                    <th scope="col">Branch</th>
                     <th scope="col">Date</th>
                     <th scope="col">User</th>
                     <th scope="col">Created By</th>
@@ -54,7 +53,6 @@
                 <tr>
                     <th scope="row">{{$i}}</th>
                     <td>{{$dayBegin->id}}</td>
-                    <td>{{$dayBegin->branch->name ?? ''}}</td>
                     <td>{{$dayBegin->date}}</td>
                     <td>{{$dayBegin->users->name ?? ''}}</td>
                     <td>{{$dayBegin->user->name ??''}}</td>
@@ -63,7 +61,7 @@
                     <td>{{$dayBegin->status}}</td>  
                     <td>{{$dayBegin->remarks}}</td>  
                     <td>
-                        <a href="#" data-id="{{$dayBegin->id }}" data-date="{{$dayBegin->date}}" data-user-id="{{$dayBegin->user->id ?? ''}}" data-status="{{$dayBegin->status}}" data-created-by="{{$entry->created_by->name ?? ''}}" data-branch-id="{{$entry->branch_id ?? ''}}" data-opening-cash-balance="{{$entry->opening_cash_balance ?? ''}}"  data-remarks="{{$entry->remarks ?? ''}}" data-route="{{ route('day-begins.update', $dayBegin->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$dayBegin->id }}" data-date="{{$dayBegin->date}}" data-user-id="{{$dayBegin->users->id ?? ''}}" data-status="{{$dayBegin->status}}"  data-branch-id="{{$dayBegin->branch->id ?? ''}}" data-opening-cash-balance="{{$dayBegin->opening_cash_balance ?? ''}}"  data-remarks="{{$dayBegin->remarks ?? ''}}" data-route="{{ route('day-begins.update', $dayBegin->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#dayBeginsModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
@@ -116,9 +114,10 @@ document.addEventListener("DOMContentLoaded", function () {
             let id = this.getAttribute("data-id");
             let date = this.getAttribute("data-date");
             let userId = this.getAttribute("data-user-id");
+            
             let branchId = this.getAttribute("data-branch-id");
+            console.log(branchId);
             let openingCashBalance = this.getAttribute("data-opening-cash-balance");
-            let createdBy = this.getAttribute("data-created-by");
             let status = this.getAttribute("data-status");
             let remarks = this.getAttribute("data-remarks");
             let route = this.getAttribute("data-route");
@@ -135,7 +134,6 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("branchId").value = branchId;
             document.getElementById("openingCashBalance").value = openingCashBalance;
             document.getElementById("remarks").value = remarks;
-            document.getElementById("createdBy").value = createdBy;
             document.getElementById("status").value = status;
             
             // Change form action to update route and set PUT method

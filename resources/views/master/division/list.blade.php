@@ -122,19 +122,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Populate form fields
             document.getElementById("divisionId").value = id;
-            document.getElementById("name").value = name;
+            document.getElementById("Name").value = name;
+            
             document.getElementById("marathiName").value = naav;
             document.getElementById("description").value = description;
             document.getElementById("marathiDescription").value = marathiDescription;
-
+            
             // Change form action to update route and set PUT method
             let form = document.getElementById("divisionForm");
             form.setAttribute("action", route);
             document.getElementById("formMethod").value = "PUT";
-
+            
             // Change submit button text
             document.querySelector("#divisionModal .btn-primary").textContent = "Update Division";
-
+            
+            console.log(document.getElementById("name").value);
+            console.log(name);
         });
     });
 

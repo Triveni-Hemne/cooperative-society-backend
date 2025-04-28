@@ -25,10 +25,10 @@
 
                         <div class="row mb-3">
                             <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="name">Name</label>
+                                <label for="Name">Name</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="name" id="name" class="w-100 px-2 py-1 @error('name') is-invalid @enderror" type="text" value="{{ old('name') }}" placeholder="Name" required>
+                                <input name="name" id="Name" class="w-100 px-2 py-1 @error('name') is-invalid @enderror" type="text" value="{{ old('name') }}" placeholder="Name" required>
                                 @error('name')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror

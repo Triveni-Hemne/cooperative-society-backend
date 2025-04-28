@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('agents', function (Blueprint $table) {
             $table->id();
-             $table->foreignId('user_id')->unique()->constrained('users')->onDelete('cascade');
+             $table->foreignId('user_id')->nullable()->unique()->constrained('users')->onDelete('cascade');
             $table->string('agent_code', 50)->unique();
             $table->decimal('commition_rate', 5, 2);
             $table->enum('status', ['Active', 'Inactive'])->default('Active');

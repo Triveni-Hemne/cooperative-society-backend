@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Populate form fields
             document.getElementById("centerId").value = id;
-            document.getElementById("name").value = name;
+            document.getElementById("Name").value = name;
             document.getElementById("marathiName").value = naav;
             document.getElementById("address").value = address;
             document.getElementById("marathiAddress").value = marathiAddress;

@@ -118,7 +118,7 @@
 
                 // Populate form fields
                 document.getElementById("departmentId").value = id;
-                document.getElementById("name").value = name;
+                document.getElementById("Name").value = name;
                 document.getElementById("departmentId").value = departmentId;
 
                 // Change form action to update route and set PUT method

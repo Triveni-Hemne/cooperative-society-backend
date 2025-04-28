@@ -110,7 +110,7 @@ class TransferEntryController extends Controller
             'current_balance' => 'required|numeric',
             'narration' => 'nullable|string',
             'm_narration' => 'nullable|string',
-            'created_by' => 'required|exists:users:id',
+            'created_by' => 'required|exists:users,id',
 
 
         ]);

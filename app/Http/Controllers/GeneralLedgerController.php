@@ -85,18 +85,13 @@ class GeneralLedgerController extends Controller
     public function update(Request $request, string $id)
     {
         $generalLedger = GeneralLedger::findOrFail($id);
-
+     
         $validated = $request->validate([
-            'parent_ledger_id' => [
-            'nullable','string','max:100',
-                Rule::unique('general_ledgers', 'id')->ignore($request->id), // Ignore the current record
-            ],
+            'parent_ledger_id' =>'nullable|exists:general_ledgers,id',
             'ledger_no' => [
             'required','string','max:100',
                 Rule::unique('general_ledgers', 'id')->ignore($request->id), // Ignore the current record
             ],
-            //  'parent_ledger_id' => 'nullable|exists:general_ledgers,id',
-            // 'ledger_no' => 'required|unique:general_ledgers|max:50',
             'name' => 'required|max:100',
             'balance'=> 'required',
             'balance_type' => 'required|in:Credit,Debit',

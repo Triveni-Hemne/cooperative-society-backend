@@ -16,7 +16,7 @@ class AgentController extends Controller
      */
     public function index()
     {
-       $agents = Agent::with('user')->paginate(5);
+       $agents = Agent::with('user')->latest()->paginate(5);
         $users = User::all();
         // return response()->json($centers);
         return view('master.agent.list', compact('agents', 'users'));
@@ -36,10 +36,15 @@ class AgentController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'user_id' => 'required|exists:users,id|unique:agents,user_id',
-            'agent_code' => 'required|string|max:50|unique:agents,agent_code',
-            'commition_rate' => 'required|numeric|between:0,999.99',
-            // 'status' => ['required', Rule::in(['Active', 'Inactive'])],
+            'user_id' => 'nullable|exists:users,id|unique:agents,user_id',
+            'agent_code' => 'required|unique:agents,agent_code|max:50',
+            'commission_rate' => 'required|numeric|min:0|max:100',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string|max:500',
+            'branch_id' => 'nullable|exists:branches,id',
+            'status' => 'required|in:Active,Inactive',
         ]);
         
         $agent = Agent::create($validated);
@@ -71,10 +76,16 @@ class AgentController extends Controller
         $agent = Agent::findOrFail($id);
         
         $validated = $request->validate([
-            'user_id' => ['required', 'exists:users,id', Rule::unique('agents')->ignore($agent->id)],
+            'user_id' => ['nullable', 'exists:users,id', Rule::unique('agents')->ignore($agent->id)],
             'agent_code' => ['required', 'string', 'max:50', Rule::unique('agents')->ignore($agent->id)],
-            'commition_rate' => 'required|numeric|between:0,999.99',
-            // 'status' => ['required', Rule::in(['Active', 'Inactive'])],
+            'commission_rate' => 'required|numeric|min:0|max:100',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string|max:500',
+            'branch_id' => 'nullable|exists:branches,id',
+            'status' => 'required|in:Active,Inactive',
+            'status' => ['required', Rule::in(['Active', 'Inactive'])],
         ]);
 
         $agent->update($validated);

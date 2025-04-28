@@ -114,7 +114,7 @@ class StandingInstructionController extends Controller
             'bal_installment' => 'required|integer|min:0',
             'execution_date' => 'required|date',
             'amount' => 'required|numeric|min:0',
-            'created_by' => 'required|exists:users:id',
+            'created_by' => 'required|exists:users,id',
             'branch_id' => 'nullable|exists:branches,id',
         ]);
         

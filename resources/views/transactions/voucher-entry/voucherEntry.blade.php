@@ -17,10 +17,10 @@
                     <div class="mx-auto p-5 my-model text-white">
                         <div class="row mb-2">
                             <div class="col-2">
-                                 <label for="transaction_type" class="form-label">Transaction Type</label>
+                                 <label for="transactionType" class="form-label">Transaction Type</label>
                             </div>
                              <div class="col">
-                                 <select name="transaction_type" id="transaction_type" class="w-100 px-2 py-1 @error('transaction_type') is-invalid @enderror" required>
+                                 <select name="transaction_type" id="transactionType" class="w-100 px-2 py-1 @error('transaction_type') is-invalid @enderror" required>
                                     <option value="" {{old('transaction_type') ? '' : 'selected'}}>--Select Transaction Type--</option>
                                     @foreach(['Receipt', 'Payment', 'Journal', 'Deposit', 'Withdrawal', 'Loan Payment', 'Fund Transfer'] as $type)
                                         <option value="{{ $type }}" {{ old('transaction_type') == $type ? 'selected' : '' }}>{{ $type }}</option>
@@ -298,10 +298,10 @@
 
                         <div class="row mb-2">
                             <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="referenceNumber">Reference Number</label>
+                                <label for="referenceNo">Reference Number</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="reference_number" id="referenceNumber" class="w-100 px-2 py-1 @error('reference_number') is-invalid @enderror" value="{{ old('reference_number') }}" type="date" placeholder="Reference Number">
+                                <input name="reference_number" id="referenceNo" class="w-100 px-2 py-1 @error('reference_number') is-invalid @enderror" value="{{ old('reference_number') }}" type="text" placeholder="Reference Number">
                                 @error('reference_number')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror

@@ -63,7 +63,7 @@
                     <td>{{$ledger->balance_type}}</td>
                     <td>{{$ledger->item_type}}</td>
                     <td>
-                        <a href="#" data-id="{{$ledger->id }}" data-branch-code="{{$ledger->branch_code}}" data-gl-id="{{$ledger->gl_id}}" data-open-date="{{$ledger->open_date}}" data-open-balance="{{$ledger->open_balance}}" data-balance="{{$ledger->balance}}" data-balance-type="{{$ledger->balance_type}}" data-item-type="{{$ledger->item_type}}"  data-route="{{ route('branch-ledger.update', $ledger->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$ledger->id }}" data-branch-code="{{$ledger->branch_code}}" data data-branch-id="{{$ledger->branch_id}}"-gl-id="{{$ledger->gl_id}}" data-open-date="{{$ledger->open_date}}" data-open-balance="{{$ledger->open_balance}}" data-balance="{{$ledger->balance}}" data-balance-type="{{$ledger->balance_type}}" data-item-type="{{$ledger->item_type}}"  data-route="{{ route('branch-ledger.update', $ledger->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#branchLedgerModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
@@ -115,6 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", function () {
             let id = this.getAttribute("data-id");
             let branchCode = this.getAttribute("data-branch-code");
+            let branchId = this.getAttribute("data-branch-id");
             let glId = this.getAttribute("data-gl-id");
             let openDate = this.getAttribute("data-open-date");
             let openBalance = this.getAttribute("data-open-balance");
@@ -131,6 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Populate form fields
             document.getElementById("branchLedgerId").value = id;
             document.getElementById("branchCode").value = branchCode;
+            document.getElementById("branchId").value = branchId;
             document.getElementById("glId").value = glId;
             document.getElementById("openDate").value = openDate;
             document.getElementById("openBalance").value = openBalance;

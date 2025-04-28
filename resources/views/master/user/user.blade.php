@@ -72,7 +72,7 @@
                                 <label for="password">Password</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="password" id="password" class="w-100 px-2 py-1 @error('password') is-invalid @enderror" value="{{ old('password') }}" type="password" placeholder="Password" required>
+                                <input name="password" id="password" class="w-100 px-2 py-1 @error('password') is-invalid @enderror" value="{{ old('password') }}" type="password" placeholder="Password">
                                 @error('password')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror

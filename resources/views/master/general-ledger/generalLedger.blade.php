@@ -15,9 +15,17 @@
                         <div class="alert alert-danger">{{Session::get('error')}}</div>
                     @endif
                     <div class="mx-auto p-5 my-model text-white">
+                       
                         <div class="row ">
                              <div class="col-2">
                                 <label for="ledger">Ledger No.</label>
+                                 @if ($errors->any())
+                                @foreach($errors as $e) 
+                                Hello{{$e}}
+                                @endforeach
+                                @else
+                                no errors
+                                @endif
                             </div>
                             <div class="col-4">
                                 <input name="ledger_no" id="ledgerNo" class="px-2 py-1 @error('ledger_no') is-invalid @enderror" value="{{ old('ledger_no') }}" type="text" placeholder="Ledger" required>
@@ -26,10 +34,10 @@
                                 @enderror
                             </div>
                             <div class="col-2">
-                                <label for="name">Ledger Name</label>
+                                <label for="Name">Ledger Name</label>
                             </div>
                             <div class="col-4">
-                                <input id="name" name="name" class="px-2 py-1 @error('name') is-invalid @enderror" type="text" value="{{ old('name') }}" placeholder="Ledger Name" required>
+                                <input id="Name" name="name" class="px-2 py-1 @error('name') is-invalid @enderror" type="text" value="{{ old('name') }}" placeholder="Ledger Name" required>
                                 @error('name')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -39,11 +47,11 @@
                         <div class="row mt-2">
                             @if ($generalLedgers->isNotEmpty())
                             <div class="col-2 ">
-                                <label for="ledger">Parent Ledger</label>
+                                <label for="parentLedger">Parent Ledger</label>
                             </div>
                             <div class="col-4">
-                                <select name="parent_ledger_id" id="parentLedger" value="{{ old('ledger_no') }}" placeholder="Parent Ledger" class="w-100 px-2 py-1 @error('ledger_no') is-invalid @enderror">
-                                    <option value="" {{ old('member_id') ? '' : 'selected' }}>------Select Parent Ledger-------</option>
+                                <select name="parent_ledger_id" id="parentLedger" class="w-100 px-2 py-1 @error('ledger_no') is-invalid @enderror">
+                                    <option value="" {{ old('parent_ledger_id') ? '' : 'selected' }}>------Select Parent Ledger-------</option>
                                         @foreach ($generalLedgers as $generalLedger)
                                             <option value="{{ $generalLedger->id }}"  
                                             {{ old('parent_ledger_id') == $generalLedger->id ? 'selected' : '' }}

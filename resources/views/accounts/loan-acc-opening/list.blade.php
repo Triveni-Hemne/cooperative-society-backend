@@ -261,7 +261,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             document.getElementById("accNo").value = accNo;
             document.getElementById("loanType").value = loanType;
-            document.getElementById("name").value = name;
+            document.getElementById("Name").value = name;
             document.getElementById("acStartDate").value = acStartDate;
             document.getElementById("openBalance").value = openBalance;
             document.getElementById("purpose").value = purpose;
@@ -330,7 +330,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#loanAccOpeningModal .btn-primary").textContent = "Update Deposite Account";
+            document.querySelector("#loanAccOpeningModal .btn-primary").textContent = "Update Loan Account";
         });
     });
 

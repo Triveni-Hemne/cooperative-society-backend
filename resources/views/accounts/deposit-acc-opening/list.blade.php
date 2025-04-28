@@ -252,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             document.getElementById("accNo").value = accNo;
             document.getElementById("depositType").value = depositType;
-            document.getElementById("name").value = name;
+            document.getElementById("Name").value = name;
             document.getElementById("interestRate").value = interestRate;
             document.getElementById("acStartDate").value = acStartDate;
             document.getElementById("openBalance").value = openBalance;

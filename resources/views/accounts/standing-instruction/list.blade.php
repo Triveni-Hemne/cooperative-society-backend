@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#standingInstructionModal .btn-primary").textContent = "Update Agent";
+            document.querySelector("#standingInstructionModal .btn-primary").textContent = "Update Standing Instruction";
 
         });
     });

@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 console.warn("Element with ID 'ledgerId' not found.");
             }
-            document.getElementById("name").value = name;
+            document.getElementById("Name").value = name;
             document.getElementById("investmentType").value = investmentType;
             document.getElementById("interestRate").value = interestRate;
             document.getElementById("openingDate").value = openingDate;

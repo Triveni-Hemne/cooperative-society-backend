@@ -112,13 +112,38 @@ class MemberLoanAccountController extends Controller
             'nominees.*.nominee_image' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
 
             // gold laon detail fields Fields
-            // 'loan_id' => 'required|exists:member_loan_accounts,id',
-            'gold_weight' => 'required_if:loan_type,Gold Loan|numeric|min:0',
-            'gold_purity' => 'required_if:loan_type,Gold Loan|in:18K,22K,24K',
-            'market_value' => 'required_if:loan_type,Gold Loan|numeric|min:0',
-            'pledged_date' => 'required_if:loan_type,Gold Loan|date',
-            'release_status' => 'required_if:loan_type,Gold Loan|in:Pledged,Released',
-            'release_date' => 'nullable|date|after_or_equal:pledged_date',
+            'gold_weight' => [
+                'required_if:loan_type,Gold Loan',
+                'nullable',
+                'numeric',
+                'min:0',
+            ],
+            'gold_purity' => [
+                'required_if:loan_type,Gold Loan',
+                'nullable',
+                'in:18K,22K,24K',
+            ],
+            'market_value' => [
+                'required_if:loan_type,Gold Loan',
+                'nullable',
+                'numeric',
+                'min:0',
+            ],
+            'pledged_date' => [
+                'required_if:loan_type,Gold Loan',
+                'nullable',
+                'date',
+            ],
+            'release_status' => [
+                'required_if:loan_type,Gold Loan',
+                'nullable',
+                'in:Pledged,Released',
+            ],
+            'release_date' => [
+                'nullable',
+                'date',
+                'after_or_equal:pledged_date',
+            ],
 
             // laon garantor detail fields Fields
             // 'loan_id' => 'required|exists:member_loan_accounts,id',
@@ -285,6 +310,8 @@ class MemberLoanAccountController extends Controller
     public function update(Request $request, string $id)
     {
         $loanAccount = MemberLoanAccount::findOrFail($id);
+        // dd($request->loan_type);
+
         $validatedData = $request->validate([
             'ledger_id' => 'required|exists:general_ledgers,id',
             'member_id' => 'nullable|exists:members,id',
@@ -331,12 +358,38 @@ class MemberLoanAccountController extends Controller
             'nominees.*.nominee_image' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
             
             // gold laon detail fields Fields
-            'gold_weight' => 'required_if:loan_type,Gold Loan|numeric|min:0',
-            'gold_purity' => 'required_if:loan_type,Gold Loan|in:18K,22K,24K',
-            'market_value' => 'required_if:loan_type,Gold Loan|numeric|min:0',
-            'pledged_date' => 'required_if:loan_type,Gold Loan|date',
-            'release_status' => 'required_if:loan_type,Gold Loan|string|in:Pledged,Released',
-            'release_date' => 'nullable|date|after_or_equal:pledged_date',
+            'gold_weight' => [
+                'required_if:loan_type,Gold Loan',
+                'nullable',
+                'numeric',
+                'min:0',
+            ],
+            'gold_purity' => [
+                'required_if:loan_type,Gold Loan',
+                'nullable',
+                'in:18K,22K,24K',
+            ],
+            'market_value' => [
+                'required_if:loan_type,Gold Loan',
+                'nullable',
+                'numeric',
+                'min:0',
+            ],
+            'pledged_date' => [
+                'required_if:loan_type,Gold Loan',
+                'nullable',
+                'date',
+            ],
+            'release_status' => [
+                'required_if:loan_type,Gold Loan',
+                'nullable',
+                'in:Pledged,Released',
+            ],
+            'release_date' => [
+                'nullable',
+                'date',
+                'after_or_equal:pledged_date',
+            ],
             
             // laon garantor detail fields Fields
             'gr_member_id' => 'required|exists:members,id',

@@ -93,7 +93,7 @@
                     <td>{{$generalLedger->send_sms}}</td>
                     <td>{{$generalLedger->item_of}}</td>
                     <td>
-                        <a href="#" data-id="{{$generalLedger->id}}" data-ledger-no="{{$generalLedger->ledger_no}}" data-name="{{$generalLedger->name}}" data-parent-ledger="{{optional($generalLedger->parent_ledgers)->name ?? 'Ledger not found'}}" data-balance="{{$generalLedger->balance}}" data-balance-type="{{$generalLedger->balance_type}}" data-open-balance="{{$generalLedger->open_balance}}" data-open-balance-type="{{$generalLedger->open_balance_type}}" data-min-balance="{{$generalLedger->min_balance}}" data-min-balance-type="{{$generalLedger->min_balance_type}}" data-interest-rate="{{$generalLedger->interest_rate}}" data-add-interest-to-balance="{{$generalLedger->add_interest_to_balance}}" data-open-date="{{$generalLedger->open_date}}" data-penal-rate="{{$generalLedger->penal_rate}}" data-gl-type="{{$generalLedger->gl_type}}" data-cd-ratio="{{$generalLedger->cd_ratio}}" data-group="{{$generalLedger->group}}" data-type="{{$generalLedger->type}}" data-interest-type="{{$generalLedger->interest_type}}" data-subsidiary="{{$generalLedger->subsidiary}}" data-demand="{{$generalLedger->demand}}" data-send-sms="{{$generalLedger->send_sms}}" data-item-of="{{$generalLedger->item_of}}" data-route="{{ route('general-ledgers.destroy', $generalLedger->id) }}"
+                        <a href="#" data-id="{{$generalLedger->id}}" data-ledger-no="{{$generalLedger->ledger_no}}" data-name="{{$generalLedger->name}}" data-parent-ledger="{{optional($generalLedger->parentLedger)->id ?? ''}}" data-balance="{{$generalLedger->balance}}" data-balance-type="{{$generalLedger->balance_type}}" data-open-balance="{{$generalLedger->open_balance}}" data-open-balance-type="{{$generalLedger->open_balance_type}}" data-min-balance="{{$generalLedger->min_balance}}" data-min-balance-type="{{$generalLedger->min_balance_type}}" data-interest-rate="{{$generalLedger->interest_rate}}" data-add-interest-to-balance="{{$generalLedger->add_interest_to_balance}}" data-open-date="{{$generalLedger->open_date}}" data-penal-rate="{{$generalLedger->penal_rate}}" data-gl-type="{{$generalLedger->gl_type}}" data-cd-ratio="{{$generalLedger->cd_ratio}}" data-group="{{$generalLedger->group}}" data-type="{{$generalLedger->type}}" data-interest-type="{{$generalLedger->interest_type}}" data-subsidiary="{{$generalLedger->subsidiary}}" data-demand="{{$generalLedger->demand}}" data-send-sms="{{$generalLedger->send_sms}}" data-item-of="{{$generalLedger->item_of}}" data-route="{{ route('general-ledgers.destroy', $generalLedger->id) }}"
                             class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#generalLedgerModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
@@ -139,13 +139,12 @@
         });
     </script>
 @endif
-@endsection
 {{-- Script to send data to the edit modal --}}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".edit-btn").forEach(button => {
         button.addEventListener("click", function () {
-            let id = this.getAttribute("data-id");
+            let generalLedgerId = this.getAttribute("data-id");
             let ledgerNo = this.getAttribute("data-ledger-no");
             let name = this.getAttribute("data-name");
             let parentLedger = this.getAttribute("data-parent-ledger");
@@ -178,8 +177,10 @@ document.addEventListener("DOMContentLoaded", function () {
             // Populate form fields
             document.getElementById("generalLedgerId").value = generalLedgerId;
             document.getElementById("ledgerNo").value = ledgerNo;
-            document.getElementById("name").value = name;
+            document.getElementById("Name").value = name;
             document.getElementById("parentLedger").value = parentLedger;
+            console.log(parentLedger);
+            
             document.getElementById("balance").value = balance;
             document.getElementById("balanceType").value = balanceType;
             document.getElementById("openBalance").value = openBalance;
@@ -222,52 +223,6 @@ document.addEventListener("DOMContentLoaded", function () {
             let sendSMSSelect = document.getElementById("sendSMS");
             let typeSelect = document.getElementById("type");
             let demandSelect = document.getElementById("demand");
-            
-            if (parentLedgerIdSelect) {
-                parentLedgerIdSelect.value = parentLedger; 
-            }
-            if (balanceTypeSelect) {
-                balanceTypeSelect.value = balanceType; 
-            }
-            if (openBalanceTypeSelect) {
-                openBalanceTypeSelect.value = openBalanceType; 
-            }
-            if (minBalanceTypeSelect) {
-                minBalanceTypeSelect.value = minBalanceType; 
-            }
-            if (minBalanceTypeSelect) {
-                minBalanceTypeSelect.value = minBalanceType; 
-            }
-            if (interestTypeSelect) {
-                interestTypeSelect.value = interestType; 
-            }
-            if (glTypeSelect) {
-                glTypeSelect.value = glType; 
-            }
-            if (cdRatioSelect) {
-                cdRatioSelect.value = cdRatio; 
-            }
-            if (addInterestToBalanceSelect) {
-                addInterestToBalanceSelect.value = addInterestToBalance; 
-            }
-            if (itemOfSelect) {
-                itemOfSelect.value = itemOf; 
-            }
-            if (groupSelect) {
-                groupSelect.value = group; 
-            }
-            if (subsidiarySelect) {
-                subsidiarySelect.value = subsidiary; 
-            }
-            if (sendSMSSelect) {
-                sendSMSSelect.value = sendSMS; 
-            }
-            if (typeSelect) {
-                typeSelect.value = type; 
-            }
-            if (demandSelect) {
-                demandSelect.value = demand; 
-            }
         });
     });
 
@@ -287,5 +242,5 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("#generalLedgerModal .btn-primary").textContent = "Save Changes";
     });
 });
-
 </script>
+@endsection

@@ -330,7 +330,7 @@
             let marathiAddress = this.getAttribute("data-marathiAddress");
             let city = this.getAttribute("data-city");
             let mobileNo = this.getAttribute("data-mobile-no");
-            let phoneNo = this.getAttribute("data-phone-no");
+            // let phoneNo = this.getAttribute("data-phone-no");
             
             
             let nomineeId = this.getAttribute("data-nominee-id");
@@ -370,10 +370,8 @@
             
             // Populate the modal form fields
             document.getElementById("memberId").value = id;
-            document.getElementById("name").value = name;
+            document.getElementById("Name").value = name;
             document.getElementById("marathiName").value = naav;
-            document.getElementById("createdBy").value = createdBy;
-            console.log(createdBy);
             
             document.getElementById("branchId").value = branchId;
             
@@ -417,10 +415,10 @@
             document.getElementById("marathiAddress").value = marathiAddress;
             document.getElementById("city").value = city;
             document.getElementById("mobileNo").value = mobileNo;
-            document.getElementById("phoneNo").value = phoneNo;
+            // document.getElementById("phoneNo").value = phoneNo;
             
             
-            document.getElementById("nomineeId").value = nomineeId;
+            // document.getElementById("nomineeId").value = nomineeId;
             document.getElementById("nomineeName").value = nomineeName;
             document.getElementById("marathiNomineeName").value = marathiNomineeName;
             document.getElementById("nomineeAge").value = nomineeAge;

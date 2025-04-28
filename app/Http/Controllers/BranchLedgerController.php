@@ -103,7 +103,7 @@ class BranchLedgerController extends Controller
             'balance' => 'numeric',
             'balance_type' => 'in:Credit,Debit',
             'item_type' => 'in:Asset,Liability,Income,Expense',
-             'created_by' => 'nullable|exists:users:id',
+             'created_by' => 'nullable|exists:users,id',
 
         ]);
 

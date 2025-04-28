@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Populate form fields
             document.getElementById("subcasteId").value = id;
-            document.getElementById("name").value = name;
+            document.getElementById("Name").value = name;
             document.getElementById("marathiName").value = naav;
             document.getElementById("description").value = description;
             document.getElementById("marathiDescription").value = marathiDescription;

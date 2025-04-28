@@ -18,13 +18,13 @@
                         <div class="row mb-3">
                                 @isset($loanAccounts) 
                                 <div class="col-2 d-none d-xl-block">
-                                    <label for="depositAccountId">Deposit Account</label>
+                                    <label for="loanId">Deposit Account</label>
                                 </div>
                                 <div class="col pe-0 pe-xl-5">
                                         @if ($loanAccounts->isNotEmpty())
                                         <select id="loanId" name="loan_id" class="w-100 px-2 py-1 @error('loan_id') is-invalid @enderror" required>
                                             <option value="" {{old('loan_id')? '' : 'selected'}}>----- Select Loan Account -----</option>
-                                            @foreach ($loanAccount as $account)
+                                            @foreach ($loanAccounts as $account)
                                                 <option value="{{ $account->id }}"  
                                                 {{ old('loan_id') == $account->id ? 'selected' : '' }}
                                                 >
@@ -49,7 +49,11 @@
                                     <label for="installmentType">Installment Type</label>
                                 </div>
                                 <div class="col-4 pe-0 pe-xl-5">
-                                    <input name="installment_type" id="installmentType" class="w-100 px-2 py-1 @error('installment_type') is-invalid @enderror" value="{{ old('installment_type') }}" type="number" placeholder="Installment Type" required>
+                                    <select name="installment_type" id="installmentType" required >
+                                        <option value="Monthly" {{old('installment_type') === 'Monthly' ? 'selected': ''}}>Monthly</option>
+                                        <option value="Quarterly" {{old('installment_type') === 'Quarterly' ? 'selected': ''}}>Quarterly</option>
+                                        <option value="Yearly" {{old('installment_type') === 'Yearly' ? 'selected': ''}}>Yearly</option>
+                                    </select>
                                     @error('installment_type')
                                         <div class="invalid-feedback">{{$message}}</div>
                                     @enderror
@@ -100,7 +104,7 @@
                                     <label for="installmentWithInterest">Installment With Interest</label>
                                 </div>
                                 <div class="col pe-0 pe-xl-5">
-                                <input name="installment_with_interest" id="interestEarned" class="w-100 px-2 py-1 @error('installment_with_interest') is-invalid @enderror" value="{{ old('installment_with_interest') }}" type="text" placeholder="Installment With Interest" required>
+                                <input name="installment_with_interest" id="installmentWithInterest" class="w-100 px-2 py-1 @error('installment_with_interest') is-invalid @enderror" value="{{ old('installment_with_interest') }}" type="text" placeholder="Installment With Interest" required>
                                     @error('installment_with_interest')
                                         <div class="invalid-feedback">{{$message}}</div>
                                     @enderror

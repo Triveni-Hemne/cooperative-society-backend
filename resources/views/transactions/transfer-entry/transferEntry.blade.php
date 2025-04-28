@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="col pe-0 pe-xl-5">
                                 @if ($branches->isNotEmpty())
-                                 <select name="branch_id" id="userId"  class="w-100 px-2 py-1 @error('branch_id') is-invalid @enderror" required>
+                                 <select name="branch_id" id="branchId"  class="w-100 px-2 py-1 @error('branch_id') is-invalid @enderror" required>
                                     <option value="" disabled selected>---------- Select ----------</option>
                                     @foreach ($branches as $branch)
                                         <option value="{{ $branch->id }}"  

@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("helloooooo");
     const currentLocation = window.location.pathname;
     const menuLinks = document.querySelectorAll(".side-link");
 

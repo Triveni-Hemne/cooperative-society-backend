@@ -59,8 +59,13 @@ class BankInvestmentController extends Controller
     {
         $validatedData = $request->validate([
             'ledger_id' => 'required|exists:general_ledgers,id',
+            // Ensure at least one of 'account_id' or 'depo_account_id' is provided
+            // 'account_id' => 'nullable|exists:accounts,id|required_without:depo_account_id',
+            // 'depo_account_id' => 'nullable|exists:member_depo_accounts,id|required_without:account_id',
+            
             'account_id' => 'nullable|exists:accounts,id',
             'depo_account_id' => 'nullable|exists:member_depo_accounts,id',
+            
             'name' => 'required|string|max:255',
             'investment_type' => 'required|in:FD,RD,Other',
             'interest_rate' => 'required|numeric|min:0',
@@ -91,11 +96,23 @@ class BankInvestmentController extends Controller
             'fd_interest_frequency' => 'nullable|string|max:255',            
             'interest' => 'required_if:investment_type,FD|nullable|numeric|min:0',
 
-            // Ensure at least one of 'account_id' or 'depo_account_id' is provided
-            'account_id' => 'nullable|exists:accounts,id|required_without:depo_account_id',
-            'depo_account_id' => 'nullable|exists:member_depo_accounts,id|required_without:account_id',
-            
         ]);
+
+        // $request->validate([
+        //     'account_id' => 'nullable|exists:accounts,id',
+        //     'depo_account_id' => 'nullable|exists:deposit_accounts,id',
+        // ]);
+
+        // Check: must select one and only one
+        if (
+            (empty($request->account_id) && empty($request->depo_account_id)) || 
+            (!empty($request->account_id) && !empty($request->depo_account_id))
+        ) {
+            return back()->withErrors([
+                'account_id' => 'Please select exactly one account (either general or deposit account).',
+                'depo_account_id' => 'Please select exactly one account (either general or deposit account).',
+            ])->withInput();
+        }
 
         
         // return $request->all();
@@ -164,8 +181,13 @@ class BankInvestmentController extends Controller
     
         $validatedData = $request->validate([
             'ledger_id' => 'required|exists:general_ledgers,id',
-            'account_id' => 'nullable|exists:accounts,id|required_without:depo_account_id',
-            'depo_account_id' => 'nullable|exists:member_depo_accounts,id|required_without:account_id',
+            // Ensure at least one of 'account_id' or 'depo_account_id' is provided
+            // 'account_id' => 'nullable|exists:accounts,id|required_without:depo_account_id',
+            // 'depo_account_id' => 'nullable|exists:member_depo_accounts,id|required_without:account_id',
+
+            'account_id' => 'nullable|exists:accounts,id',
+            'depo_account_id' => 'nullable|exists:member_depo_accounts,id',
+
             'name' => 'required|string|max:255',
             'investment_type' => 'required|in:FD,RD,Other',
             'interest_rate' => 'required|numeric|min:0',
@@ -196,6 +218,16 @@ class BankInvestmentController extends Controller
             'fd_interest_frequency' => 'nullable|string|max:255',
             'interest' => 'required_if:investment_type,FD|nullable|numeric|min:0',
         ]);
+
+        if (
+            (empty($request->account_id) && empty($request->depo_account_id)) || 
+            (!empty($request->account_id) && !empty($request->depo_account_id))
+        ) {
+            return back()->withErrors([
+                'account_id' => 'Please select exactly one account (either general or deposit account).',
+                'depo_account_id' => 'Please select exactly one account (either general or deposit account).',
+            ])->withInput();
+        }
         
         $investmentType = strtolower($validatedData['investment_type']);
         

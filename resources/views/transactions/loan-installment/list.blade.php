@@ -67,7 +67,7 @@
                     <td>
                         <a href="#" 
                         data-id="{{$LoanInstallment->id}}" 
-                        data-loan-installment-id="{{$LoanInstallment->loan->id}}" 
+                        data-loan-id="{{$LoanInstallment->loan_id}}" 
                         data-installment-type="{{$LoanInstallment->installment_type}}" 
                         data-mature-date="{{$LoanInstallment->mature_date ?? ''}}" 
                         data-first-installment-date="{{$LoanInstallment->first_installment_date ?? ''}}" 
@@ -75,9 +75,9 @@
                         data-installment-amount="{{$LoanInstallment->installment_amount ?? ''}}"  
                         data-installment-with-interest="{{$LoanInstallment->installment_with_interest ?? ''}}"  
                         data-total-installments-paid="{{$LoanInstallment->total_installments_paid ?? ''}}"  
-                        data-creator-id="{{$LoanInstallment->user->id ?? ''}}"  
+                        
                         data-route="{{ route('loan-installments.update', $LoanInstallment->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
-                            data-bs-target="#installmentTransactionModal">
+                            data-bs-target="#loanInstallmentModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
                         <a href="#" data-id="{{$LoanInstallment->id }}" data-route="{{ route('loan-installments.destroy', $LoanInstallment->id) }}" data-name="{{$LoanInstallment->id}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
@@ -129,8 +129,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".edit-btn").forEach(button => {
         button.addEventListener("click", function () {
             let id = this.getAttribute("data-id");
-            let loanInstallmentId = this.getAttribute("data-loan-installment-id");
-            let installmentType = this.getAttribute("data-installment-type");
+            let loanId = this.getAttribute("data-loan-id");
+            let installmentType = this.getAttribute("data-installment-type");            
             let matureDate = this.getAttribute("data-mature-date");
             let firstInstallmentDate = this.getAttribute("data-first-installment-date");
             let totalInstallments = this.getAttribute("data-total-installments");
@@ -145,8 +145,8 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("loanInstallmentModalLabel").textContent = "Edit Loan Installment";
 
             // Populate form fields
-            document.getElementById("installmentTransactionId").value = id;
-            document.getElementById("loanInstallmentId").value = loanInstallmentId;
+            document.getElementById("loanInstallmentId").value = id;
+            document.getElementById("loanId").value = loanId;            
             document.getElementById("installmentType").value = installmentType;
             document.getElementById("matureDate").value = matureDate;
             document.getElementById("firstInstallmentDate").value = firstInstallmentDate;

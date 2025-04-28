@@ -19,8 +19,8 @@
                                 <label for="createdBy">Created By</label>
                             </div>
                             <div class="col pe-0 pe-xl-5">
-                                <input name="" id="createdBy" class="w-100 px-2 py-1" value="{{$user->name}}" type="text" disabled required>
-                                <input name="created_by" hidden class="w-100 px-2 py-1" value="{{$user->id}}" type="text" disabled  required>
+                                <input name="" id="createdBy" class="w-100 px-2 py-1" value="{{$user->name}}" type="text" readonly required>
+                                <input name="created_by" class="w-100 px-2 py-1" value="{{$user->id}}" type="text" hidden  required>
                                 @error('created_by')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -76,7 +76,7 @@
                                 </div>
                                 <div class="col pe-0 pe-xl-5">
                                 @if ($branches->isNotEmpty())
-                                 <select name="branch_id" id="userId"  class="w-100 px-2 py-1 @error('branch_id') is-invalid @enderror" required>
+                                 <select name="branch_id" id="branchId"  class="w-100 px-2 py-1 @error('branch_id') is-invalid @enderror" required>
                                     <option value="" disabled {{ old('branch_id') ? '' : 'selected' }}>---------- Select ----------</option>
                                     @foreach ($branches as $branch)
                                         <option value="{{ $branch->id }}"  

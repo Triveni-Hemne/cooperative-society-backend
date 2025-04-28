@@ -120,7 +120,7 @@ class DayEndController extends Controller
             'total_debit_rs' => 'required|numeric',
             'total_debit_challans' => 'required|integer',
             'remarks' => 'nullable|string',
-            'created_by' => 'nullable|exists:users:id',
+            'created_by' => 'nullable|exists:users,id',
         ]);
 
         $dayEnd->update($request->all());
