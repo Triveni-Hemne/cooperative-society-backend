@@ -1,71 +1,83 @@
-<div class="modal fade" id="departmentModal" tabindex="-1" aria-labelledby="departmentModalLabel" aria-hidden="true">
+<div class="modal fade" id="departmentModal" tabindex="-1" aria-labelledby="departmentModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
     <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <form method="POST" action="{{route('departments.store')}}" id="departmentForm">
-                 @csrf
-                    @if(Session::has('error'))
-                        <div class="alert alert-danger">{{Session::get('error')}}</div>
-                    @endif
+        <div class="modal-content rounded-4 border-0 shadow">
+            <form method="POST" action="{{route('departments.store')}}" id="departmentForm" class="needs-validation"
+                novalidate>
+                @csrf
+                @if(Session::has('error'))
+                <div class="alert alert-danger rounded-0 m-0">{{Session::get('error')}}</div>
+                @endif
                 <input type="hidden" id="departmentId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="departmentModalLabel">Add Department</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                    <div class="mx-auto p-5 my-model text-white">
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="name">Name</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input name="name" id="name" class="w-100 px-2 py-1 @error('name') is-invalid @enderror" value="{{ old('name') }}" type="text" placeholder="Name">
-                                @error('name')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
+
+                <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
+                    <h5 class="modal-title fw-bold" id="departmentModalLabel"><i class="bi bi-building me-2"></i> Add
+                        Department</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body bg-light">
+                    <div class="p-4 bg-white rounded shadow-sm">
+
+                        {{-- Name --}}
+                        <div class="form-floating mb-3">
+                            <input name="name" id="name" class="form-control @error('name') is-invalid @enderror"
+                                value="{{ old('name') }}" type="text" placeholder="Name" required>
+                            <label for="name" class="form-label required">Name</label>
+                            @error('name')
+                            <div class="invalid-feedback">{{$message}}</div>
+                            @enderror
                         </div>
 
-                         @isset($employees)
-                         <div class="row mb-3">
-                             <div class="col-2 ps-5 d-none d-xl-block">
-                                 <label for="headId">Head of Department</label>
-                                </div>
-                                @if ($employees->isNotEmpty())
-                            <div class="col pe-0 pe-xl-5">
-                                <select name="head_id" id="headId"  class="w-100 px-2 py-1 @error('head_id') is-invalid @enderror">
-                                    <option value="" disabled selected>---------- Select ----------</option>
-                                    @foreach ($employees as $employee)
-                                        <option value="{{ $employee->id }}"  
-                                        {{ old('head_id') == $employee->id ? 'selected' : '' }}
-                                        >
-                                        {{ $employee->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                  @error('head_id')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
+                        @isset($employees)
+                        {{-- Head of Department --}}
+                        <div class="form-floating mb-3">
+                            @if ($employees->isNotEmpty())
+                            <select name="head_id" id="headId"
+                                class="form-select @error('head_id') is-invalid @enderror" required>
+                                <option value="" disabled selected>---------- Select ----------</option>
+                                @foreach ($employees as $employee)
+                                <option value="{{ $employee->id }}"
+                                    {{ old('head_id') == $employee->id ? 'selected' : '' }}>
+                                    {{ $employee->name }}
+                                </option>
+                                @endforeach
+                            </select>
+                            <label for="headId" class="form-label required">Head of Department</label>
+                            @error('head_id')
+                            <div class="invalid-feedback">{{$message}}</div>
+                            @enderror
                             @else
-                            <div class="col pe-0 pe-xl-5">
-                                <select class="w-100 px-2 py-1" disabled>
-                                    <option>No head of department available. Please add members as head of department first.</option>
-                                </select>
-                                <small class="text-danger">⚠️ You must add head of department before submitting the form.</small>
+                            <div class="alert alert-warning">
+                                <strong>⚠️ No head of department available.</strong><br>
+                                Please add members first.
                             </div>
-                                @endif
-                            </div>
+                            @endif
+                        </div>
                         @endisset
+
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+
+                <div class="modal-footer bg-white rounded-bottom-4 border-top">
+                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i>Cancel
+                    </button>
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="bi bi-check-circle me-1"></i>Submit
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<script src="{{asset('/assets/js/marathi-validate-fields.js')}}"></script>
+<!-- <style>
+label.required::after {
+    content: " *";
+    color: red;
+    font-weight: bold;
+}
+</style> -->

@@ -1,82 +1,86 @@
-<div class="modal fade" id="agentModal" tabindex="-1" aria-labelledby="agentModalLabel" aria-hidden="true">
+<div class="modal fade" id="agentModal" tabindex="-1" aria-labelledby="agentModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
     <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <form method="POST" action="{{route('agents.store')}}" id="agentModalForm">
+        <div class="modal-content rounded-4 border-0 shadow">
+            <form method="POST" action="{{ route('agents.store') }}" id="agentModalForm" class="needs-validation"
+                novalidate>
                 <input type="hidden" id="agentId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="agentModalLabel">Add Agent</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
                 @csrf
-                    @if(Session::has('error'))
-                        <div class="alert alert-danger">{{Session::get('error')}}</div>
-                    @endif
-                    <div class="mx-auto p-5 my-model text-white">
-                        @isset($users) 
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="name">User</label>
-                            </div>
+
+                @if(Session::has('error'))
+                <div class="alert alert-danger rounded-0 m-0">{{ Session::get('error') }}</div>
+                @endif
+
+                <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
+                    <h5 class="modal-title fw-bold" id="agentModalLabel"><i class="bi bi-person-plus-fill me-2"></i> Add
+                        Agent</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body bg-light">
+                    <div class="p-4 bg-white rounded shadow-sm">
+
+                        {{-- User Dropdown --}}
+                        @isset($users)
+                        <div class="form-floating mb-3">
                             @if ($users->isNotEmpty())
-                            <div class="col pe-0 pe-xl-5">
-                                <select name="user_id" id="userId"  class="w-100 px-2 py-1 @error('user_id') is-invalid @enderror">
-                                    <option value="" disabled selected>---------- Select ----------</option>
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->id }}"  
-                                        {{ old('user_id') == $user->id ? 'selected' : '' }}
-                                        >
-                                        {{ $user->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('user_id')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
+                            <select name="user_id" id="userId"
+                                class="form-select @error('user_id') is-invalid @enderror" required>
+                                <option value="" disabled selected>Select User</option>
+                                @foreach ($users as $user)
+                                <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                    {{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                            <label for="userId">User</label>
+                            @error('user_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                             @else
-                             <div class="col pe-0 pe-xl-5">
-                                <select class="w-100 px-2 py-1" disabled>
-                                    <option>No users available. Please add users first.</option>
-                                </select>
-                                <small class="text-danger">⚠️ You must add users before submitting the form.</small>
+                            <div class="alert alert-warning">
+                                <strong>⚠️ No users available.</strong><br>
+                                Please add users first.
                             </div>
                             @endif
                         </div>
                         @endisset
 
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="agentCode">Agent Code</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input name="agent_code" id="agentCode" class="w-100 px-2 py-1 @error('agent_code') is-invalid @enderror" value="{{ old('agent_code') }}" type="text" placeholder="Agent code">
-                                @error('agent_code')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
+                        {{-- Agent Code --}}
+                        <div class="form-floating mb-3">
+                            <input name="agent_code" id="agentCode" type="text"
+                                class="form-control @error('agent_code') is-invalid @enderror" placeholder="Agent Code"
+                                value="{{ old('agent_code') }}" required>
+                            <label for="agentCode" class="form-label required">Agent Code</label>
+                            @error('agent_code')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
-                         <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="commitionRate">Commition Rate</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input name="commition_rate" id="commitionRate" class="w-100 px-2 py-1 @error('commition_rate') is-invalid @enderror" value="{{ old('commition_rate') }}" type="number" placeholder="commition Rate">
-                                @error('commition_rate')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
+                        {{-- Commition Rate --}}
+                        <div class="form-floating mb-3">
+                            <input name="commition_rate" id="commitionRate" type="number"
+                                class="form-control @error('commition_rate') is-invalid @enderror"
+                                placeholder="Commition Rate" value="{{ old('commition_rate') }}" required>
+                            <label for="commitionRate" class="form-label required">Commition Rate</label>
+                            @error('commition_rate')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
+
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+
+                <div class="modal-footer bg-white rounded-bottom-4 border-top">
+                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i>Cancel
+                    </button>
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="bi bi-check-circle me-1"></i>Submit
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
