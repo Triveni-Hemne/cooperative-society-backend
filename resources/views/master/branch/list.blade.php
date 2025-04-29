@@ -95,14 +95,14 @@
 @endsection
 
 @section('customeJs')
-@if ($errors->any())
+{{-- @if ($errors->any())
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             let modal = new bootstrap.Modal(document.getElementById('branchModal'));
             modal.show();
         });
     </script>
-@endif
+@endif --}}
 {{-- Script to send data to the edit modal --}}
 <script>
 document.addEventListener("DOMContentLoaded", function () {

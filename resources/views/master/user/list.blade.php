@@ -95,8 +95,6 @@
 @endsection
 
 @section('customeJs')
-@endsection
-
 {{-- Script to send data to the edit modal --}}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -147,5 +145,5 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("#userModal .btn-primary").textContent = "Save Changes";
     });
 });
-
 </script>
+@endsection

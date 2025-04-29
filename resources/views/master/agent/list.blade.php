@@ -111,7 +111,7 @@
 @include('layouts.deleteModal')
 @endsection
 
-@section('customeJs')
+{{-- @section('customeJs')
 @if ($errors->any())
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -120,7 +120,7 @@
         });
     </script>
 @endif
-@endsection
+@endsection --}}
 
 {{-- Script to send data to the edit modal --}}
 <script>
