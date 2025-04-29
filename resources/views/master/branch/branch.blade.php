@@ -82,7 +82,7 @@
                         <i class="bi bi-x-circle me-1"></i>Cancel
                     </button>
                     <button type="submit" class="btn btn-success px-4">
-                        <i class="bi bi-check-circle me-1"></i>Save changes
+                        <i class="bi bi-check-circle me-1"></i>Submit
                     </button>
                 </div>
             </form>

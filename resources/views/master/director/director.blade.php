@@ -73,6 +73,11 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        @else
+                        <div class="alert alert-warning">
+                            <strong>⚠️ No designation available.</strong><br>
+                            Please add designation first.
+                        </div>
                         @endif
                         @endisset
 

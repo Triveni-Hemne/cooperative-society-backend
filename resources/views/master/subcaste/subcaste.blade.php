@@ -1,4 +1,5 @@
-<div class="modal fade" id="subcasteModal" tabindex="-1" aria-labelledby="subcasteModalLabel" aria-hidden="true">
+<div class="modal fade" id="subcasteModal" tabindex="-1" aria-labelledby="subcasteModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
     <div class="modal-dialog modal-xl">
         <div class="modal-content rounded-4 border-0 shadow">
             <form method="POST" action="{{ route('subcastes.store') }}" id="subcasteForm" class="needs-validation"
@@ -77,7 +78,7 @@
                         <i class="bi bi-x-circle me-1"></i>Cancel
                     </button>
                     <button type="submit" class="btn btn-success px-4">
-                        <i class="bi bi-check-circle me-1"></i>Save changes
+                        <i class="bi bi-check-circle me-1"></i>Submit
                     </button>
                 </div>
             </form>

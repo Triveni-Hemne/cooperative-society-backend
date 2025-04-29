@@ -126,12 +126,12 @@
                     </div>
                 </div>
 
-                <div class="modal-footer bg-white rounded-bottom-4">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        <i class="bi bi-x-circle me-1"></i> Close
+                <div class="modal-footer bg-white rounded-bottom-4 border-top">
+                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i>Cancel
                     </button>
-                    <button type="submit" class="btn btn-success">
-                        <i class="bi bi-save me-1"></i> Save Changes
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="bi bi-check-circle me-1"></i>Submit
                     </button>
                 </div>
 
