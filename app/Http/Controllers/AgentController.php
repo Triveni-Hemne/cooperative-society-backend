@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Agent;
 use App\Models\User;
+use App\Models\Branch;
 use Illuminate\Validation\Rule;
 
 
@@ -18,8 +19,9 @@ class AgentController extends Controller
     {
        $agents = Agent::with('user')->latest()->paginate(5);
         $users = User::all();
+        $branches = Branch::all();
         // return response()->json($centers);
-        return view('master.agent.list', compact('agents', 'users'));
+        return view('master.agent.list', compact('agents', 'users', 'branches'));
     }
 
     /**
@@ -84,7 +86,6 @@ class AgentController extends Controller
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
             'branch_id' => 'nullable|exists:branches,id',
-            'status' => 'required|in:Active,Inactive',
             'status' => ['required', Rule::in(['Active', 'Inactive'])],
         ]);
 

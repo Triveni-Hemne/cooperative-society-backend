@@ -46,8 +46,24 @@ class MemberLoanAccountController extends Controller
     //    $loanAccounts = MemberLoanAccount::with(['member', 'ledger'])->paginate(5);
         $branches = $user->role === 'Admin' ? Branch::all() : null;
         $ledgers = GeneralLedger::all();
-        $members = Member::all();
-        $accounts = Account::all();
+        $members = Member::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->get();
+        $accounts = Account::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->get();
         return view('accounts.loan-acc-opening.list', compact('loanAccounts','ledgers','members','accounts','branches'));
     }
 

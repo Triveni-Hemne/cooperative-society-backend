@@ -34,8 +34,15 @@ class InstallmentTransactionController extends Controller
                     });
                 });
             })->paginate(5);
-        $transactions = InstallmentTransaction::paginate(5);
-        $memberDepoAccounts = MemberDepoAccount::all();
+        $memberDepoAccounts = MemberDepoAccount::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->get();
         $user = Auth::user();
         $branches = $user->role === 'Admin' ? Branch::all() : null;
         return view('transactions.installment-transaction.list', compact('transactions', 'memberDepoAccounts','user','branches'));

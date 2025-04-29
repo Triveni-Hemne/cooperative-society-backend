@@ -40,8 +40,24 @@ class AccountController extends Controller
         
         // $accounts = Account::paginate(5);
         $ledgers = GeneralLedger::all();
-        $members = Member::all();
-        $agents = Agent::all();
+        $members = Member::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->get();
+        $agents = Agent::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->get();
         $branches = $user->role === 'Admin' ? Branch::all() : null;
 
         return view('accounts.general-acc.list', compact('accounts','ledgers','members','agents','branches'));

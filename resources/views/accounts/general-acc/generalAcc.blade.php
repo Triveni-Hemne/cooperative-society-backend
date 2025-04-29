@@ -177,7 +177,7 @@
                                     @foreach ($agents as $agent)
                                         <option value="{{ $agent->id }}"  
                                         {{ old('agent_id') == $agent->id ? 'selected' : '' }}>
-                                        {{ $agent->user->name }}
+                                        {{ $agent->user->name ?? $agent->name }}
                                         </option>
                                     @endforeach
                                 </select>

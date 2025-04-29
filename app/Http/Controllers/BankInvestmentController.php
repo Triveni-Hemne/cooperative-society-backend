@@ -36,8 +36,24 @@ class BankInvestmentController extends Controller
                 });
             });
         })->paginate(5);
-        $accounts = Account::all();
-        $depoAccounts = MemberDepoAccount::all();
+        $accounts = Account::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->get();
+        $depoAccounts = MemberDepoAccount::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->get();
         $ledgers = GeneralLedger::all();
         $branches = $user->role === 'Admin' ? Branch::all() : null;
         return view('accounts.bank-investment.list', compact('bankInvestments','accounts','depoAccounts','ledgers','branches'));

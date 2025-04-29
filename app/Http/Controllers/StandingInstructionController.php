@@ -35,7 +35,15 @@ class StandingInstructionController extends Controller
         })->paginate(5);
         // $standingInstructions = StandingInstruction::paginate(5);
         $ledgers = GeneralLedger::all();
-        $accounts = Account::all();
+        $accounts = Account::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->get();
         $branches = $user->role === 'Admin' ? Branch::all() : null;
         return view('accounts.standing-instruction.list', compact('standingInstructions','ledgers','accounts','branches','user'));
     }

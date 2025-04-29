@@ -62,6 +62,7 @@
                 <tr>
                     <th scope="row">{{$i}}</th>
                     <td>{{$agent->id}}</td>
+                    <td>{{$agent->branch_id}}</td>
                     <td>{{$agent->user->name ?? ''}}</td>
                     <td>{{$agent->agent_code ?? ''}}</td>
                     <td>{{$agent->name ?? ''}}</td>
@@ -75,7 +76,7 @@
                     <td>{{$agent->created_by ?? ''}}</td>
                     <td>{{$agent->updated_by ?? ''}}</td>
                     <td>
-                        <a href="#" data-id="{{$agent->id}}" data-user-id="{{$agent->user->id ?? ''}}" data-agent-code="{{$agent->agent_code ?? ''}}" data-name="{{$agent->name ?? ''}}" data-email="{{$agent->email ?? ''}}" data-phone="{{$agent->phone ?? ''}}" data-address="{{$agent->address ?? ''}}" data-joining-date="{{$agent->joining_date ?? ''}}" data-resignation-date="{{$agent->resignation_date ?? ''}}" data-commission-rate="{{$agent->commission_rate ?? ''}}" data-status="{{$agent->status ?? ''}}" data-route="{{ route('agents.update', $agent->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$agent->id}}" data-user-id="{{$agent->user->id ?? ''}}" data-agent-code="{{$agent->agent_code ?? ''}}" data-name="{{$agent->name ?? ''}}" data-branch-id="{{$agent->branch_id ?? ''}}" data-email="{{$agent->email ?? ''}}" data-phone="{{$agent->phone ?? ''}}" data-address="{{$agent->address ?? ''}}" data-joining-date="{{$agent->joining_date ?? ''}}" data-resignation-date="{{$agent->resignation_date ?? ''}}" data-commission-rate="{{$agent->commission_rate ?? ''}}" data-status="{{$agent->status ?? ''}}" data-route="{{ route('agents.update', $agent->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#agentModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
@@ -129,6 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", function () {
             let id = this.getAttribute("data-id");
             let userId = this.getAttribute("data-user-id");
+            let branchId = this.getAttribute("data-branch-id");
             let agentCode = this.getAttribute("data-agent-code");
             let Name = this.getAttribute("data-name");
             let email = this.getAttribute("data-email");            
@@ -148,6 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Populate form fields
             document.getElementById("agentId").value = id;
             document.getElementById("userId").value = userId;
+            document.getElementById("branchId").value = branchId;
             document.getElementById("agentCode").value = agentCode;
             document.getElementById("Name").value = Name;
             document.getElementById("Email").value = email;

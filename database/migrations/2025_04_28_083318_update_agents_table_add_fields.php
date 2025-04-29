@@ -19,7 +19,9 @@ return new class extends Migration
             $table->text('address')->nullable()->after('phone');
             $table->date('joining_date')->nullable()->after('address');
             $table->date('resignation_date')->nullable()->after('joining_date');
-
+            $table->unsignedBigInteger('branch_id')->nullable()->after('resignation_date');
+            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('set null');
+            
             $table->foreignId('created_by')->nullable()->after('status')->constrained('users')->nullOnDelete();
             $table->foreignId('updated_by')->nullable()->after('created_by')->constrained('users')->nullOnDelete();
 
@@ -45,6 +47,7 @@ return new class extends Migration
                 'resignation_date',
                 'created_by',
                 'updated_by',
+                'branch_id'
             ]);
 
             // Reverse rename back commission_rate if needed
