@@ -75,6 +75,17 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        <!-- Description -->
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control @error('description') is-invalid @enderror"
+                                placeholder="Description" id="description" name="description" style="height: 100px"
+                                required>{{ old('description') }}</textarea>
+                            <label for="description">Description</label>
+                            @error('description')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
                 </div>
 

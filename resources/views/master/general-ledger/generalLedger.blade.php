@@ -68,6 +68,11 @@
                                 </div>
                             </div>
                         </div>
+                        @else
+                        <div class="alert alert-warning">
+                            <strong>⚠️ No parent ledger available.</strong><br>
+                            Please add parent ledger first.
+                        </div>
                         @endif
                         @endisset
 
@@ -153,6 +158,25 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <select name="interest_type" id="interestType"
+                                        class="form-select @error('interest_type') is-invalid @enderror">
+                                        <option value="Saving Deposite"
+                                            {{ old('interest_type') == 'Saving Deposite' ? 'selected' : '' }}>Saving
+                                            Deposite
+                                        </option>
+                                        <option value="Saving Deposite Monthly"
+                                            {{ old('interest_type') == 'Saving Deposite Monthly' ? 'selected' : '' }}>
+                                            Saving Deposite Monthly
+                                        </option>
+                                    </select>
+                                    <label for="interestType" class="form-label">Interest Type</label>
+                                    @error('interest_type')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row mb-3">
@@ -186,19 +210,42 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-floating">
-                                    <select name="interest_type" id="interestType"
-                                        class="form-select @error('interest_type') is-invalid @enderror">
-                                        <option value="Saving Deposite"
-                                            {{ old('interest_type') == 'Saving Deposite' ? 'selected' : '' }}>Saving
-                                            Deposite
+                                    <select name="add_interest_to_balance" id="addInterestToBalance"
+                                        class="form-select @error('add_interest_to_balance') is-invalid @enderror">
+                                        <option value="1" {{ old('add_interest_to_balance') == '1' ? 'selected' : '' }}>
+                                            Yes
                                         </option>
-                                        <option value="Saving Deposite Monthly"
-                                            {{ old('interest_type') == 'Saving Deposite Monthly' ? 'selected' : '' }}>
-                                            Saving Deposite Monthly
+                                        <option value="0" {{ old('add_interest_to_balance') == '0' ? 'selected' : '' }}>
+                                            No
                                         </option>
                                     </select>
-                                    <label for="interestType" class="form-label">Interest Type</label>
-                                    @error('interest_type')
+                                    <label for="addInterestToBalance" class="form-label">Add Interest to
+                                        Balance</label>
+                                    @error('add_interest_to_balance')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    <select name="type" id="type"
+                                        class="form-select @error('type') is-invalid @enderror">
+                                        <option value="Saving Deposits"
+                                            {{ old('type') == 'Saving Deposits' ? 'selected' : '' }}>Saving Deposits
+                                        </option>
+                                        <option value="Monthly Deposits"
+                                            {{ old('type') == 'Monthly Deposits' ? 'selected' : '' }}>Monthly Deposits
+                                        </option>
+                                        <option value="Current Deposits"
+                                            {{ old('type') == 'Current Deposits' ? 'selected' : '' }}>Recurring
+                                            Deposits
+                                        </option>
+                                        <option value="Fixed Deposits"
+                                            {{ old('type') == 'Fixed Deposits' ? 'selected' : '' }}>Fixed Deposits
+                                        </option>
+                                    </select>
+                                    <label for="type" class="form-label">Type</label>
+                                    @error('type')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -244,27 +291,22 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row mb-3">
                             <div class="col-md-3">
                                 <div class="form-floating">
-                                    <select name="add_interest_to_balance" id="addInterestToBalance"
-                                        class="form-select @error('add_interest_to_balance') is-invalid @enderror">
-                                        <option value="1" {{ old('add_interest_to_balance') == '1' ? 'selected' : '' }}>
-                                            Yes
-                                        </option>
-                                        <option value="0" {{ old('add_interest_to_balance') == '0' ? 'selected' : '' }}>
-                                            No
-                                        </option>
+                                    <select name="demand" id="demand"
+                                        class="form-select @error('demand') is-invalid @enderror">
+                                        <option value="1" {{ old('demand') == '1' ? 'selected' : '' }}>Yes</option>
+                                        <option value="0" {{ old('demand') == '0' ? 'selected' : '' }}>No</option>
                                     </select>
-                                    <label for="addInterestToBalance" class="form-label">Add Interest to
-                                        Balance</label>
-                                    @error('add_interest_to_balance')
+                                    <label for="demand" class="form-label">Demand</label>
+                                    @error('demand')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row mb-3">
                             <div class="col-md-3">
                                 <div class="form-floating">
                                     <select name="item_of" id="itemOf"
@@ -305,9 +347,6 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row mb-3">
                             <div class="col-md-3">
                                 <div class="form-floating">
                                     <select name="subsidiary" id="subsidiary"
@@ -330,46 +369,6 @@
                                     </select>
                                     <label for="sendSMS" class="form-label">Send SMS</label>
                                     @error('send_sms')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-floating">
-                                    <select name="type" id="type"
-                                        class="form-select @error('type') is-invalid @enderror">
-                                        <option value="Saving Deposits"
-                                            {{ old('type') == 'Saving Deposits' ? 'selected' : '' }}>Saving Deposits
-                                        </option>
-                                        <option value="Monthly Deposits"
-                                            {{ old('type') == 'Monthly Deposits' ? 'selected' : '' }}>Monthly Deposits
-                                        </option>
-                                        <option value="Current Deposits"
-                                            {{ old('type') == 'Current Deposits' ? 'selected' : '' }}>Recurring
-                                            Deposits
-                                        </option>
-                                        <option value="Fixed Deposits"
-                                            {{ old('type') == 'Fixed Deposits' ? 'selected' : '' }}>Fixed Deposits
-                                        </option>
-                                    </select>
-                                    <label for="type" class="form-label">Type</label>
-                                    @error('type')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-3">
-                                <div class="form-floating">
-                                    <select name="demand" id="demand"
-                                        class="form-select @error('demand') is-invalid @enderror">
-                                        <option value="1" {{ old('demand') == '1' ? 'selected' : '' }}>Yes</option>
-                                        <option value="0" {{ old('demand') == '0' ? 'selected' : '' }}>No</option>
-                                    </select>
-                                    <label for="demand" class="form-label">Demand</label>
-                                    @error('demand')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>

@@ -24,136 +24,192 @@
                             @enderror
                         </div>
 
-                        {{-- Date --}}
-                        <div class="form-floating mb-3">
-                            <input name="date" id="date" class="form-control @error('date') is-invalid @enderror"
-                                value="{{ old('date') }}" type="date" placeholder="Date" required>
-                            <label for="date" class="form-label required">Date</label>
-                            @error('date')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        {{-- Transaction Type --}}
-                        <div class="form-floating mb-3">
-                            <select id="transactionType" name="transaction_type"
-                                class="form-select @error('transaction_type') is-invalid @enderror">
-                                <option value="">---- Select Transaction Type ----</option>
-                                <option value="Credit" {{ old('transaction_type') == 'Credit' ? 'selected' : '' }}>
-                                    Credit</option>
-                                <option value="Debit" {{ old('transaction_type') == 'Debit' ? 'selected' : '' }}>Debit
-                                </option>
-                                <option value="Journal" {{ old('transaction_type') == 'Journal' ? 'selected' : '' }}>
-                                    Journal</option>
-                            </select>
-                            <label for="transactionType" class="form-label required">Transaction Type</label>
-                            @error('transaction_type')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        {{-- Ledger --}}
-                        @isset($ledgers)
-                        @if ($ledgers->isNotEmpty())
-                        <div class="form-floating mb-3">
-                            <select id="ledgerId" name="ledger_id"
-                                class="form-select @error('ledger_id') is-invalid @enderror">
-                                <option value="">---- Select Ledger ----</option>
-                                @foreach ($ledgers as $ledger)
-                                <option value="{{ $ledger->id }}"
-                                    {{ old('ledger_id') == $ledger->id ? 'selected' : '' }}>{{ $ledger->name }}</option>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                {{-- Branch --}}
+                                {{-- @if ($branches->isNotEmpty())
+                                <div class="form-floating">
+                                    <select name="branch_id" id="userBranch"
+                                        class="form-select @error('branch_id') is-invalid @enderror" required>
+                                        <option value="" disabled selected>Select Branch</option>
+                                        @foreach ($branches as $branch)
+                                        <option value="{{ $member->id }}"
+                                {{ old('branch_id') == $branch->id ? 'selected' : '' }}>
+                                {{ $branch->name }}</option>
                                 @endforeach
-                            </select>
-                            <label for="ledgerId" class="form-label required">Ledger</label>
-                            @error('ledger_id')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                                </select>
+                                <label for="userBranch">Branch</label>
+                                @error('branch_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            @else
+                            <div class="alert alert-warning">
+                                <strong>⚠️ No Branch available.</strong><br>
+                                Please add Branch first.
+                            </div>
+                            @endif --}}
                         </div>
-                        @else
-                        <div class="alert alert-warning">
-                            <strong>⚠️ No general ledgers available.</strong><br>
-                            Please add general ledgers first.
+                        <div class="col-md-6">
+                            {{-- Date --}}
+                            <div class="form-floating">
+                                <input name="date" id="date" class="form-control @error('date') is-invalid @enderror"
+                                    value="{{ old('date') }}" type="date" placeholder="Date" required>
+                                <label for="date" class="form-label required">Date</label>
+                                @error('date')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
-                        @endif
-                        @endisset
+                    </div>
 
-                        {{-- Receipt No. --}}
-                        <div class="form-floating mb-3">
-                            <input name="receipt_id" id="receiptId"
-                                class="form-control @error('receipt_id') is-invalid @enderror"
-                                value="{{ old('receipt_id') }}" type="text" placeholder="Receipt No.">
-                            <label for="receiptId">Receipt</label>
-                            @error('receipt_id')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        {{-- Payment No. --}}
-                        <div class="form-floating mb-3">
-                            <input name="payment_id" id="paymentId"
-                                class="form-control @error('payment_id') is-invalid @enderror"
-                                value="{{ old('payment_id') }}" type="text" placeholder="Payment No.">
-                            <label for="paymentId">Payment</label>
-                            @error('payment_id')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        {{-- Opening Balance --}}
-                        <div class="form-floating mb-3">
-                            <input name="opening_balance" id="openingBalance"
-                                class="form-control @error('opening_balance') is-invalid @enderror"
-                                value="{{ old('opening_balance') }}" type="number" placeholder="Opening Balance">
-                            <label for="openingBalance">Opening Balance</label>
-                            @error('opening_balance')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        {{-- Current Balance --}}
-                        <div class="form-floating mb-3">
-                            <input name="current_balance" id="currentBalance"
-                                class="form-control @error('current_balance') is-invalid @enderror"
-                                value="{{ old('current_balance') }}" type="number" placeholder="Current Balance">
-                            <label for="currentBalance">Current Balance</label>
-                            @error('current_balance')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            {{-- Transaction Type --}}
+                            <div class="form-floating">
+                                <select id="transactionType" name="transaction_type"
+                                    class="form-select @error('transaction_type') is-invalid @enderror">
+                                    <option value="">---- Select Transaction Type ----</option>
+                                    <option value="Credit" {{ old('transaction_type') == 'Credit' ? 'selected' : '' }}>
+                                        Credit</option>
+                                    <option value="Debit" {{ old('transaction_type') == 'Debit' ? 'selected' : '' }}>
+                                        Debit
+                                    </option>
+                                    <option value="Journal"
+                                        {{ old('transaction_type') == 'Journal' ? 'selected' : '' }}>
+                                        Journal</option>
+                                </select>
+                                <label for="transactionType" class="form-label required">Transaction Type</label>
+                                @error('transaction_type')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
 
-                        {{-- Narration --}}
-                        <div class="form-floating mb-3">
-                            <input name="narration" id="narration"
-                                class="form-control @error('narration') is-invalid @enderror"
-                                value="{{ old('narration') }}" type="text" placeholder="Narration">
-                            <label for="narration">Narration</label>
-                            @error('narration')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        <div class="col-md-6">
+                            {{-- Ledger --}}
+                            @isset($ledgers)
+                            @if ($ledgers->isNotEmpty())
+                            <div class="form-floating">
+                                <select id="ledgerId" name="ledger_id"
+                                    class="form-select @error('ledger_id') is-invalid @enderror">
+                                    <option value="">---- Select Ledger ----</option>
+                                    @foreach ($ledgers as $ledger)
+                                    <option value="{{ $ledger->id }}"
+                                        {{ old('ledger_id') == $ledger->id ? 'selected' : '' }}>{{ $ledger->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                <label for="ledgerId" class="form-label required">Ledger</label>
+                                @error('ledger_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            @else
+                            <div class="alert alert-warning">
+                                <strong>⚠️ No general ledgers available.</strong><br>
+                                Please add general ledgers first.
+                            </div>
+                            @endif
+                            @endisset
+                        </div>
+                    </div>
+
+                    {{-- Receipt No. --}}
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input name="receipt_id" id="receiptId"
+                                    class="form-control @error('receipt_id') is-invalid @enderror"
+                                    value="{{ old('receipt_id') }}" type="text" placeholder="Receipt No.">
+                                <label for="receiptId">Receipt</label>
+                                @error('receipt_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
 
-                        {{-- M-Narration --}}
-                        <div class="form-floating mb-3">
-                            <input name="m_narration" id="m_narration"
-                                class="form-control @error('m_narration') is-invalid @enderror"
-                                value="{{ old('m_narration') }}" type="text" placeholder="M-Narration">
-                            <label for="m_narration">M-Narration</label>
-                            @error('m_narration')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        <div class="col-md-6">
+                            {{-- Payment No. --}}
+                            <div class="form-floating">
+                                <input name="payment_id" id="paymentId"
+                                    class="form-control @error('payment_id') is-invalid @enderror"
+                                    value="{{ old('payment_id') }}" type="text" placeholder="Payment No.">
+                                <label for="paymentId">Payment</label>
+                                @error('payment_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Opening Balance --}}
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input name="opening_balance" id="openingBalance"
+                                    class="form-control @error('opening_balance') is-invalid @enderror"
+                                    value="{{ old('opening_balance') }}" type="number" placeholder="Opening Balance">
+                                <label for="openingBalance">Opening Balance</label>
+                                @error('opening_balance')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            {{-- Current Balance --}}
+                            <div class="form-floating">
+                                <input name="current_balance" id="currentBalance"
+                                    class="form-control @error('current_balance') is-invalid @enderror"
+                                    value="{{ old('current_balance') }}" type="number" placeholder="Current Balance">
+                                <label for="currentBalance">Current Balance</label>
+                                @error('current_balance')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            {{-- Narration --}}
+                            <div class="form-floating">
+                                <input name="narration" id="narration"
+                                    class="form-control @error('narration') is-invalid @enderror"
+                                    value="{{ old('narration') }}" type="text" placeholder="Narration">
+                                <label for="narration">Narration</label>
+                                @error('narration')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            {{-- M-Narration --}}
+                            <div class="form-floating">
+                                <input name="m_narration" id="m_narration"
+                                    class="form-control @error('m_narration') is-invalid @enderror"
+                                    value="{{ old('m_narration') }}" type="text" placeholder="M-Narration">
+                                <label for="m_narration">M-Narration</label>
+                                @error('m_narration')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="modal-footer bg-white rounded-bottom-4 border-top">
-                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
-                        <i class="bi bi-x-circle me-1"></i>Cancel
-                    </button>
-                    <button type="submit" class="btn btn-success px-4">
-                        <i class="bi bi-check-circle me-1"></i>Submit
-                    </button>
-                </div>
-            </form>
         </div>
+
+        <div class="modal-footer bg-white rounded-bottom-4 border-top">
+            <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+                <i class="bi bi-x-circle me-1"></i>Cancel
+            </button>
+            <button type="submit" class="btn btn-success px-4">
+                <i class="bi bi-check-circle me-1"></i>Submit
+            </button>
+        </div>
+        </form>
     </div>
+</div>
 </div>

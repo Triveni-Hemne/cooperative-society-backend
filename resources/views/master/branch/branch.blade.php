@@ -49,7 +49,7 @@
                         </div>
 
                         {{-- Manager Dropdown --}}
-                        @isset($employees)
+                        {{-- @isset($employees)
                         @if ($employees->isNotEmpty())
                         <div class="form-floating mb-3">
                             <select name="manager_id" id="manager"
@@ -57,35 +57,35 @@
                                 <option value="" disabled selected>---------- Select Manager ----------</option>
                                 @foreach ($employees as $employee)
                                 <option value="{{ $employee->id }}"
-                                    {{ old('manager_id') == $employee->id ? 'selected' : '' }}>
-                                    {{ $employee->member->name }}
-                                </option>
-                                @endforeach
-                            </select>
-                            <label for="manager" class="form-label required">Manager</label>
-                            @error('manager_id')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        @else
-                        <div class="alert alert-warning">
-                            <strong>⚠️ No managers available.</strong><br>
-                            Please add managers first.
-                        </div>
-                        @endif
-                        @endisset
+                        {{ old('manager_id') == $employee->id ? 'selected' : '' }}>
+                        {{ $employee->member->name }}
+                        </option>
+                        @endforeach
+                        </select>
+                        <label for="manager" class="form-label required">Manager</label>
+                        @error('manager_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
+                    @else
+                    <div class="alert alert-warning">
+                        <strong>⚠️ No managers available.</strong><br>
+                        Please add managers first.
+                    </div>
+                    @endif
+                    @endisset--}}
                 </div>
-
-                <div class="modal-footer bg-white rounded-bottom-4 border-top">
-                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
-                        <i class="bi bi-x-circle me-1"></i>Cancel
-                    </button>
-                    <button type="submit" class="btn btn-success px-4">
-                        <i class="bi bi-check-circle me-1"></i>Submit
-                    </button>
-                </div>
-            </form>
         </div>
+
+        <div class="modal-footer bg-white rounded-bottom-4 border-top">
+            <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+                <i class="bi bi-x-circle me-1"></i>Cancel
+            </button>
+            <button type="submit" class="btn btn-success px-4">
+                <i class="bi bi-check-circle me-1"></i>Submit
+            </button>
+        </div>
+        </form>
     </div>
+</div>
 </div>
