@@ -22,63 +22,60 @@
                         <div class="row mb-3">
                             @isset($ledgers)
                             <div class="col-md-6">
+                                @if ($ledgers->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="ledgerId" name="ledger_id"
                                         class="form-select @error('ledger_id') is-invalid @enderror"
                                         aria-label="Ledger">
                                         <option value="" selected>--- Select Ledger ---</option>
-                                        @if ($ledgers->isNotEmpty())
                                         @foreach ($ledgers as $ledger)
                                         <option value="{{ $ledger->id }}"
                                             {{ old('ledger_id') == $ledger->id ? 'selected' : '' }}>
                                             {{ $ledger->name }}
                                         </option>
                                         @endforeach
-                                        @else
-                                        <option disabled>No general ledgers available. Please add them first.
-                                        </option>
-                                        @endif
                                     </select>
                                     <label for="ledgerId" class="form-label">Ledger <span
                                             class="text-danger">*</span></label>
                                     @error('ledger_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    @if ($ledgers->isEmpty())
-                                    <small class="text-danger">⚠️ You must add general ledgers before submitting
-                                        the form.</small>
-                                    @endif
                                 </div>
+                                @else
+                                <div class="alert alert-warning">
+                                    <strong>⚠️ No ledgers available.</strong><br>
+                                    Please add ledgers first.
+                                </div>
+                                @endif
                             </div>
                             @endisset
 
                             @isset($members)
                             <div class="col-md-6">
+                                @if ($members->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="memberId" name="member_id"
                                         class="form-select @error('member_id') is-invalid @enderror"
                                         aria-label="Member">
                                         <option value="" selected>--- Select Member ---</option>
-                                        @if ($members->isNotEmpty())
                                         @foreach ($members as $member)
                                         <option value="{{ $member->id }}"
                                             {{ old('member_id') == $member->id ? 'selected' : '' }}>
                                             {{ $member->name }}
                                         </option>
                                         @endforeach
-                                        @else
-                                        <option disabled>No members available. Please add members first.</option>
-                                        @endif
                                     </select>
                                     <label for="memberId" class="form-label">Member</label>
                                     @error('member_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    @if ($members->isEmpty())
-                                    <small class="text-danger">⚠️ You must add members before submitting the
-                                        form.</small>
-                                    @endif
                                 </div>
+                                @else
+                                <div class="alert alert-warning">
+                                    <strong>⚠️ No member available.</strong><br>
+                                    Please add member first.
+                                </div>
+                                @endif
                             </div>
                             @endisset
                         </div>
@@ -201,30 +198,29 @@
                         <div class="row mb-3">
                             @isset($agents)
                             <div class="col-md-6">
+                                @if ($agents->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="agentId" name="agent_id"
                                         class="form-select @error('agent_id') is-invalid @enderror" aria-label="Agent">
                                         <option value="" selected>--- Select Agent ---</option>
-                                        @if ($agents->isNotEmpty())
                                         @foreach ($agents as $agent)
                                         <option value="{{ $agent->id }}"
                                             {{ old('agent_id') == $agent->id ? 'selected' : '' }}>
                                             {{ $agent->user->name }}
                                         </option>
                                         @endforeach
-                                        @else
-                                        <option disabled>No agents available. Please add agents first.</option>
-                                        @endif
                                     </select>
                                     <label for="agentId" class="form-label">Agent</label>
                                     @error('agent_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    @if ($agents->isEmpty())
-                                    <small class="text-danger">⚠️ You must add agents before submitting the
-                                        form.</small>
-                                    @endif
                                 </div>
+                                @else
+                                <div class="alert alert-warning">
+                                    <strong>⚠️ No agent available.</strong><br>
+                                    Please add agent first.
+                                </div>
+                                @endif
                             </div>
                             @endisset
                             <div class="col-md-6 d-flex align-items-center">
@@ -328,7 +324,7 @@
     </div>
 </div>
 
-<script>
+<!-- <script>
 document.addEventListener('DOMContentLoaded', function() {
     const generalAccModal = document.getElementById('generalAccModal');
     if (generalAccModal) {
@@ -403,4 +399,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-</script>
+</script> -->

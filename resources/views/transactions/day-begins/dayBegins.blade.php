@@ -37,67 +37,106 @@
                             @enderror
                         </div>
 
-                        {{-- Member Dropdown --}}
-                        @isset($members)
-                        @if ($members->isNotEmpty())
+                        {{-- User Dropdown --}}
+                        @isset($users)
+                        @if ($users->isNotEmpty())
                         <div class="form-floating mb-3">
-                            <select name="member_id" id="memberId"
-                                class="form-select @error('member_id') is-invalid @enderror" required>
+                            <select name="user_id" id="userId"
+                                class="form-select @error('user_id') is-invalid @enderror" required>
                                 <option value="" disabled selected>---------- Select ----------</option>
-                                @foreach ($members as $member)
-                                <option value="{{ $member->id }}"
-                                    {{ old('member_id') == $member->id ? 'selected' : '' }}>{{ $member->name }}</option>
+                                @foreach ($users as $user)
+                                <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                    {{ $user->name }}</option>
                                 @endforeach
                             </select>
-                            <label for="memberId">Member</label>
-                            @error('member_id')
+                            <label for="userId">User</label>
+                            @error('user_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         @else
                         <div class="alert alert-warning">
-                            <strong>⚠️ No members available.</strong><br>
-                            Please add members first.
+                            <strong>⚠️ No users available.</strong><br>
+                            Please add users first.
                         </div>
                         @endif
                         @endisset
 
-                        {{-- Status Dropdown --}}
-                        <div class="form-floating mb-3">
-                            <select id="status" name="status" class="form-select @error('status') is-invalid @enderror"
-                                required>
-                                <option value="">------ Select Status ------</option>
-                                <option value="Open" {{ old('status') == 'Open' ? 'selected' : '' }}>Open</option>
-                                <option value="Closed" {{ old('status') == 'Closed' ? 'selected' : '' }}>Closed</option>
-                            </select>
-                            <label for="status" class="form-label required">Status</label>
-                            @error('status')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                        <!-- Branch -->
+                        {{-- @if(Auth::user()->role === 'Admin')
+                         @if ($branches->isNotEmpty())
+                                <div class="form-floating">
+                                    <select name="branch_id" id="userBranch"
+                                        class="form-select @error('branch_id') is-invalid @enderror" required>
+                                        <option value="" disabled selected>Select Branch</option>
+                                        @foreach ($branches as $branch)
+                                        <option value="{{ $member->id }}"
+                        {{ old('branch_id') == $branch->id ? 'selected' : '' }}>
+                        {{ $branch->name }}</option>
+                        @endforeach
+                        </select>
+                        <label for="userBranch">Branch</label>
+                        @error('branch_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
 
-                        <!-- Description -->
-                        <div class="form-floating mb-3">
-                            <textarea class="form-control @error('description') is-invalid @enderror"
-                                placeholder="Description" id="description" name="description" style="height: 100px"
-                                required>{{ old('description') }}</textarea>
-                            <label for="description">Description</label>
-                            @error('description')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
                     </div>
-                </div>
+                    @else
+                    <div class="alert alert-warning">
+                        <strong>⚠️ No Branch available.</strong><br>
+                        Please add Branch first.
+                    </div>
+                    @endif
+                    @endif --}}
 
-                <div class="modal-footer bg-white rounded-bottom-4 border-top">
-                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
-                        <i class="bi bi-x-circle me-1"></i>Cancel
-                    </button>
-                    <button type="submit" class="btn btn-success px-4">
-                        <i class="bi bi-check-circle me-1"></i>Submit
-                    </button>
-                </div>
-            </form>
+                    {{-- Opening Cash Balance --}}
+                    <div class="col-md-6">
+                        {{-- <div class="form-floating">
+                                <input name="opening_cash_balance" id="openingCashBalance"
+                                    class="form-control @error('opening_cash_balance') is-invalid @enderror"
+                                    value="{{ old('opening_cash_balance') }}" type="number" required
+                        placeholder="Opening Cash Balance">
+                        <label for="openingCashBalance" class="form-label required">Opening Cash Balance</label>
+                        @error('opening_cash_balance')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div> --}}
+
+                    {{-- Status Dropdown --}}
+                    <div class="form-floating mb-3">
+                        <select id="status" name="status" class="form-select @error('status') is-invalid @enderror"
+                            required>
+                            <option value="">------ Select Status ------</option>
+                            <option value="Open" {{ old('status') == 'Open' ? 'selected' : '' }}>Open</option>
+                            <option value="Closed" {{ old('status') == 'Closed' ? 'selected' : '' }}>Closed</option>
+                        </select>
+                        <label for="status" class="form-label required">Status</label>
+                        @error('status')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Remark -->
+                    {{-- <div class="form-floating mb-3">
+    <textarea class="form-control @error('remarks') is-invalid @enderror" placeholder="Remarks" id="remarks"
+        name="remarks" style="height: 100px" required>{{ old('remarks') }}</textarea>
+                    <label for="remarks">Remarks</label>
+                    @error('remarks')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div> --}}
         </div>
     </div>
+
+    <div class="modal-footer bg-white rounded-bottom-4 border-top">
+        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle me-1"></i>Cancel
+        </button>
+        <button type="submit" class="btn btn-success px-4">
+            <i class="bi bi-check-circle me-1"></i>Submit
+        </button>
+    </div>
+    </form>
+</div>
+</div>
 </div>

@@ -5,6 +5,9 @@
             <form method="POST" enctype="multipart/form-data" action="{{ route('bank-investments.store') }}"
                 id="bankInvestmentForm">
                 @csrf
+                @if(Session::has('error'))
+                <div class="alert alert-danger rounded-0 m-0">{{ Session::get('error') }}</div>
+                @endif
                 <input type="hidden" id="bankInvestmentId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4 border-0">
@@ -15,104 +18,95 @@
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body bg-light p-4">
-                    @if(Session::has('error'))
-                    <div class="alert alert-danger rounded-0 m-0">{{ Session::get('error') }}</div>
-                    @endif
                     <div class="bg-white rounded shadow-sm p-4">
                         <div class="row mb-3">
                             @isset($ledgers)
                             <div class="col-md-4">
+                                @if ($ledgers->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="ledgerId" name="ledger_id"
                                         class="form-select @error('ledger_id') is-invalid @enderror"
                                         aria-label="Ledger">
                                         <option value="" selected>--- Select Ledger ---</option>
-                                        @if ($ledgers->isNotEmpty())
                                         @foreach ($ledgers as $ledger)
                                         <option value="{{ $ledger->id }}"
                                             {{ old('ledger_id') == $ledger->id ? 'selected' : '' }}>
                                             {{ $ledger->name }}
                                         </option>
                                         @endforeach
-                                        @else
-                                        <option disabled>No general ledgers available. Please add them first.
-                                        </option>
-                                        @endif
                                     </select>
                                     <label for="ledgerId" class="form-label">Ledger <span
                                             class="text-danger">*</span></label>
                                     @error('ledger_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    @if ($ledgers->isEmpty())
-                                    <small class="text-danger">⚠️ You must add general ledgers before submitting
-                                        the form.</small>
-                                    @endif
                                 </div>
+                                @else
+                                <div class="alert alert-warning">
+                                    <strong>⚠️ No ledger available.</strong><br>
+                                    Please add ledger first.
+                                </div>
+                                @endif
                             </div>
                             @endisset
 
                             @isset($accounts)
                             <div class="col-md-4">
+                                @if ($accounts->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="accountId" name="account_id"
                                         class="form-select @error('account_id') is-invalid @enderror"
                                         aria-label="Account">
                                         <option value="" selected>--- Select General Account ---</option>
-                                        @if ($accounts->isNotEmpty())
                                         @foreach ($accounts as $account)
                                         <option value="{{ $account->id }}"
                                             {{ old('account_id') == $account->id ? 'selected' : '' }}>
                                             {{ $account->name }}
                                         </option>
                                         @endforeach
-                                        @else
-                                        <option disabled>No general accounts available. Please add them first.
-                                        </option>
-                                        @endif
                                     </select>
                                     <label for="accountId" class="form-label">Account <span
                                             class="text-danger">*</span></label>
                                     @error('account_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    @if ($accounts->isEmpty())
-                                    <small class="text-danger">⚠️ You must add general accounts before submitting
-                                        the form.</small>
-                                    @endif
                                 </div>
+                                @else
+                                <div class="alert alert-warning">
+                                    <strong>⚠️ No general account available.</strong><br>
+                                    Please add general account first.
+                                </div>
+                                @endif
                             </div>
                             @endisset
 
                             @isset($depoAccounts)
                             <div class="col-md-4">
+                                @if ($depoAccounts->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="depoAccountId" name="depo_account_id"
                                         class="form-select @error('depo_account_id') is-invalid @enderror"
                                         aria-label="Depo Account">
                                         <option value="" selected>--- Select Deposit Account ---</option>
-                                        @if ($depoAccounts->isNotEmpty())
                                         @foreach ($depoAccounts as $account)
                                         <option value="{{ $account->id }}"
                                             {{ old('depo_account_id') == $account->id ? 'selected' : '' }}>
                                             {{ $account->name }}
                                         </option>
                                         @endforeach
-                                        @else
-                                        <option disabled>No deposit accounts available. Please add them first.
-                                        </option>
-                                        @endif
                                     </select>
                                     <label for="depoAccountId" class="form-label">Depo Account <span
                                             class="text-danger">*</span></label>
                                     @error('depo_account_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    @if ($depoAccounts->isEmpty())
-                                    <small class="text-danger">⚠️ You must add deposit accounts before submitting
-                                        the form.</small>
-                                    @endif
                                 </div>
+                                @else
+                                <div class="alert alert-warning">
+                                    <strong>⚠️ No deposit account available.</strong><br>
+                                    Please add deposit account first.
+                                </div>
+                                @endif
                             </div>
                             @endisset
                         </div>
@@ -201,16 +195,18 @@
                             </div>
                         </div>
 
-                        <div class="info-tabs border rounded mb-3">
+
+                        <!-- Tabs -->
+                        <div class="bg-secondary warning-tabs border rounded mb-3 p-2">
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item col" role="presentation">
-                                    <button class="nav-link w-100 active text-info" id="rd-tab" data-bs-toggle="tab"
-                                        data-bs-target="#rd-tab-pane" type="button" role="tab"
+                                    <button class="nav-link w-100 active text-info fw-bold" id="rd-tab"
+                                        data-bs-toggle="tab" data-bs-target="#rd-tab-pane" type="button" role="tab"
                                         aria-controls="rd-tab-pane" aria-selected="true">RD Detail
                                     </button>
                                 </li>
                                 <li class="nav-item col" role="presentation">
-                                    <button class="nav-link w-100 text-info" id="fd-tab" data-bs-toggle="tab"
+                                    <button class="nav-link w-100 text-info fw-bold" id="fd-tab" data-bs-toggle="tab"
                                         data-bs-target="#fd-tab-pane" type="button" role="tab"
                                         aria-controls="fd-tab-pane" aria-selected="false">FD Detail
                                     </button>
@@ -390,17 +386,30 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-floating">
-                                                <input name="fd_principal_amount" id="fdPrincipalAmount"
-                                                    class="form-control @error('fd_principal_amount') is-invalid @enderror"
-                                                    value="{{ old('fd_principal_amount') }}" type="number"
-                                                    placeholder="Principal Amount">
-                                                <label for="fdPrincipalAmount" class="form-label">Principal
-                                                    Amount</label>
-                                                @error('fd_principal_amount')
+                                                <input name="fd_amount" id="fdAmount"
+                                                    class="form-control @error('fd_amount') is-invalid @enderror"
+                                                    value="{{ old('fd_amount') }}" type="number"
+                                                    placeholder="RD Amount">
+                                                <label for="fdAmount" class="form-label">RD Amount</label>
+                                                @error('fd_amount')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                                <input name="fd_monthly_deposit" id="fdMonthlyDeposit"
+                                                    class="form-control @error('fd_monthly_deposit') is-invalid @enderror"
+                                                    value="{{ old('fd_monthly_deposit') }}" type="number"
+                                                    placeholder="Monthly Amount">
+                                                <label for="fdMonthlyDeposit" class="form-label">Monthly Amount</label>
+                                                @error('fd_monthly_deposit')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
                                         <div class="col-md-4">
                                             <div class="form-floating">
                                                 <input name="fd_maturity_amount" id="fdMaturityAmount"
@@ -413,20 +422,32 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row mb-3">
                                         <div class="col-md-4">
                                             <div class="form-floating">
-                                                <input name="fd_interest_earned" id="fdInterestEarned"
-                                                    class="form-control @error('fd_interest_earned') is-invalid @enderror"
-                                                    value="{{ old('fd_interest_earned') }}" type="number"
-                                                    placeholder="Interest Earned">
-                                                <label for="fdInterestEarned" class="form-label">Interest Earned</label>
-                                                @error('fd_interest_earned')
+                                                <input name="interest" id="fdInterest"
+                                                    class="form-control @error('interest') is-invalid @enderror"
+                                                    value="{{ old('interest') }}" type="number" placeholder="Interest">
+                                                <label for="fdInterest" class="form-label">Interest</label>
+                                                @error('interest')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                                <input name="fd_interest_receivable" id="fdInterestReceivable"
+                                                    class="form-control @error('fd_interest_receivable') is-invalid @enderror"
+                                                    value="{{ old('fd_interest_receivable') }}" type="number"
+                                                    placeholder="Interest Receivable">
+                                                <label for="fdInterestReceivable" class="form-label">Interest
+                                                    Receivable</label>
+                                                @error('fd_interest_receivable')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
                                         <div class="col-md-4">
                                             <div class="form-floating">
                                                 <input name="fd_interest_frequency" id="fdInterestFrequency"
@@ -444,49 +465,23 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <div class="form-floating">
-                                    <textarea name="notes" id="notes"
-                                        class="form-control @error('notes') is-invalid @enderror"
-                                        placeholder="Notes">{{ old('notes') }}</textarea>
-                                    <label for="notes" class="form-label">Notes</label>
-                                    @error('notes')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label for="documents" class="form-label">Documents</label>
-                                <input class="form-control @error('documents') is-invalid @enderror" type="file"
-                                    id="documents" name="documents[]" multiple>
-                                @error('documents')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                                <div id="documentPreviews" class="mt-2">
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
-                <div class="modal-footer bg-white rounded-bottom-4 border-top">
-                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
-                        <i class="bi bi-x-circle me-1"></i>Cancel
-                    </button>
-                    <button type="submit" class="btn btn-success px-4">
-                        <i class="bi bi-check-circle me-1"></i>Submit
-                    </button>
-                </div>
-            </form>
         </div>
+        <div class="modal-footer bg-white rounded-bottom-4 border-top">
+            <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+                <i class="bi bi-x-circle me-1"></i>Cancel
+            </button>
+            <button type="submit" class="btn btn-success px-4">
+                <i class="bi bi-check-circle me-1"></i>Submit
+            </button>
+        </div>
+        </form>
     </div>
 </div>
+</div>
 
-<script>
+<!-- <script>
 document.addEventListener('DOMContentLoaded', function() {
     const bankInvestmentModal = document.getElementById('bankInvestmentModal');
     if (bankInvestmentModal) {
@@ -660,4 +655,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-</script>
+</script> -->

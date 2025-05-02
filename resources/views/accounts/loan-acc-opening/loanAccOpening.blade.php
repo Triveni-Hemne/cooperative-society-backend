@@ -10,7 +10,7 @@
                 @endif
                 <input type="hidden" id="loanAccId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
-                <div class="modal-header bg-gradient bg-info text-white rounded-top-4 border-0">
+                <div class="modal-header bg-gradient bg-primary text-white rounded-top-4 border-0">
                     <h1 class="modal-title fs-5 fw-bold" id="loanAccOpeningModalLabel">
                         <i class="bi bi-cash-coin me-2"></i> Add Loan Account
                     </h1>
@@ -22,35 +22,34 @@
                         <div class="row mb-3">
                             @isset($ledgers)
                             <div class="col-md-6">
+                                @if ($ledgers->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="ledgerId" name="ledger_id"
                                         class="form-select @error('ledger_id') is-invalid @enderror"
                                         aria-label="Ledger">
                                         <option value="" selected>--- Select Ledger ---</option>
-                                        @if ($ledgers->isNotEmpty())
                                         @foreach ($ledgers as $ledger)
                                         <option value="{{ $ledger->id }}"
                                             {{ old('ledger_id') == $ledger->id ? 'selected' : '' }}>
                                             {{ $ledger->name }}
                                         </option>
                                         @endforeach
-                                        @else
-                                        <option disabled>No general ledgers available. Please add them first.
-                                        </option>
-                                        @endif
                                     </select>
                                     <label for="ledgerId" class="form-label">Ledger <span
                                             class="text-danger">*</span></label>
                                     @error('ledger_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    @if ($ledgers->isEmpty())
-                                    <small class="text-danger">⚠️ You must add general ledgers before submitting
-                                        the form.</small>
-                                    @endif
                                 </div>
+                                @else
+                                <div class="alert alert-warning">
+                                    <strong>⚠️ No departments available.</strong><br>
+                                    Please add departments first.
+                                </div>
+                                @endif
                             </div>
                             @endisset
+
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="photo" id="photoCopy"
@@ -68,34 +67,34 @@
                         <div class="row mb-3">
                             @isset($members)
                             <div class="col-md-6">
+                                @if ($members->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="memberId" name="member_id"
                                         class="form-select @error('member_id') is-invalid @enderror"
                                         aria-label="Member">
                                         <option value="" selected>--- Select Member ---</option>
-                                        @if ($members->isNotEmpty())
                                         @foreach ($members as $member)
                                         <option value="{{ $member->id }}"
                                             {{ old('member_id') == $member->id ? 'selected' : '' }}>
                                             {{ $member->name }}
                                         </option>
                                         @endforeach
-                                        @else
-                                        <option disabled>No members available. Please add members first.</option>
-                                        @endif
                                     </select>
                                     <label for="memberId" class="form-label">Member <span
                                             class="text-danger">*</span></label>
                                     @error('member_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    @if ($members->isEmpty())
-                                    <small class="text-danger">⚠️ You must add members before submitting the
-                                        form.</small>
-                                    @endif
                                 </div>
+                                @else
+                                <div class="alert alert-warning">
+                                    <strong>⚠️ No departments available.</strong><br>
+                                    Please add departments first.
+                                </div>
+                                @endif
                             </div>
                             @endisset
+
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="signature" id="signCopy"
@@ -113,35 +112,33 @@
                         <div class="row mb-3">
                             @isset($accounts)
                             <div class="col-md-6">
+                                @if ($accounts->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="accountId" name="account_id"
                                         class="form-select @error('account_id') is-invalid @enderror"
                                         aria-label="Account">
                                         <option value="" selected>--- Select Account ---</option>
-                                        @if ($accounts->isNotEmpty())
                                         @foreach ($accounts as $account)
                                         <option value="{{ $account->id }}"
                                             {{ old('account_id') == $account->id ? 'selected' : '' }}>
                                             {{ $account->name }}
                                         </option>
                                         @endforeach
-                                        @else
-                                        <option disabled>No general accounts available. Please add general
-                                            accounts first.
-                                        </option>
-                                        @endif
                                     </select>
                                     <label for="accountId" class="form-label">Account</label>
                                     @error('account_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    @if ($accounts->isEmpty())
-                                    <small class="text-danger">⚠️ You must add general accounts before submitting
-                                        the form.</small>
-                                    @endif
                                 </div>
+                                @else
+                                <div class="alert alert-warning">
+                                    <strong>⚠️ No departments available.</strong><br>
+                                    Please add departments first.
+                                </div>
+                                @endif
                             </div>
                             @endisset
+
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="acc_no" id="accNo"
@@ -532,39 +529,43 @@
                             </div>
                         </div>
 
-                        <div class="info-tabs border rounded mb-3">
+
+                        <!-- Tabs -->
+                        <div class="bg-secondary warning-tabs border rounded mb-3 p-2">
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item col" role="presentation">
-                                    <button class="nav-link w-100 active text-info" id="nominee-tab"
+                                    <button class="nav-link w-100 active text-info fw-bold" id="nominee-tab"
                                         data-bs-toggle="tab" data-bs-target="#nominee-tab-pane" type="button" role="tab"
                                         aria-controls="nominee-tab-pane" aria-selected="true">Nominee
                                         Detail
                                     </button>
                                 </li>
                                 <li class="nav-item col" role="presentation">
-                                    <button class="nav-link w-100 text-info" id="goldLoan-tab" data-bs-toggle="tab"
-                                        data-bs-target="#goldLoan-tab-pane" type="button" role="tab"
-                                        aria-controls="goldLoan-tab-pane" aria-selected="false">Gold Loan
+                                    <button class="nav-link w-100 text-info fw-bold" id="goldLoan-tab"
+                                        data-bs-toggle="tab" data-bs-target="#goldLoan-tab-pane" type="button"
+                                        role="tab" aria-controls="goldLoan-tab-pane" aria-selected="false">Gold Loan
                                         Detail
                                     </button>
                                 </li>
                                 <li class="nav-item col" role="presentation">
-                                    <button class="nav-link w-100 text-info" id="guarantors-tab" data-bs-toggle="tab"
-                                        data-bs-target="#guarantors-tab-pane" type="button" role="tab"
-                                        aria-controls="guarantors-tab-pane" aria-selected="false">Guarantors
+                                    <button class="nav-link w-100 text-info fw-bold" id="guarantors-tab"
+                                        data-bs-toggle="tab" data-bs-target="#guarantors-tab-pane" type="button"
+                                        role="tab" aria-controls="guarantors-tab-pane" aria-selected="false">Guarantors
                                         Detail
                                     </button>
                                 </li>
                                 <li class="nav-item col" role="presentation">
-                                    <button class="nav-link w-100 text-info" id="installments-tab" data-bs-toggle="tab"
-                                        data-bs-target="#installments-tab-pane" type="button" role="tab"
-                                        aria-controls="installments-tab-pane" aria-selected="false">Installments Detail
+                                    <button class="nav-link w-100 text-info fw-bold" id="installments-tab"
+                                        data-bs-toggle="tab" data-bs-target="#installments-tab-pane" type="button"
+                                        role="tab" aria-controls="installments-tab-pane"
+                                        aria-selected="false">Installments Detail
                                     </button>
                                 </li>
                                 <li class="nav-item col" role="presentation">
-                                    <button class="nav-link w-100 text-info" id="resolution-tab" data-bs-toggle="tab"
-                                        data-bs-target="#resolution-tab-pane" type="button" role="tab"
-                                        aria-controls="resolution-tab-pane" aria-selected="false">Resolution Detail
+                                    <button class="nav-link w-100 text-info fw-bold" id="resolution-tab"
+                                        data-bs-toggle="tab" data-bs-target="#resolution-tab-pane" type="button"
+                                        role="tab" aria-controls="resolution-tab-pane" aria-selected="false">Resolution
+                                        Detail
                                     </button>
                                 </li>
                             </ul>
@@ -635,7 +636,7 @@
                                                 @enderror
                                             </div>
                                             <div class="mb-3">
-                                                <label for="nominee1Photo" class="form-label">Photo</label>
+                                                <label for="nominee1Photo" class="form-label text-white">Photo</label>
                                                 <input name="nominees[0][nominee_image]" id="nominee1Photo"
                                                     value="{{ old('nominees.0.nominee_image') }}"
                                                     class="form-control @error('nominees.0.nominee_image') is-invalid @enderror"
@@ -708,7 +709,7 @@
                                                 @enderror
                                             </div>
                                             <div class="mb-3">
-                                                <label for="nominee2Photo" class="form-label">Photo</label>
+                                                <label for="nominee2Photo" class="form-label text-white">Photo</label>
                                                 <input name="nominees[1][nominee_image]" id="nominee2Photo"
                                                     value="{{ old('nominees.1.nominee_image') }}"
                                                     class="form-control @error('nominees.1.nominee_image') is-invalid @enderror"
@@ -960,28 +961,76 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input id="installmentAmount" name="installment_amount"
+                                                    class="form-control @error('installment_amount') is-invalid @enderror"
+                                                    value="{{ old('installment_amount') }}" type="number"
+                                                    placeholder="Installment Amount">
+                                                <label for="installmentAmount" class="form-label">Installment
+                                                    Amount</label>
+                                                @error('installment_amount')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input name="installment_with_interest" id="installmentWithInterest"
+                                                    class="form-control @error('installment_with_interest') is-invalid @enderror"
+                                                    value="{{ old('installment_with_interest') }}" type="number"
+                                                    placeholder="Installment with Interest">
+                                                <label for="installmentWithInterest" class="form-label">Installment with
+                                                    Interest</label>
+                                                @error('installment_with_interest')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input id="installmentsPaid" name="total_installments_paid"
+                                                    class="form-control @error('total_installments_paid') is-invalid @enderror"
+                                                    value="{{ old('total_installments_paid') }}" type="number"
+                                                    placeholder="Total Installments Paid">
+                                                <label for="installmentsPaid" class="form-label">Total Installments
+                                                    Paid</label>
+                                                @error('total_installments_paid')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="tab-pane fade p-3" id="resolution-tab-pane" role="tabpanel"
                                     aria-labelledby="resolution-tab" tabindex="0">
-                                    <div class="mb-3">
-                                        <label for="resolutionDetails" class="form-label">Resolution Details</label>
-                                        <textarea class="form-control" id="resolutionDetails" name="resolution_details"
-                                            rows="3">{{ old('resolution_details') }}</textarea>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="resolutionDate" class="form-label">Resolution Date</label>
-                                        <input type="date" class="form-control" id="resolutionDate"
-                                            name="resolution_date" value="{{ old('resolution_date') }}">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="boardMeetingNo" class="form-label">Board Meeting No.</label>
-                                        <input type="text" class="form-control" id="boardMeetingNo"
-                                            name="board_meeting_no" value="{{ old('board_meeting_no') }}">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="boardMeetingDate" class="form-label">Board Meeting Date</label>
-                                        <input type="date" class="form-control" id="boardMeetingDate"
-                                            name="board_meeting_date" value="{{ old('board_meeting_date') }}">
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input name="resolution_no" id="resolutionNo"
+                                                    class="form-control @error('resolution_no') is-invalid @enderror"
+                                                    value="{{ old('resolution_no') }}" type="number"
+                                                    placeholder="Resolution No.">
+                                                <label for="resolutionNo" class="form-label">Resolution No.</label>
+                                                @error('resolution_no')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input name="resolution_date" id="resolutionDate"
+                                                    class="form-control @error('resolution_date') is-invalid @enderror"
+                                                    value="{{ old('resolution_date') }}" type="date">
+                                                <label for="resolutionDate" class="form-label">Resolution Date</label>
+                                                @error('resolution_date')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1000,7 +1049,7 @@
         </div>
     </div>
 </div>
-
+<!-- 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const loanAccOpeningModal = document.getElementById('loanAccOpeningModal');
@@ -1055,7 +1104,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const totalInstallments = relatedTarget.getAttribute('data-bs-total_installments');
             const resolutionDetails = relatedTarget.getAttribute('data-bs-resolution_details');
             const resolutionDate = relatedTarget.getAttribute('data-bs-resolution_date');
-            const boardMeetingNo = relatedTarget.getAttribute('data-bs-board_meeting_no');
+            const boardMeetingNo = relatedTarget.getAttribute('data-bs-resolution_no');
             const boardMeetingDate = relatedTarget.getAttribute('data-bs-board_meeting_date');
             const nominee1Name = relatedTarget.getAttribute('data-bs-nominee1_name');
             const nominee1Naav = relatedTarget.getAttribute('data-bs-nominee1_naav');
@@ -1209,64 +1258,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-</script>
-
-
-{{--
-    <div class="row mb-1">
-<div class="col-2 d-none d-xl-block">
-<label for="installmentsPaid">Total Installments Paid</label>
-</div>
-<div class="col-4">
-<input id="installmentsPaid" name="total_installments_paid" class="w-100 px-2 py-1 @error('total_installments_paid') is-invalid @enderror" value="{{ old('total_installments_paid') }}"
-type="number" placeholder="Total Installments Paid">
-@error('total_installments_paid')
-<div class="invalid-feedback">{{$message}}</div>
-@enderror
-</div>
-</div>
-</div>
-
-<!-- Resolution Tab -->
-<div class="tab-pane fade p-3 px-5" id="resolution-tab-pane" role="tabpanel" aria-labelledby="resolution-tab"
-    tabindex="0">
-    <div class="row mb-1">
-        <div class="col-3 d-none d-xl-block">
-            <label for="resolutionNo">Resolution No.</label>
-        </div>
-        <div class="col-4">
-            <input id="resolutionNo" name="resolution_no"
-                class="w-100 px-2 py-1 @error('resolution_no') is-invalid @enderror" value="{{ old('resolution_no') }}"
-                type="text" placeholder="Resolution No.">
-            @error('resolution_no')
-            <div class="invalid-feedback">{{$message}}</div>
-            @enderror
-        </div>
-    </div>
-    <div class="row mb-1">
-        <div class="col-3 d-none d-xl-block">
-            <label for="resolutionDate">Resolution Date</label>
-        </div>
-        <div class="col-4">
-            <input name="resolution_date" id="resolutionDate"
-                class="w-100 px-2 py-1 @error('resolution_date') is-invalid @enderror"
-                value="{{ old('resolution_date') }}" type="date" placeholder="Resolution Date">
-            @error('resolution_date')
-            <div class="invalid-feedback">{{$message}}</div>
-            @enderror
-        </div>
-    </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-    <button type="submit" class="btn btn-primary">Save changes</button>
-</div>
-</form>
-</div>
-</div>
-</div>
---}}
+</script> -->

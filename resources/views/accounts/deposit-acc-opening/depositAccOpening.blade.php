@@ -10,7 +10,7 @@
                 @endif
                 <input type="hidden" id="memberDepoAccountId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
-                <div class="modal-header bg-gradient bg-success text-white rounded-top-4 border-0">
+                <div class="modal-header bg-gradient bg-primary text-white rounded-top-4 border-0">
                     <h1 class="modal-title fs-5 fw-bold" id="depositAccOpeningModalLabel">
                         <i class="bi bi-bank me-2"></i> Add Deposit Account
                     </h1>
@@ -22,34 +22,34 @@
                         <div class="row mb-3">
                             @isset($ledgers)
                             <div class="col-md-6">
+                                @if ($ledgers->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="ledgerId" name="ledger_id"
                                         class="form-select @error('ledger_id') is-invalid @enderror"
                                         aria-label="Ledger">
                                         <option value="" selected>--- Select Ledger ---</option>
-                                        @if ($ledgers->isNotEmpty())
                                         @foreach ($ledgers as $ledger)
                                         <option value="{{ $ledger->id }}"
                                             {{ old('ledger_id') == $ledger->id ? 'selected' : '' }}>
                                             {{ $ledger->name }}
                                         </option>
                                         @endforeach
-                                        @else
-                                        <option disabled>No ledgers available. Please add ledgers first.</option>
-                                        @endif
                                     </select>
                                     <label for="ledgerId" class="form-label">Ledger <span
                                             class="text-danger">*</span></label>
                                     @error('ledger_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    @if ($ledgers->isEmpty())
-                                    <small class="text-danger">⚠️ You must add ledgers before submitting the
-                                        form.</small>
-                                    @endif
                                 </div>
+                                @else
+                                <div class="alert alert-warning">
+                                    <strong>⚠️ No ledgers available.</strong><br>
+                                    Please add ledgers first.
+                                </div>
+                                @endif
                             </div>
                             @endisset
+
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="photo" id="photoCopy"
@@ -67,34 +67,34 @@
                         <div class="row mb-3">
                             @isset($members)
                             <div class="col-md-6">
+                                @if ($members->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="memberId" name="member_id"
                                         class="form-select @error('member_id') is-invalid @enderror"
                                         aria-label="Member">
                                         <option value="" selected>--- Select Member ---</option>
-                                        @if ($members->isNotEmpty())
                                         @foreach ($members as $member)
                                         <option value="{{ $member->id }}"
                                             {{ old('member_id') == $member->id ? 'selected' : '' }}>
                                             {{ $member->name }}
                                         </option>
                                         @endforeach
-                                        @else
-                                        <option disabled>No members available. Please add members first.</option>
-                                        @endif
                                     </select>
                                     <label for="memberId" class="form-label">Member <span
                                             class="text-danger">*</span></label>
                                     @error('member_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    @if ($members->isEmpty())
-                                    <small class="text-danger">⚠️ You must add members before submitting the
-                                        form.</small>
-                                    @endif
                                 </div>
+                                @else
+                                <div class="alert alert-warning">
+                                    <strong>⚠️ No members available.</strong><br>
+                                    Please add members first.
+                                </div>
+                                @endif
                             </div>
                             @endisset
+
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="signature" id="signCopy"
@@ -112,35 +112,33 @@
                         <div class="row mb-3">
                             @isset($accounts)
                             <div class="col-md-6">
+                                @if ($accounts->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="accountId" name="account_id"
                                         class="form-select @error('account_id') is-invalid @enderror"
                                         aria-label="Account">
                                         <option value="" selected>--- Select Account ---</option>
-                                        @if ($accounts->isNotEmpty())
                                         @foreach ($accounts as $account)
                                         <option value="{{ $account->id }}"
                                             {{ old('account_id') == $account->id ? 'selected' : '' }}>
                                             {{ $account->name }}
                                         </option>
                                         @endforeach
-                                        @else
-                                        <option disabled>No general accounts available. Please add general
-                                            accounts first.
-                                        </option>
-                                        @endif
                                     </select>
                                     <label for="accountId" class="form-label">Account</label>
                                     @error('account_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    @if ($accounts->isEmpty())
-                                    <small class="text-danger">⚠️ You must add general accounts before submitting
-                                        the form.</small>
-                                    @endif
                                 </div>
+                                @else
+                                <div class="alert alert-warning">
+                                    <strong>⚠️ No account available.</strong><br>
+                                    Please add account first.
+                                </div>
+                                @endif
                             </div>
                             @endisset
+
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="acc_no" id="accNo"
@@ -155,7 +153,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <div class="col-md-6">
+                            <div class="col">
                                 <div class="form-floating">
                                     <input name="name" id="name"
                                         class="form-control @error('name') is-invalid @enderror"
@@ -166,6 +164,9 @@
                                     @enderror
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="interest_rate" id="interestRate"
@@ -177,9 +178,6 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="interest_payable" id="interestPayable"
@@ -192,6 +190,9 @@
                                     @enderror
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="ac_start_date" id="acStartDate"
@@ -203,9 +204,6 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="acc_closing_date" id="accClosingDate"
@@ -218,6 +216,9 @@
                                     @enderror
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="open_balance" id="openBalance"
@@ -229,9 +230,6 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="balance" id="balance"
@@ -243,37 +241,36 @@
                                     @enderror
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row mb-3">
                             @isset($agents)
                             <div class="col-md-6">
+                                @if ($agents->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="agentId" name="agent_id"
                                         class="form-select @error('agent_id') is-invalid @enderror" aria-label="Agent">
                                         <option value="" selected>--- Select Agent ---</option>
-                                        @if ($agents->isNotEmpty())
                                         @foreach ($agents as $agent)
                                         <option value="{{ $agent->id }}"
                                             {{ old('agent_id') == $agent->id ? 'selected' : '' }}>
                                             {{ $agent->user->name }}
                                         </option>
                                         @endforeach
-                                        @else
-                                        <option disabled>No agents available. Please add agents first.</option>
-                                        @endif
                                     </select>
                                     <label for="agentId" class="form-label">Agent</label>
                                     @error('agent_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    @if ($agents->isEmpty())
-                                    <small class="text-danger">⚠️ You must add agents before submitting the
-                                        form.</small>
-                                    @endif
                                 </div>
+                                @else
+                                <div class="alert alert-warning">
+                                    <strong>⚠️ No agent available.</strong><br>
+                                    Please add agent first.
+                                </div>
+                                @endif
                             </div>
                             @endisset
-                        </div>
-
-                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input id="pageNo" name="page_no"
@@ -285,6 +282,9 @@
                                     @enderror
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <select id="depositType" name="deposit_type"
@@ -296,7 +296,8 @@
                                         <option value="fd" {{ old('deposit_type') == 'fd' ? 'selected' : '' }}>Fixed
                                             Deposit
                                         </option>
-                                        <option value="rd" {{ old('deposit_type') == 'rd' ? 'selected' : '' }}>Recurring
+                                        <option value="rd" {{ old('deposit_type') == 'rd' ? 'selected' : '' }}>
+                                            Recurring
                                             Deposit
                                         </option>
                                     </select>
@@ -306,9 +307,6 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row mb-3">
                             <div class="col-md-6 d-flex align-items-center">
                                 <div class="form-check form-switch">
                                     <input id="closingFlag" type="checkbox" name="closing_flag" value="1"
@@ -329,6 +327,9 @@
                                     @enderror
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <select id="installmentType" name="installment_type"
@@ -350,9 +351,6 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="installment_amount" id="installmentAmount"
@@ -364,6 +362,9 @@
                                     @enderror
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="total_installments" id="totalInstallments"
@@ -376,9 +377,6 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="total_payable_amount" id="totalPayableAmount"
@@ -391,6 +389,9 @@
                                     @enderror
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="total_installments_paid" id="installmentsPaid"
@@ -403,9 +404,6 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="open_interest" id="openInterest"
@@ -419,30 +417,32 @@
                             </div>
                         </div>
 
-                        <div class="info-tabs border rounded mb-3">
+
+                        <!-- Tabs -->
+                        <div class="bg-secondary warning-tabs border rounded mb-3 p-2">
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item col" role="presentation">
-                                    <button class="nav-link w-100 active text-info" id="nominee-tab"
+                                    <button class="nav-link w-100 active text-info fw-bold" id="nominee-tab"
                                         data-bs-toggle="tab" data-bs-target="#nominee-tab-pane" type="button" role="tab"
                                         aria-controls="nominee-tab-pane" aria-selected="true">Nominee
                                         Detail
                                     </button>
                                 </li>
                                 <li class="nav-item col" role="presentation">
-                                    <button class="nav-link w-100 text-info" id="rd-tab" data-bs-toggle="tab"
+                                    <button class="nav-link w-100 text-info fw-bold" id="rd-tab" data-bs-toggle="tab"
                                         data-bs-target="#rd-tab-pane" type="button" role="tab"
                                         aria-controls="rd-tab-pane" aria-selected="false">RD Detail
                                     </button>
                                 </li>
                                 <li class="nav-item col" role="presentation">
-                                    <button class="nav-link w-100 text-info" id="fd-tab" data-bs-toggle="tab"
+                                    <button class="nav-link w-100 text-info fw-bold" id="fd-tab" data-bs-toggle="tab"
                                         data-bs-target="#fd-tab-pane" type="button" role="tab"
                                         aria-controls="fd-tab-pane" aria-selected="false">FD Detail
                                     </button>
                                 </li>
                                 <li class="nav-item col" role="presentation">
-                                    <button class="nav-link w-100 text-info" id="saving-tab" data-bs-toggle="tab"
-                                        data-bs-target="#saving-tab-pane" type="button" role="tab"
+                                    <button class="nav-link w-100 text-info fw-bold" id="saving-tab"
+                                        data-bs-toggle="tab" data-bs-target="#saving-tab-pane" type="button" role="tab"
                                         aria-controls="saving-tab-pane" aria-selected="false">Saving Detail
                                     </button>
                                 </li>
@@ -514,7 +514,7 @@
                                                 @enderror
                                             </div>
                                             <div class="mb-3">
-                                                <label for="nominee1Photo" class="form-label">Photo</label>
+                                                <label for="nominee1Photo" class="form-label text-white">Photo</label>
                                                 <input name="nominees[0][nominee_image]" id="nominee1Photo"
                                                     value="{{ old('nominees.0.nominee_image') }}"
                                                     class="form-control @error('nominees.0.nominee_image') is-invalid @enderror"
@@ -587,7 +587,7 @@
                                                 @enderror
                                             </div>
                                             <div class="mb-3">
-                                                <label for="nominee2Photo" class="form-label">Photo</label>
+                                                <label for="nominee2Photo" class="form-label text-white">Photo</label>
                                                 <input name="nominees[1][nominee_image]" id="nominee2Photo"
                                                     value="{{ old('nominees.1.nominee_image') }}"
                                                     class="form-control @error('nominees.1.nominee_image') is-invalid @enderror"
@@ -609,7 +609,8 @@
                                                     class="form-control @error('open_interest_rd') is-invalid @enderror"
                                                     value="{{ old('open_interest_rd') }}" type="number"
                                                     placeholder="Opening Interest">
-                                                <label for="openingInterest" class="form-label">Opening Interest</label>
+                                                <label for="openingInterest" class="form-label">Opening
+                                                    Interest</label>
                                                 @error('open_interest_rd')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
@@ -720,7 +721,7 @@
     </div>
 </div>
 
-<script>
+<!-- <script>
 document.addEventListener('DOMContentLoaded', function() {
     const depositAccOpeningModal = document.getElementById('depositAccOpeningModal');
     if (depositAccOpeningModal) {
@@ -868,4 +869,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-</script>
+</script> -->

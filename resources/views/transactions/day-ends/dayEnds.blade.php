@@ -22,97 +22,242 @@
                 <div class="modal-body bg-light">
                     <div class="p-4 bg-white rounded shadow-sm">
 
-                        {{-- Created By --}}
-                        <div class="form-floating mb-3">
-                            <input name="created_by" id="createdBy"
-                                class="form-control @error('created_by') is-invalid @enderror" value="{{ $user->name }}"
-                                type="text" disabled placeholder="Created By">
-                            <label for="createdBy">Created By</label>
-                            @error('created_by')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                {{-- Created By --}}
+                                <div class="form-floating">
+                                    <input name="created_by" id="createdBy"
+                                        class="form-control @error('created_by') is-invalid @enderror"
+                                        value="{{ $user->name }}" type="text" disabled placeholder="Created By">
+                                    <label for="createdBy">Created By</label>
+                                    @error('created_by')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
 
+                            <div class="col-md-6">
+                                {{-- @if ($branches->isNotEmpty())
+                                <div class="form-floating">
+                                    <select name="branch_id" id="userBranch"
+                                        class="form-select @error('branch_id') is-invalid @enderror" required>
+                                        <option value="" disabled selected>Select Branch</option>
+                                        @foreach ($branches as $branch)
+                                        <option value="{{ $member->id }}"
+                                {{ old('branch_id') == $branch->id ? 'selected' : '' }}>
+                                {{ $branch->name }}</option>
+                                @endforeach
+                                </select>
+                                <label for="userBranch">Branch</label>
+                                @error('branch_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+
+                            </div>
+                            @else
+                            <div class="alert alert-warning">
+                                <strong>⚠️ No Branch available.</strong><br>
+                                Please add Branch first.
+                            </div>
+                            @endif --}}
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
                         {{-- Date --}}
-                        <div class="form-floating mb-3">
-                            <input name="date" id="date" class="form-control @error('date') is-invalid @enderror"
-                                value="{{ old('date') }}" type="date" required>
-                            <label for="date" class="form-label required">Date</label>
-                            @error('date')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input name="date" id="date" class="form-control @error('date') is-invalid @enderror"
+                                    value="{{ old('date') }}" type="date" required>
+                                <label for="date" class="form-label required">Date</label>
+                                @error('date')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
 
-                        {{-- Opening Cash --}}
-                        <div class="form-floating mb-3">
-                            <input name="opening_cash" id="openingCash"
-                                class="form-control @error('opening_cash') is-invalid @enderror"
-                                value="{{ old('opening_cash') }}" type="number" required placeholder="Opening Cash">
-                            <label for="openingCash" class="form-label required">Opening Cash</label>
-                            @error('opening_cash')
+                        {{-- Closing Cash Balance --}}
+                        <div class="col-md-6">
+                            {{-- <div class="form-floating">
+                                <input name="closing_cash_balance" id="ClosingCashBalance"
+                                    class="form-control @error('closing_cash_balance') is-invalid @enderror"
+                                    value="{{ old('closing_cash_balance') }}" type="number" required
+                            placeholder="Closing Cash Balance">
+                            <label for="ClosingCashBalance" class="form-label required">Closing Cash Balance</label>
+                            @error('closing_cash_balance')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>
-
-                        {{-- Total Credit RS --}}
-                        <div class="form-floating mb-3">
-                            <input name="total_credit_rs" id="totalCreditRs"
-                                class="form-control @error('total_credit_rs') is-invalid @enderror"
-                                value="{{ old('total_credit_rs') }}" type="number" required
-                                placeholder="Total Credit RS">
-                            <label for="totalCreditRs" class="form-label required">Total Credit RS</label>
-                            @error('total_credit_rs')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        {{-- Total Credit Challans --}}
-                        <div class="form-floating mb-3">
-                            <input name="total_credit_chalans" id="totalCreditChalans"
-                                class="form-control @error('total_credit_chalans') is-invalid @enderror"
-                                value="{{ old('total_credit_chalans') }}" type="number" required
-                                placeholder="Total Credit Challan">
-                            <label for="totalCreditChalans" class="form-label required">Total Credit Challan</label>
-                            @error('total_credit_chalans')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        {{-- Total Debit RS --}}
-                        <div class="form-floating mb-3">
-                            <input name="total_debit_rs" id="totalDebitRs"
-                                class="form-control @error('total_debit_rs') is-invalid @enderror"
-                                value="{{ old('total_debit_rs') }}" type="number" required placeholder="Total Debit RS">
-                            <label for="totalDebitRs" class="form-label required">Total Debit RS</label>
-                            @error('total_debit_rs')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        {{-- Total Debit Challans --}}
-                        <div class="form-floating mb-3">
-                            <input name="total_debit_challans" id="totalDebitChallans"
-                                class="form-control @error('total_debit_challans') is-invalid @enderror"
-                                value="{{ old('total_debit_challans') }}" type="number" required
-                                placeholder="Total Debit Challan">
-                            <label for="totalDebitChallans" class="form-label required">Total Debit Challan</label>
-                            @error('total_debit_challans')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
+                        </div> --}}
                     </div>
                 </div>
 
-                <div class="modal-footer bg-white rounded-bottom-4 border-top">
-                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
-                        <i class="bi bi-x-circle me-1"></i>Cancel
-                    </button>
-                    <button type="submit" class="btn btn-success px-4">
-                        <i class="bi bi-check-circle me-1"></i>Submit
-                    </button>
+                <div class="row g-3 mb-3">
+                    {{-- Total Receipt --}}
+                    <div class="col-md-6">
+                        {{-- <div class="form-floating">
+                            <input name="total_receipts" id="TotalReceipts"
+                                class="form-control @error('total_receipts') is-invalid @enderror"
+                                value="{{ old('total_receipts') }}" type="number" required placeholder="Total
+                        Receipts">
+                        <label for="TotalReceipts" class="form-label required">Total Receipts</label>
+                        @error('total_receipts')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div> --}}
                 </div>
-            </form>
+
+                {{-- Total Payment --}}
+                <div class="col-md-6">
+                    {{-- <div class="form-floating">
+                            <input name="total_payments" id="TotalPayments"
+                                class="form-control @error('total_payments') is-invalid @enderror"
+                                value="{{ old('total_payments') }}" type="number" required placeholder="Total
+                    Payments">
+                    <label for="TotalPayments" class="form-label required">Total Payments</label>
+                    @error('total_payments')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div> --}}
         </div>
     </div>
+
+    <div class="row g-3 mb-3">
+        {{-- System Closing Balance --}}
+        <div class="col-md-6">
+            {{-- <div class="form-floating">
+                            <input name="system_closing_balance" id="SystemClosingBalance"
+                                class="form-control @error('system_closing_balance') is-invalid @enderror"
+                                value="{{ old('system_closing_balance') }}" type="number" required
+            placeholder="System Closing Balance">
+            <label for="SystemClosingBalance" class="form-label required">System Closing
+                Balances</label>
+            @error('system_closing_balance')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div> --}}
+    </div>
+
+    {{-- Difference Amount --}}
+    <div class="col-md-6">
+        {{-- <div class="form-floating">
+                            <input name="difference_amount" id="DifferenceAmount"
+                                class="form-control @error('difference_amount') is-invalid @enderror"
+                                value="{{ old('difference_amount') }}" type="number" required
+        placeholder="Difference Amounts">
+        <label for="DifferenceAmount" class="form-label required">Difference Amounts</label>
+        @error('difference_amount')
+        <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div> --}}
+</div>
+</div>
+
+<div class="row g-3 mb-3">
+    {{-- Is Day Closed --}}
+    <div class="col-md-6">
+        {{-- <div class="form-floating">
+                            <input name="is_day_closed" id="IsDayClosed"
+                                class="form-control @error('is_day_closed') is-invalid @enderror"
+                                value="{{ old('is_day_closed') }}" type="number" required placeholder="Is Day Closed">
+        <label for="IsDayClosed" class="form-label required">Is Day Closed</label>
+        @error('is_day_closed')
+        <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div> --}}
+</div>
+
+{{-- Opening Cash --}}
+<div class="col-md-6">
+    <div class="form-floating">
+        <input name="opening_cash" id="openingCash" class="form-control @error('opening_cash') is-invalid @enderror"
+            value="{{ old('opening_cash') }}" type="number" required placeholder="Opening Cash">
+        <label for="openingCash" class="form-label required">Opening Cash</label>
+        @error('opening_cash')
+        <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+</div>
+</div>
+
+<div class="row g-3 mb-3">
+    {{-- Total Credit RS --}}
+    <div class="col-md-6">
+        <div class="form-floating">
+            <input name="total_credit_rs" id="totalCreditRs"
+                class="form-control @error('total_credit_rs') is-invalid @enderror" value="{{ old('total_credit_rs') }}"
+                type="number" required placeholder="Total Credit RS">
+            <label for="totalCreditRs" class="form-label required">Total Credit RS</label>
+            @error('total_credit_rs')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    {{-- Total Credit Challans --}}
+    <div class="col-md-6">
+        <div class="form-floating">
+            <input name="total_credit_chalans" id="totalCreditChalans"
+                class="form-control @error('total_credit_chalans') is-invalid @enderror"
+                value="{{ old('total_credit_chalans') }}" type="number" required placeholder="Total Credit Challan">
+            <label for="totalCreditChalans" class="form-label required">Total Credit Challan</label>
+            @error('total_credit_chalans')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-3">
+    {{-- Total Debit RS --}}
+    <div class="col-md-6">
+        <div class="form-floating">
+            <input name="total_debit_rs" id="totalDebitRs"
+                class="form-control @error('total_debit_rs') is-invalid @enderror" value="{{ old('total_debit_rs') }}"
+                type="number" required placeholder="Total Debit RS">
+            <label for="totalDebitRs" class="form-label required">Total Debit RS</label>
+            @error('total_debit_rs')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    {{-- Total Debit Challans --}}
+    <div class="col-md-6">
+        <div class="form-floating">
+            <input name="total_debit_challans" id="totalDebitChallans"
+                class="form-control @error('total_debit_challans') is-invalid @enderror"
+                value="{{ old('total_debit_challans') }}" type="number" required placeholder="Total Debit Challan">
+            <label for="totalDebitChallans" class="form-label required">Total Debit Challan</label>
+            @error('total_debit_challans')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+</div>
+
+<!-- Remark -->
+{{-- <div class="form-floating mb-3">
+    <textarea class="form-control @error('remarks') is-invalid @enderror" placeholder="Remarks" id="remarks"
+        name="remarks" style="height: 100px" required>{{ old('remarks') }}</textarea>
+<label for="remarks">Remarks</label>
+@error('remarks')
+<div class="invalid-feedback">{{ $message }}</div>
+@enderror
+</div> --}}
+
+
+</div>
+</div>
+
+<div class="modal-footer bg-white rounded-bottom-4 border-top">
+    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+        <i class="bi bi-x-circle me-1"></i>Cancel
+    </button>
+    <button type="submit" class="btn btn-success px-4">
+        <i class="bi bi-check-circle me-1"></i>Submit
+    </button>
+</div>
+</form>
+</div>
+</div>
 </div>
