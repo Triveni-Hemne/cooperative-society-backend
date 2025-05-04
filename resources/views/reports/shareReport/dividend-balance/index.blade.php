@@ -11,11 +11,29 @@
 @section('content')
 <div class="container" >
     <h2 class="mb-4">Dividend Balance Report ({{ $date }})</h2>
-
+        <div class="row mb-4">
+            <div class="col-md-6 offset-md-3">
+                <form action="{{ route('dividend-balance.index') }}" method="GET" class="d-flex form-outline input-group">
+                    <input type="date" name="date" class="form-control " value="{{ $date }}" required >
+                      @if(!empty($branches))
+                    {{-- Branch --}}
+                    <select name="branch_id" class="form-select">
+                        <option value="">All Branches</option>
+                        @foreach($branches as $branch)
+                            <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                                {{ $branch->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @endif
+                    <button type="submit" class="btn btn-primary fs-5" data-mdb-ripple-init><i class="bi bi-search text-light" ></i></button>
+                </form>
+            </div>
+        </div>
     <div class="mb-3">
         <div class="export-btns d-flex justify-content-end">
-            <a href="{{ route('dividend-balance.pdf', ['date' => $date, 'type' => 'stream']) }}" class="btn btn-secondary me-1" target="_blank"><i class="bi bi-printer"></i> Print</a>
-            <a href="{{ route('dividend-balance.pdf', ['date' => $date, 'type' => 'download']) }}" class="btn btn-primary" target=""><i class="bi bi-file-earmark-pdf"></i> Download PDF</a>
+            <a href="{{ route('dividend-balance.pdf', ['date' => $date, 'type' => 'stream', 'branch_id' => request('branch_id') ]) }}" class="btn btn-secondary me-1" target="_blank"><i class="bi bi-printer"></i> Print</a>
+            <a href="{{ route('dividend-balance.pdf', ['date' => $date, 'type' => 'download', 'branch_id' => request('branch_id') ]) }}" class="btn btn-primary" target=""><i class="bi bi-file-earmark-pdf"></i> Download PDF</a>
         </div>
     </div>
 <div style="overflow-x: scroll">

@@ -12,22 +12,48 @@ use App\Models\BranchLedger;
 use App\Models\Account;
 use App\Models\MemberDepoAccount;
 use App\Models\MemberLoanAccount;
+use App\Models\Branch;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DailyReportController extends Controller
 {
-   public function getCashBookData($date)
+   public function getCashBookData($date, $branchId = null)
     {
+        $user = Auth::user();
+
+        if (!$branchId) {
+            $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+        }
+
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+        
         // Fetch transactions for the selected date
-        $transactions = VoucherEntry::whereDate('date', $date)
+        $transactions = VoucherEntry::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('enteredBy', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->whereDate('date', $date)
             ->where('payment_mode', 'Cash')
             ->orderBy('date', 'asc')
             ->get();
 
         // Calculate Opening Balance (Previous day's closing balance) in a single query
-        $openingBalance = VoucherEntry::whereDate('date', '<', $date)
+        $openingBalance = VoucherEntry::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('enteredBy', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->whereDate('date', '<', $date)
             ->where('payment_mode', 'Cash')
             ->selectRaw("
                 SUM(CASE WHEN transaction_type = 'Deposit' THEN amount ELSE 0 END) -
@@ -36,7 +62,15 @@ class DailyReportController extends Controller
             ")->value('balance') ?? 0;
 
         // Calculate Total Receipts & Total Payments for the selected date using a single query
-        $totals = VoucherEntry::whereDate('date', $date)
+        $totals = VoucherEntry::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('enteredBy', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->whereDate('date', $date)
             ->where('payment_mode', 'Cash')
             ->selectRaw("
                 SUM(CASE WHEN transaction_type = 'Deposit' THEN amount ELSE 0 END) AS total_receipts,
@@ -49,13 +83,14 @@ class DailyReportController extends Controller
         // Calculate Closing Balance
         $closingBalance = $openingBalance + $cashReceipts - $cashPayments;
 
-        return compact('date', 'openingBalance', 'cashReceipts', 'cashPayments', 'closingBalance', 'transactions');
+        return compact('date', 'openingBalance', 'cashReceipts', 'cashPayments', 'closingBalance', 'transactions', 'branches');
     }
 
     public function cashBook(Request $request)
     {
         $date = $request->input('date', Carbon::today()->toDateString());
-        $data = $this->getCashBookData($date);
+        $branchId = $request->input('branch_id');
+        $data = $this->getCashBookData($date, $branchId);
 
         return view('reports.dailyReport.cash-book.index', $data);
     }
@@ -66,7 +101,8 @@ class DailyReportController extends Controller
     public function exportPDF(Request $request)
     {
         $date = $request->input('date', Carbon::today()->toDateString());
-        $data = $this->getCashBookData($date);
+        $branchId = $request->input('branch_id');
+        $data = $this->getCashBookData($date, $branchId);
         $type = $request->input('type', 'stream');
 
         $pdf = Pdf::loadView('reports.dailyReport.cash-book.cashbook_pdf', $data);
@@ -76,15 +112,39 @@ class DailyReportController extends Controller
         return $pdf->stream('cashbook_report_' . $date . '.pdf');
     }
 
-    public function getDayBookData($date)
+    public function getDayBookData($date, $branchId = null)
     {
+        $user = Auth::user();
+
+        if (!$branchId) {
+            $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+        }
+
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+        
         // Fetch all transactions for the selected date (both Cash and Bank)
-        $transactions = VoucherEntry::whereDate('date', $date)
+        $transactions = VoucherEntry::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('enteredBy', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->whereDate('date', $date)
             ->orderBy('date', 'asc')
             ->get();
 
         // Calculate Total Receipts & Total Payments for the selected date
-        $totals = VoucherEntry::whereDate('date', $date)
+        $totals = VoucherEntry::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('enteredBy', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->whereDate('date', $date)
             ->selectRaw("SUM(CASE WHEN transaction_type = 'Deposit' THEN amount ELSE 0 END) AS total_receipts,
                          SUM(CASE WHEN transaction_type = 'Withdrawal' THEN amount ELSE 0 END) AS total_payments")
             ->first();
@@ -92,13 +152,14 @@ class DailyReportController extends Controller
         $totalReceipts = $totals->total_receipts ?? 0;
         $totalPayments = $totals->total_payments ?? 0;
 
-        return compact('date', 'totalReceipts', 'totalPayments', 'transactions');
+        return compact('date', 'totalReceipts', 'totalPayments', 'transactions', 'branches');
     }
 
     public function dayBook(Request $request)
     {
         $date = $request->input('date', Carbon::today()->toDateString());
-        $data = $this->getDayBookData($date);
+        $branchId = $request->input('branch_id');
+        $data = $this->getDayBookData($date, $branchId);
 
         return view('reports.dailyReport.day-book.index', $data);
     }
@@ -109,7 +170,8 @@ class DailyReportController extends Controller
     public function exportDayBookPDF(Request $request)
     {
         $date = $request->input('date', Carbon::today()->toDateString());
-        $data = $this->getDayBookData($date);
+        $branchId = $request->input('branch_id');
+        $data = $this->getDayBookData($date, $branchId);
         $type = $request->input('type', 'stream');
 
         $pdf = Pdf::loadView('reports.dailyReport.day-book.daybook_pdf', $data);
@@ -123,12 +185,29 @@ class DailyReportController extends Controller
     /**
      * Fetch Sub Day Book Data
      */
-    public function getSubDayBookData($date, $accountType = null)
+    public function getSubDayBookData($date, $accountType = null, $branchId = null)
     {
-        // Fetch transactions with account details
-        $query = VoucherEntry::whereDate('voucher_entries.date', $date)
-            ->join('accounts', 'voucher_entries.account_id', '=', 'accounts.id')
-            ->select('voucher_entries.*', 'accounts.account_type', 'accounts.name');
+        $user = Auth::user();
+
+        if (!$branchId) {
+            $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+        }
+
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+
+        // Fetch transactions
+        $query = VoucherEntry::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('enteredBy', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })
+        ->whereDate('voucher_entries.date', $date)
+        ->join('accounts', 'voucher_entries.account_id', '=', 'accounts.id')
+        ->select('voucher_entries.*', 'accounts.account_type', 'accounts.name');
 
         if ($accountType) {
             $query->where('accounts.account_type', $accountType);
@@ -136,9 +215,24 @@ class DailyReportController extends Controller
 
         $transactions = $query->orderBy('voucher_entries.date', 'asc')->get();
 
-        // Fetch aggregated totals separately
+        // Fetch aggregated totals (with branch filter applied)
         $totals = DB::table('voucher_entries')
             ->join('accounts', 'voucher_entries.account_id', '=', 'accounts.id')
+            ->when($branchId, function ($query) use ($branchId) {
+                $query->where(function ($query) use ($branchId) {
+                    $query->whereExists(function ($q) use ($branchId) {
+                        $q->select(DB::raw(1))
+                        ->from('users')
+                        ->whereColumn('users.id', 'voucher_entries.entered_by')
+                        ->where('users.branch_id', $branchId);
+                    })->orWhereExists(function ($q) use ($branchId) {
+                        $q->select(DB::raw(1))
+                        ->from('branches')
+                        ->whereColumn('branches.id', 'voucher_entries.branch_id')
+                        ->where('branches.id', $branchId);
+                    });
+                });
+            })
             ->whereDate('voucher_entries.date', $date)
             ->when($accountType, function ($q) use ($accountType) {
                 return $q->where('accounts.account_type', $accountType);
@@ -152,10 +246,17 @@ class DailyReportController extends Controller
         $totalDeposits = $totals->total_deposits ?? 0;
         $totalWithdrawals = $totals->total_withdrawals ?? 0;
 
-        // Fetch unique account types from accounts table
         $accountTypes = DB::table('accounts')->distinct()->pluck('account_type');
 
-        return compact('date', 'transactions', 'totalDeposits', 'totalWithdrawals', 'accountTypes', 'accountType');
+        return compact(
+            'date',
+            'transactions',
+            'totalDeposits',
+            'totalWithdrawals',
+            'accountTypes',
+            'accountType',
+            'branches'
+        );
     }
 
     /**
@@ -164,9 +265,10 @@ class DailyReportController extends Controller
     public function subDayBook(Request $request)
     {
         $date = $request->input('date', Carbon::today()->toDateString());
+        $branchId = $request->input('branch_id');
         $accountType = $request->input('account_type');
 
-        $data = $this->getSubDayBookData($date, $accountType);
+        $data = $this->getSubDayBookData($date, $accountType, $branchId);
 
         return view('reports.dailyReport.sub-day-book.index', $data);
     }
@@ -179,7 +281,7 @@ class DailyReportController extends Controller
         $date = $request->input('date', Carbon::today()->toDateString());
         $accountType = $request->input('account_type');
 
-        $data = $this->getSubDayBookData($date, $accountType);
+        $data = $this->getSubDayBookData($date, $accountType, $branchId);
         $type = $request->input('type', 'stream');
 
         $pdf = Pdf::loadView('reports.dailyReport.sub-day-book.subdaybook_pdf', $data);
@@ -192,26 +294,48 @@ class DailyReportController extends Controller
     /**
      * Fetch GL Statement Data
      */
-    public function getGLStatementData($startDate, $endDate, $glAccount = null)
+    public function getGLStatementData($startDate, $endDate, $glAccount = null,$branchId = null)
     {
-        // Initialize Running Balance
-        DB::statement('SET @running_balance = 0');
+         $user = Auth::user();
+
+        // Determine branch context
+        if (!$branchId) {
+            $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+        }
+
+        // Load branches list for Admins
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+
+    // Reset SQL variable
+    DB::statement('SET @running_balance = 0');
 
         // Fetch General Ledger Transactions with Running Balance
-        $query = DB::table('general_ledgers as gl')
-            ->join('accounts as acc', 'gl.parent_ledger_id', '=', 'acc.id')
-            ->whereBetween('gl.created_at', [$startDate, $endDate])
-            ->select(
-                'gl.created_at as date',
-                'acc.account_no',
-                'acc.account_name',
-                'gl.balance',
-                'gl.balance_type',
-                DB::raw("CASE WHEN gl.balance_type = 'Credit' THEN gl.balance ELSE 0 END AS credit"),
-                DB::raw("CASE WHEN gl.balance_type = 'Debit' THEN gl.balance ELSE 0 END AS debit"),
-                DB::raw('(@running_balance := @running_balance + 
-                        CASE WHEN gl.balance_type = "Debit" THEN gl.balance ELSE -gl.balance END) AS running_balance')
-            );
+       $query = DB::table('general_ledgers as gl')
+        ->join('accounts as acc', 'gl.parent_ledger_id', '=', 'acc.id')
+        ->leftJoin('members as m', 'acc.member_id', '=', 'm.id')
+        ->leftJoin('users as u', 'm.created_by', '=', 'u.id')
+        ->when($branchId, function ($q) use ($branchId) {
+            $q->where(function ($subQuery) use ($branchId) {
+                $subQuery->where('m.branch_id', $branchId)
+                        ->orWhere('u.branch_id', $branchId);
+            });
+        })
+        ->whereBetween('gl.created_at', [$startDate, $endDate])
+        ->when($glAccount, function ($q) use ($glAccount) {
+            return $q->where('acc.id', $glAccount);
+        })
+        ->select(
+            'gl.created_at as date',
+            'acc.account_no',
+            'acc.account_name',
+            'gl.balance',
+            'gl.balance_type',
+            DB::raw("CASE WHEN gl.balance_type = 'Credit' THEN gl.balance ELSE 0 END AS credit"),
+            DB::raw("CASE WHEN gl.balance_type = 'Debit' THEN gl.balance ELSE 0 END AS debit"),
+            DB::raw('(@running_balance := @running_balance + 
+                    CASE WHEN gl.balance_type = "Debit" THEN gl.balance ELSE -gl.balance END) AS running_balance')
+        )
+        ->orderBy('gl.created_at', 'asc');
 
         if ($glAccount) {
             $query->where('acc.id', $glAccount);
@@ -220,17 +344,25 @@ class DailyReportController extends Controller
         $transactions = $query->orderBy('gl.created_at', 'asc')->get();
 
         // Calculate total debits and credits
-        $totals = DB::table('general_ledgers as gl')
-            ->join('accounts as acc', 'gl.parent_ledger_id', '=', 'acc.id')
-            ->whereBetween('gl.created_at', [$startDate, $endDate])
-            ->when($glAccount, function ($q) use ($glAccount) {
-                return $q->where('acc.id', $glAccount);
-            })
-            ->selectRaw("
-                SUM(CASE WHEN gl.balance_type = 'Debit' THEN gl.balance ELSE 0 END) AS total_debits,
-                SUM(CASE WHEN gl.balance_type = 'Credit' THEN gl.balance ELSE 0 END) AS total_credits
-            ")
-            ->first();
+       $totals = DB::table('general_ledgers as gl')
+        ->join('accounts as acc', 'gl.parent_ledger_id', '=', 'acc.id')
+        ->leftJoin('members as m', 'acc.member_id', '=', 'm.id')
+        ->leftJoin('users as u', 'm.created_by', '=', 'u.id')
+        ->when($branchId, function ($q) use ($branchId) {
+            $q->where(function ($subQuery) use ($branchId) {
+                $subQuery->where('m.branch_id', $branchId)
+                        ->orWhere('u.branch_id', $branchId);
+            });
+        })
+        ->whereBetween('gl.created_at', [$startDate, $endDate])
+        ->when($glAccount, function ($q) use ($glAccount) {
+            return $q->where('acc.id', $glAccount);
+        })
+        ->selectRaw("
+            SUM(CASE WHEN gl.balance_type = 'Debit' THEN gl.balance ELSE 0 END) AS total_debits,
+            SUM(CASE WHEN gl.balance_type = 'Credit' THEN gl.balance ELSE 0 END) AS total_credits
+        ")
+        ->first();
 
         $totalDebits = $totals->total_debits ?? 0;
         $totalCredits = $totals->total_credits ?? 0;
@@ -257,6 +389,7 @@ class DailyReportController extends Controller
             'glAccount' => $glAccount,
             'date' => $date,
             'closingBalance' => $closingBalance, // Pass Closing Balance
+            'branches' => $branches
         ];
     }
 
@@ -269,9 +402,10 @@ class DailyReportController extends Controller
         $startDate = $request->input('start_date', Carbon::today()->toDateString());
         $endDate = $request->input('end_date', Carbon::today()->toDateString());
         $glAccount = $request->input('gl_account');
+        $branchId = $request->input('branch_id');        
 
         // Get data from `getGLStatementData()`
-        $data = $this->getGLStatementData($startDate, $endDate, $glAccount);
+        $data = $this->getGLStatementData($startDate, $endDate, $glAccount, $branchId);
 
         // Return the view with the data
         return view('reports.dailyReport.gl-statement-checking.index', $data);
@@ -287,8 +421,9 @@ class DailyReportController extends Controller
         $endDate = $request->input('end_date', Carbon::today()->toDateString());
         $glAccount = $request->input('gl_account');
         $type = $request->input('type', 'stream');
+        $branchId = $request->input('branch_id');
 
-        $data = $this->getGLStatementData($startDate, $endDate, $glAccount);
+        $data = $this->getGLStatementData($startDate, $endDate, $glAccount,$branchId);
 
         $pdf = Pdf::loadView('reports.dailyReport.gl-statement-checking.glstatementchecking_pdf', $data);
          if($type == 'download'){
@@ -297,16 +432,23 @@ class DailyReportController extends Controller
         return $pdf->stream('gl_statement_' . $startDate . '_to_' . $endDate . '.pdf');
     }
 
-
    /**
      * Fetch Cut Book (Loan Repayment) Data
      */
-    public function getCutBookData($startDate, $endDate, $loanAccountId = null)
+    public function getCutBookData($startDate, $endDate, $loanAccountId = null, $branchId = null)
     {
+        $user = Auth::user();
+
+        if (!$branchId) {
+            $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+        }
+
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+
         // Initialize Running Balance for each Loan Account
         DB::statement('SET @running_balance = 0');
 
-        // Fetch Loan Transactions from General Ledgers
+        // Fetch Loan Transactions from General Ledgers with branch filter
         $query = DB::table('general_ledgers as gl')
             ->join('member_loan_accounts as mla', 'gl.id', '=', 'mla.ledger_id')
             ->join('members as m', 'mla.member_id', '=', 'm.id')
@@ -323,24 +465,43 @@ class DailyReportController extends Controller
                         CASE WHEN gl.balance_type = "Debit" THEN gl.balance ELSE 0 END) AS balance_due')
             );
 
+        // Apply the loan account filter if provided
         if ($loanAccountId) {
             $query->where('mla.id', $loanAccountId);
+        }
+
+        // Apply the branch filter if provided (Admin role or user branch)
+        if ($branchId) {
+            $query->where(function ($q) use ($branchId) {
+                $q->where('m.branch_id', $branchId)
+                ->orWhere('m.created_by', function ($sub) use ($branchId) {
+                    $sub->select('id')
+                        ->from('users')
+                        ->where('branch_id', $branchId);
+                });
+            });
         }
 
         $transactions = $query->orderBy('gl.created_at', 'asc')->get();
 
         // Calculate Total Payments
         $totals = DB::table('general_ledgers as gl')
-            ->join('member_loan_accounts as mla', 'gl.id', '=', 'mla.ledger_id')
-            ->whereBetween('gl.created_at', [$startDate, $endDate])
-            ->when($loanAccountId, function ($q) use ($loanAccountId) {
-                return $q->where('mla.id', $loanAccountId);
-            })
-            ->selectRaw("
-                SUM(CASE WHEN gl.balance_type = 'Debit' THEN gl.balance ELSE 0 END) AS total_principal_paid,
-                SUM(CASE WHEN gl.balance_type = 'Credit' THEN gl.balance ELSE 0 END) AS total_interest_paid
-            ")
-            ->first();
+        ->join('member_loan_accounts as mla', 'gl.id', '=', 'mla.ledger_id')
+        ->join('members as m', 'mla.member_id', '=', 'm.id')
+        ->leftJoin('users as u', 'm.created_by', '=', 'u.id')
+        ->whereBetween('gl.created_at', [$startDate, $endDate])
+        ->when($loanAccountId, fn($q) => $q->where('mla.id', $loanAccountId))
+        ->when($branchId, function ($q) use ($branchId) {
+            $q->where(function ($subQuery) use ($branchId) {
+                $subQuery->where('m.branch_id', $branchId)
+                        ->orWhere('u.branch_id', $branchId);
+            });
+        })
+        ->selectRaw("
+            SUM(CASE WHEN gl.balance_type = 'Debit' THEN gl.balance ELSE 0 END) AS total_principal_paid,
+            SUM(CASE WHEN gl.balance_type = 'Credit' THEN gl.balance ELSE 0 END) AS total_interest_paid
+        ")
+        ->first();
 
         $totalPrincipalPaid = $totals->total_principal_paid ?? 0;
         $totalInterestPaid = $totals->total_interest_paid ?? 0;
@@ -348,9 +509,16 @@ class DailyReportController extends Controller
         // Fetch Loan Accounts
         $loanAccounts = DB::table('member_loan_accounts')->pluck('name', 'id');
 
-        return view('reports.dailyReport.cut-book.index', compact(
-            'startDate', 'endDate', 'transactions', 'totalPrincipalPaid', 'totalInterestPaid', 'loanAccounts', 'loanAccountId'
-        ));
+        return [
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'transactions' => $transactions,
+            'totalPrincipalPaid' => $totalPrincipalPaid,
+            'totalInterestPaid' => $totalInterestPaid,
+            'loanAccounts' => $loanAccounts,
+            'loanAccountId' => $loanAccountId,
+            'branches' => $branches
+        ];
     }
 
     /**
@@ -361,8 +529,10 @@ class DailyReportController extends Controller
         $startDate = $request->input('start_date', Carbon::today()->toDateString());
         $endDate = $request->input('end_date', Carbon::today()->toDateString());
         $loanAccountId = $request->input('loan_account');
+        $branchId = $request->input('branch_id');
 
-        return $this->getCutBookData($startDate, $endDate, $loanAccountId);
+        $data = $this->getCutBookData($startDate, $endDate, $loanAccountId, $branchId);
+         return view('reports.dailyReport.cut-book.index', $data);
     }
 
     public function exportCutBookPDF(Request $request)
@@ -371,13 +541,14 @@ class DailyReportController extends Controller
         $endDate = $request->input('end_date', Carbon::today()->toDateString());
         $loanAccountId = $request->input('loan_account');
         $type = $request->input('type', 'stream');
+        $branchId = $request->input('branch_id');
 
-        $transactions = $this->getCutBookData($startDate, $endDate, $loanAccountId, false);
+         $data = $this->getCutBookData($startDate, $endDate, $loanAccountId, $branchId);
 
-        $pdf = Pdf::loadView('reports.dailyReport.cut-book.cut-book_pdf', compact(
-            'startDate', 'endDate', 'transactions'
-        ));
-        if($type == 'download'){
+        // Load PDF view with the same data
+        $pdf = Pdf::loadView('reports.dailyReport.cut-book.cut-book_pdf', $data);
+
+        if ($type == 'download') {
             return $pdf->download('Cut_Book_Report_' . $startDate . '_to_' . $endDate . '.pdf');
         }
         return $pdf->stream('Cut_Book_Report_' . $startDate . '_to_' . $endDate . '.pdf');
@@ -386,8 +557,16 @@ class DailyReportController extends Controller
     /**
      * Show Demand Day Book Report
      */
-    public function getDemandDayBookData($date)
+    public function getDemandDayBookData($date, $branchId = null)
     {
+        $user = Auth::user();
+
+        if (!$branchId) {
+            $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+        }
+
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+
         $expectedPayments = DB::table('member_loan_accounts as mla')
             ->join('members as m', 'mla.member_id', '=', 'm.id')
             ->leftJoin('general_ledgers as gl', function ($join) use ($date) {
@@ -405,16 +584,29 @@ class DailyReportController extends Controller
                 DB::raw("COALESCE(SUM(gl.balance), 0) AS amount_received"),
                 DB::raw("(mla.emi_amount - COALESCE(SUM(gl.balance), 0)) AS balance_due")
             )
-            ->groupBy('mla.id', 'mla.acc_no', 'm.name', 'mla.emi_amount')
-            ->get();
+            ->groupBy('mla.id', 'mla.acc_no', 'm.name', 'mla.emi_amount');
 
-        return compact('date', 'expectedPayments');
+            // Apply branch filter if provided
+        if ($branchId) {
+            $expectedPayments->where(function ($q) use ($branchId) {
+                $q->where('m.branch_id', $branchId)
+                ->orWhere('m.created_by', function ($sub) use ($branchId) {
+                    $sub->select('id')
+                        ->from('users')
+                        ->where('branch_id', $branchId);
+                });
+            });
+        }
+
+        $expectedPayments = $expectedPayments->get();
+        return compact('date', 'expectedPayments', 'branches');
     }
 
-        public function demandDayBook(Request $request)
+    public function demandDayBook(Request $request)
     {
         $date = $request->input('date', Carbon::today()->toDateString());
-        $data = $this->getDemandDayBookData($date);
+        $branchId = $request->input('branch_id');        
+        $data = $this->getDemandDayBookData($date, $branchId);
 
         return view('reports.dailyReport.demand-day-book.index', $data);
     }
@@ -422,7 +614,8 @@ class DailyReportController extends Controller
     public function exportDemandDayBookPDF(Request $request)
     {
         $date = $request->input('date', Carbon::today()->toDateString());
-        $data = $this->getDemandDayBookData($date);
+        $branchId = $request->input('branch_id');        
+        $data = $this->getDemandDayBookData($date, $branchId);
         $type = $request->input('type', 'stream');
         $pdf = Pdf::loadView('reports.dailyReport.demand-day-book.demand_day_book_pdf', $data);
         if($type == 'download'){

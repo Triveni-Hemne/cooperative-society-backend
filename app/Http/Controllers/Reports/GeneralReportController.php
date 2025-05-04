@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Reports;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Branch;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use App\Models\Account;
 use App\Models\Member;
+use Illuminate\Support\Facades\Auth;
 use App\Models\VoucherEntry;
 use App\Models\GeneralLedger;
 use App\Models\MemberLoanAccount;
@@ -16,12 +18,30 @@ use App\Models\LoanGuarantor;
 
 class GeneralReportController extends Controller
 {
-     public function getAccountStatement($accountId, $startDate, $endDate)
+     public function getAccountStatement($accountId, $startDate, $endDate, $branchId = null)
     {
-        $transactions = DB::table('voucher_entries')
+         $user = Auth::user();
+         if (!$branchId) {
+             $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+            }
+            
+            $branches = $user->role === 'Admin' ? Branch::all() : null;
+            
+            $transactions = \App\Models\VoucherEntry::with(['enteredBy', 'branch'])
             ->where('account_id', $accountId)
             ->whereBetween('date', [$startDate, $endDate])
-            ->select(
+            ->when($branchId, function ($query) use ($branchId) {
+                $query->where(function ($query) use ($branchId) {
+                    $query->whereHas('enteredBy', function ($q) use ($branchId) {
+                        $q->where('branch_id', $branchId);
+                    })->orWhereHas('branch', function ($q) use ($branchId) {
+                        $q->where('id', $branchId);
+                    });
+                });
+            })
+            ->orderBy('date', 'asc')
+            ->get([
+                'id',
                 'date',
                 'voucher_num',
                 'ledger_id',
@@ -35,11 +55,9 @@ class GeneralReportController extends Controller
                 'reference_number',
                 'narration',
                 'status'
-            )
-            ->orderBy('date', 'asc')
-            ->get();
+            ]);
 
-        return compact('accountId', 'startDate', 'endDate', 'transactions');
+        return compact('accountId', 'startDate', 'endDate', 'transactions', 'branches');
     }
 
 
@@ -49,15 +67,17 @@ class GeneralReportController extends Controller
         $accountId = $request->input('account_id');
         $startDate = $request->input('start_date', today()->subMonth()->toDateString());
         $endDate = $request->input('end_date', today()->toDateString());
+        $branchId = $request->input('branch_id'); 
 
         // Fetch transactions
-        $data = $this->getAccountStatement($accountId, $startDate, $endDate);
+        $data = $this->getAccountStatement($accountId, $startDate, $endDate, $branchId);
 
         return view('reports.generalReport.account-statements.index', [
             'accountId' => $accountId,
             'startDate' => $startDate,
             'endDate' => $endDate,
             'transactions' => $data['transactions'],
+            'branches' => $data['branches'],
             'accounts' => $accounts
         ]);
     }
@@ -69,9 +89,10 @@ class GeneralReportController extends Controller
         $startDate = $request->input('start_date', today()->subMonth()->toDateString());
         $endDate = $request->input('end_date', today()->toDateString());
         $type = $request->input('type','stream'); // default to stream
+        $branchId = $request->input('branch_id'); 
 
         // Fetch transactions
-        $data = $this->getAccountStatement($accountId, $startDate, $endDate);
+        $data = $this->getAccountStatement($accountId, $startDate, $endDate, $branchId);
 
         $pdf = Pdf::loadView('reports.generalReport.account-statements.account_statement_pdf', [
             'accountId' => $accountId,
@@ -88,14 +109,28 @@ class GeneralReportController extends Controller
     /**
      * Fetch General Ledger Transactions with totals.
      */
-    private function getGeneralLedgerData($ledgerId, $startDate, $endDate)
+    private function getGeneralLedgerData($ledgerId, $startDate, $endDate, $branchId = null)
     {
+         $user = Auth::user();
+         if (!$branchId) {
+             $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+            }
+            
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
         $transactions = collect(); // Default empty collection
         $totalDebit = 0;
         $totalCredit = 0;
 
         if ($ledgerId) {
-            $transactions = VoucherEntry::where('ledger_id', $ledgerId)
+            $transactions = VoucherEntry::when($branchId, function ($query) use ($branchId) {
+                $query->where(function ($query) use ($branchId) {
+                    $query->whereHas('enteredBy', function ($q) use ($branchId) {
+                        $q->where('branch_id', $branchId);
+                    })->orWhereHas('branch', function ($q) use ($branchId) {
+                        $q->where('id', $branchId);
+                    });
+                });
+            })->where('ledger_id', $ledgerId)
                 ->whereBetween('date', [$startDate, $endDate])
                 ->orderBy('date', 'asc')
                 ->get(['date', 'voucher_num', 'transaction_type', 'debit_amount', 'credit_amount', 'current_balance', 'narration']);
@@ -105,7 +140,7 @@ class GeneralReportController extends Controller
             $totalCredit = $transactions->sum('credit_amount');
         }
 
-        return compact('transactions', 'totalDebit', 'totalCredit');
+        return compact('transactions', 'totalDebit', 'totalCredit', 'branches');
     }
 
     /**
@@ -117,8 +152,9 @@ class GeneralReportController extends Controller
         $ledgerId = $request->input('ledger_id');
         $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
         $endDate = $request->input('end_date', now()->toDateString());
+        $branchId = $request->input('branch_id'); 
 
-        $data = $this->getGeneralLedgerData($ledgerId, $startDate, $endDate);
+        $data = $this->getGeneralLedgerData($ledgerId, $startDate, $endDate, $branchId);
 
         return view('reports.generalReport.gl-statements.index', array_merge(
             $data, compact('ledgerId', 'startDate', 'endDate', 'ledgers')
@@ -138,8 +174,8 @@ class GeneralReportController extends Controller
         if (!$ledgerId) {
             return back()->with('error', 'Please select a ledger to generate the PDF.');
         }
-
-        $data = $this->getGeneralLedgerData($ledgerId, $startDate, $endDate);
+        $branchId = $request->input('branch_id'); 
+        $data = $this->getGeneralLedgerData($ledgerId, $startDate, $endDate, $branchId);
 
         $pdf = Pdf::loadView('reports.generalReport.gl-statements.gl_statement_pdf', array_merge(
             $data, compact('ledgerId', 'startDate', 'endDate')
@@ -153,15 +189,29 @@ class GeneralReportController extends Controller
     /**
      * Fetch Member Transactions with Totals.
      */
-    private function getMemberTransactions($memberId, $startDate, $endDate)
+    private function getMemberTransactions($memberId, $startDate, $endDate, $branchId = null)
     {
+         $user = Auth::user();
+         if (!$branchId) {
+             $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+            }
+            
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
         $transactions = collect(); // Default empty collection
         $totalDeposits = 0;
         $totalWithdrawals = 0;
         $totalLoans = 0;
 
         if ($memberId) {
-            $transactions = VoucherEntry::where(function ($query) use ($memberId) {
+            $transactions = VoucherEntry::when($branchId, function ($query) use ($branchId) {
+                $query->where(function ($query) use ($branchId) {
+                    $query->whereHas('enteredBy', function ($q) use ($branchId) {
+                        $q->where('branch_id', $branchId);
+                    })->orWhereHas('branch', function ($q) use ($branchId) {
+                        $q->where('id', $branchId);
+                    });
+                });
+            })->where(function ($query) use ($memberId) {
                     $query->whereHas('memberDepositAccount', function ($q) use ($memberId) {
                         $q->where('member_id', $memberId);
                     })->orWhereHas('memberLoanAccount', function ($q) use ($memberId) {
@@ -178,7 +228,7 @@ class GeneralReportController extends Controller
             $totalLoans = $transactions->where('transaction_type', 'Loan Payment')->sum('amount');
         }
 
-        return compact('transactions', 'totalDeposits', 'totalWithdrawals', 'totalLoans');
+        return compact('transactions', 'totalDeposits', 'totalWithdrawals', 'totalLoans', 'branches');
     }
 
     /**
@@ -190,8 +240,8 @@ class GeneralReportController extends Controller
         $memberId = $request->input('member_id');
         $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
         $endDate = $request->input('end_date', now()->toDateString());
-
-        $data = $this->getMemberTransactions($memberId, $startDate, $endDate);
+        $branchId = $request->input('branch_id'); 
+        $data = $this->getMemberTransactions($memberId, $startDate, $endDate, $branchId);
 
         return view('reports.generalReport.member-statements.index', array_merge(
             $data, compact('memberId', 'startDate', 'endDate', 'members')
@@ -211,8 +261,8 @@ class GeneralReportController extends Controller
         if (!$memberId) {
             return back()->with('error', 'Please select a member to generate the PDF.');
         }
-
-        $data = $this->getMemberTransactions($memberId, $startDate, $endDate);
+        $branchId = $request->input('branch_id'); 
+        $data = $this->getMemberTransactions($memberId, $startDate, $endDate, $branchId);
 
         $pdf = Pdf::loadView('reports.generalReport.member-statements.member_statement_pdf', array_merge(
             $data, compact('memberId', 'startDate', 'endDate')
@@ -224,25 +274,40 @@ class GeneralReportController extends Controller
         return $pdf->stream("Member_Statement_{$startDate}_to_{$endDate}.pdf");
     }
 
-    public function getloanGuarantorReport($startDate, $endDate)
+    public function getloanGuarantorReport($startDate, $endDate, $branchId = null)
     {
-        $guarantors = LoanGuarantor::with([
+         $user = Auth::user();
+         if (!$branchId) {
+             $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+            }
+
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+        $guarantors = LoanGuarantor::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('loan.member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('loan.member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->with([
             'loan.member',
-            'guarantor'
+            'member'
         ])
         ->whereHas('loan', function ($q) use ($startDate, $endDate) {
             $q->whereBetween('created_at', [$startDate, $endDate]);
         })
         ->get();
 
-        return compact('guarantors', 'startDate', 'endDate');
+        return compact('guarantors', 'startDate', 'endDate', 'branches');
     }
 
     public function loanGuarantorReport(Request $request)
     {
         $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
         $endDate = $request->input('end_date', now()->toDateString());
-        $data = $this->getloanGuarantorReport($startDate, $endDate);
+        $branchId = $request->input('branch_id'); 
+        $data = $this->getloanGuarantorReport($startDate, $endDate, $branchId);
         return view('reports.generalReport.loan-guarantors.index', array_merge(
                 $data, compact('startDate', 'endDate')
             ));
@@ -252,7 +317,8 @@ class GeneralReportController extends Controller
     {
         $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
         $endDate = $request->input('end_date', now()->toDateString());
-        $data = $this->getloanGuarantorReport($startDate, $endDate);
+        $branchId = $request->input('branch_id'); 
+        $data = $this->getloanGuarantorReport($startDate, $endDate, $branchId);
         $type = $request->input('type', 'stream'); //deafault type stream
         $pdf = Pdf::loadView('reports.generalReport.loan-guarantors.loan_guarantors_pdf', array_merge(
             $data, compact('startDate', 'endDate')
@@ -263,9 +329,23 @@ class GeneralReportController extends Controller
         return $pdf->stream("Loan_Guarantor_Report_{$startDate}_to_{$endDate}.pdf");
     }
 
-    public function getDemandList($startDate, $endDate)
+    public function getDemandList($startDate, $endDate, $branchId = null)
     {
-        $demandList = MemberLoanAccount::with(['member', 'loanInstallment' => function ($q) use ($startDate, $endDate) {
+         $user = Auth::user();
+         if (!$branchId) {
+             $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+            }
+
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+        $demandList = MemberLoanAccount::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->with(['member', 'loanInstallment' => function ($q) use ($startDate, $endDate) {
             $q->whereBetween('mature_date', [$startDate, $endDate])
             ->whereColumn('total_installments_paid', '<', 'total_installments'); // unpaid
         }])
@@ -275,7 +355,7 @@ class GeneralReportController extends Controller
         })
         ->get();
 
-        return compact('demandList', 'startDate', 'endDate');
+        return compact('demandList', 'startDate', 'endDate', 'branches');
     }
 
 
@@ -283,8 +363,9 @@ class GeneralReportController extends Controller
     {
         $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
         $endDate = $request->input('end_date', now()->toDateString());
+        $branchId = $request->input('branch_id'); 
 
-        $data = $this->getDemandList($startDate, $endDate);
+        $data = $this->getDemandList($startDate, $endDate, $branchId);
 
         return view('reports.generalReport.demand-list.index', $data);
     }
@@ -294,8 +375,9 @@ class GeneralReportController extends Controller
         $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
         $endDate = $request->input('end_date', now()->toDateString());
         $type = $request->input('type','stream');
+        $branchId = $request->input('branch_id'); 
 
-        $data = $this->getDemandList($startDate, $endDate);
+        $data = $this->getDemandList($startDate, $endDate, $branchId);
 
         $pdf = Pdf::loadView('reports.generalReport.demand-list.demand_list_pdf', $data);
         if($type == 'download'){

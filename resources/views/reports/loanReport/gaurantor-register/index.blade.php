@@ -10,6 +10,26 @@
 @section('content')
 <div class="container">
     <h2 class="mb-4">Guarantor Register</h2>
+    @if(!empty($branches))
+     <div class="row mb-4">
+        <div class="col-md-4 offset-md-4">
+            <form action="{{ route('guarantor-register.index') }}" method="GET" class="d-flex form-outline input-group">
+                {{-- Branch --}}
+                    <select name="branch_id" class="form-select">
+                        <option value="">All Branches</option>
+                        @foreach($branches as $branch)
+                            <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                                {{ $branch->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <button type="submit" class="btn btn-primary fs-5" data-mdb-ripple-init>
+                        <i class="bi bi-search text-light"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        @endif
 
     <!-- Export PDF Button -->
     <div class="export-btns d-flex justify-content-end">

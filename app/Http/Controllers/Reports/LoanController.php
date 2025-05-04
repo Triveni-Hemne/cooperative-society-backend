@@ -4,59 +4,78 @@ namespace App\Http\Controllers\Reports;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Branch;
 use App\Models\MemberLoanAccount;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class LoanController extends Controller
 {
     //
-   public function getOverdueLoans($date)
+   public function getOverdueLoans($date, $branchId = null)
     {
-        $overdueLoans = DB::table('member_loan_accounts')
-            ->where('status', 'Active') // Consider only active loans
-            ->whereRaw('DATEDIFF(?, end_date) > 0', [$date]) // Loan is overdue
-            ->selectRaw("
-                acc_no,
-                name AS borrower_name,
-                ac_start_date AS loan_sanction_date,
-                loan_amount,
-                emi_amount,
-                end_date AS due_date,
-                balance,
-                DATEDIFF(?, end_date) AS days_overdue,
-                (emi_amount * DATEDIFF(?, end_date) / 30) AS overdue_amount,
-                ((emi_amount * DATEDIFF(?, end_date) / 30) * penal_interest / 100) AS penalty_amount
-            ", [$date, $date, $date])
-            ->orderBy('days_overdue', 'desc')
-            ->get();
+        $user = Auth::user();
 
-        return compact('date', 'overdueLoans');
+        if (!$branchId) {
+            $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+        }
+
+       $branches = $user->role === 'Admin' ? Branch::all() : null;
+       $query = DB::table('member_loan_accounts as mla')
+            ->join('members as m', 'mla.member_id', '=', 'm.id') // join members
+            ->where('mla.status', 'Active')
+            ->whereRaw('DATEDIFF(?, mla.end_date) > 0', [$date])
+            ->selectRaw("
+                mla.acc_no,
+                m.name AS borrower_name,
+                mla.ac_start_date AS loan_sanction_date,
+                mla.loan_amount,
+                mla.emi_amount,
+                mla.end_date AS due_date,
+                mla.balance,
+                DATEDIFF(?, mla.end_date) AS days_overdue,
+                (mla.emi_amount * DATEDIFF(?, mla.end_date) / 30) AS overdue_amount,
+                ((mla.emi_amount * DATEDIFF(?, mla.end_date) / 30) * mla.penal_interest / 100) AS penalty_amount
+            ", [$date, $date, $date]);
+
+        if ($branchId) {
+            $query->where(function ($q) use ($branchId) {
+                $q->where('m.branch_id', $branchId)
+                ->orWhere('m.created_by', function ($sub) use ($branchId) {
+                    $sub->select('id')->from('users')->where('branch_id', $branchId);
+                });
+            });
+        }
+        $overdueLoans = $query->orderByDesc('days_overdue')->get();
+
+        return compact('date', 'overdueLoans','branches');
     }
 
     public function overdueRegister(Request $request)
     {
         $date = $request->input('date', today()->toDateString());
+        $branchId = $request->input('branch_id');
 
-        // Fetch overdue loans based on due date and status
-        $overdueLoans = MemberLoanAccount::where('end_date', '<', $date)
-                                        ->where('status', 'Active') // Adjust based on how overdue loans are marked
-                                        ->get();
+        $data = $this->getOverdueLoans($date, $branchId);
 
-        // Calculate total overdue amount
-        $totalOverdueAmount = $overdueLoans->sum('balance'); // or any relevant field like 'loan_amount'
-        // Calculate total penalty (assuming `penal_interest` is the penalty field)
-        $totalPenalty = $overdueLoans->sum('penal_interest');
+        $totalOverdueAmount = $data['overdueLoans']->sum('overdue_amount');
+        $totalPenalty = $data['overdueLoans']->sum('penalty_amount');
+        $overdueLoans = $data['overdueLoans'];
+        $branches = $data['branches'];
 
-       return view('reports.loanReport.overdue-register.index', compact('date', 'overdueLoans', 'totalOverdueAmount', 'totalPenalty'));
+       return view('reports.loanReport.overdue-register.index', compact('date', 'overdueLoans', 'totalOverdueAmount', 'totalPenalty', 'branches'));
     }
 
     public function exportOverduePDF(Request $request)
     {
         $date = $request->input('date', Carbon::today()->toDateString());
+        $branchId = $request->input('branch_id');
         $data = $this->getOverdueLoans($date);
         $type = $request->input('type', 'stream');
+        $data['totalOverdueAmount'] = $data['overdueLoans']->sum('overdue_amount');
+        $data['totalPenalty'] = $data['overdueLoans']->sum('penalty_amount');
         $pdf = Pdf::loadView('reports.loanReport.overdue-register.overdue_register_pdf', $data);
         if($type == 'download'){
             return $pdf->download('overdue_report_' . $date . '.pdf');
@@ -64,41 +83,67 @@ class LoanController extends Controller
         return $pdf->stream('overdue_report_' . $date . '.pdf');
     }
 
-    public function getNPAList($date)
+    public function getNPAList($date, $branchId = null)
     {
-        return DB::table('member_loan_accounts')
-            ->where('status', 'Active') // Ensure status is a string
-            ->whereRaw('DATEDIFF(?, end_date) > 90', [$date]) // Only overdue loans
-            ->selectRaw("
-                acc_no,
-                name AS borrower_name,
-                loan_amount,
-                end_date AS first_default_date,
-                balance AS outstanding_balance,
-                DATEDIFF(?, end_date) AS days_overdue,
-                CASE 
-                    WHEN DATEDIFF(?, end_date) BETWEEN 91 AND 364 THEN 'Substandard'
-                    WHEN DATEDIFF(?, end_date) BETWEEN 365 AND 1094 THEN 'Doubtful'
-                    WHEN DATEDIFF(?, end_date) >= 1095 THEN 'Loss'
-                END AS npa_classification
-            ", [$date, $date, $date, $date])
-            ->orderBy('days_overdue', 'desc')
-            ->get();
+        $user = Auth::user();
+
+        if (!$branchId) {
+            $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+        }
+
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+
+        // $today = now()->toDateString(); // '2025-04-30' or use a specific date if needed
+
+        $data = DB::table('member_loan_accounts as mla')
+                ->join('members as m', 'mla.member_id', '=', 'm.id')
+                ->select(
+                    'mla.acc_no',
+                    'm.name as borrower_name',
+                    'mla.loan_amount',
+                    'mla.end_date as first_default_date',
+                    'mla.balance as outstanding_balance',
+                    DB::raw("DATEDIFF('$date', mla.end_date) AS days_overdue"),
+                    DB::raw("CASE 
+                        WHEN DATEDIFF('$date', mla.end_date) BETWEEN 91 AND 364 THEN 'Substandard'
+                        WHEN DATEDIFF('$date', mla.end_date) BETWEEN 365 AND 1094 THEN 'Doubtful'
+                        WHEN DATEDIFF('$date', mla.end_date) >= 1095 THEN 'Loss'
+                    END AS npa_classification")
+                )
+                ->where('mla.status', '=', 'active')
+                ->whereRaw("DATEDIFF('$date', mla.end_date) > 90");
+
+        if ($branchId) {
+            $data->where(function ($q) use ($branchId) {
+                $q->where('m.branch_id', $branchId)
+                ->orWhere('m.created_by', function ($sub) use ($branchId) {
+                    $sub->select('id')->from('users')->where('branch_id', $branchId);
+                });
+            });
+        }
+
+        $data = $data->orderByDesc('days_overdue')->get();
+
+        return compact('date', 'data', 'branches');
     }
 
     public function npaList(Request $request)
     {
         $date = $request->input('date', today()->toDateString());
-        $overdueLoans = $this->getNPAList($date);
+        $branchId = $request->input('branch_id');
+        $report = $this->getNPAList($date, $branchId);
+        $overdueLoans = $report['data'];
+        $branches = $report['branches'];
 
-        return view('reports.loanReport.npa-list.index', compact('date', 'overdueLoans'));
+        return view('reports.loanReport.npa-list.index', compact('date', 'overdueLoans', 'branches'));
     }
 
 
     public function exportNPAPDF(Request $request)
     {
         $date = $request->input('date', Carbon::today()->toDateString());
-        $overdueLoans = $this->getNPAList($date);
+        $branchId = $request->input('branch_id');
+        $overdueLoans = $this->getNPAList($date, $branchId);
         $type = $request->input('type', 'stream');
         // dd($type);
         $data = [
@@ -113,45 +158,52 @@ class LoanController extends Controller
         return $pdf->stream('npa_list_' . $date . '.pdf');
     }
 
-    public function getFinalNPAChartData($date)
+    public function getFinalNPAChartData($date, $branchId = null)
     {
-        // Fetch total loans issued
-        $totalLoans = DB::table('member_loan_accounts')
-            ->where('status', 'Active')
+        $user = Auth::user();
+
+        if (!$branchId) {
+            $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+        }
+
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+        // Base query with optional branch filtering
+        $baseQuery = DB::table('member_loan_accounts as mla')
+            ->join('members as m', 'mla.member_id', '=', 'm.id')
+            ->where('mla.status', 'Active');
+
+        if ($branchId) {
+            $baseQuery->where(function ($q) use ($branchId) {
+                $q->where('m.branch_id', $branchId)
+                ->orWhere('m.created_by', function ($sub) use ($branchId) {
+                    $sub->select('id')->from('users')->where('branch_id', $branchId);
+                });
+            });
+        }
+
+        // Clone for reuse
+        $totalLoans = (clone $baseQuery)->count();
+
+        $totalNPALoans = (clone $baseQuery)
+            ->whereRaw("DATEDIFF('$date', mla.end_date) > 90")
             ->count();
 
-        // Fetch total NPA loans
-        $totalNPALoans = DB::table('member_loan_accounts')
-            ->where('status', 'Active')
-            ->whereRaw('DATEDIFF(?, end_date) > 90', [$date])
-            ->count();
+        $totalOutstanding = (clone $baseQuery)->sum('mla.balance');
 
-        // Fetch total outstanding loan amount
-        $totalOutstanding = DB::table('member_loan_accounts')
-            ->where('status', 'Active')
-            ->sum('balance');
+        $totalOverdue = (clone $baseQuery)
+            ->whereRaw("DATEDIFF('$date', mla.end_date) > 0")
+            ->sum('mla.balance');
 
-        // Fetch total overdue loan amount
-        $totalOverdue = DB::table('member_loan_accounts')
-            ->where('status', 'Active')
-            ->whereRaw('DATEDIFF(?, end_date) > 0', [$date])
-            ->sum('balance');    
-
-        // Calculate NPA percentage
-        $npaPercentage = ($totalLoans > 0) ? ($totalNPALoans / $totalLoans) * 100 : 0;
-
-        // Fetch NPA classification counts
-        $npaCounts = DB::table('member_loan_accounts')
-            ->where('status', 'Active')
-            ->whereRaw('DATEDIFF(?, end_date) > 90', [$date])
+        $npaCounts = (clone $baseQuery)
+            ->whereRaw("DATEDIFF('$date', mla.end_date) > 90")
             ->selectRaw("
-                SUM(CASE WHEN DATEDIFF(?, end_date) BETWEEN 91 AND 364 THEN 1 ELSE 0 END) AS substandard,
-                SUM(CASE WHEN DATEDIFF(?, end_date) BETWEEN 365 AND 1094 THEN 1 ELSE 0 END) AS doubtful,
-                SUM(CASE WHEN DATEDIFF(?, end_date) >= 1095 THEN 1 ELSE 0 END) AS loss
-            ", [$date, $date, $date])
+                SUM(CASE WHEN DATEDIFF('$date', mla.end_date) BETWEEN 91 AND 364 THEN 1 ELSE 0 END) AS substandard,
+                SUM(CASE WHEN DATEDIFF('$date', mla.end_date) BETWEEN 365 AND 1094 THEN 1 ELSE 0 END) AS doubtful,
+                SUM(CASE WHEN DATEDIFF('$date', mla.end_date) >= 1095 THEN 1 ELSE 0 END) AS loss
+            ")
             ->first();
-        // dd($npaCounts);
 
+        $npaPercentage = ($totalLoans > 0) ? ($totalNPALoans / $totalLoans) * 100 : 0;
 
         return [
             'date' => $date,
@@ -165,22 +217,25 @@ class LoanController extends Controller
                 'doubtful' => $npaCounts->doubtful ?? 0,
                 'loss' => $npaCounts->loss ?? 0,
             ],
+            'branches' => $branches,
         ];
     }
 
     public function finalNPAChart(Request $request)
     {
         $date = $request->input('date', today()->toDateString());
-        // $date = ;
-        $npaData = $this->getFinalNPAChartData($date);
+        $branchId = $request->input('branch_id');
+        $npaData = $this->getFinalNPAChartData($date,$branchId);
+        $branches = $npaData['branches'];
         
-        return view('reports.loanReport.final-npa-chart.index', compact('npaData'));
+        return view('reports.loanReport.final-npa-chart.index', compact('npaData', 'branches'));
     }
 
     public function exportFinalNPAChartPDF(Request $request)
     {
         $date = $request->input('date', Carbon::today()->toDateString());
-        $npaData = $this->getFinalNPAChartData($date);
+        $branchId = $request->input('branch_id');
+        $npaData = $this->getFinalNPAChartData($date, $branchId);
         $type = $request->input('type', 'stream');
         $pdf = Pdf::loadView('reports.loanReport.final-npa-chart.final_npa_chart_pdf', compact('npaData'));
         if($type == 'download'){
@@ -189,20 +244,46 @@ class LoanController extends Controller
         return $pdf->stream('final_npa_chart_' . $date . '.pdf');
     }
 
-    public function getDebitLoanReportData($fromDate, $toDate)
+    public function getDebitLoanReportData($fromDate, $toDate, $branchId = null)
     {
-        return DB::table('member_loan_accounts')
+        $user = Auth::user();
+
+        if (!$branchId) {
+            $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+        }
+
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+        $query = DB::table('member_loan_accounts as mla')
+            ->join('members as m', 'mla.member_id', '=', 'm.id')
             ->select(
-                'acc_no as loan_account_no',
-                'name as borrower_name',
-                'start_date as disbursement_date', // Loan disbursed date
-                'loan_amount as loan_amount_disbursed', // Amount disbursed
-                'interest_rate',
-                'tenure'
+                'mla.acc_no as loan_account_no',
+                'm.name as borrower_name',
+                'mla.start_date as disbursement_date',
+                'mla.loan_amount as loan_amount_disbursed',
+                'mla.interest_rate',
+                'mla.tenure'
             )
-            ->whereBetween('start_date', [$fromDate, $toDate]) // Filter by disbursement period
-            ->orderBy('start_date', 'desc')
-            ->get();
+            ->whereBetween('mla.start_date', [$fromDate, $toDate])
+            ->orderBy('mla.start_date', 'desc');
+
+        if ($branchId) {
+            $query->where(function ($q) use ($branchId) {
+                $q->where('m.branch_id', $branchId)
+                ->orWhere('m.created_by', function ($sub) use ($branchId) {
+                    $sub->select('id')->from('users')->where('branch_id', $branchId);
+                });
+            });
+        }
+
+        $debitLoans = $query->get();
+
+        return [
+            'from_date' => $fromDate,
+            'to_date' => $toDate,
+            'debitLoans' => $debitLoans,
+            'branches' => $branches,
+        ];
+
     }
 
     public function debitLoanReport(Request $request)
@@ -210,10 +291,13 @@ class LoanController extends Controller
         // Get date range from request or default to current month
         $fromDate = $request->input('from_date', today()->startOfMonth()->toDateString());
         $toDate = $request->input('to_date', today()->endOfMonth()->toDateString());
+        $branchId = $request->input('branch_id');
+        $data = $this->getDebitLoanReportData($fromDate, $toDate, $branchId);
+        $debitLoans = $data['debitLoans'];
+        $branches = $data['branches'];
+        // dd($debitLoans);
 
-        $debitLoans = $this->getDebitLoanReportData($fromDate, $toDate);
-        // return compact('fromDate', 'toDate', 'debitLoans');
-        return view('reports.loanReport.debit-loan.index', compact('fromDate', 'toDate', 'debitLoans'));
+        return view('reports.loanReport.debit-loan.index', compact('fromDate', 'toDate', 'debitLoans','branches'));
     }
 
     public function exportDebitLoanReportPDF(Request $request)
@@ -221,7 +305,8 @@ class LoanController extends Controller
         $fromDate = $request->input('from_date', today()->startOfMonth()->toDateString());
         $toDate = $request->input('to_date', today()->endOfMonth()->toDateString());
         $type = $request->input('type', 'stream');
-        $debitLoans = $this->getDebitLoanReportData($fromDate, $toDate);
+        $branchId = $request->input('branch_id');
+        $debitLoans = $this->getDebitLoanReportData($fromDate, $toDate,$branchId);
 
         $data = [
             'fromDate' => $fromDate,
@@ -236,9 +321,16 @@ class LoanController extends Controller
         return $pdf->stream('debit_loan_report_' . $fromDate . '_to_' . $toDate . '.pdf');
     }
 
-    public function getGuarantorRegisterData()
+    public function getGuarantorRegisterData($branchId = null)
     {
-        $guarantors = DB::table('member_loan_accounts')
+        $user = Auth::user();
+
+        if (!$branchId) {
+            $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+        }
+
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+        $data = DB::table('member_loan_accounts')
             ->join('members as borrowers', 'member_loan_accounts.member_id', '=', 'borrowers.id')
             ->join('loan_guarantors', 'member_loan_accounts.id', '=', 'loan_guarantors.loan_id')
             ->join('members as guarantors', 'loan_guarantors.member_id', '=', 'guarantors.id')
@@ -246,24 +338,34 @@ class LoanController extends Controller
                 'member_loan_accounts.acc_no as loan_account_no',
                 'borrowers.name as borrower_name',
                 'guarantors.name as guarantor_name',
-                // 'guarantors.phone as guarantor_contact',
-                // 'loan_guarantors.relationship as guarantor_relationship',
-                // 'loan_guarantors.income as guarantor_income'
-            )
-            ->get();
+            );
+        if ($branchId) {
+            $data->where(function ($q) use ($branchId) {
+                $q->where('borrowers.branch_id', $branchId)
+                ->orWhere('borrowers.created_by', function ($sub) use ($branchId) {
+                    $sub->select('id')->from('users')->where('branch_id', $branchId);
+                });
+            });
+        }
+        $guarantors = $data->get();
 
-        return compact('guarantors');
+        return [
+            'guarantors' => $guarantors,
+            'branches' => $branches
+        ];
     }
 
-    public function guarantorRegister()
+    public function guarantorRegister(Request $request)
     {
-        $data = $this->getGuarantorRegisterData();
+        $branchId = $request->input('branch_id');
+        $data = $this->getGuarantorRegisterData($branchId);
         return view('reports.loanReport.gaurantor-register.index', $data);
     }
 
     public function exportGuarantorRegisterPDF(Request $request)
     {
-        $data = $this->getGuarantorRegisterData();
+        $branchId = $request->input('branch_id');
+        $data = $this->getGuarantorRegisterData($branchId);
         $type = $request->input('type', 'stream');
 
         $pdf = Pdf::loadView('reports.loanReport.gaurantor-register.guarantor_register_pdf', $data);
@@ -273,54 +375,76 @@ class LoanController extends Controller
         return $pdf->stream('guarantor_register.pdf');
     }
 
-    public function getLoanAccountStatement($loanAccNo)
+    public function getLoanAccountStatement($loanAccNo, $branchId = null)
     {
-        // Fetch loan details
-        $accounts = MemberLoanAccount::all();
-        $loan = DB::table('member_loan_accounts')
-            ->where('acc_no', $loanAccNo)
-            ->first();
+        $user = Auth::user();
 
-        if (!$loan) {
-            return []; // Handle case where loan account doesn't exist
+        if (!$branchId) {
+            $branchId = $user->role === 'Admin' ? null : $user->branch_id;
         }
 
-        // Fetch transaction history (Assuming transactions are stored in `general_ledgers`)
-        $transactions = DB::table('general_ledgers')
-            ->where('id', $loan->ledger_id)
-            ->orderBy('created_at', 'asc')
-            ->get();
-        // Calculate total payments made
-        $totalPaid = $transactions->where('transaction_type', 'Payment')->sum('amount');
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+       // Base query: fetch all loan accounts based on branch ownership or who created them
+        $query = DB::table('member_loan_accounts as mla')
+            ->join('members as m', 'mla.member_id', '=', 'm.id')
+            ->leftJoin('users as u', 'm.created_by', '=', 'u.id');
 
-        // Calculate outstanding balance
-        $outstandingBalance = $loan->loan_amount - $totalPaid;
+        if ($branchId) {
+            $query->where(function ($q) use ($branchId) {
+                $q->where('m.branch_id', $branchId)
+                ->orWhereIn('m.created_by', function ($sub) use ($branchId) {
+                    $sub->select('id')->from('users')->where('branch_id', $branchId);
+                });
+            });
+        }
 
-        // Calculate interest accrued (assuming interest is applied monthly)
-        $interestAccrued = ($loan->loan_amount * $loan->interest_rate / 100) * ($loan->tenure / 12);
+        // Get all filtered accounts
+        $accounts = $query->select('mla.*')->get();
+        // Find the account you're interested in
+        $loan = $accounts->where('acc_no', $loanAccNo)->first();
+        
+        $transactions = collect();
+        $totalPaid = 0;
+        $outstandingBalance = 0;
+        $interestAccrued = 0;
+        // dd($loan);
 
-        return compact('loan', 'transactions', 'totalPaid', 'outstandingBalance', 'interestAccrued');
+        if ($loan) {
+            $transactions = DB::table('voucher_entries')
+                ->where('ledger_id', $loan->ledger_id)
+                ->orderBy('created_at', 'asc')
+                ->get();
+
+            $totalPaid = $transactions->where('transaction_type', 'Payment')->sum('amount');
+            $outstandingBalance = $loan->loan_amount - $totalPaid;
+            $interestAccrued = ($loan->loan_amount * $loan->interest_rate / 100) * ($loan->tenure / 12);
+        }
+
+        return [
+            'loan' => $loan,
+            'accounts' => $accounts,
+            'transactions' => $transactions,
+            'totalPaid' => $totalPaid,
+            'outstandingBalance' => $outstandingBalance,
+            'interestAccrued' => $interestAccrued,
+            'branches' => $branches
+        ];
     }
 
     public function loanAccountStatement(Request $request)
     {
         $loanAccNo = $request->input('loan_acc_no');
-        
-        $data = $this->getLoanAccountStatement($loanAccNo);
-        
-        // if (!$data) {
-        //     return back()->with('error', 'Loan account not found.');
-        // }
-        // return "account Statement";
-
+        $branchId = $request->input('branch_id');
+        $data = $this->getLoanAccountStatement($loanAccNo,$branchId);
+        // dd($data);
         return view('reports.loanReport.account-statement.index', $data);
     }
 
     public function exportLoanAccountStatementPDF(Request $request)
     {
         $loanAccNo = $request->input('loan_acc_no');
-        
-        $data = $this->getLoanAccountStatement($loanAccNo);
+        $branchId = $request->input('branch_id');
+        $data = $this->getLoanAccountStatement($loanAccNo,$branchId);
 
         if (!$data) {
             return back()->with('error', 'Loan account not found.');

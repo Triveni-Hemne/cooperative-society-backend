@@ -10,7 +10,7 @@
 
     <!-- Filter Form -->
    <form action="{{ route('account-statement.index') }}" method="GET" class="mb-4">
-    <div class="row">
+    <div class="row border p-3 rounded">
         <!-- Account Selection -->
         <div class="col-md-3">
             <label for="accountId" class="form-label">Account ID:</label>
@@ -37,20 +37,33 @@
             <input type="date" id="endDate" name="end_date" class="form-control" 
                    value="{{ request('end_date', now()->toDateString()) }}">
         </div>
-
+        @if(!empty($branches))
+            <div class="col-md-3">
+                <label class="form-label">Branch:</label>
+                {{-- Branch --}}
+                <select name="branch_id" class="form-select">
+                    <option value="">All Branches</option>
+                    @foreach($branches as $branch)
+                    <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                        {{ $branch->name }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+        @endif
         <!-- Submit Button -->
-        <div class="col-md-3 d-flex align-items-end">
+        <div class="col-md-3 d-flex align-items-end mt-3">
             <button type="submit" class="btn btn-primary w-100">Filter</button>
         </div>
     </div>
 </form>
 
     <!-- Export to PDF Button -->
-    <a href="{{ route('account-statement.pdf', ['account_id' => request('account_id'), 'start_date' => request('start_date'), 'end_date' => request('end_date'), 'type'=>'stream']) }}" 
+    <a href="{{ route('account-statement.pdf', ['account_id' => request('account_id'), 'start_date' => request('start_date'), 'end_date' => request('end_date'), 'type'=>'stream', 'branch_id' => request('branch_id')]) }}" 
        class="btn btn-secondary mb-3" target="_blank">
       <i class="bi bi-printer"></i> Print
     </a>
-     <a href="{{ route('account-statement.pdf', ['account_id' => request('account_id'), 'start_date' => request('start_date'), 'end_date' => request('end_date'), 'type'=>'download']) }}" 
+     <a href="{{ route('account-statement.pdf', ['account_id' => request('account_id'), 'start_date' => request('start_date'), 'end_date' => request('end_date'), 'type'=>'download', 'branch_id' => request('branch_id')]) }}" 
        class="btn btn-danger mb-3" >
       <i class="bi bi-file-earmark-pdf"></i> Export PDF
     </a>

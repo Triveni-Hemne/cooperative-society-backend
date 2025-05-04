@@ -12,9 +12,38 @@
 @section('content')
     <div class="container">
         <h3 class="mb-4">Trial Balance Report ({{ $fromDate }} to {{ $toDate }})</h3>
+        <form method="GET" action="{{ route('mis-trial-balance.index') }}" class="mb-4 border p-3 rounded">
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label>From Date:</label>
+                <input type="date" name="from_date" value="{{ request('from_date', $fromDate) }}" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label>To Date:</label>
+                <input type="date" name="to_date" value="{{ request('to_date', $toDate) }}" class="form-control">
+            </div>
+            @if(!empty($branches))
+            <div class="col-md-3">
+                <label>Branch:</label>
+                {{-- Branch --}}
+                <select name="branch_id" class="form-select">
+                    <option value="">All Branches</option>
+                    @foreach($branches as $branch)
+                    <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                        {{ $branch->name }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+            @endif
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+        </div>
+    </form>
         <div class="export-btns d-flex justify-content-end mb-3">
-            <a href="{{ route('mis-trial-balance.pdf', ['from_date' => $fromDate, 'to_date' => $toDate, 'type' => 'stream']) }}" target="_blank" class="btn btn-secondary"><i class="bi bi-printer"></i> Print</a>
-            <a href="{{ route('mis-trial-balance.pdf', ['from_date' => $fromDate, 'to_date' => $toDate, 'type' => 'download']) }}" target="_blank" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Download PDF</a>
+            <a href="{{ route('mis-trial-balance.pdf', ['from_date' => $fromDate, 'to_date' => $toDate, 'type' => 'stream', 'branch_id' => request('branch_id')]) }}" target="_blank" class="btn btn-secondary"><i class="bi bi-printer"></i> Print</a>
+            <a href="{{ route('mis-trial-balance.pdf', ['from_date' => $fromDate, 'to_date' => $toDate, 'type' => 'download', 'branch_id' => request('branch_id')]) }}" target="_blank" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Download PDF</a>
        </div>
        <div class="table-responsive">
         <table class="table table-bordered ">

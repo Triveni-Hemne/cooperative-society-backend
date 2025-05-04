@@ -27,7 +27,7 @@
                 <label for="end_date">End Date:</label>
                 <input type="date" name="end_date" id="end_date" class="form-control" value="{{ request('end_date', $endDate) }}">
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label for="loan_account">Loan Account:</label>
                 <select name="loan_account" id="loan_account" class="form-control">
                     <option value="">All Accounts</option>
@@ -36,7 +36,21 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-2 d-flex align-items-end">
+            @if(!empty($branches))
+            <div class="col-md-3">
+                <label for="">Branch:</label>
+            {{-- Branch --}}
+                    <select name="branch_id" class="form-select">
+                        <option value="">All Branches</option>
+                        @foreach($branches as $branch)
+                            <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                                {{ $branch->name }}
+                            </option>
+                        @endforeach
+                    </select>
+            </div>
+                @endif
+            <div class="col-md-2 mt-2 d-flex align-items-end">
                 <button type="submit" class="btn btn-primary w-100">Filter</button>
             </div>
         </div>
@@ -45,16 +59,18 @@
     <!-- Export PDF Button -->
     <div class="d-flex justify-content-end my-3 ">
         <form action="{{ route('cut-book.pdf') }}" method="GET" target="_blank">
+             @csrf
             <input type="hidden" name="start_date" value="{{ $startDate }}">
             <input type="hidden" name="end_date" value="{{ $endDate }}">
-            <input type="text" name="type" value="stream" hidden required>
+            <input type="hidden" name="type" value="stream" required>
             <input type="hidden" name="loan_account" value="{{ $loanAccountId }}">
             <button type="submit" class="btn btn-secondary me-1"><i class="bi bi-printer"></i> Print</button>
         </form>
         <form action="{{ route('cut-book.pdf') }}" method="GET" target="">
+             @csrf
             <input type="hidden" name="start_date" value="{{ $startDate }}">
             <input type="hidden" name="end_date" value="{{ $endDate }}">
-            <input type="text" name="type" value="download" hidden required>
+            <input type="hidden" name="type" value="download" required>
             <input type="hidden" name="loan_account" value="{{ $loanAccountId }}">
             <button type="submit" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Export PDF</button>
         </form>
@@ -78,7 +94,7 @@
             <tbody>
                 @forelse($transactions as $transaction)
                     <tr>
-                        <td>{{ $transaction->date }}</td>
+                       <td>{{ \Carbon\Carbon::parse($transaction->date)->format('d-m-Y') }}</td>
                         <td>{{ $transaction->loan_account_no }}</td>
                         <td>{{ $transaction->borrower_name }}</td>
                         <td>{{ $transaction->loan_type }}</td>

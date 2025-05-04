@@ -5,18 +5,29 @@ namespace App\Http\Controllers\Reports;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\MemberDepoAccount;
+use App\Models\Branch;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DepositReportController extends Controller
 {
-    public function getMaturingDeposits($date)
+    public function getMaturingDeposits($date, $branchId = null)
     {
-        $maturingDeposits = DB::table('member_depo_accounts as mda')
+        $user = Auth::user();
+
+        if (!$branchId) {
+            $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+        }
+
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+        $query = DB::table('member_depo_accounts as mda')
             ->leftJoin('recurring_deposits as rd', 'rd.deposit_account_id', '=', 'mda.id')
             ->leftJoin('fixed_deposits as fd', 'fd.deposit_account_id', '=', 'mda.id')
-            ->where('mda.deposit_type', '!=', 'savings') // Exclude savings accounts properly
+            ->join('members as m', 'mda.member_id', '=', 'm.id') 
+            ->leftJoin('users as u', 'm.created_by', '=', 'u.id') 
+            ->where('mda.deposit_type', '!=', 'savings')
             ->whereRaw("DATE_ADD(mda.ac_start_date, INTERVAL COALESCE(rd.rd_term_months, fd.fd_term_months, 0) MONTH) <= ?", [$date])
             ->selectRaw("
                 mda.acc_no,
@@ -32,19 +43,28 @@ class DepositReportController extends Controller
                     WHEN DATE_ADD(mda.ac_start_date, INTERVAL COALESCE(rd.rd_term_months, fd.fd_term_months, 0) MONTH) <= ? 
                     THEN 'Matured' ELSE 'Pending' 
                 END AS status
-            ", [$date])
-            ->orderBy('maturity_date', 'asc')
-            ->get();
+            ", [$date]);
 
-        return compact('date', 'maturingDeposits');
+        if ($branchId) {
+            $query->where(function ($q) use ($branchId) {
+                $q->where('m.branch_id', $branchId)
+                ->orWhereIn('m.created_by', function ($sub) use ($branchId) {
+                    $sub->select('id')->from('users')->where('branch_id', $branchId);
+                });
+            });
+        }
+
+        $maturingDeposits = $query->orderBy('maturity_date', 'asc')->get();
+
+        return compact('date', 'maturingDeposits', 'branches');
     }
 
     public function depositMaturityRegister(Request $request)
     {
         $date = $request->input('date', today()->toDateString());
-
+        $branchId = $request->input('branch_id');
         // Fetch matured deposits using the correct function
-        $data = $this->getMaturingDeposits($date);
+        $data = $this->getMaturingDeposits($date, $branchId);
 
         // Calculate total maturity amount
         $totalMaturityAmount = collect($data['maturingDeposits'])->sum('maturity_amount');
@@ -52,14 +72,16 @@ class DepositReportController extends Controller
         return view('reports.depositReport.deposit-maturity.index', [
             'date' => $date,
             'maturingDeposits' => $data['maturingDeposits'],
-            'totalMaturityAmount' => $totalMaturityAmount
+            'totalMaturityAmount' => $totalMaturityAmount,
+            'branches' => $data['branches']
         ]);
     }
 
     public function exportMaturityPDF(Request $request)
     {
         $date = $request->input('date', today()->toDateString());
-        $data = $this->getMaturingDeposits($date);
+        $branchId = $request->input('branch_id');
+        $data = $this->getMaturingDeposits($date, $branchId);
         $type = $request->input('type', 'stream'); //default type stream
         // Calculate total maturity amount
         $totalMaturityAmount = collect($data['maturingDeposits'])->sum('maturity_amount');
@@ -71,11 +93,21 @@ class DepositReportController extends Controller
         return $pdf->stream('deposit_maturity_register_' . $date . '.pdf');
     }
 
-    public function getRDChartData($date)
+    public function getRDChartData($date, $branchId = null)
     {
+        $user = Auth::user();
+
+        if (!$branchId) {
+            $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+        }
+
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
         $rdAccounts = DB::table('recurring_deposits as rd')
             ->join('member_depo_accounts as mda', 'rd.deposit_account_id', '=', 'mda.id')
+            ->join('members as m', 'mda.member_id', '=', 'm.id') 
+            ->leftJoin('users as u', 'm.created_by', '=', 'u.id') 
             ->where('mda.deposit_type', 'rd')
+            ->whereRaw("DATE_ADD(mda.ac_start_date, INTERVAL rd.rd_term_months MONTH) <= ?", [$date])
             ->selectRaw("
                 mda.acc_no,
                 mda.name AS account_holder_name,
@@ -85,9 +117,18 @@ class DepositReportController extends Controller
                 mda.interest_rate,
                 rd.maturity_amount,
                 DATE_ADD(mda.ac_start_date, INTERVAL rd.rd_term_months MONTH) AS maturity_date
-            ")
-            ->orderBy('maturity_date', 'asc')
-            ->get();
+            ");
+
+        if ($branchId) {
+            $rdAccounts->where(function ($q) use ($branchId) {
+                $q->where('m.branch_id', $branchId)
+                ->orWhereIn('m.created_by', function ($sub) use ($branchId) {
+                    $sub->select('id')->from('users')->where('branch_id', $branchId);
+                });
+            });
+        }
+
+        $rdAccounts = $rdAccounts->orderBy('maturity_date', 'asc')->get();
 
         // Calculate interest earned till date
         foreach ($rdAccounts as $account) {
@@ -97,26 +138,27 @@ class DepositReportController extends Controller
             $account->total_balance = number_format($account->maturity_amount + $interestEarned, 2);
         }
 
-        return compact('date', 'rdAccounts');
+        return compact('date', 'rdAccounts', 'branches');
     }
 
     public function showRDChart(Request $request)
     {
         $date = $request->input('date', today()->toDateString());
-
-        $data = $this->getRDChartData($date);
+        $branchId = $request->input('branch_id');
+        $data = $this->getRDChartData($date, $branchId);
 
         return view('reports.depositReport.rd-chart.index', [
             'date' => $date,
-            'rdAccounts' => $data['rdAccounts']
+            'rdAccounts' => $data['rdAccounts'],
+            'branches' => $data['branches']
         ]);
     }
 
     public function exportRDChartPDF(Request $request)
     {
         $date = $request->input('date', today()->toDateString());
-
-        $data = $this->getRDChartData($date);
+        $branchId = $request->input('branch_id');
+        $data = $this->getRDChartData($date, $branchId);
         $type = $request->input('type','stream'); //default type stream
 
         $pdf = Pdf::loadView('reports.depositReport.rd-chart.rd_chart_pdf', [
@@ -129,11 +171,21 @@ class DepositReportController extends Controller
         return $pdf->stream('rd_chart_' . $date . '.pdf');
     }
 
-    public function getFDChartData($date)
+    public function getFDChartData($date, $branchId = null)
     {
+        $user = Auth::user();
+
+        if (!$branchId) {
+            $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+        }
+
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
         $fdAccounts = DB::table('fixed_deposits as fd')
             ->join('member_depo_accounts as mda', 'fd.deposit_account_id', '=', 'mda.id')
+            ->join('members as m', 'mda.member_id', '=', 'm.id') 
+            ->leftJoin('users as u', 'm.created_by', '=', 'u.id') 
             ->where('mda.deposit_type', 'fd') // Ensure FD accounts are fetched
+            ->whereRaw("DATE_ADD(mda.ac_start_date, INTERVAL fd.fd_term_months MONTH) <= ?", [$date])
             ->selectRaw("
                 mda.acc_no,
                 mda.name AS account_holder_name,
@@ -143,9 +195,17 @@ class DepositReportController extends Controller
                 fd.fd_term_months AS duration_months,
                 DATE_ADD(mda.ac_start_date, INTERVAL fd.fd_term_months MONTH) AS maturity_date,
                 CAST(fd.maturity_amount AS DECIMAL(10,2)) AS maturity_amount
-            ")
-            ->orderBy('maturity_date', 'asc')
-            ->get();
+            ");
+            if ($branchId) {
+                $fdAccounts->where(function ($q) use ($branchId) {
+                    $q->where('m.branch_id', $branchId)
+                    ->orWhereIn('m.created_by', function ($sub) use ($branchId) {
+                        $sub->select('id')->from('users')->where('branch_id', $branchId);
+                    });
+                });
+            }
+
+        $fdAccounts = $fdAccounts->orderBy('maturity_date', 'asc')->get();
 
         // Ensure numeric calculations are done correctly
         foreach ($fdAccounts as $account) {
@@ -161,26 +221,28 @@ class DepositReportController extends Controller
             $account->total_balance = (float) ($account->deposit_amount + $interestAccrued);
         }
 
-        return compact('date', 'fdAccounts');
+        return compact('date', 'fdAccounts', 'branches');
     }
 
 
     public function showFDChart(Request $request)
     {
         $date = $request->input('date', today()->toDateString());
-
-        $data = $this->getFDChartData($date);
+        $branchId = $request->input('branch_id');
+        $data = $this->getFDChartData($date, $branchId);
 
         return view('reports.depositReport.fd-chart.index', [
             'date' => $date,
-            'fdAccounts' => $data['fdAccounts']
+            'fdAccounts' => $data['fdAccounts'],
+            'branches' => $data['branches']
         ]);
     }
 
     public function exportFDChartPDF(Request $request)
     {
         $date = $request->input('date', today()->toDateString());
-        $data = $this->getFDChartData($date);
+        $branchId = $request->input('branch_id');
+        $data = $this->getFDChartData($date, $branchId);
         $type = $request->input('type', 'stream'); //default type stream
         $pdf = Pdf::loadView('reports.depositReport.fd-chart.fd_chart_pdf', [
             'date' => $date,
@@ -192,26 +254,47 @@ class DepositReportController extends Controller
         return $pdf->stream('fd_chart_' . $date . '.pdf');
     }
 
-    public function getInterestWiseRDData($date)
+    public function getInterestWiseRDData($date, $branchId = null)
     {
+        $user = Auth::user();
+
+        if (!$branchId) {
+            $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+        }
+
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+
         $rdAccounts = DB::table('recurring_deposits as rd')
             ->join('member_depo_accounts as mda', 'rd.deposit_account_id', '=', 'mda.id')
+            ->join('members as m', 'mda.member_id', '=', 'm.id') 
+            ->leftJoin('users as u', 'm.created_by', '=', 'u.id') 
             ->where('mda.deposit_type', 'rd')
+            ->whereRaw("DATE_ADD(mda.ac_start_date, INTERVAL rd.rd_term_months MONTH) <= ?", [$date])
             ->selectRaw("
                 mda.acc_no,
                 mda.name AS account_holder_name,
                 CAST(mda.interest_rate AS DECIMAL(10,2)) AS interest_rate,
                 CAST(mda.installment_amount AS DECIMAL(10,2)) AS monthly_deposit,
-                CAST(rd.maturity_amount AS DECIMAL(10,2)) AS maturity_amount
-            ")
-            ->orderBy('mda.interest_rate', 'asc')
-            ->get();
+                CAST(rd.maturity_amount AS DECIMAL(10,2)) AS maturity_amount,
+                DATE_ADD(mda.ac_start_date, INTERVAL rd.rd_term_months MONTH) AS maturity_date
+            ");
+
+        if ($branchId) {
+            $rdAccounts->where(function ($q) use ($branchId) {
+                $q->where('m.branch_id', $branchId)
+                ->orWhereIn('m.created_by', function ($sub) use ($branchId) {
+                    $sub->select('id')->from('users')->where('branch_id', $branchId);
+                });
+            });
+        }
+
+        $rdAccounts = $rdAccounts->orderBy('maturity_date', 'asc')->get();
 
         // Group accounts by interest rate
         $interestRateGroups = [];
         foreach ($rdAccounts as $account) {
             $rate = $account->interest_rate;
-            
+
             if (!isset($interestRateGroups[$rate])) {
                 $interestRateGroups[$rate] = [
                     'interest_rate' => $rate,
@@ -222,8 +305,8 @@ class DepositReportController extends Controller
                 ];
             }
 
-            // Calculate total deposits and interest earned
-            $monthsElapsed = now()->diffInMonths(now()->subMonth(12)); // Assuming yearly calculation
+            // Estimate interest earned
+            $monthsElapsed = now()->diffInMonths($account->maturity_date); // or use actual elapsed months if needed
             $interestEarned = ($account->monthly_deposit * $monthsElapsed * $rate) / 100;
 
             $interestRateGroups[$rate]['total_deposits'] += $account->monthly_deposit;
@@ -232,18 +315,19 @@ class DepositReportController extends Controller
             $interestRateGroups[$rate]['accounts'][] = $account;
         }
 
-        return compact('date', 'interestRateGroups');
+        return compact('date', 'interestRateGroups', 'branches');
     }
 
     public function showInterestWiseRDReport(Request $request)
     {
         $date = $request->input('date', today()->toDateString());
-
-        $data = $this->getInterestWiseRDData($date);
+        $branchId = $request->input('branch_id');
+        $data = $this->getInterestWiseRDData($date,$branchId);
 
         return view('reports.depositReport.interest-wise.index', [
             'date' => $date,
-            'interestRateGroups' => $data['interestRateGroups']
+            'interestRateGroups' => $data['interestRateGroups'],
+            'branches' => $data['branches']
         ]);
     }
 
@@ -251,8 +335,8 @@ class DepositReportController extends Controller
     public function exportInterestWiseRDPDF(Request $request)
     {
         $date = $request->input('date', today()->toDateString());
-
-        $data = $this->getInterestWiseRDData($date);
+        $branchId = $request->input('branch_id');
+        $data = $this->getInterestWiseRDData($date,$branchId);
         $type = $request->input('type', 'stream'); //default type stream
         $pdf = Pdf::loadView('reports.depositReport.interest-wise.interest_wise_pdf', [
             'date' => $date,
@@ -264,11 +348,21 @@ class DepositReportController extends Controller
         return $pdf->stream('rd_interest_report_' . $date . '.pdf');
     }
 
-    public function getInterestSummaryData($date)
+    public function getInterestSummaryData($date, $branchId = null)
     {
+        $user = Auth::user();
+
+        if (!$branchId) {
+            $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+        }
+
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
         $rdAccounts = DB::table('recurring_deposits as rd')
             ->join('member_depo_accounts as mda', 'rd.deposit_account_id', '=', 'mda.id')
+            ->join('members as m', 'mda.member_id', '=', 'm.id') 
+            ->leftJoin('users as u', 'm.created_by', '=', 'u.id') 
             ->where('mda.deposit_type', 'rd')
+            ->whereRaw("DATE_ADD(mda.ac_start_date, INTERVAL rd.rd_term_months MONTH) <= ?", [$date])
             ->selectRaw("
                 mda.acc_no,
                 mda.name AS account_holder_name,
@@ -303,7 +397,8 @@ class DepositReportController extends Controller
 
         return [
             'date' => $date,
-            'summaryData' => $interestSummary
+            'summaryData' => $interestSummary,
+            'branches' => $branches
         ];
     }
 
@@ -326,20 +421,21 @@ class DepositReportController extends Controller
     public function showInterestSummaryReport(Request $request)
     {
         $date = $request->input('date', today()->toDateString());
-
-        $data = $this->getInterestSummaryData($date);
+        $branchId = $request->input('branch_id'); 
+        $data = $this->getInterestSummaryData($date,$branchId);
 
         return view('reports.depositReport.interest-summary.index', [
             'date' => $date,
-            'summaryData' => $data['summaryData']
+            'summaryData' => $data['summaryData'],
+            'branches' => $data['branches']
         ]);
     }
 
     public function exportInterestSummaryPDF(Request $request)
     {
         $date = $request->input('date', today()->toDateString());
-
-        $data = $this->getInterestSummaryData($date);
+        $branchId = $request->input('branch_id');
+        $data = $this->getInterestSummaryData($date,$branchId);
         $type = $request->input('type', 'stream'); //default type stream
 
         // dd($data['summaryData']);

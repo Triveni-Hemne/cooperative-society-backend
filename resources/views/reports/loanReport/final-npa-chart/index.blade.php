@@ -11,7 +11,26 @@
 @section('content')
 <div class="container mt-4" style="overflow: scroll; height:80vh">
     <h2 class="mb-4 text-center">📊 Final NPA Chart - {{ $npaData['date'] }}</h2>
-
+    @if(!empty($branches))
+ <div class="row mb-4">
+        <div class="col-md-4 offset-md-4">
+            <form action="{{ route('final-npa-chart.index') }}" method="GET" class="d-flex form-outline input-group">
+                {{-- Branch --}}
+                    <select name="branch_id" class="form-select">
+                        <option value="">All Branches</option>
+                        @foreach($branches as $branch)
+                            <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                                {{ $branch->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <button type="submit" class="btn btn-primary fs-5" data-mdb-ripple-init>
+                        <i class="bi bi-search text-light"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        @endif
     {{-- Summary Cards --}}
     <div class="row text-white">
         <div class="col-md-3">

@@ -9,22 +9,42 @@
 @endsection
 
 @section('content')
-<div class="container">
+<div class="container" style="overflow: scroll; height: 80vh">
     <h2 class="mb-4">Loan Account Statement</h2>
 
     <form method="GET" action="{{ route('loan-statements.index') }}">
-        <div class="mb-3">
-            <label for="loan_acc_no" class="form-label">Loan Account Number</label>
+        <div class="mb-3 row">
+            <div class="col-md-4">
+            <label for="loan_acc_no" class="form-label">Loan Account</label>
             <select class="form-select" id="loan_acc_no" name="loan_acc_no" required>
                 <option value="" >----Select Account-----</option>
                 @if(isset($accounts))
                 @foreach ($accounts as $account)
-                <option value="{{$account->id}}">{{$account->name}}</option>
+                <option value="{{ $account->acc_no }}" {{ old('loan_acc_no') == $account->acc_no ? 'selected' : '' }}>
+                {{ $account->name }}
+            </option>
                 @endforeach
                 @endif
             </select>
+            </div>
+            @if(!empty($branches))
+            <div class="col-md-4">
+            {{-- Branch --}}
+            <label class="form-label">Branch</label>
+            <select name="branch_id" class="form-select">
+                <option value="">All Branches</option>
+                @foreach($branches as $branch)
+                    <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                        {{ $branch->name }}
+                    </option>
+                @endforeach
+            </select>
+            </div>
+            @endif
+            <div class="col-md-4 py-4">
+            <button type="submit" class="btn btn-primary">Get Statement</button>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Get Statement</button>
     </form>
 
     @if(isset($loan))

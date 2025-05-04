@@ -352,7 +352,7 @@
                             <label for="enteredBy">Entered By</label>
                         </div>
                         <div class="col pe-0 pe-xl-5">
-                                <input id="enteredBy" name="" class="w-100 px-2 py-1" value="{{$user->name}}"  required>
+                                <input id="enteredBy" name="" class="w-100 px-2 py-1" value="{{$user->name}}" readonly required>
                                 <input id="enteredBy" hidden name="entered_by" value="{{$user->id}}" class="w-100 px-2 py-1"  required>
                                 @error('entered_by')
                                     <div class="invalid-feedback">{{$message}}</div>
@@ -361,6 +361,7 @@
                         </div>
 
                         <div class="row mb-2">
+                        @if(Auth::user()->role === 'Admin')
                         @isset($branches) 
                         <div class="col-2 d-none d-xl-block">
                             <label for="branchId">Branch</label>
@@ -388,6 +389,7 @@
                                 @endif
                             </div>
                         @endisset
+                        @endif
                         </div>
 
                         <div class="row mb-2">

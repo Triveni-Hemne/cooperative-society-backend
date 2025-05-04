@@ -66,7 +66,7 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $g->loan->id ?? '-' }}</td>
                     <td>{{ $g->loan->member->name ?? '-' }}</td>
-                    <td>{{ $g->guarantor->name ?? '-' }}</td>
+                    <td>{{ $g->member->name ?? '-' }}</td>
                     <td>{{ number_format($g->loan->loan_amount ?? 0, 2) }}</td>
                     <td>{{ number_format($g->guaranteed_amount, 2) }}</td>
                     <td>{{ ucfirst($g->loan->status ?? '-') }}</td>

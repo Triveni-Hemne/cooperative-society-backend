@@ -16,14 +16,27 @@
             <div class="col-md-3">
                 <input type="date" name="end_date" class="form-control" value="{{ $endDate }}">
             </div>
+            @if(!empty($branches))
+            <div class="col-md-3">
+                {{-- Branch --}}
+                <select name="branch_id" class="form-select">
+                    <option value="">All Branches</option>
+                    @foreach($branches as $branch)
+                    <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                        {{ $branch->name }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+            @endif
             <div class="col-md-3">
                 <button type="submit" class="btn btn-primary">Filter</button>
             </div>
         </div>
         
         <div class="export-btns float-end mb-3">
-            <a href="{{ route('demand-list.pdf', ['start_date' => $startDate, 'end_date' => $endDate, 'type' => 'stream']) }}" target="_blank" class="btn btn-secondary ms-2"> <i class="bi bi-printer"></i> Print</a>
-            <a href="{{ route('demand-list.pdf', ['start_date' => $startDate, 'end_date' => $endDate, 'type' => 'download']) }}" target="" class="btn btn-danger ms-2"><i class="bi bi-file-earmark-pdf"></i> Export PDF</a>
+            <a href="{{ route('demand-list.pdf', ['start_date' => $startDate, 'end_date' => $endDate, 'type' => 'stream', 'branch_id'=>request('branch_id')]) }}" target="_blank" class="btn btn-secondary ms-2"> <i class="bi bi-printer"></i> Print</a>
+            <a href="{{ route('demand-list.pdf', ['start_date' => $startDate, 'end_date' => $endDate, 'type' => 'download', 'branch_id'=>request('branch_id')]) }}" target="" class="btn btn-danger ms-2"><i class="bi bi-file-earmark-pdf"></i> Export PDF</a>
         </div>
     </form>
 

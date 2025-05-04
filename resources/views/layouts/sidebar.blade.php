@@ -253,9 +253,9 @@
                             <div id="printingReports" class="accordion-collapse collapse"
                                 data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
-                                    <a href="#">🖨️ Duplicate Printing</a>
-                                    <a href="#">📒 Passbook Printing</a>
-                                    <a href="#">🏦 FD Rec Printing General</a>
+                                    <a href="{{route('duplicate-printing.index')}}">🖨️ Duplicate Printing</a>
+                                    <a href="{{route('passbook.printing.form')}}">📒 Passbook Printing</a>
+                                    {{-- <a href="#">🏦 FD Rec Printing General</a> --}}
                                 </div>
                             </div>
                         </div>

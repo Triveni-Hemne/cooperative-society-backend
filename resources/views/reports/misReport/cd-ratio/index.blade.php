@@ -17,6 +17,20 @@
             <label for="date" class="form-label">As on Date:</label>
             <input type="date" id="date" name="date" class="form-control" value="{{ request('date', now()->toDateString()) }}">
         </div>
+         @if(!empty($branches))
+            <div class="col-md-3">
+                <label class="form-label">Branch:</label>
+                {{-- Branch --}}
+                <select name="branch_id" class="form-select">
+                    <option value="">All Branches</option>
+                    @foreach($branches as $branch)
+                    <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                        {{ $branch->name }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+            @endif
         <div class="col-md-4 d-flex align-items-end">
             <button type="submit" class="btn btn-primary me-2">Generate</button>
         </div>
@@ -24,8 +38,8 @@
     </form>
 
     <div class="export-btns">
-            <a href="{{ route('cd-ratio.pdf', ['date' => request('date'), 'type' => 'stream']) }}" class="btn btn-secondary" target="_blank"><i class="bi bi-printer"></i> Print</a>
-            <a href="{{ route('cd-ratio.pdf', ['date' => request('date'), 'type' => 'download']) }}" class="btn btn-danger" target=""><i class="bi bi-file-earmark-pdf"></i> Download PDF</a>
+            <a href="{{ route('cd-ratio.pdf', ['date' => request('date'), 'type' => 'stream', 'branch_id' => request('branch_id')]) }}" class="btn btn-secondary" target="_blank"><i class="bi bi-printer"></i> Print</a>
+            <a href="{{ route('cd-ratio.pdf', ['date' => request('date'), 'type' => 'download', 'branch_id' => request('branch_id')]) }}" class="btn btn-danger" target=""><i class="bi bi-file-earmark-pdf"></i> Download PDF</a>
     </div>
 
     <div class="table-responsive mt-4">

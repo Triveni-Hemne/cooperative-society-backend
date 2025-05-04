@@ -10,7 +10,7 @@
 
     <!-- Filter Form -->
     <form action="{{ route('member-statement.index') }}" method="GET" class="mb-4">
-        <div class="row border p-3 rounded mb-4">
+        <div class="row border p-3 rounded mb-3">
             <div class="col-md-3">
                 <label>Member:</label>
                 <select name="member_id" id="memberId" class="form-select" required>
@@ -30,15 +30,29 @@
                 <label>End Date:</label>
                 <input type="date" name="end_date" class="form-control" value="{{ $endDate }}">
             </div>
+            @if(!empty($branches))
+            <div class="col-md-3">
+                <label class="">Branch:</label>
+                {{-- Branch --}}
+                <select name="branch_id" class="form-select">
+                    <option value="">All Branches</option>
+                    @foreach($branches as $branch)
+                    <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                        {{ $branch->name }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+            @endif
             <div class="col-md-2 py-4">
                 <button type="submit" class="btn btn-primary">Filter</button>
             </div>
         </div>
             <div class="d-flex align-items-end justify-content-end">
                 {{-- @if($transactions->isNotEmpty()) --}}
-                    <a href="{{ route('member-statement.pdf', ['member_id' => $memberId, 'start_date' => $startDate, 'end_date' => $endDate, 'type' => 'stream']) }}" 
+                    <a href="{{ route('member-statement.pdf', ['member_id' => $memberId, 'start_date' => $startDate, 'end_date' => $endDate, 'type' => 'stream', 'branch_id'=>request('branch_id')]) }}" 
                         class="btn btn-secondary ms-2" target="_blank"><i class="bi bi-printer"></i> Print</a>
-                    <a href="{{ route('member-statement.pdf', ['member_id' => $memberId, 'start_date' => $startDate, 'end_date' => $endDate, 'type' => 'download']) }}" 
+                    <a href="{{ route('member-statement.pdf', ['member_id' => $memberId, 'start_date' => $startDate, 'end_date' => $endDate, 'type' => 'download', 'branch_id'=>request('branch_id')]) }}" 
                         class="btn btn-danger ms-2" target=""><i class="bi bi-file-earmark-pdf"></i> Export PDF</a>
                 {{-- @endif --}}
             </div>

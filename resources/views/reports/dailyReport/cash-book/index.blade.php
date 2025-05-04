@@ -17,7 +17,18 @@
         <div class="row mb-4">
             <div class="col-md-4 offset-md-4">
                 <form action="{{ route('cash-book.index') }}" method="GET" class="d-flex form-outline input-group">
-                    <input type="date" name="date" class="form-control " value="" required >
+                    <input type="date" name="date" class="form-control " value="{{old('date')}}" required>
+                    {{-- Branch --}}
+                    @if(!empty($branches))
+                    <select name="branch_id" class="form-select">
+                        <option value="">All Branches</option>
+                        @foreach($branches as $branch)
+                            <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                                {{ $branch->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @endif
                     <button type="submit" class="btn btn-primary fs-5" data-mdb-ripple-init><i class="bi bi-search text-light" ></i></i></button>
                 </form>
             </div>

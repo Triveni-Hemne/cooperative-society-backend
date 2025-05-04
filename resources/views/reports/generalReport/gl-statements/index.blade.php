@@ -10,7 +10,7 @@
     <h2 class="mb-4">General Ledger Statement</h2>
     <div class="card  my-3 p-3">
         <!-- Filter Form -->
-        <form action="{{ route('gl-statement.index') }}" method="GET" class="mb-4">
+        <form action="{{ route('gl-statement.index') }}" method="GET" class="mb-3">
             <div class="row">
                 <div class="col-md-3">
                     <label>Ledger:</label>
@@ -31,7 +31,21 @@
                     <label>End Date:</label>
                     <input type="date" name="end_date" class="form-control" value="{{ request('end_date', now()->toDateString()) }}">
                 </div>
-                <div class="col-md-3 d-flex align-items-end">
+                @if(!empty($branches))
+                <div class="col-md-3">
+                    <label class="">Branch:</label>
+                    {{-- Branch --}}
+                    <select name="branch_id" class="form-select">
+                        <option value="">All Branches</option>
+                        @foreach($branches as $branch)
+                        <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                            {{ $branch->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                @endif
+                <div class="col-md-3 d-flex align-items-end mt-3">
                     <button type="submit" class="btn btn-primary">Filter</button>
                 </div>
             </div>
@@ -41,9 +55,9 @@
     <div class=" my-3 p-3" >
         <!-- Export to PDF Button -->
         <div class="export-btns d-flex">
-            <a href="{{ route('gl-statement.pdf', ['ledger_id' => request('ledger_id'), 'start_date' => request('start_date'), 'end_date' => request('end_date'), 'type'=>'stream']) }}"
+            <a href="{{ route('gl-statement.pdf', ['ledger_id' => request('ledger_id'), 'start_date' => request('start_date'), 'end_date' => request('end_date'), 'type'=>'stream', 'branch_id' => request('branch_id')]) }}"
         class="btn btn-secondary mb-3" target="_blank"><i class="bi bi-printer"></i> Print</a>
-            <a href="{{ route('gl-statement.pdf', ['ledger_id' => request('ledger_id'), 'start_date' => request('start_date'), 'end_date' => request('end_date'), 'type'=>'download']) }}"
+            <a href="{{ route('gl-statement.pdf', ['ledger_id' => request('ledger_id'), 'start_date' => request('start_date'), 'end_date' => request('end_date'), 'type'=>'download', 'branch_id' => request('branch_id')]) }}"
         class="btn btn-danger mb-3" target=""><i class="bi bi-file-earmark-pdf"></i> Export PDF</a>
         </div>
 

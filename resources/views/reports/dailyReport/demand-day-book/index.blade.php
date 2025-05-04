@@ -15,6 +15,17 @@
     <div class="d-flex justify-content-center mb-3">
         <form action="{{ route('demand-day-book.index') }}" method="GET" class="d-flex">
             <input type="date" name="date" class="form-control" value="{{ $date }}" required>
+            {{-- Branch --}}
+                    @if(!empty($branches))
+                    <select name="branch_id" class="form-select">
+                        <option value="">All Branches</option>
+                        @foreach($branches as $branch)
+                            <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                                {{ $branch->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @endif
             <button type="submit" class="btn btn-primary">Filter</button>
         </form>       
     </div>
