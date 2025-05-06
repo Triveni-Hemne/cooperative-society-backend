@@ -21,7 +21,20 @@
                     <input type="date" name="to_date" id="to_date" class="form-control"
                         value="{{ request('to_date', $toDate) }}" required>
                 </div>
-
+            @if(!empty($branches))
+            <div class="col-md-3 ">
+                <label class="form-label">Branch</label>
+                {{-- Branch --}}
+                <select name="branch_id" class="form-select">
+                    <option value="">All Branches</option>
+                    @foreach($branches as $branch)
+                    <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                        {{ $branch->name }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+            @endif
                 <div class="col-md-4">
                     <button type="submit" class="btn btn-primary w-100">
                         <i class="bi bi-search"></i> Generate Report
@@ -34,10 +47,10 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 class="mb-0">Profit and Loss Statement</h4>
       <div class="export-btns">
-          <a href="{{ route('profit-loss.pdf',['from_date' => $fromDate, 'to_date' => $toDate, 'type' => 'stream']) }}" target="_blank" class="btn btn-sm btn-secondary">
+          <a href="{{ route('profit-loss.pdf',['from_date' => $fromDate, 'to_date' => $toDate, 'type' => 'stream', 'branch_id' => request('branch_id')]) }}" target="_blank" class="btn btn-sm btn-secondary">
             <i class="bi bi-printer"></i> Print
         </a>
-        <a href="{{ route('profit-loss.pdf', ['from_date' => $fromDate, 'to_date' => $toDate, 'type' => 'download']) }}"  class="btn btn-sm btn-danger">
+        <a href="{{ route('profit-loss.pdf', ['from_date' => $fromDate, 'to_date' => $toDate, 'type' => 'download', 'branch_id' => request('branch_id')]) }}"  class="btn btn-sm btn-danger">
             <i class="bi bi-file-earmark-pdf"></i> Export PDF
         </a>
       </div>

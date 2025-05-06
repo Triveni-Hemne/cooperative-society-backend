@@ -11,10 +11,10 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="mb-0">Balance Sheet</h4>
        <div class="export-btns">
-          <a href="{{ route('balance-sheet.pdf', ['as_on_date' => $asOnDate, 'type' => 'stream']) }}" target="_blank" class="btn btn-sm btn-secondary">
+          <a href="{{ route('balance-sheet.pdf', ['as_on_date' => $asOnDate, 'type' => 'stream', 'branch_id' => request('branch_id')]) }}" target="_blank" class="btn btn-sm btn-secondary">
             <i class="bi bi-printer"></i> Print
         </a>
-        <a href="{{ route('balance-sheet.pdf', ['as_on_date' => $asOnDate, 'type' => 'download']) }}" class="btn btn-sm btn-danger">
+        <a href="{{ route('balance-sheet.pdf', ['as_on_date' => $asOnDate, 'type' => 'download', 'branch_id' => request('branch_id')]) }}" class="btn btn-sm btn-danger">
             <i class="bi bi-file-earmark-pdf"></i> Export PDF
         </a>
        </div>
@@ -26,6 +26,20 @@
             <label for="as_on_date" class="form-label">As on Date</label>
             <input type="date" id="as_on_date" name="as_on_date" value="{{ $asOnDate }}" class="form-control" required>
         </div>
+        @if(!empty($branches))
+            <div class="col-md-3 ">
+                <label class="form-label">Branch</label>
+                {{-- Branch --}}
+                <select name="branch_id" class="form-select">
+                    <option value="">All Branches</option>
+                    @foreach($branches as $branch)
+                    <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                        {{ $branch->name }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+            @endif
         <div class="col-md-2 align-self-end">
             <button type="submit" class="btn btn-primary w-100">
                 <i class="bi bi-funnel"></i> Filter

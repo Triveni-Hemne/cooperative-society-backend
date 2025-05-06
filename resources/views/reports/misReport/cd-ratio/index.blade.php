@@ -18,8 +18,8 @@
             <input type="date" id="date" name="date" class="form-control" value="{{ request('date', now()->toDateString()) }}">
         </div>
          @if(!empty($branches))
-            <div class="col-md-3">
-                <label class="form-label">Branch:</label>
+            <div class="col-md-3 pt-3">
+                <label class="form-label">Branch</label>
                 {{-- Branch --}}
                 <select name="branch_id" class="form-select">
                     <option value="">All Branches</option>

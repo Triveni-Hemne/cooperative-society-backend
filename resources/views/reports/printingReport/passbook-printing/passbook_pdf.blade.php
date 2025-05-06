@@ -20,6 +20,7 @@
 @endif
 
 <p><strong>Account ID:</strong> {{ $accountId }}</p>
+    <p><strong>Account No:</strong> {{ $account->acc_no ?? '' }}</p>
 
 @if($fromDate && $toDate)
     <p><strong>From:</strong> {{ $fromDate }} &nbsp;&nbsp; <strong>To:</strong> {{ $toDate }}</p>

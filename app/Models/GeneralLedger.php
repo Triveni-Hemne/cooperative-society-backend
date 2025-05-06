@@ -36,4 +36,8 @@ class GeneralLedger extends Model
     public function parentLedger() {
         return $this->belongsTo(GeneralLedger::class, 'parent_ledger_id');
     }
+    public function voucherEntries()
+{
+    return $this->hasMany(VoucherEntry::class, 'ledger_id');
+}
 }

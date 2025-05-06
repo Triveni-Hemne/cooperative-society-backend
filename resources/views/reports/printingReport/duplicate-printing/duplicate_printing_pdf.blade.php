@@ -27,7 +27,7 @@
         </tr>
         <tr>
             <td><strong>Member Name:</strong> 
-                {{ optional($entry->memberDepoAccount->member)->name 
+                {{ optional($entry->memberDepositAccount->member)->name 
                     ?? optional($entry->memberLoanAccount->member)->name 
                     ?? '-' }}
             </td>

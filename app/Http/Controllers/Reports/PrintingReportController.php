@@ -7,38 +7,54 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Branch;
 use App\Models\Member;
 use App\Models\VoucherEntry;
 use App\Models\MemberDepoAccount;
+use Illuminate\Support\Facades\Auth;
 use App\Models\MemberLoanAccount;
+use App\Models\MemberFinancial;
 
 class PrintingReportController extends Controller
 {
   
-   public function getDuplicateData($voucherNo = null, $memberId = null, $startDate = null, $endDate = null)
+   public function getDuplicateData($voucherNo = null, $memberId = null, $startDate = null, $endDate = null, $branchId = null)
     {
-        $query = VoucherEntry::with([
+         $user = Auth::user();
+         if (!$branchId) {
+             $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+            }
+            
+        $branches = $user->role === 'Admin' ? Branch::all() : null;
+        $entries = VoucherEntry::with([
             'account',
-            'memberDepoAccount.member',
+            'memberDepositAccount.member',
             'memberLoanAccount.member'
-        ]);
-
-        if (!empty($voucherNo)) {
+        ])
+        ->when($voucherNo, function ($query) use ($voucherNo) {
             $query->where('voucher_num', $voucherNo);
-        }
-
-        if (!empty($memberId)) {
-            $query->whereHas('memberDepositAccount', fn($q) => $q->where('member_id', $memberId))
-                ->orWhereHas('memberLoanAccount', fn($q) => $q->where('member_id', $memberId));
-        }
-
-        if (!empty($startDate) && !empty($endDate)) {
+        })
+        ->when($memberId, function ($query) use ($memberId) {
+            $query->where(function ($q) use ($memberId) {
+                $q->whereHas('memberDepositAccount', fn($q1) => $q1->where('member_id', $memberId))
+                ->orWhereHas('memberLoanAccount', fn($q2) => $q2->where('member_id', $memberId));
+            });
+        })
+        ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
             $query->whereBetween('date', [$startDate, $endDate]);
-        }
+        })
+        ->when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($q) use ($branchId) {
+                $q->where('branch_id', $branchId)
+                ->orWhereHas('enteredBy', function ($q2) use ($branchId) {
+                    $q2->where('branch_id', $branchId);
+                });
+            });
+        })
+        ->orderByDesc('date')
+        ->get();
 
-        $entries = $query->orderByDesc('date')->get();
-
-        return compact('entries', 'voucherNo', 'memberId', 'startDate', 'endDate');
+        return compact('entries', 'voucherNo', 'memberId', 'startDate', 'endDate', 'branches');
     }
 
     public function viewDuplicate(Request $request)
@@ -47,8 +63,9 @@ class PrintingReportController extends Controller
         $memberId = $request->input('member_id');
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
+        $branchId = $request->input('branch_id'); 
 
-        $data = $this->getDuplicateData($voucherNo, $memberId, $startDate, $endDate);
+        $data = $this->getDuplicateData($voucherNo, $memberId, $startDate, $endDate, $branchId);
         // Get distinct voucher numbers and member list
         $data['voucherNumbers'] = VoucherEntry::select('voucher_num')->distinct()->pluck('voucher_num')->filter()->values();
         $data['members'] = Member::select('id', 'name')->orderBy('name')->get();
@@ -60,7 +77,7 @@ class PrintingReportController extends Controller
     {
         $entry = VoucherEntry::with([
             'account',
-            'memberDepoAccount.member',
+            'memberDepositAccount.member',
             'memberLoanAccount.member'
         ])->findOrFail($id);
         $type = $request->input('type','stream'); // default to stream
@@ -77,12 +94,13 @@ class PrintingReportController extends Controller
 
     public function exportDuplicateListPDF(Request $request)
     {
-        $data = $this->getDuplicateData(
-            $request->input('voucher_num'),
-            $request->input('member_id'),
-            $request->input('start_date'),
-            $request->input('end_date')
-        );
+        $voucherNo = $request->input('voucher_num');
+        $memberId = $request->input('member_id');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $branchId = $request->input('branch_id'); 
+        // dd($voucherNo,$memberId,$startDate,$endDate,$branchId);
+        $data = $this->getDuplicateData($voucherNo, $memberId, $startDate, $endDate, $branchId);
         $type = $request->input('type','stream'); // default to stream
 
         $pdf = Pdf::loadView('reports.printingReport.duplicate-printing.duplicate_printing_list_pdf', $data)
@@ -96,7 +114,7 @@ class PrintingReportController extends Controller
     }
 
     private function getPassbookData($accountType, $accountId, $fromDate = null, $toDate = null)
-    {
+    {            
         $transactions = [];
 
         if ($accountType === 'loan') {
@@ -105,29 +123,24 @@ class PrintingReportController extends Controller
                 ->orderBy('date')
                 ->get();
         } elseif ($accountType === 'deposit') {
-            $transactions = VoucherEntry::where('member_deposit_account_id', $accountId)
+            $transactions = VoucherEntry::where('member_depo_account_id', $accountId)
                 ->when($fromDate && $toDate, fn($q) => $q->whereBetween('date', [$fromDate, $toDate]))
                 ->orderBy('date')
                 ->get();
         }
         if ($accountType === 'rd') {
-            $transactions = VoucherEntry::where('member_deposit_account_id', $accountId)
+            $transactions = VoucherEntry::where('member_depo_account_id', $accountId)
                 ->where('deposit_type', 'rd')
                 ->when($fromDate && $toDate, fn($q) => $q->whereBetween('date', [$fromDate, $toDate]))
                 ->orderBy('date')
                 ->get();
         } elseif ($accountType === 'fd') {
-            $transactions = VoucherEntry::where('member_deposit_account_id', $accountId)
+            $transactions = VoucherEntry::where('member_depo_account_id', $accountId)
                 ->where('deposit_type', 'fd')
                 ->when($fromDate && $toDate, fn($q) => $q->whereBetween('date', [$fromDate, $toDate]))
                 ->orderBy('date')
                 ->get();
-        } elseif ($accountType === 'share') {
-            $transactions = VoucherEntry::where('member_financial_id', $accountId)
-                ->when($fromDate && $toDate, fn($q) => $q->whereBetween('date', [$fromDate, $toDate]))
-                ->orderBy('date')
-                ->get();
-        }
+        } 
 
         // Running Balance
         $runningBalance = 0;
@@ -154,17 +167,13 @@ class PrintingReportController extends Controller
         if ($accountType === 'loan') {
             $account = MemberLoanAccount::with('member')->findOrFail($accountId);
         } elseif ($accountType === 'deposit') {
-            $account = MemberDepositAccount::with('member')->findOrFail($accountId);
+            $account = MemberDepoAccount::with('member')->findOrFail($accountId);
         } else {
             $account = null;
         }
         if ($accountType === 'rd' || $accountType === 'fd') {
-            $account = MemberDepositAccount::with('member')->findOrFail($accountId);
-        } elseif ($accountType === 'share') {
-            $account = DB::table('member_financials')
-                ->where('id', $accountId)
-                ->first(); // or convert to model if needed
-        }
+            $account = MemberDepoAccount::with('member')->findOrFail($accountId);
+        } 
 
         return view('reports.printingReport.passbook-printing.index', compact(
             'memberId', 'account', 'transactions', 'accountType', 'accountId', 'fromDate', 'toDate'
@@ -174,15 +183,40 @@ class PrintingReportController extends Controller
 
     public function viewPassbookForm()
     {
-        $members = DB::table('members')->select('id', 'name')->get();
+        $user = Auth::user();
+        $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+            
+        // $branches = $user->role === 'Admin' ? Branch::all() : null;
+    
+        $members = Member::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->get();
 
-        $loanAccounts = DB::table('member_loan_accounts')
-            ->select('id', 'member_id', 'acc_no as account_number')
-            ->get();
+        $loanAccounts = MemberLoanAccount::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->get();
 
-        $depositAccounts = DB::table('member_depo_accounts')
-            ->select('id', 'member_id', 'acc_no', 'deposit_type') // deposit_type: savings, rd, fd
-            ->get();
+        $depositAccounts = MemberDepoAccount::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->get();
 
         // $savingAccounts = DB::table('savings_accounts')
         //     ->select('id', 'member_id', 'account_number')
@@ -197,10 +231,16 @@ class PrintingReportController extends Controller
         //     ->get();
 
         // Optional if you have share accounts
-        $shareAccounts = DB::table('member_financials')
-            ->select('id', 'member_id') // adjust field if needed
-            ->where('type', 'Share')
-            ->get();
+        
+        $shareAccounts = MemberFinancial::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->get();
 
         return view('reports.printingReport.passbook-printing.passbook-form', compact(
             'members',
@@ -209,7 +249,7 @@ class PrintingReportController extends Controller
             // 'savingAccounts',
             // 'recurringDeposits',
             // 'fixedDeposits',
-            'shareAccounts'
+            'shareAccounts',
         ));
     }
 
@@ -248,6 +288,10 @@ class PrintingReportController extends Controller
         $pdf = Pdf::loadView('reports.printingReport.passbook-printing.passbook_pdf', compact('transactions', 'accountType', 'fromDate', 'toDate', 'accountId', 'account'))
                 ->setPaper('A5', 'portrait');
 
+        $type = $request->input('type','stream'); // default to stream
+        if($type == 'download'){
+            return $pdf->download("Passbook_{$accountType}_{$accountId}.pdf");
+        }
         return $pdf->stream("Passbook_{$accountType}_{$accountId}.pdf");
     }
 

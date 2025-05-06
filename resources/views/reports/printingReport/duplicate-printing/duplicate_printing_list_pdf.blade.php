@@ -62,7 +62,7 @@
                     <td>{{ \Carbon\Carbon::parse($entry->date)->format('d-m-Y') }}</td>
                     <td>{{ $entry->voucher_num }}</td>
                     <td>
-                        {{ optional($entry->memberDepoAccount->member)->name 
+                        {{ optional($entry->memberDepositAccount->member)->name 
                             ?? optional($entry->memberLoanAccount->member)->name 
                             ?? '-' }}
                     </td>

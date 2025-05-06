@@ -43,6 +43,20 @@
                 <label>To Date</label>
                 <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}">
             </div>
+            @if(!empty($branches))
+            <div class="col-md-3">
+                <label class="pt-2">Branch</label>
+                {{-- Branch --}}
+                <select name="branch_id" class="form-select">
+                    <option value="">All Branches</option>
+                    @foreach($branches as $branch)
+                    <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                        {{ $branch->name }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+            @endif
         </div>
         <div class="mt-3 text-end">
             <button class="btn btn-primary">Search</button>
@@ -52,10 +66,20 @@
     <div class="mt-3 p-3 mb-4 shadow-sm d-flex border justify-content-end rounded">
     <form method="GET" action="{{ route('duplicate-printing.pdf.all') }}" target="_blank" class="me-1">
             <input type="hidden" name="type" value="stream">
+            <input type="hidden" name="voucher_num" value="{{ request('voucher_num')}}">
+            <input type="hidden" name="branch_id" value="{{ request('branch_id')}}">
+            <input type="hidden" name="start_date" value="{{ request('start_date')}}">
+            <input type="hidden" name="end_date" value="{{ request('end_date')}}">
+            <input type="hidden" name="member_id" value="{{ request('member_id')}}">
             <button class="btn btn-secondary"><i class="bi bi-printer"></i> Print</button>
     </form>
     <form method="GET" action="{{ route('duplicate-printing.pdf.all') }}" >
-            <input type="hidden" name="type" value="download">
+        <input type="hidden" name="type" value="download">
+        <input type="hidden" name="voucher_num" value="{{ request('voucher_num')}}">
+        <input type="hidden" name="branch_id" value="{{ request('branch_id')}}">
+        <input type="hidden" name="start_date" value="{{ request('start_date')}}">
+        <input type="hidden" name="end_date" value="{{ request('end_date')}}">
+        <input type="hidden" name="member_id" value="{{ request('member_id')}}">
             <button class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Download PDF</button>
         </form>
     </div>
@@ -86,7 +110,7 @@
                                 <td>{{ \Carbon\Carbon::parse($entry->date)->format('d-m-Y') }}</td>
                                 <td>{{ $entry->voucher_num }}</td>
                                 <td>
-                                    {{ optional($entry->memberDepoAccount->member)->name 
+                                    {{ optional($entry->memberDepositAccount->member)->name 
                                         ?? optional($entry->memberLoanAccount->member)->name 
                                         ?? '-' }}
                                 </td>
@@ -95,9 +119,9 @@
                                     @elseif ($entry->member_loan_account_id) Loan
                                     @else General @endif
                                 </td>
-                                <td>{{ number_format($entry->amount, 2) }}</td>
-                                <td>{{ $entry->payment_mode }}</td>
-                                <td>{{ $entry->narration }}</td>
+                                <td>{{ number_format($entry->amount, 2) ?? 0 }}</td>
+                                <td>{{ $entry->payment_mode ?? "-"}}</td>
+                                <td>{{ $entry->narration ?? "-"}}</td>
                                 <td>
                                     <a href="{{ route('duplicate-printing.pdf.single', $entry->id) }}" class="btn btn-sm btn-outline-primary" target="_blank">
                                         <i class="fa fa-download"></i> PDF

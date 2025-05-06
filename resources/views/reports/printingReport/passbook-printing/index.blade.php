@@ -15,12 +15,14 @@
     @endif
 
     <p><strong>Account ID:</strong> {{ $accountId }}</p>
+    <p><strong>Account No:</strong> {{ $account->acc_no ?? '' }}</p>
     @if($fromDate && $toDate)
         <p><strong>From:</strong> {{ $fromDate }} | <strong>To:</strong> {{ $toDate }}</p>
     @endif
 
     <div class="mb-3">
-        <a href="{{ route('passbook.printing.pdf', ['account_type' => $accountType, 'account_id' => $accountId, 'from_date' => $fromDate, 'to_date' => $toDate]) }}" target="_blank" class="btn btn-success">Download PDF</a>
+        <a href="{{ route('passbook.printing.pdf', ['account_type' => $accountType, 'account_id' => $accountId, 'from_date' => $fromDate, 'to_date' => $toDate, 'type' => 'stream']) }}" target="_blank" class="btn btn-secondary"><i class="bi bi-printer"></i> Print</a>
+        <a href="{{ route('passbook.printing.pdf', ['account_type' => $accountType, 'account_id' => $accountId, 'from_date' => $fromDate, 'to_date' => $toDate, 'type' => 'download']) }}" target="" class="btn btn-success"><i class="bi bi-file-earmark-pdf"></i> Download PDF</a>
     </div>
 
     <table class="table table-bordered">

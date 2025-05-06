@@ -26,7 +26,7 @@
                     <option value="" >-- Select Type --</option>
                     <option value="loan">Loan</option>
                     <option value="deposit">Savings / RD / FD</option>
-                    <option value="share">Share</option>
+                    {{-- <option value="share">Share</option> --}}
                 </select>
             </div>
             <div class="col-md-4">
@@ -45,6 +45,20 @@
                 <label>To Date</label>
                 <input type="date" name="to_date" class="form-control">
             </div>
+            @if(!empty($branches))
+            <div class="col-md-3">
+                <label class="">Branch</label>
+                {{-- Branch --}}
+                <select name="branch_id" class="form-select">
+                    <option value="">All Branches</option>
+                    @foreach($branches as $branch)
+                    <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
+                        {{ $branch->name }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+            @endif
             <div class="col-md-6 text-end mt-4">
                 <button type="submit" class="btn btn-primary">Show Passbook</button>
             </div>
@@ -78,7 +92,7 @@
             if (type === 'loan') {
                 accounts = loanAccounts.filter(acc => acc.member_id == memberId);
                 accounts.forEach(acc => {
-                    const opt = new Option(`Loan A/C: ${acc.account_number}`, acc.id);
+                    const opt = new Option(`Loan A/C: ${acc.acc_no}`, acc.id);
                     accountSelect.add(opt);
 
                 });
@@ -111,13 +125,13 @@
                 // });
             }
 
-            if (type === 'share') {
-                const shares = shareAccounts.filter(acc => acc.member_id == memberId);
-                shares.forEach(acc => {
-                    const opt = new Option(`Share Ledger: ${acc.ledger_id}`, acc.id);
-                    accountSelect.add(opt);
-                });
-            }
+            // if (type === 'share') {
+            //     const shares = shareAccounts.filter(acc => acc.member_id == memberId);
+            //     shares.forEach(acc => {
+            //         const opt = new Option(`Share Ledger: ${acc.ledger_id}`, acc.id);
+            //         accountSelect.add(opt);
+            //     });
+            // }
         }
 
         document.getElementById('memberSelect').addEventListener('change', updateAccounts);
