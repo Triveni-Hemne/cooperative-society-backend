@@ -1,150 +1,142 @@
-<div class="modal fade" id="dayBeginsModal" tabindex="-1" aria-labelledby="dayBeginsModalLabel" aria-hidden="true">
+<div class="modal fade" id="dayBeginsModal" tabindex="-1" aria-labelledby="dayBeginsModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
     <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <form method="POST" action="{{route('day-begins.store')}}" id="dayBeginModalForm">
+        <div class="modal-content rounded-4 border-0 shadow">
+            <form method="POST" action="{{ route('day-begins.store') }}" id="dayBeginModalForm" class="needs-validation"
+                novalidate>
                 <input type="hidden" id="dayBeginId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="dayBeginsModalLabel">Add Day Begins</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                @csrf
-                    @if(Session::has('error'))
-                        <div class="alert alert-danger">{{Session::get('error')}}</div>
-                    @endif
-                    <div class="mx-auto p-5 my-model text-white">
-                          <div class="row mb-2">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="createdBy">Created By</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input name="" id="createdBy" class="w-100 px-2 py-1" value="{{$user->name}}" type="text" readonly required>
+
+                <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
+                    <h5 class="modal-title fw-bold" id="dayBeginsModalLabel"><i
+                            class="bi bi-calendar-plus-fill me-2"></i>Add Day Begin</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body bg-light">
+                    <div class="p-4 bg-white rounded shadow-sm">
+                        {{-- Created By --}}
+                        <div class="form-floating mb-3">
+                            <input name="" id="createdBy" class="w-100 px-2 py-1 form-control" value="{{$user->name}}" type="text" readonly required>
                                 <input name="created_by" class="w-100 px-2 py-1" value="{{$user->id}}" type="text" hidden  required>
-                                @error('created_by')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="date">Date</label>
-                            </div>
-                            <div class="col-4 pe-0 pe-xl-5">
-                                <input name="date" id="date" class="w-100 px-2 py-1  @error('date') is-invalid @enderror" value="{{ old('date') }}" type="date" placeholder="Date" required>
-                                @error('date')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
+                            <label for="createdBy">Created By</label>
+                            @error('created_by')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
-                        <div class="row mb-2">
-                             @isset($users) 
-                             <div class="col-2 ps-5 d-none d-xl-block">
-                                 <label for="userId">User</label>
-                                </div>
-                                <div class="col pe-0 pe-xl-5">
-                                @if ($users->isNotEmpty())
-                                 <select name="user_id" id="userId"  class="w-100 px-2 py-1 @error('user_id') is-invalid @enderror">
-                                    <option value="" disabled  {{ old('user_id') ? '' : 'selected' }}>---------- Select ----------</option>
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->id }}"  
-                                        {{ old('user_id') == $user->id ? 'selected' : '' }}
-                                        >
-                                        {{ $user->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('user_id')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                                  @else
-                                    <select class="w-100 px-2 py-1" disabled>
-                                            <option>No users available. Please add users first.</option>
-                                    </select>
-                                    <small class="text-danger">⚠️ You must add users before submitting the form.</small>
-                                @endif
-                            </div>
+                        {{-- Date --}}
+                        <div class="form-floating mb-3">
+                            <input name="date" id="date" class="form-control @error('date') is-invalid @enderror"
+                                value="{{ old('date') }}" type="date" placeholder="Date" required>
+                            <label for="date" class="form-label required">Date</label>
+                            @error('date')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        {{-- User Dropdown --}}
+                        @isset($users)
+                        @if ($users->isNotEmpty())
+                        <div class="form-floating mb-3">
+                            <select name="user_id" id="userId"
+                                class="form-select @error('user_id') is-invalid @enderror" required>
+                                <option value="" disabled  {{ old('user_id') ? '' : 'selected' }}>---------- Select ----------</option>
+                                @foreach ($users as $user)
+                                <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                    {{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                            <label for="userId">User</label>
+                            @error('user_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        @else
+                        <div class="alert alert-warning">
+                            <strong>⚠️ No users available.</strong><br>
+                            Please add users first.
+                        </div>
+                        @endif
                         @endisset
-                        </div>
-
+                        <!-- Branch -->
                         @if(Auth::user()->role === 'Admin')
-                        <div class="row mb-2">
-                             @isset($branches) 
-                             <div class="col-2 ps-5 d-none d-xl-block">
-                                 <label for="branchId">Branch</label>
-                                </div>
-                                <div class="col pe-0 pe-xl-5">
-                                @if ($branches->isNotEmpty())
-                                 <select name="branch_id" id="branchId"  class="w-100 px-2 py-1 @error('branch_id') is-invalid @enderror" required>
-                                    <option value="" disabled {{ old('branch_id') ? '' : 'selected' }}>---------- Select ----------</option>
-                                    @foreach ($branches as $branch)
+                         @if ($branches->isNotEmpty())
+                                <div class="form-floating">
+                                    <select name="branch_id" id="userBranch"
+                                        class="form-select @error('branch_id') is-invalid @enderror" required>
+                                        <option value="" disabled selected>Select Branch</option>
+                                         @foreach ($branches as $branch)
                                         <option value="{{ $branch->id }}"  
                                         {{ old('branch_id') == $branch->id ? 'selected' : '' }}
                                         >
                                         {{ $branch->name }}
                                         </option>
                                     @endforeach
-                                </select>
-                                @error('branch_id')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                                  @else
-                                    <select class="w-100 px-2 py-1" disabled>
-                                            <option>No branches available. Please add branches first.</option>
-                                    </select>
-                                    <small class="text-danger">⚠️ You must add branches before submitting the form.</small>
-                                @endif
-                            </div>
-                        @endisset
-                        </div>
-                        @endif
-                         <div class="row mb-2">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="openingCashBalance">Opening Cash Balance</label>
-                            </div>
-                            <div class="col-4 pe-0 pe-xl-5">
-                                <input name="opening_cash_balance" id="openingCashBalance" class="w-100 px-2 py-1  @error('opening_cash_balance') is-invalid @enderror" value="{{ old('opening_cash_balance') }}" type="number" placeholder="Opening Cash Balance" required>
-                                @error('opening_cash_balance')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
-                        </div>
+                        </select>
+                        <label for="userBranch">Branch</label>
+                        @error('branch_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
 
-                        <div class="row mb-2">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="status">Status</label>
-                            </div>
-                            <div class="col-4 pe-0 pe-xl-5">
-                                <select id="status" name="status" class="w-100 px-2 py-1 @error('status') is-invalid @enderror" required>
-                                    <option value="" {{old('status') ? '' : 'selected'}}>------ Select Status ------</option>
-                                    <option value="Open" {{ old('status') == 'Open' ? 'selected' : '' }}>Open</option>
-                                    <option value="Closed" {{ old('status') == 'Closed' ? 'selected' : '' }}>Closed</option>
-                                </select>
-                                @error('status')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-2">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="remarks">Remarks</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <textarea name="remarks" id="remarks" class="w-100 px-2 py-1  @error('remarks') is-invalid @enderror" type="text">{{ old('remarks') }}</textarea>
-                                @error('remarks')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
-                        </div>
                     </div>
+                    @else
+                    <div class="alert alert-warning">
+                        <strong>⚠️ No Branch available.</strong><br>
+                        Please add Branch first.
+                    </div>
+                    @endif
+                    @endif
+
+                    {{-- Opening Cash Balance --}}
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                                <input name="opening_cash_balance" id="openingCashBalance"
+                                    class="form-control @error('opening_cash_balance') is-invalid @enderror"
+                                    value="{{ old('opening_cash_balance') }}" type="number" required
+                        placeholder="Opening Cash Balance">
+                        <label for="openingCashBalance" class="form-label required">Opening Cash Balance</label>
+                        @error('opening_cash_balance')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    {{-- Status Dropdown --}}
+                    <div class="form-floating mb-3">
+                        <select id="status" name="status" class="form-select @error('status') is-invalid @enderror"
+                            required>
+                            <option value="" {{old('status') ? '' : 'selected'}}>------ Select Status ------</option>
+                            <option value="Open" {{ old('status') == 'Open' ? 'selected' : '' }}>Open</option>
+                            <option value="Closed" {{ old('status') == 'Closed' ? 'selected' : '' }}>Closed</option>
+                        </select>
+                        <label for="status" class="form-label required">Status</label>
+                        @error('status')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Remark -->
+                    <div class="form-floating mb-3">
+        <textarea class="form-control @error('remarks') is-invalid @enderror" placeholder="Remarks" id="remarks"
+        name="remarks" style="height: 100px" required>{{ old('remarks') }}</textarea>
+                    <label for="remarks">Remarks</label>
+                    @error('remarks')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
         </div>
     </div>
+
+    <div class="modal-footer bg-white rounded-bottom-4 border-top">
+        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle me-1"></i>Cancel
+        </button>
+        <button type="submit" class="btn btn-success px-4">
+            <i class="bi bi-check-circle me-1"></i>Submit
+        </button>
+    </div>
+    </form>
+</div>
+</div>
 </div>

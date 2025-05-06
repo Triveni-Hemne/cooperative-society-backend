@@ -1,92 +1,83 @@
-<div class="modal fade" id="divisionModal" tabindex="-1" aria-labelledby="divisionModalLabel" aria-hidden="true">
+<div class="modal fade" id="divisionModal" tabindex="-1" aria-labelledby="divisionModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
     <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <form method="POST" action="{{route('divisions.store')}}" id="divisionForm">
+        <div class="modal-content rounded-4 border-0 shadow">
+            <form method="POST" action="{{ route('divisions.store') }}" id="divisionForm" class="needs-validation"
+                novalidate>
+                @csrf
                 <input type="hidden" id="divisionId" name="id">
-                <input type="hidden" name="_method" id="formMethod" value="POST"> <!-- Will change for Edit -->
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="divisionModalLabel">Add Division</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                    @csrf
-                    @if(Session::has('error'))
-                        <div class="alert alert-danger">{{Session::get('error')}}</div>
-                    @endif
-                    <div class="mx-auto p-5 my-model text-white">
-                        <div class="row mb-3 row-cols-xl-4 g-3">
-                            <div class="col w-auto ps-2 ps-xl-5 d-none d-xl-block">
-                                {{-- <label for="id">ID</label> --}}
-                            </div>
-                            <div class="col ms-0 ms-xl-5">
-                                {{-- <input id="id" name="id" class="w-100 px-2 py-1" type="text" placeholder="ID" disabled> --}}
-                            </div>
+                <input type="hidden" name="_method" id="formMethod" value="POST">
+
+                @if(Session::has('error'))
+                <div class="alert alert-danger rounded-0 m-0">{{ Session::get('error') }}</div>
+                @endif
+
+                <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
+                    <h5 class="modal-title fw-bold" id="divisionModalLabel"><i class="bi bi-diagram-3-fill me-2"></i>
+                        Add Division</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body bg-light">
+                    <div class="p-4 bg-white rounded shadow-sm">
+
+                        <!-- Name -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="Name"
+                                name="name" placeholder="Name" value="{{ old('name') }}" required>
+                            <label for="Name" class="form-label required">Name</label>
+                            @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <!-- Marathi Name -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control marathiField @error('naav') is-invalid @enderror"
+                                id="marathiName" name="naav" placeholder="नाव" value="{{ old('naav') }}" required>
+                            <label for="marathiName">नाव</label>
+                            @error('naav')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <p class="errorMsg text-danger small d-none">फक्त मराठी अक्षरे स्वीकारली जातील.</p>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="Name">Name</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input name="name" id="Name" class="w-100 px-2 py-1 @error('name') is-invalid @enderror" type="text" value="{{ old('name') }}" placeholder="Name" required>
-                                @error('name')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
+                        <!-- Description -->
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control @error('description') is-invalid @enderror"
+                                placeholder="Description" id="description" name="description" style="height: 100px"
+                                required>{{ old('description') }}</textarea>
+                            <label for="description">Description</label>
+                            @error('description')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="marathiName">नाव</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input name="naav" id="marathiName" class="w-100 px-2 py-1 @error('naav') is-invalid @enderror marathiField" value="{{ old('naav') }}" type="text" placeholder="नाव">
-                                @error('naav')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                                <p class="errorMsg" style="color:red; display:none;">फक्त मराठी अक्षरे स्वीकारली जातील.</p>
-                            </div>
+                        <!-- Marathi Description -->
+                        <div class="form-floating mb-3">
+                            <textarea
+                                class="form-control marathiField @error('marathi_description') is-invalid @enderror"
+                                placeholder="वर्णन" id="marathiDescription" name="marathi_description"
+                                style="height: 100px" required>{{ old('marathi_description') }}</textarea>
+                            <label for="marathiDescription">वर्णन</label>
+                            @error('marathi_description')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <p class="errorMsg text-danger small d-none">फक्त मराठी अक्षरे स्वीकारली जातील.</p>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="description">Description</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <textarea name="description" id="description" placeholder="Description" class="w-100 px-2 py-1 @error('description') is-invalid @enderror" rows="3"
-                                    style="resize:none">{{old('description')}}</textarea>
-                                    @error('description')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                    @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="marathiDescription">वर्णन</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <textarea name="marathi_description" id="marathiDescription" placeholder="वर्णन" class="w-100 px-2 py-1 @error('marathi_description') is-invalid @enderror marathiField"  rows="3"
-                                    style="resize:none"> {{ old('marathi_description') }} </textarea>
-                                    @error('marathi_description')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                    @enderror
-                                    <p class="errorMsg" style="color:red; display:none;">फक्त मराठी अक्षरे स्वीकारली जातील.</p>
-                            </div>
-                        </div>
                     </div>
-               
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
-            </div>
+                </div>
+
+                <div class="modal-footer bg-white rounded-bottom-4 border-top">
+                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i>Cancel
+                    </button>
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="bi bi-check-circle me-1"></i>Submit
+                    </button>
+                </div>
             </form>
         </div>
     </div>
 </div>
-
-
-
-
-          

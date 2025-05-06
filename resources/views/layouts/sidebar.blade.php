@@ -204,14 +204,13 @@
                             </h2>
                             <div id="misReports" class="accordion-collapse collapse" data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
-                                    <a href="{{route('mis-trial-balance.index')}}" class="side-link">📑 Trial Balance</a>
-                                    <a href="{{route('receipt-payment.index')}}" class="side-link">💳 Receipt
-                                        Payment</a>
-                                    <a href="{{route('mis-profit-loss.index')}}" class="side-link">📈 Profit Loss</a>
-                                    <a href="{{route('mis-balance-sheet.index')}}" class="side-link">📊 Balance Sheet</a>
-                                    <a href="{{route('cd-ratio.index')}}" class="side-link">📉 CD Ratio</a>
-                                    <a href="{{route('mis-report.index')}}" class="side-link">📋 MIS Report</a>
-                                    <a href="{{route('gl-statements.index')}}" class="side-link">📖 General Ledger
+                                    <a href="{{route('trial-balance.index')}}" class="side-link">Trial Balance</a>
+                                    <a href="{{route('receipt-payment.index')}}" class="side-link">Receipt Payment</a>
+                                    <a href="{{route('profit-loss.index')}}" class="side-link">Profit Loss</a>
+                                    <a href="{{route('balance-sheet.index')}}" class="side-link">Balance Sheet</a>
+                                    <a href="{{route('cd-ratio.index')}}" class="side-link">CD Ratio</a>
+                                    <a href="{{route('mis-report.index')}}" class="side-link">MIS Report</a>
+                                    <a href="{{route('gl-statements.index')}}" class="side-link">General Ledger
                                         Statements</a>
                                 </div>
                             </div>
@@ -324,7 +323,7 @@
         </div> --}}
     </div>
 </nav>
-<script src="{{asset('/assets/js/active-side-menu.js')}}"></script>
+
 <!-- Custom CSS -->
 <style>
 .sidebar {
@@ -363,16 +362,12 @@
     background-color: rgba(255, 255, 255, 0.05);
     /* subtle white opacity */
     border-radius: 4px;
-    padding: 6px 8px;
-    margin-left: -8px;
-    margin-right: -8px;
     display: block;
 }
 
 .side-link {
     display: block;
     color: #adb5bd;
-    padding: 6px 0;
     text-decoration: none;
     transition: color 0.2s, padding-left 0.2s;
 }
@@ -391,7 +386,6 @@ a.dashboard-link:hover {
     background-color: white !important;
     color: black !important;
     border-radius: 4px;
-    padding: 6px 8px;
     display: inline-block;
 }
 
@@ -416,28 +410,8 @@ a.dashboard-link:hover {
     transition: color 0.8s ease, padding-left 0.3s ease, background-color 0.8s ease;
 }
 
-.side-link:hover {
-    color: white;
-    padding-left: 10px;
-    background-color: rgba(255, 255, 255, 0.05);
-    /* subtle white opacity */
-    border-radius: 4px;
-    padding: 6px 8px;
-    margin-left: -8px;
-    margin-right: -8px;
-    display: block;
-}
-
 /* Dashboard link hover effect */
 .dashboard-link {
     transition: background-color 0.8s ease, color 0.8s ease;
-}
-
-.dashboard-link:hover {
-    background-color: white;
-    color: black;
-    border-radius: 4px;
-    padding: 6px 8px;
-    display: inline-block;
 }
 </style>

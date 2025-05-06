@@ -1,124 +1,124 @@
-<div class="modal fade" id="installmentTransactionModal" tabindex="-1" aria-labelledby="installmentTransactionModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="installmentTransactionModal" tabindex="-1"
+    aria-labelledby="installmentTransactionModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <form method="POST" action="{{route('installment-transactions.store')}}" id="installmentTransactionModalForm">
+        <div class="modal-content rounded-4 border-0 shadow">
+            <form method="POST" action="{{route('installment-transactions.store')}}"
+                id="installmentTransactionModalForm">
                 <input type="hidden" id="installmentTransactionId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="installmentTransactionModalLabel">Installment Transaction</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                @csrf
-                    @if(Session::has('error'))
-                        <div class="alert alert-danger">{{Session::get('error')}}</div>
-                    @endif
-                    <div class="mx-auto p-5 my-model text-white">
-                        <div class="row mb-3">
-                            @isset($memberDepoAccounts) 
-                            <div class="col-2 d-none d-xl-block">
-                                <label for="depositAccountId">Deposit Account</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                    @if ($memberDepoAccounts->isNotEmpty())
-                                    <select id="depositAccountId" name="deposit_account_id" class="w-100 px-2 py-1 @error('deposit_account_id') is-invalid @enderror" required>
-                                        <option value="" {{old('deposit_account_id')? '' : 'selected'}}>------ Select Deposit Account ------</option>
-                                        @foreach ($memberDepoAccounts as $account)
-                                            <option value="{{ $account->id }}"  
-                                            {{ old('deposit_account_id') == $account->id ? 'selected' : '' }}
-                                            >
-                                            {{ $account->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('deposit_account_id')
-                                        <div class="invalid-feedback">{{$message}}</div>
-                                    @enderror
-                                     @else
-                                    <select class="w-100 px-2 py-1" disabled>
-                                            <option>No deposit accounts available. Please add deposit accounts first.</option>
-                                    </select>
-                                    <small class="text-danger">⚠️ You must add deposit accounts before submitting the form.</small>
-                                @endif
-                                </div>
-                            @endisset
-                        </div>
-                        <div class="row mb-2">
-                             <div class="col-2 d-none d-xl-block">
-                                <label for="installmentNo">Installment transaction No.</label>
-                            </div>
-                            <div class="col-4 pe-0 pe-xl-5">
-                                <input name="installment_no" id="installmentNo" class="w-100 px-2 py-1 @error('installment_no') is-invalid @enderror" value="{{ old('installment_no') }}" type="number" placeholder="Transaction No." required>
-                                @error('installment_no')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-2 d-none d-xl-block">
-                                <label for="amountPaid">Amount Paid</label>
-                            </div>
-                            <div class="col-4 pe-0 pe-xl-5">
-                                <input name="amount_paid" id="amountPaid" class="w-100 px-2 py-1 @error('amount_paid') is-invalid @enderror" value="{{ old('amount_paid') }}" type="number" placeholder="Amount Paid" required>
-                                @error('amount_paid')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-2 d-none d-xl-block">
-                                <label for="paymentDate">Payment Date</label>
-                            </div>
-                            <div class="col-4 pe-0 pe-xl-5">
-                                <input name="payment_date" id="paymentDate" class="w-100 px-2 py-1 @error('payment_date') is-invalid @enderror" value="{{ old('payment_date') }}" type="date" placeholder="Payment Date" required>
-                                @error('payment_date')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
-                            <div class="col-2 d-none d-xl-block">
-                                <label for="interestEarned">Interest Earned</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                               <input name="interest_earned" id="interestEarned" class="w-100 px-2 py-1 @error('interest_earned') is-invalid @enderror" value="{{ old('interest_earned') }}" type="text" placeholder="Interest Earned">
-                                @error('interest_earned')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-2">
-                            <div class="col-2 d-none d-xl-block">
-                                <label for="totalBalance">Total Balance</label>
-                            </div>
-                            <div class="col-4 pe-0 pe-xl-5">
-                                <input name="total_balance" id="totalBalance" class="w-100 px-2 py-1 @error('total_balance') is-invalid @enderror" value="{{ old('total_balance') }}" type="number"
-                                    placeholder="Total Balance" required>
-                                    @error('total_balance')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
-                           
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="createdBy">Created By</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input id="createdBy" class="w-100 px-2 py-1" value="{{$user->name}}" type="text" @readonly(true) required>
+                <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
+                    <h5 class="modal-title fw-bold" id="installmentTransactionModalLabel">
+                        <i class="bi bi-credit-card me-2"></i> Installment Transaction
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body bg-light">
+                    <div class="p-4 bg-white rounded shadow-sm">
+                        {{-- Created By --}}
+                        <div class="form-floating mb-3">
+                           <input id="createdBy" class="w-100 px-2 py-1 form-control" value="{{$user->name}}" type="text" @readonly(true) required>
                                 <input name="created_by" class="w-100 px-2 py-1" value="{{$user->id}}" type="text" hidden required>
-                                @error('created_by')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
-                        </div>
+                        <label for="createdBy">Created By</label>
+                        @error('created_by')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
+
+                    {{-- Deposit Account --}}
+                    @isset($memberDepoAccounts)
+                    <div class="form-floating mb-3">
+                        @if ($memberDepoAccounts->isNotEmpty())
+                        <select id="depositAccountId" name="deposit_account_id"
+                            class="form-select @error('deposit_account_id') is-invalid @enderror" required>
+                            <option value="" {{old('deposit_account_id')? '' : 'selected'}}>------ Select Deposit Account ------</option>
+                            @foreach ($memberDepoAccounts as $account)
+                            <option value="{{ $account->id }}"
+                                {{ old('deposit_account_id') == $account->id ? 'selected' : '' }}>
+                                {{ $account->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                        <label for="depositAccountId" class="form-label required">Deposit Account</label>
+                        @error('deposit_account_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        @else
+                        <div class="alert alert-warning">
+                            <strong>⚠️ No Deposit Account available.</strong><br>
+                            Please add deposit account first.
+                        </div>
+                        @endif
+                    </div>
+                    @endisset
+
+                    {{-- Installment Number --}}
+                    <div class="form-floating mb-3">
+                        <input name="installment_no" id="installmentNo" type="number"
+                            class="form-control @error('installment_no') is-invalid @enderror"
+                            placeholder="Transaction No." value="{{ old('installment_no') }}" required>
+                        <label for="installmentNo" class="form-label required">Installment Transaction No.</label>
+                        @error('installment_no')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    {{-- Amount Paid --}}
+                    <div class="form-floating mb-3">
+                        <input name="amount_paid" id="amountPaid" type="number"
+                            class="form-control @error('amount_paid') is-invalid @enderror" placeholder="Amount Paid"
+                            value="{{ old('amount_paid') }}" required>
+                        <label for="amountPaid" class="form-label required">Amount Paid</label>
+                        @error('amount_paid')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    {{-- Payment Date --}}
+                    <div class="form-floating mb-3">
+                        <input name="payment_date" id="paymentDate" type="date"
+                            class="form-control @error('payment_date') is-invalid @enderror" placeholder="Payment Date"
+                            value="{{ old('payment_date') }}" required>
+                        <label for="paymentDate" class="form-label required">Payment Date</label>
+                        @error('payment_date')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    {{-- Interest Earned --}}
+                    <div class="form-floating mb-3">
+                        <input name="interest_earned" id="interestEarned" type="text"
+                            class="form-control @error('interest_earned') is-invalid @enderror"
+                            placeholder="Interest Earned" value="{{ old('interest_earned') }}" >
+                        <label for="interestEarned" class="form-label required">Interest Earned</label>
+                        @error('interest_earned')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    {{-- Total Balance --}}
+                    <div class="form-floating mb-3">
+                        <input name="total_balance" id="totalBalance" type="number"
+                            class="form-control @error('total_balance') is-invalid @enderror"
+                            placeholder="Total Balance" value="{{ old('total_balance') }}" required>
+                        <label for="totalBalance" class="form-label required">Total Balance</label>
+                        @error('total_balance')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
         </div>
+
+        <div class="modal-footer bg-white rounded-bottom-4 border-top">
+            <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+                <i class="bi bi-x-circle me-1"></i>Cancel
+            </button>
+            <button type="submit" class="btn btn-success px-4">
+                <i class="bi bi-check-circle me-1"></i>Submit
+            </button>
+        </div>
+        </form>
     </div>
+</div>
 </div>

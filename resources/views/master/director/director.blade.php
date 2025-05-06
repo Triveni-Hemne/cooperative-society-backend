@@ -1,160 +1,168 @@
-<div class="modal fade" id="directorModal" tabindex="-1" aria-labelledby="directorModalLabel" aria-hidden="true">
+<div class="modal fade" id="directorModal" tabindex="-1" aria-labelledby="directorModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
     <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <form method="POST" action="{{route('directors.store')}}" id="directorsForm">
+        <div class="modal-content rounded-4 border-0 shadow">
+            <form method="POST" action="{{ route('directors.store') }}" id="directorsForm" class="needs-validation"
+                novalidate>
                 <input type="hidden" id="directorId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
                 @csrf
+
                 @if(Session::has('error'))
-                <div class="alert alert-danger">{{Session::get('error')}}</div>
+                <div class="alert alert-danger rounded-0 m-0">{{ Session::get('error') }}</div>
                 @endif
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="directorModalLabel">Add Director</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
+                    <h5 class="modal-title fw-bold" id="directorModalLabel"><i class="bi bi-person-plus-fill me-2"></i>
+                        Add Director</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <div class="mx-auto p-5 my-model text-white">
-                        {{-- @isset($members) --}}
+
+                <div class="modal-body bg-light">
+                    <div class="p-4 bg-white rounded shadow-sm">
+                        {{-- Member Dropdown --}}
                         @if ($members->isNotEmpty())
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="memberId">Member</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <select name="member_id" id="memberId"
-                                    class="w-100 px-2 py-1 @error('member_id') is-invalid @enderror">
-                                    <option value="" disabled {{ old('member_id') ? '' : 'selected' }}>---------- Select ----------</option>
-                                    @foreach ($members as $member)
-                                    <option value="{{ $member->id }}"
-                                        {{ old('member_id') == $member->id ? 'selected' : '' }}>
-                                        {{ $member->name }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                                @error('member_id')
-                                <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
+                        <div class="form-floating mb-3">
+                            <select name="member_id" id="memberId"
+                                class="form-select @error('member_id') is-invalid @enderror" required>
+                                <option value="" disabled {{ old('member_id') ? '' : 'selected' }}>Select Member</option>
+                                @foreach ($members as $member)
+                                <option value="{{ $member->id }}"
+                                    {{ old('member_id') == $member->id ? 'selected' : '' }}>{{ $member->name }}</option>
+                                @endforeach
+                            </select>
+                            <label for="memberId">Member</label>
+                            @error('member_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
-                        {{-- @endif --}}
                         @else
-                        <select class="w-100 px-2 py-1" disabled>
-                            <option>No members available. Please add members first.</option>
-                        </select>
-                        <small class="text-danger">⚠️ You must add members before submitting the form.</small>
+                        <div class="alert alert-warning">
+                            <strong>⚠️ No members available.</strong><br>
+                            Please add members first.
+                        </div>
                         @endif
-                        {{-- @endisset --}}
 
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="name">Name</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input id="name" name="name" class="w-100 px-2 py-1 @error('name') is-invalid @enderror"
-                                    value="{{ old('name') }}" type="text" placeholder="Name" required>
-                                @error('name')
-                                <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
+                        {{-- Name --}}
+                        <div class="form-floating mb-3">
+                            <input id="Name" name="name" type="text"
+                                class="form-control @error('name') is-invalid @enderror" placeholder="Name"
+                                value="{{ old('name') }}" required>
+                            <label for="Name" class="form-label required">Name</label>
+                            @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
+                        {{-- Designation --}}
                         @isset($designations)
                         @if ($designations->isNotEmpty())
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="designationId">Designation</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <select name="designation_id" id="designationId"
-                                    class="w-100 px-2 py-1 @error('designation_id') is-invalid @enderror">
-                                    <option value="" disabled {{ old('member_id') ? '' : 'selected' }}>---------- Select ----------</option>
-                                    @foreach ($designations as $designation)
-                                    <option value="{{ $designation->id }}"
-                                        {{ old('designation_id') == $designation->id ? 'selected' : '' }}>
-                                        {{ $designation->name }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                                @error('designation_id')
-                                <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
+                        <div class="form-floating mb-3">
+                            <select name="designation_id" id="designationId"
+                                class="form-select @error('designation_id') is-invalid @enderror" required>
+                                <option value="" disabled {{ old('member_id') ? '' : 'selected' }}>Select Designation</option>
+                                @foreach ($designations as $designation)
+                                <option value="{{ $designation->id }}"
+                                    {{ old('designation_id') == $designation->id ? 'selected' : '' }}>
+                                    {{ $designation->name }}</option>
+                                @endforeach
+                            </select>
+                            <label for="designationId" class="form-label required">Designation</label>
+                            @error('designation_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        @else
+                        <div class="alert alert-warning">
+                            <strong>⚠️ No designation available.</strong><br>
+                            Please add designation first.
                         </div>
                         @endif
                         @endisset
 
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="email">Email</label>
+                        {{-- Email (Optional) --}}
+                        <div class="form-floating mb-3">
+                            <input name="email" id="email" type="email"
+                                class="form-control @error('email') is-invalid @enderror" placeholder="Email"
+                                value="{{ old('email') }}">
+                            <label for="email">Email</label>
+                            @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        {{-- Mobile Numbers --}}
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input name="contact_nos[]" id="mob0" type="number"
+                                        class="form-control @error('contact_nos.0') is-invalid @enderror"
+                                        placeholder="Mobile No." value="{{ old('contact_nos.0') }}" required>
+                                    <label for="mob0" class="form-label required">Mobile No. 1</label>
+                                    @error('contact_nos.0')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input name="email" id="email"
-                                    class="w-100 px-2 py-1 @error('email') is-invalid @enderror" type="email"
-                                    placeholder="Email" value="{{ old('email') }}">
-                                @error('email') <span class="text-danger">{{ $message }}</span> @enderror
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input name="contact_nos[]" id="mob1" type="number"
+                                        class="form-control @error('contact_nos.1') is-invalid @enderror"
+                                        placeholder="Mobile No." value="{{ old('contact_nos.1') }}" required>
+                                    <label for="mob1">Mobile No. 2</label>
+                                    @error('contact_nos.1')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="mob0">Mobile No.</label>
+                        {{-- Dates --}}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input id="fromDate" name="from_date" type="date"
+                                        class="form-control @error('from_date') is-invalid @enderror"
+                                        value="{{ old('from_date') }}" required>
+                                    <label for="fromDate" class="form-label required">From Date</label>
+                                    @error('from_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input name="contact_nos[]" id="mob0"
-                                    class="w-100 px-2 py-1 @error('contact_nos.0') is-invalid @enderror" type="number"
-                                    placeholder="Mobile No." value="{{ old('contact_nos.0') }}">
-                                @error('contact_nos.0') <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="mob1">Mobile No.</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input name="contact_nos[]" id="mob1"
-                                    class="w-100 px-2 py-1 @error('contact_nos.1') is-invalid @enderror" type="number"
-                                    placeholder="Mobile No." value="{{ old('contact_nos.1') }}">
-                                @error('contact_nos.1') <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>
-                        </div>
-
-                        <div class="row row-cols-1 row-cols-xl-4 g-1">
-                            <div class="col w-auto ps-0 ps-xl-5">
-                                <label for="fromDate">From Date</label>
-                            </div>
-                            <div class="col mb-3 mb-xl-0 ms-0 ms-xl-3">
-                                <input id="fromDate" name="from_date"
-                                    class="w-100 px-2 py-1 @error('from_date') is-invalid @enderror" type="date"
-                                    value="{{ old('from_date') }}" required>
-                                @error('from_date') <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>
-                            <div class="col w-auto ms-0 ms-xl-5">
-                                <label for="toDate">End Date</label>
-                            </div>
-                            <div class="col ms-0 ms-xl-3">
-                                <input id="toDate" name="to_date"
-                                    class="w-100 px-2 py-1 @error('to_date') is-invalid @enderror" type="date"
-                                    value="{{ old('to_date') }}">
-                                @error('to_date') <span class="text-danger">{{ $message }}</span> @enderror
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input id="toDate" name="to_date" type="date"
+                                        class="form-control @error('to_date') is-invalid @enderror"
+                                        value="{{ old('to_date') }}">
+                                    <label for="toDate">End Date</label>
+                                    @error('to_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
 
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+
+                <div class="modal-footer bg-white rounded-bottom-4 border-top">
+                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i>Cancel
+                    </button>
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="bi bi-check-circle me-1"></i>Submit
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
+<!-- <style>
+label.required::after {
+    content: " *";
+    color: red;
+    font-weight: bold;
+}
+</style> -->

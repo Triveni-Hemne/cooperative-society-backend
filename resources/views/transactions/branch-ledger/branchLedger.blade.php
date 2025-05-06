@@ -1,174 +1,206 @@
-<div class="modal fade" id="branchLedgerModal" tabindex="-1" aria-labelledby="branchLedgerModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="branchLedgerModal" tabindex="-1" aria-labelledby="branchLedgerModalLabel" aria-hidden="true"
+    data-bs-backdrop="static">
     <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-             <form method="POST" action="{{route('branch-ledger.store')}}" id="branchLedgerModalForm">
+        <div class="modal-content rounded-4 border-0 shadow">
+            <form method="POST" action="{{route('branch-ledger.store')}}" id="branchLedgerModalForm">
                 <input type="hidden" id="branchLedgerId" name="id">
-                <input type="hidden" name="_method" id="formMethod" value="POST">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="branchLedgerModalLabel">Add Branch Ledger</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                @csrf
-                    @if(Session::has('error'))
-                        <div class="alert alert-danger">{{Session::get('error')}}</div>
-                    @endif
-                    <div class="mx-auto p-5 my-model text-white">
-                          <div class="row mb-2">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="createdBy">Created By</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input name="" id="createdBy" class="w-100 px-2 py-1 " value="{{$user->name}}" type="text" readonly required>
+                <input type="hidden" name="_method" id="formMethod" value="POST">                      
+    
+                <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
+                    <h5 class="modal-title fw-bold" id="branchLedgerModalLabel">Add Branch Ledger</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body bg-light">
+                    <div class="p-4 bg-white rounded shadow-sm">
+                        @csrf
+                        @if(Session::has('error'))
+                        <div class="alert alert-danger rounded-0 m-0">{{ Session::get('error') }}</div>
+                        @endif
+                        <div class="row g-3 mb-3">
+                            <!-- Created By -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input name="" id="createdBy" class="w-100 px-2 py-1 form-control" value="{{$user->name}}" type="text" readonly required>
                                 <input name="created_by" id="" class="w-100 px-2 py-1 " value="{{$user->id}}" type="text" hidden required>
-                                @error('created_by')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
+                                    <label for="createdBy">Created By</label>
+                                    @error('created_by')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- Branch Code -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input name="branch_code" id="branchCode"
+                                        class="form-control @error('branch_code') is-invalid @enderror"
+                                        value="{{ old('branch_code') }}" type="text" placeholder="Branch Code">
+                                    <label for="branchCode">Branch Code</label>
+                                    @error('branch_code')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
-                        @if(Auth::user()->role === 'Admin')
-                        <div class="row mb-2">
-                             @isset($branches) 
-                             <div class="col-2 ps-5 d-none d-xl-block">
-                                 <label for="branchId">Branch</label>
-                                </div>
-                                <div class="col pe-0 pe-xl-5">
+                        <div class="row g-3 mb-3">
+                            @if(Auth::user()->role === 'Admin')
+                            {{-- Branch --}}
+                            @isset($branches)
+                            <div class="col-md-6">
                                 @if ($branches->isNotEmpty())
-                                 <select name="branch_id" id="branchId"  class="w-100 px-2 py-1 @error('branch_id') is-invalid @enderror" required>
-                                    <option value="" disabled {{old('branch_id') ? '' : 'selected'}}>---------- Select ----------</option>
-                                    @foreach ($branches as $branch)
+                                <div class="form-floating">
+                                    <select name="branch_id" id="branchId"
+                                        class="form-select @error('branch_id') is-invalid @enderror" required>
+                                        <option value="" disabled {{old('branch_id') ? '' : 'selected'}}>Select Branch</option>
+                                        @foreach ($branches as $branch)
                                         <option value="{{ $branch->id }}"  
                                         {{ old('branch_id') == $branch->id ? 'selected' : '' }}
                                         >
                                         {{ $branch->name }}
                                         </option>
                                     @endforeach
-                                </select>
-                                @error('branch_id')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                                  @else
-                                    <select class="w-100 px-2 py-1" disabled>
-                                            <option>No branches available. Please add branches first.</option>
-                                    </select>
-                                    <small class="text-danger">⚠️ You must add branches before submitting the form.</small>
-                                @endif
-                            </div>
-                        @endisset
+                            </select>
+                            <label for="branchId">Branch</label>
+                            @error('branch_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+
+                        </div>
+                        @else
+                        <div class="alert alert-warning">
+                            <strong>⚠️ No Branch available.</strong><br>
+                            Please add Branch first.
                         </div>
                         @endif
-                        <div class="row mb-2">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="branchCode">Branch Code</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input name="branch_code" id="branchCode" class="w-100 px-2 py-1 @error('branch_code') is-invalid @enderror" value="{{ old('branch_code') }}" type="text" placeholder="Branch Code">
-                                @error('branch_code')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
-                
-                           @isset($ledgers) 
-                           <div class="col-2 ps-5 d-none d-xl-block">
-                               <label for="glId">Ledger</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                @if ($ledgers->isNotEmpty())
-                                <select id="glId" name="gl_id" class="w-100 px-2 py-1 @error('gl_id') is-invalid @enderror">
-                                    <option value="" {{old('gl_id') ? '' : 'selected'}}>------ Select Ledger ------</option>
-                                    @foreach ($ledgers as $ledger)
-                                        <option value="{{ $ledger->id }}"  
-                                        {{ old('gl_id') == $ledger->id ? 'selected' : '' }}
-                                        >
-                                        {{ $ledger->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('gl_id')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                                @else
-                                    <select class="w-100 px-2 py-1" disabled>
-                                            <option>No general ledgers available. Please add general ledgers first.</option>
-                                    </select>
-                                    <small class="text-danger">⚠️ You must add general ledgers before submitting the form.</small>
-                                @endif
-                            </div>
-                        @endisset
-                        </div>
+                    </div>
+                    @endisset
+                    @endif
 
-                        <div class="row mb-2">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="openDate">Open Date</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input name="open_date" id="openDate" class="w-100 px-2 py-1 @error('open_date') is-invalid @enderror" value="{{ old('open_date') }}" type="date" placeholder="Open Date">
-                                @error('open_date')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
-                            <div class="col-2 d-none d-xl-block">
-                                <label for="openBalance">Open Balance</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input name="open_balance" id="openBalance" class="w-100 px-2 py-1 @error('open_balance') is-invalid @enderror" value="{{ old('open_balance') }}" type="number"
-                                    placeholder="Open Balance">
-                                    @error('open_balance')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
+                    <!-- Ledger Selection -->
+                    @isset($ledgers)
+                    <div class="col-md-6">
+                        @if ($ledgers->isNotEmpty())
+                        <div class="form-floating">
+                            <select id="glId" name="gl_id" class="form-select @error('gl_id') is-invalid @enderror">
+                                <option value="" {{old('gl_id') ? '' : 'selected'}}>------ Select Ledger ------</option>
+                                @foreach ($ledgers as $ledger)
+                                <option value="{{ $ledger->id }}" {{ old('gl_id') == $ledger->id ? 'selected' : '' }}>
+                                    {{ $ledger->name }}
+                                </option>
+                                @endforeach
+                            </select>
+                            <label for="glId">Ledger</label>
+                            @error('gl_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
-
-                        <div class="row mb-2">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="balance">Balance</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <input name="balance" id="balance" class="w-100 px-2 py-1 @error('balance') is-invalid @enderror" value="{{ old('balance') }}" type="number" placeholder="Balance">
-                                @error('balance')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
-                            <div class="col-2 d-none d-xl-block">
-                                <label for="balanceType">Balance Type</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
-                                <select id="balanceType" name="balance_type" class="w-100 px-2 py-1 @error('balance_type') is-invalid @enderror">
-                                    <option value="" {{old('balance_type') ? '' : 'selected'}}>------ Select Balance Type ------</option>
-                                    <option value="Credit" {{ old('balance_type') == 'Credit' ? 'selected' : '' }}>Credit</option>
-                                    <option value="Debit" {{ old('balance_type') == 'Debit' ? 'selected' : '' }}>Debit</option>
-                                </select>
-                                  @error('balance_type')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
+                        @else
+                        <div class="alert alert-warning">
+                            <strong>⚠️ No Ledger available.</strong><br>
+                            Please add Ledger first.
                         </div>
+                        @endif
+                    </div>
+                    @endisset
+                </div>
 
-                        <div class="row mb-2">
-                            <div class="col-2 ps-5 d-none d-xl-block">
-                                <label for="itemType">Item Type</label>
-                            </div>
-                            <div class="col-4 pe-0 pe-xl-5">
-                                <select id="itemType" name="item_type" class="w-100 px-2 py-1 @error('item_type') is-invalid @enderror">
-                                    <option value="" {{old('item_type') ? '' : 'selected'}}>------ Select Item Type ------</option>
-                                    <option value="Asset" {{ old('item_type') == 'Asset' ? 'selected' : '' }}>Asset</option>
-                                    <option value="Liability" {{ old('item_type') == 'Liability' ? 'selected' : '' }}>Liability</option>
-                                    <option value="Income" {{ old('item_type') == 'Income' ? 'selected' : '' }}>Income</option>
-                                    <option value="Expense" {{ old('item_type') == 'Expense' ? 'selected' : '' }}>Expense</option>
-                                </select>
-                                @error('item_type')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-                            </div>
+                <div class="row g-3 mb-3">
+                    <!-- Open Date -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input name="open_date" id="openDate"
+                                class="form-control @error('open_date') is-invalid @enderror"
+                                value="{{ old('open_date') }}" type="date">
+                            <label for="openDate">Open Date</label>
+                            @error('open_date')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- Open Balance -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input name="open_balance" id="openBalance"
+                                class="form-control @error('open_balance') is-invalid @enderror"
+                                value="{{ old('open_balance') }}" type="number" placeholder="Open Balance">
+                            <label for="openBalance">Open Balance</label>
+                            @error('open_balance')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+
+                <div class="row g-3 mb-3">
+                    <!-- Balance -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input name="balance" id="balance"
+                                class="form-control @error('balance') is-invalid @enderror" value="{{ old('balance') }}"
+                                type="number" placeholder="Balance">
+                            <label for="balance">Balance</label>
+                            @error('balance')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- Balance Type -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select id="balanceType" name="balance_type"
+                                class="form-select @error('balance_type') is-invalid @enderror">
+                                <option value="" {{old('balance_type') ? '' : 'selected'}}>------ Select Balance Type ------</option>
+                                <option value="Credit" {{ old('balance_type') == 'Credit' ? 'selected' : '' }}>
+                                    Credit</option>
+                                <option value="Debit" {{ old('balance_type') == 'Debit' ? 'selected' : '' }}>
+                                    Debit</option>
+                            </select>
+                            <label for="balanceType">Balance Type</label>
+                            @error('balance_type')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
-            </form>
+
+                <!-- Item Type -->
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select id="itemType" name="item_type"
+                                class="form-select @error('item_type') is-invalid @enderror">
+                                <option value="" {{old('item_type') ? '' : 'selected'}}>------ Select Item Type ------</option>
+                                <option value="Asset" {{ old('item_type') == 'Asset' ? 'selected' : '' }}>Asset
+                                </option>
+                                <option value="Liability" {{ old('item_type') == 'Liability' ? 'selected' : '' }}>
+                                    Liability</option>
+                                <option value="Income" {{ old('item_type') == 'Income' ? 'selected' : '' }}>
+                                    Income</option>
+                                <option value="Expense" {{ old('item_type') == 'Expense' ? 'selected' : '' }}>
+                                    Expense</option>
+                            </select>
+                            <label for="itemType">Item Type</label>
+                            @error('item_type')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>
+
+    <div class="modal-footer bg-white rounded-bottom-4 border-top">
+        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle me-1"></i>Cancel
+        </button>
+        <button type="submit" class="btn btn-success px-4">
+            <i class="bi bi-check-circle me-1"></i>Submit
+        </button>
+    </div>
+    </form>
+</div>
+</div>
 </div>
