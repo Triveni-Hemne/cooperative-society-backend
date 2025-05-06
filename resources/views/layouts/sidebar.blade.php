@@ -323,7 +323,7 @@
         </div> --}}
     </div>
 </nav>
-
+<script src="{{asset('\assets\js\active-side-menu.js')}}"></script>
 <!-- Custom CSS -->
 <style>
 .sidebar {
