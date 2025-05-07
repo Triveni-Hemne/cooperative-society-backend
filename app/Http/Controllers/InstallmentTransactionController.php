@@ -43,7 +43,6 @@ class InstallmentTransactionController extends Controller
                 });
             });
         })->get();
-        $user = Auth::user();
         $branches = $user->role === 'Admin' ? Branch::all() : null;
         return view('transactions.installment-transaction.list', compact('transactions', 'memberDepoAccounts','user','branches'));
     }

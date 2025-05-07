@@ -203,8 +203,8 @@ Route::get('/csrf-token', function () {
             Route::get('receipt-payment', 'viewReceiptPaymentReport')->name('receipt-payment.index');
             Route::get('receipt-payment/export/pdf', 'exportReceiptPaymentPDF')->name('receipt-payment.pdf');
 
-            Route::get('profit-loss', 'viewProfitLoss')->name('mis-profit-loss.index');
-            Route::get('profit-loss/export/pdf', 'exportProfitLossPDF')->name('mis-profit-loss.pdf');
+            Route::get('mis-profit-loss', 'viewProfitLoss')->name('mis-profit-loss.index');
+            Route::get('mis-profit-loss/export/pdf', 'exportProfitLossPDF')->name('mis-profit-loss.pdf');
 
             Route::get('balance-sheet', 'viewBalanceSheet')->name('mis-balance-sheet.index');
             Route::get('balance-sheet/export/pdf', 'exportBalanceSheetPDF')->name('mis-balance-sheet.pdf');
@@ -263,8 +263,8 @@ Route::get('/csrf-token', function () {
             Route::get('balance-sheet', 'generateBalanceSheet')->name('balance-sheet.index');
             Route::get('balance-sheet/export/pdf', 'exportBalanceSheetPDF')->name('balance-sheet.pdf'); 
             
-            Route::get('profit-loss', 'generateProfitLoss')->name('profit-loss.index');
-            Route::get('profit-loss/export/pdf', 'exportProfitLossPDF')->name('profit-loss.pdf'); 
+            Route::get('audit-profit-loss', 'generateProfitLoss')->name('profit-loss.index');
+            Route::get('audit-profit-loss/export/pdf', 'exportProfitLossPDF')->name('profit-loss.pdf'); 
         });
 
     });

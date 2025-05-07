@@ -39,8 +39,8 @@
 </head>
 
 <body class="bg-light">
-    <div class="bg-primary" style="height: 9.3vh;">
-        <!-- @include('layouts.header') -->
+    <div class="">
+        @include('layouts.header')
     </div>
 
     <div class="d-flex flex-column flex-lg-row m-0 my-body w-100" style="height: 90.7vh;">
@@ -59,6 +59,7 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
 
+    <script src="{{asset('assets\js\active-side-menu.js')}}"></script>
     <!-- Search Filter -->
     <script src="{{asset('/assets/js/searchFilter.js')}}"></script>
 </body>

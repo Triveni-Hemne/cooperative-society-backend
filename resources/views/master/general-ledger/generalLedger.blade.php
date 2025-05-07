@@ -12,8 +12,8 @@
                 @endif
 
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
-                    <h5 class="modal-title fw-bold" id="generalLedgerModalLabel"><i class="bi bi-book-fill me-2"></i>
-                        Add General Ledger</h5>
+                    <h5 class="modal-title fw-bold"><i class="bi bi-book-fill me-2"></i>
+                       <span id="generalLedgerModalLabel"> Add General Ledger</span></h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>

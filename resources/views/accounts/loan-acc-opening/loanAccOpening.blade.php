@@ -11,8 +11,8 @@
                 <input type="hidden" id="loanAccId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4 border-0">
-                    <h1 class="modal-title fs-5 fw-bold" id="loanAccOpeningModalLabel">
-                        <i class="bi bi-cash-coin me-2"></i> Add Loan Account
+                    <h1 class="modal-title fs-5 fw-bold">
+                        <i class="bi bi-cash-coin me-2"></i> <span id="loanAccOpeningModalLabel">Add Loan Account</span>
                     </h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
@@ -41,31 +41,14 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-{{-- <<<<<<< HEAD
-                                <div class="col pe-0 pe-xl-5">
-                                @if ($members->isNotEmpty())
-                                <select id="memberId" name="member_id" class="w-100 px-2 py-1">
-                                <option value="" {{ old('member_id') ? '' : 'selected' }}>------ Select Member ------</option>
-                                    @foreach ($members as $member)
-                                        <option value="{{ $member->id }}"  
-                                        {{ old('member_id') == $member->id ? 'selected' : '' }}>
-                                        {{ $member->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                 @error('member_id')
-                                    <div class="invalid-feedback">{{$message}}</div>
-                                @enderror
-=======
->>>>>>> origin/ui-feature
                                 @else
                                 <div class="alert alert-warning">
-                                    <strong>⚠️ No departments available.</strong><br>
-                                    Please add departments first.
+                                    <strong>⚠️ No ledgers available.</strong><br>
+                                    Please add ledgers first.
                                 </div>
                                 @endif
                             </div>
-                            @endisset --}}
+                            @endisset
 
                             <div class="col-md-6">
                                 <div class="form-floating">
@@ -1066,214 +1049,3 @@
         </div>
     </div>
 </div>
-<!-- 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const loanAccOpeningModal = document.getElementById('loanAccOpeningModal');
-    if (loanAccOpeningModal) {
-        loanAccOpeningModal.addEventListener('show.bs.modal', event => {
-            const relatedTarget = event.relatedTarget;
-            const id = relatedTarget.getAttribute('data-bs-id');
-            const ledgerId = relatedTarget.getAttribute('data-bs-ledger_id');
-            const memberId = relatedTarget.getAttribute('data-bs-member_id');
-            const accountId = relatedTarget.getAttribute('data-bs-account_id');
-            const accNo = relatedTarget.getAttribute('data-bs-acc_no');
-            const name = relatedTarget.getAttribute('data-bs-name');
-            const loanType = relatedTarget.getAttribute('data-bs-loan_type');
-            const interestRate = relatedTarget.getAttribute('data-bs-interest_rate');
-            const acStartDate = relatedTarget.getAttribute('data-bs-ac_start_date');
-            const emiAmount = relatedTarget.getAttribute('data-bs-emi_amount');
-            const openBalance = relatedTarget.getAttribute('data-bs-open_balance');
-            const balance = relatedTarget.getAttribute('data-bs-balance');
-            const purpose = relatedTarget.getAttribute('data-bs-purpose');
-            const principalAmount = relatedTarget.getAttribute('data-bs-principal_amount');
-            const startDate = relatedTarget.getAttribute('data-bs-start_date');
-            const endDate = relatedTarget.getAttribute('data-bs-end_date');
-            const tenure = relatedTarget.getAttribute('data-bs-tenure');
-            const priority = relatedTarget.getAttribute('data-bs-priority');
-            const loanAmount = relatedTarget.getAttribute('data-bs-loan_amount');
-            const collateralType = relatedTarget.getAttribute('data-bs-collateral_type');
-            const collateralValue = relatedTarget.getAttribute('data-bs-collateral_value');
-            const pageNo = relatedTarget.getAttribute('data-bs-page_no');
-            const isLossAsset = relatedTarget.getAttribute('data-bs-is_loss_asset');
-            const caseFlag = relatedTarget.getAttribute('data-bs-case_flag');
-            const addToDemand = relatedTarget.getAttribute('data-bs-add_to_demand');
-            const interest = relatedTarget.getAttribute('data-bs-interest');
-            const penalInterest = relatedTarget.getAttribute('data-bs-penal_interest');
-            const openInterest = relatedTarget.getAttribute('data-bs-open_interest');
-            const insurance = relatedTarget.getAttribute('data-bs-insurance');
-            const insuranceDate = relatedTarget.getAttribute('data-bs-insurance_date');
-            const postage = relatedTarget.getAttribute('data-bs-postage');
-            const noticeFee = relatedTarget.getAttribute('data-bs-notice_fee');
-            const goldWeight = relatedTarget.getAttribute('data-bs-gold_weight');
-            const goldPurity = relatedTarget.getAttribute('data-bs-gold_purity');
-            const marketValue = relatedTarget.getAttribute('data-bs-market_value');
-            const pledgedDate = relatedTarget.getAttribute('data-bs-pledged_date');
-            const releaseStatus = relatedTarget.getAttribute('data-bs-release_status');
-            const releaseDate = relatedTarget.getAttribute('data-bs-release_date');
-            const grMemberId = relatedTarget.getAttribute('data-bs-gr_member_id');
-            const guarantorType = relatedTarget.getAttribute('data-bs-guarantor_type');
-            const addedOn = relatedTarget.getAttribute('data-bs-added_on');
-            const releasedOn = relatedTarget.getAttribute('data-bs-released_on');
-            const installmentType = relatedTarget.getAttribute('data-bs-installment_type');
-            const matureDate = relatedTarget.getAttribute('data-bs-mature_date');
-            const firstInstallmentDate = relatedTarget.getAttribute('data-bs-first_installment_date');
-            const totalInstallments = relatedTarget.getAttribute('data-bs-total_installments');
-            const resolutionDetails = relatedTarget.getAttribute('data-bs-resolution_details');
-            const resolutionDate = relatedTarget.getAttribute('data-bs-resolution_date');
-            const boardMeetingNo = relatedTarget.getAttribute('data-bs-resolution_no');
-            const boardMeetingDate = relatedTarget.getAttribute('data-bs-board_meeting_date');
-            const nominee1Name = relatedTarget.getAttribute('data-bs-nominee1_name');
-            const nominee1Naav = relatedTarget.getAttribute('data-bs-nominee1_naav');
-            const nominee1Age = relatedTarget.getAttribute('data-bs-nominee1_age');
-            const nominee1Gender = relatedTarget.getAttribute('data-bs-nominee1_gender');
-            const nominee1Relation = relatedTarget.getAttribute('data-bs-nominee1_relation');
-            const nominee2Name = relatedTarget.getAttribute('data-bs-nominee2_name');
-            const nominee2Naav = relatedTarget.getAttribute('data-bs-nominee2_naav');
-            const nominee2Age = relatedTarget.getAttribute('data-bs-nominee2_age');
-            const nominee2Gender = relatedTarget.getAttribute('data-bs-nominee2_gender');
-            const nominee2Relation = relatedTarget.getAttribute('data-bs-nominee2_relation');
-
-            const modalTitle = loanAccOpeningModal.querySelector('#loanAccOpeningModalLabel');
-            const loanAccIdInput = loanAccOpeningModal.querySelector('#loanAccId');
-            const formMethod = loanAccOpeningModal.querySelector('#formMethod');
-            const ledgerIdInput = loanAccOpeningModal.querySelector('#ledgerId');
-            const memberIdInput = loanAccOpeningModal.querySelector('#memberId');
-            const accountIdInput = loanAccOpeningModal.querySelector('#accountId');
-            const accNoInput = loanAccOpeningModal.querySelector('#accNo');
-            const nameInput = loanAccOpeningModal.querySelector('#name');
-            const loanTypeInput = loanAccOpeningModal.querySelector('#loanType');
-            const interestRateInput = loanAccOpeningModal.querySelector('#interestRate');
-            const acStartDateInput = loanAccOpeningModal.querySelector('#acStartDate');
-            const emiAmountInput = loanAccOpeningModal.querySelector('#emiAmount');
-            const openBalanceInput = loanAccOpeningModal.querySelector('#openBalance');
-            const balanceInput = loanAccOpeningModal.querySelector('#balance');
-            const purposeInput = loanAccOpeningModal.querySelector('#purpose');
-            const principalAmountInput = loanAccOpeningModal.querySelector('#principalAmount');
-            const startDateInput = loanAccOpeningModal.querySelector('#startDate');
-            const endDateInput = loanAccOpeningModal.querySelector('#endDate');
-            const tenureInput = loanAccOpeningModal.querySelector('#tenure');
-            const priorityInput = loanAccOpeningModal.querySelector('#priority');
-            const loanAmountInput = loanAccOpeningModal.querySelector('#loanAmount');
-            const collateralTypeInput = loanAccOpeningModal.querySelector('#collateralType');
-            const collateralValueInput = loanAccOpeningModal.querySelector('#collateralValue');
-            const pageNoInput = loanAccOpeningModal.querySelector('#pageNo');
-            const isLossAssetInput = loanAccOpeningModal.querySelector('#isLossAsset');
-            const caseFlagInput = loanAccOpeningModal.querySelector('#caseFlag');
-            const addToDemandInput = loanAccOpeningModal.querySelector('#addToDemand');
-            const interestInput = loanAccOpeningModal.querySelector('#interest');
-            const penalInterestInput = loanAccOpeningModal.querySelector('#penalInterest');
-            const openInterestInput = loanAccOpeningModal.querySelector('#openInterest');
-            const insuranceInput = loanAccOpeningModal.querySelector('#insurance');
-            const insuranceDateInput = loanAccOpeningModal.querySelector('#insuranceDate');
-            const postageInput = loanAccOpeningModal.querySelector('#postage');
-            const noticeFeeInput = loanAccOpeningModal.querySelector('#noticeFee');
-            const goldWeightInput = loanAccOpeningModal.querySelector('#goldWeight');
-            const goldPurityInput = loanAccOpeningModal.querySelector('#goldPurity');
-            const marketValueInput = loanAccOpeningModal.querySelector('#marketValue');
-            const pledgedDateInput = loanAccOpeningModal.querySelector('#pledgedDate');
-            const releaseStatusInput = loanAccOpeningModal.querySelector('#releaseStatus');
-            const releaseDateInput = loanAccOpeningModal.querySelector('#releaseDate');
-            const grMemberIdInput = loanAccOpeningModal.querySelector('#grMemberId');
-            const guarantorTypeInput = loanAccOpeningModal.querySelector('#guarantorType');
-            const addedOnInput = loanAccOpeningModal.querySelector('#addedOn');
-            const releasedOnInput = loanAccOpeningModal.querySelector('#releasedOn');
-            const installmentTypeInput = loanAccOpeningModal.querySelector('#installmentType');
-            const matureDateInput = loanAccOpeningModal.querySelector('#matureDate');
-            const firstInstallmentDateInput = loanAccOpeningModal.querySelector(
-                '#firstInstallmentDate');
-            const totalInstallmentsInput = loanAccOpeningModal.querySelector('#totalInstallments');
-            const resolutionDetailsInput = loanAccOpeningModal.querySelector('#resolutionDetails');
-            const resolutionDateInput = loanAccOpeningModal.querySelector('#resolutionDate');
-            const boardMeetingNoInput = loanAccOpeningModal.querySelector('#boardMeetingNo');
-            const boardMeetingDateInput = loanAccOpeningModal.querySelector('#boardMeetingDate');
-            const nominee1NameInput = loanAccOpeningModal.querySelector('#nominee1Name');
-            const nominee1NaavInput = loanAccOpeningModal.querySelector('#marathiNominee1Name');
-            const nominee1AgeInput = loanAccOpeningModal.querySelector('#nominee1Age');
-            const nominee1GenderInput = loanAccOpeningModal.querySelector('#nominee1Gender');
-            const nominee1RelationInput = loanAccOpeningModal.querySelector('#nominee1Relation');
-            const nominee2NameInput = loanAccOpeningModal.querySelector('#nominee2Name');
-            const nominee2NaavInput = loanAccOpeningModal.querySelector('#marathiNominee2Name');
-            const nominee2AgeInput = loanAccOpeningModal.querySelector('#nominee2Age');
-            const nominee2GenderInput = loanAccOpeningModal.querySelector('#nominee2Gender');
-            const nominee2RelationInput = loanAccOpeningModal.querySelector('#nominee2Relation');
-
-            if (id) {
-                modalTitle.textContent = 'Edit Loan Account';
-                loanAccIdInput.value = id;
-                formMethod.value = 'PUT';
-                if (ledgerId) ledgerIdInput.value = ledgerId;
-                if (memberId) memberIdInput.value = memberId;
-                if (accountId) accountIdInput.value = accountId;
-                accNoInput.value = accNo || '';
-                nameInput.value = name || '';
-                if (loanType) loanTypeInput.value = loanType;
-                interestRateInput.value = interestRate || '';
-                acStartDateInput.value = acStartDate || '';
-                emiAmountInput.value = emiAmount || '';
-                openBalanceInput.value = openBalance || '';
-                balanceInput.value = balance || '';
-                if (purpose) purposeInput.value = purpose;
-                principalAmountInput.value = principalAmount || '';
-                startDateInput.value = startDate || '';
-                endDateInput.value = endDate || '';
-                tenureInput.value = tenure || '';
-                priorityInput.value = priority || '';
-                loanAmountInput.value = loanAmount || '';
-                if (collateralType) collateralTypeInput.value = collateralType;
-                collateralValueInput.value = collateralValue || '';
-                pageNoInput.value = pageNo || '';
-                isLossAssetInput.checked = isLossAsset == 1;
-                caseFlagInput.checked = caseFlag == 1;
-                addToDemandInput.checked = addToDemand == 1;
-                interestInput.value = interest || '';
-                penalInterestInput.value = penalInterest || '';
-                openInterestInput.value = openInterest || '';
-                insuranceInput.value = insurance || '';
-                insuranceDateInput.value = insuranceDate || '';
-                postageInput.value = postage || '';
-                noticeFeeInput.value = noticeFee || '';
-                goldWeightInput.value = goldWeight || '';
-                if (goldPurity) goldPurityInput.value = goldPurity;
-                marketValueInput.value = marketValue || '';
-                pledgedDateInput.value = pledgedDate || '';
-                if (releaseStatus) releaseStatusInput.value = releaseStatus;
-                releaseDateInput.value = releaseDate || '';
-                if (grMemberId) grMemberIdInput.value = grMemberId;
-                if (guarantorType) guarantorTypeInput.value = guarantorType;
-                addedOnInput.value = addedOn || '';
-                releasedOnInput.value = releasedOn || '';
-                if (installmentType) installmentTypeInput.value = installmentType;
-                matureDateInput.value = matureDate || '';
-                firstInstallmentDateInput.value = firstInstallmentDate || '';
-                totalInstallmentsInput.value = totalInstallments || '';
-                resolutionDetailsInput.value = resolutionDetails || '';
-                resolutionDateInput.value = resolutionDate || '';
-                boardMeetingNoInput.value = boardMeetingNo || '';
-                boardMeetingDateInput.value = boardMeetingDate || '';
-                nominee1NameInput.value = nominee1Name || '';
-                nominee1NaavInput.value = nominee1Naav || '';
-                nominee1AgeInput.value = nominee1Age || '';
-                if (nominee1Gender) nominee1GenderInput.value = nominee1Gender;
-                if (nominee1Relation) nominee1RelationInput.value = nominee1Relation;
-                nominee2NameInput.value = nominee2Name || '';
-                nominee2NaavInput.value = nominee2Naav || '';
-                nominee2AgeInput.value = nominee2Age || '';
-                if (nominee2Gender) nominee2GenderInput.value = nominee2Gender;
-                if (nominee2Relation) nominee2RelationInput.value = nominee2Relation;
-            } else {
-                modalTitle.textContent = 'Add Loan Account';
-                loanAccIdInput.value = '';
-                formMethod.value = 'POST';
-                document.getElementById('memberLoanAccForm').reset();
-                // Reset tab to Nominee Detail on add new
-                const nomineeTab = document.getElementById('nominee-tab');
-                if (nomineeTab) {
-                    bootstrap.Tab.getOrCreateInstance(nomineeTab).show();
-                }
-            }
-        });
-    }
-});
-</script> -->
-

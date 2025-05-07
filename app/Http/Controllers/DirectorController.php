@@ -36,7 +36,7 @@ class DirectorController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'member_id' => 'nullable|exists:members,id',
+            'member_id' => 'required|exists:members,id',
             'name' => 'required|string|max:255',
             'designation_id' => 'nullable|exists:designations,id',
             'contact_nos'=>'required|array|min:1',

@@ -124,6 +124,7 @@ class GeneralLedgerController extends Controller
      */
     public function destroy(string $id)
     {
+        return $id;
         $generalLedger = GeneralLedger::findOrFail($id);
         $generalLedger->delete();
         return redirect()->back()->with('success', 'General Ledger deleted successfully');

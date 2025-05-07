@@ -40,8 +40,8 @@
                         @endisset --}}
 
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
-                    <h5 class="modal-title fw-bold" id="branchModalLabel"><i class="bi bi-house-door me-2"></i>Add
-                        Branch</h5>
+                    <h5 class="modal-title fw-bold" ><i class="bi bi-house-door me-2"></i><span id="branchModalLabel">Add
+                        Branch</span></h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>

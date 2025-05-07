@@ -227,7 +227,7 @@ class MemberController extends Controller
             ['member_id' => $member->id]
         ));
 
-        $request->user()->notify(new AccountCreated($member));
+        // $request->user()->notify(new AccountCreated($member));
         
         return redirect()->back()->with('success', 'Member added successfully');
     }

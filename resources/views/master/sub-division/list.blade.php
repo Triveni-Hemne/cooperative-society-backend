@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
         form.setAttribute("action", "{{ route('sub-divisions.store') }}");
 
         // Reset modal title & button text
-        document.getElementById("subDivisionModalLabel").textContent = "Add Division";
+        document.getElementById("subDivisionModalLabel").textContent = "Add Sub-Division";
         document.querySelector("#subDivisionModal .btn-primary").textContent = "Save Changes";
     });
 });

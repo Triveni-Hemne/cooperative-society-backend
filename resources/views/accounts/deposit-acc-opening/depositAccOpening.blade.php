@@ -11,8 +11,8 @@
                 <input type="hidden" id="memberDepoAccountId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4 border-0">
-                    <h1 class="modal-title fs-5 fw-bold" id="depositAccOpeningModalLabel">
-                        <i class="bi bi-bank me-2"></i> Add Deposit Account
+                    <h1 class="modal-title fs-5 fw-bold">
+                        <i class="bi bi-bank me-2"></i> <span id="depositAccOpeningModalLabel">Add Deposit Account</span>
                     </h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
@@ -35,13 +35,22 @@
                                         </option>
                                         @endforeach
                                     </select>
-                                    <small class="text-danger">⚠️ You must add members before submitting the form.</small>
+                                    <label for="ledgerId" class="form-label">Ledger <span
+                                            class="text-danger">*</span></label>
+                                    @error('ledger_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                @else
+                                <div class="alert alert-warning">
+                                    <strong>⚠️ No ledgers available.</strong><br>
+                                    Please add ledgers first.
+                                </div>
                                 @endif
                             </div>
                           @endisset
-                        </div>
-    
-                               <div class="col-md-6">
+                            
+                       <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="photo" id="photoCopy"
                                         class="form-control @error('photo') is-invalid @enderror"
@@ -711,152 +720,3 @@
         </div>
     </div>
 </div>
-<!-- <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const depositAccOpeningModal = document.getElementById('depositAccOpeningModal');
-    if (depositAccOpeningModal) {
-        depositAccOpeningModal.addEventListener('show.bs.modal', event => {
-            const relatedTarget = event.relatedTarget;
-            const id = relatedTarget.getAttribute('data-bs-id');
-            const ledgerId = relatedTarget.getAttribute('data-bs-ledger_id');
-            const memberId = relatedTarget.getAttribute('data-bs-member_id');
-            const accountId = relatedTarget.getAttribute('data-bs-account_id');
-            const accNo = relatedTarget.getAttribute('data-bs-acc_no');
-            const name = relatedTarget.getAttribute('data-bs-name');
-            const interestRate = relatedTarget.getAttribute('data-bs-interest_rate');
-            const interestPayable = relatedTarget.getAttribute('data-bs-interest_payable');
-            const acStartDate = relatedTarget.getAttribute('data-bs-ac_start_date');
-            const accClosingDate = relatedTarget.getAttribute('data-bs-acc_closing_date');
-            const openBalance = relatedTarget.getAttribute('data-bs-open_balance');
-            const balance = relatedTarget.getAttribute('data-bs-balance');
-            const agentId = relatedTarget.getAttribute('data-bs-agent_id');
-            const pageNo = relatedTarget.getAttribute('data-bs-page_no');
-            const depositType = relatedTarget.getAttribute('data-bs-deposit_type');
-            const closingFlag = relatedTarget.getAttribute('data-bs-closing_flag');
-            const addToDemand = relatedTarget.getAttribute('data-bs-add_to_demand');
-            const installmentType = relatedTarget.getAttribute('data-bs-installment_type');
-            const installmentAmount = relatedTarget.getAttribute('data-bs-installment_amount');
-            const totalInstallments = relatedTarget.getAttribute('data-bs-total_installments');
-            const totalPayableAmount = relatedTarget.getAttribute('data-bs-total_payable_amount');
-            const totalInstallmentsPaid = relatedTarget.getAttribute('data-bs-total_installments_paid');
-            const openInterest = relatedTarget.getAttribute('data-bs-open_interest');
-            const nominee1Name = relatedTarget.getAttribute('data-bs-nominee1_name');
-            const nominee1Naav = relatedTarget.getAttribute('data-bs-nominee1_naav');
-            const nominee1Age = relatedTarget.getAttribute('data-bs-nominee1_age');
-            const nominee1Gender = relatedTarget.getAttribute('data-bs-nominee1_gender');
-            const nominee1Relation = relatedTarget.getAttribute('data-bs-nominee1_relation');
-            const nominee2Name = relatedTarget.getAttribute('data-bs-nominee2_name');
-            const nominee2Naav = relatedTarget.getAttribute('data-bs-nominee2_naav');
-            const nominee2Age = relatedTarget.getAttribute('data-bs-nominee2_age');
-            const nominee2Gender = relatedTarget.getAttribute('data-bs-nominee2_gender');
-            const nominee2Relation = relatedTarget.getAttribute('data-bs-nominee2_relation');
-            const openInterestRd = relatedTarget.getAttribute('data-bs-open_interest_rd');
-            const rdTermMonths = relatedTarget.getAttribute('data-bs-rd_term_months');
-            const maturityAmountRd = relatedTarget.getAttribute('data-bs-maturity_amount_rd');
-            const maturityAmountFd = relatedTarget.getAttribute('data-bs-maturity_amount_fd');
-            const fdTermMonths = relatedTarget.getAttribute('data-bs-fd_term_months');
-            const balanceSv = relatedTarget.getAttribute('data-bs-balance_sv');
-            const interestRateSv = relatedTarget.getAttribute('data-bs-interest_rate_sv');
-
-            const modalTitle = depositAccOpeningModal.querySelector('#depositAccOpeningModalLabel');
-            const memberDepoAccountIdInput = depositAccOpeningModal.querySelector(
-                '#memberDepoAccountId');
-            const formMethod = depositAccOpeningModal.querySelector('#formMethod');
-            const ledgerIdInput = depositAccOpeningModal.querySelector('#ledgerId');
-            const memberIdInput = depositAccOpeningModal.querySelector('#memberId');
-            const accountIdInput = depositAccOpeningModal.querySelector('#accountId');
-            const accNoInput = depositAccOpeningModal.querySelector('#accNo');
-            const nameInput = depositAccOpeningModal.querySelector('#name');
-            const interestRateInput = depositAccOpeningModal.querySelector('#interestRate');
-            const interestPayableInput = depositAccOpeningModal.querySelector('#interestPayable');
-            const acStartDateInput = depositAccOpeningModal.querySelector('#acStartDate');
-            const accClosingDateInput = depositAccOpeningModal.querySelector('#accClosingDate');
-            const openBalanceInput = depositAccOpeningModal.querySelector('#openBalance');
-            const balanceInput = depositAccOpeningModal.querySelector('#balance');
-            const agentIdInput = depositAccOpeningModal.querySelector('#agentId');
-            const pageNoInput = depositAccOpeningModal.querySelector('#pageNo');
-            const depositTypeInput = depositAccOpeningModal.querySelector('#depositType');
-            const closingFlagInput = depositAccOpeningModal.querySelector('#closingFlag');
-            const addToDemandInput = depositAccOpeningModal.querySelector('#addToDemand');
-            const installmentTypeInput = depositAccOpeningModal.querySelector('#installmentType');
-            const installmentAmountInput = depositAccOpeningModal.querySelector('#installmentAmount');
-            const totalInstallmentsInput = depositAccOpeningModal.querySelector('#totalInstallments');
-            const totalPayableAmountInput = depositAccOpeningModal.querySelector('#totalPayableAmount');
-            const totalInstallmentsPaidInput = depositAccOpeningModal.querySelector(
-                '#installmentsPaid');
-            const openInterestInput = depositAccOpeningModal.querySelector('#openInterest');
-            const nominee1NameInput = depositAccOpeningModal.querySelector('#nominee1Name');
-            const nominee1NaavInput = depositAccOpeningModal.querySelector('#marathiNominee1Name');
-            const nominee1AgeInput = depositAccOpeningModal.querySelector('#nominee1Age');
-            const nominee1GenderInput = depositAccOpeningModal.querySelector('#nominee1Gender');
-            const nominee1RelationInput = depositAccOpeningModal.querySelector('#nominee1Relation');
-            const nominee2NameInput = depositAccOpeningModal.querySelector('#nominee2Name');
-            const nominee2NaavInput = depositAccOpeningModal.querySelector('#marathiNominee2Name');
-            const nominee2AgeInput = depositAccOpeningModal.querySelector('#nominee2Age');
-            const nominee2GenderInput = depositAccOpeningModal.querySelector('#nominee2Gender');
-            const nominee2RelationInput = depositAccOpeningModal.querySelector('#nominee2Relation');
-            const openInterestRdInput = depositAccOpeningModal.querySelector('#openingInterest');
-            const rdTermMonthsInput = depositAccOpeningModal.querySelector('#rdTermMonths');
-            const maturityAmountRdInput = depositAccOpeningModal.querySelector('#rdMaturityAmount');
-            const maturityAmountFdInput = depositAccOpeningModal.querySelector('#fdMaturityAmount');
-            const fdTermMonthsInput = depositAccOpeningModal.querySelector('#fdTermMonths');
-            const balanceSvInput = depositAccOpeningModal.querySelector('#svBalance');
-            const interestRateSvInput = depositAccOpeningModal.querySelector('#svInterestRate');
-
-            if (id) {
-                modalTitle.textContent = 'Edit Deposit Account';
-                memberDepoAccountIdInput.value = id;
-                formMethod.value = 'PUT';
-                if (ledgerId) ledgerIdInput.value = ledgerId;
-                if (memberId) memberIdInput.value = memberId;
-                if (accountId) accountIdInput.value = accountId;
-                accNoInput.value = accNo || '';
-                nameInput.value = name || '';
-                interestRateInput.value = interestRate || '';
-                interestPayableInput.value = interestPayable || '';
-                acStartDateInput.value = acStartDate || '';
-                accClosingDateInput.value = accClosingDate || '';
-                openBalanceInput.value = openBalance || '';
-                balanceInput.value = balance || '';
-                if (agentId) agentIdInput.value = agentId;
-                pageNoInput.value = pageNo || '';
-                if (depositType) depositTypeInput.value = depositType;
-                closingFlagInput.checked = closingFlag == 1;
-                addToDemandInput.checked = addToDemand == 1;
-                if (installmentType) installmentTypeInput.value = installmentType;
-                installmentAmountInput.value = installmentAmount || '';
-                totalInstallmentsInput.value = totalInstallments || '';
-                totalPayableAmountInput.value = totalPayableAmount || '';
-                totalInstallmentsPaidInput.value = totalInstallmentsPaid || '';
-                openInterestInput.value = openInterest || '';
-                nominee1NameInput.value = nominee1Name || '';
-                nominee1NaavInput.value = nominee1Naav || '';
-                nominee1AgeInput.value = nominee1Age || '';
-                if (nominee1Gender) nominee1GenderInput.value = nominee1Gender;
-                if (nominee1Relation) nominee1RelationInput.value = nominee1Relation;
-                nominee2NameInput.value = nominee2Name || '';
-                nominee2NaavInput.value = nominee2Naav || '';
-                nominee2AgeInput.value = nominee2Age || '';
-                if (nominee2Gender) nominee2GenderInput.value = nominee2Gender;
-                if (nominee2Relation) nominee2RelationInput.value = nominee2Relation;
-                openInterestRdInput.value = openInterestRd || '';
-                rdTermMonthsInput.value = rdTermMonths || '';
-                maturityAmountRdInput.value = maturityAmountRd || '';
-                maturityAmountFdInput.value = maturityAmountFd || '';
-                fdTermMonthsInput.value = fdTermMonths || '';
-                balanceSvInput.value = balanceSv || '';
-                interestRateSvInput.value = interestRateSv || '';
-            } else {
-                modalTitle.textContent = 'Add Deposit Account';
-                memberDepoAccountIdInput.value = '';
-                formMethod.value = 'POST';
-                document.getElementById('depositAccModalForm').reset();
-                const nomineeTab = document.getElementById('nominee-tab');
-                if (nomineeTab) {
-                    bootstrap.Tab.getOrCreateInstance(nomineeTab).show();
-                }
-            }
-        });
-    }
-});
-</script> -->

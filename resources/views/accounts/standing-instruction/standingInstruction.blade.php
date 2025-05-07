@@ -11,8 +11,8 @@
                 <div class="alert alert-danger rounded-0 m-0">{{ Session::get('error') }}</div>
                 @endif
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
-                    <h5 class="modal-title fw-bold" id="standingInstructionModalLabel"><i
-                            class="bi bi-file-earmark-check me-2"></i>Add Standing Instruction</h5>
+                    <h5 class="modal-title fw-bold"><i
+                            class="bi bi-file-earmark-check me-2"></i><span id="standingInstructionModalLabel">Add Standing Instruction</span></h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
@@ -22,8 +22,8 @@
                             <!-- Created By -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                   <input id="createdBy" class=" form-control w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->name}}" type="text" readonly required>
-                                <input name="created_by" id="createdBy" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->id}}" hidden type="text" readonly required>
+                                   <input id="createdBy" class=" form-control @error('created_by') is-invalid @enderror" value="{{$user->name}}" type="text" readonly required>
+                                <input name="created_by" id="createdBy" class="py-1 @error('created_by') is-invalid @enderror" value="{{$user->id}}" hidden type="text" readonly required>
                         <label for="createdBy" class="form-label">Created By</label>
                         @error('created_by')
                         <div class="invalid-feedback">{{ $message }}</div>

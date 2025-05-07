@@ -13,8 +13,8 @@
                 @endif
 
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
-                    <h5 class="modal-title fw-bold" id="agentModalLabel"><i class="bi bi-person-plus-fill me-2"></i> Add
-                        Agent</h5>
+                    <h5 class="modal-title fw-bold"><i class="bi bi-person-plus-fill me-2"></i>
+                        <span id="agentModalLabel"> Add Agent</span></h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->decimal('interest_rate', 5, 2)->nullable();
             $table->boolean('add_interest_to_balance')->default(false);
             $table->date('open_date')->nullable();
-            $table->decimal('penal_rate', 5, 2)->default(0.00);
+            $table->decimal('penal_rate', 5, 2)->default(0.00)->nullable();
             $table->enum('gl_type', ['Society', 'Store']);
             $table->decimal('cd_ratio', 5, 2)->nullable();
             $table->enum('group', ['Deposit', 'Loan', 'Bank', 'General', 'Funds','Share '])->nullable();

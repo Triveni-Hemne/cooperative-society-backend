@@ -12,8 +12,8 @@
                 @endif
 
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
-                    <h5 class="modal-title fw-bold" id="userModalLabel"><i class="bi bi-person-plus-fill me-2"></i>Add
-                        User</h5>
+                    <h5 class="modal-title fw-bold"><i class="bi bi-person-plus-fill me-2"></i><span id="userModalLabel">Add
+                        User</span></h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>

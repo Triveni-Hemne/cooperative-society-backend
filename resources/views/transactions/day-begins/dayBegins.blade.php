@@ -8,8 +8,8 @@
                 <input type="hidden" name="_method" id="formMethod" value="POST">
 
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
-                    <h5 class="modal-title fw-bold" id="dayBeginsModalLabel"><i
-                            class="bi bi-calendar-plus-fill me-2"></i>Add Day Begin</h5>
+                    <h5 class="modal-title fw-bold" ><i
+                            class="bi bi-calendar-plus-fill me-2"></i><span id="dayBeginsModalLabel">Add Day Begin</span></h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
@@ -18,13 +18,15 @@
                     <div class="p-4 bg-white rounded shadow-sm">
                         {{-- Created By --}}
                         <div class="form-floating mb-3">
-                            <input name="" id="createdBy" class="w-100 px-2 py-1 form-control" value="{{$user->name}}" type="text" readonly required>
-                                <input name="created_by" class="w-100 px-2 py-1" value="{{$user->id}}" type="text" hidden  required>
-                            <label for="createdBy">Created By</label>
+                            <input id="createdBy" class="form-control" value="{{ $user->name }}" type="text"
+                                    readonly required>
+                            <label for="createdBy" class="form-label">Created By</label>
+                            <input name="created_by" class="form-control" value="{{ $user->id }}" type="text"
+                                    hidden required>
                             @error('created_by')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>
+                         </div>
 
                         {{-- Date --}}
                         <div class="form-floating mb-3">
@@ -63,7 +65,7 @@
                         <!-- Branch -->
                         @if(Auth::user()->role === 'Admin')
                          @if ($branches->isNotEmpty())
-                                <div class="form-floating">
+                                <div class="form-floating mb-3">
                                     <select name="branch_id" id="userBranch"
                                         class="form-select @error('branch_id') is-invalid @enderror" required>
                                         <option value="" disabled selected>Select Branch</option>
@@ -89,6 +91,7 @@
                     @endif
                     @endif
 
+                    <div class="row">
                     {{-- Opening Cash Balance --}}
                     <div class="col-md-6">
                         <div class="form-floating">
@@ -101,8 +104,10 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                     </div>
 
                     {{-- Status Dropdown --}}
+                    <div class="col-md-6">
                     <div class="form-floating mb-3">
                         <select id="status" name="status" class="form-select @error('status') is-invalid @enderror"
                             required>
@@ -114,19 +119,20 @@
                         @error('status')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                     </div>
+                    </div>
                     </div>
 
                     <!-- Remark -->
                     <div class="form-floating mb-3">
-        <textarea class="form-control @error('remarks') is-invalid @enderror" placeholder="Remarks" id="remarks"
-        name="remarks" style="height: 100px" required>{{ old('remarks') }}</textarea>
-                    <label for="remarks">Remarks</label>
-                    @error('remarks')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-        </div>
-    </div>
+                        <textarea class="form-control @error('remarks') is-invalid @enderror" placeholder="Remarks" id="remarks"
+                        name="remarks" style="height: 100px" required>{{ old('remarks') }}</textarea>
+                                    <label for="remarks">Remarks</label>
+                                    @error('remarks')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                    </div>
 
     <div class="modal-footer bg-white rounded-bottom-4 border-top">
         <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">

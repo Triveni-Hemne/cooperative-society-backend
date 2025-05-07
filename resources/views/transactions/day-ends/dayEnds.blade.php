@@ -7,23 +7,34 @@
                 <input type="hidden" id="dayEndsId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
                 @csrf
-                         <div class="row mb-2">
+                @if(Session::has('error'))
+                <div class="alert alert-danger rounded-0 m-0">{{ Session::get('error') }}</div>
+                @endif
+
+                <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
+                    <h5 class="modal-title fw-bold" ><i class="bi bi-calendar-check me-2"></i> <span id="dayEndsModalLabel">Add
+                        Day Ends</span></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body bg-light">
+                    <div class="p-4 bg-white rounded shadow-sm">
+                        <div class="row g-3 mb-3">
                              @isset($users) 
-                             <div class="col-2 ps-5 d-none d-xl-block">
-                                 <label for="userId">User</label>
-                            </div>
-                            <div class="col pe-0 pe-xl-5">
+                            <div class="form-floating">
                                 @if ($users->isNotEmpty())
-                                 <select name="user_id" id="userId"  class="w-100 px-2 py-1 @error('user_id') is-invalid @enderror">
+                                 <select name="user_id" id="userId"  class="form-select @error('user_id') is-invalid @enderror">
                                     <option value="" disabled {{old('user_id') ? '' : 'selected'}}>---------- Select ----------</option>
-                                    @foreach ($users as $user)
-                                        <option value="{{ $user->id }}"  
-                                        {{ old('user_id') == $user->id ? 'selected' : '' }}
+                                    @foreach ($users as $u)
+                                        <option value="{{ $u->id }}"  
+                                        {{ old('user_id') == $u->id ? 'selected' : '' }}
                                         >
-                                        {{ $user->name }}
+                                        {{ $u->name }}
                                         </option>
                                     @endforeach
                                 </select>
+                                <label for="userId" class="ms-2">User</label>
                                 @error('user_id')
                                     <div class="invalid-feedback">{{$message}}</div>
                                 @enderror
@@ -36,27 +47,12 @@
                             </div>
                         @endisset
                         </div>
-
-                @if(Session::has('error'))
-                <div class="alert alert-danger rounded-0 m-0">{{ Session::get('error') }}</div>
-                @endif
-
-                <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
-                    <h5 class="modal-title fw-bold" id="dayEndsModalLabel"><i class="bi bi-calendar-check me-2"></i> Add
-                        Day Ends</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-
-                <div class="modal-body bg-light">
-                    <div class="p-4 bg-white rounded shadow-sm">
-
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 {{-- Created By --}}
                                 <div class="form-floating">
-                                    <input  id="createdBy" class="w-100 px-2 py-1 form-control" value="{{$user->name}}" type="text" @readonly(true) required>
-                                    <input name="created_by"  class="w-100 px-2 py-1" value="{{$user->id}}" type="text" hidden required>
+                                    <input  id="createdBy" class="form-control" value="{{$user->name}}" type="text" @readonly(true) required>
+                                    <input name="created_by"  class="" value="{{$user->id}}" type="text" hidden required>
                                     <label for="createdBy">Created By</label>
                                     @error('created_by')
                                     <div class="invalid-feedback">{{ $message }}</div>

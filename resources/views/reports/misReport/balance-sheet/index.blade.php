@@ -37,8 +37,8 @@
         </div>
     </form>
 <div class="export-btns d-flex justify-content-end">
-    <a href="{{ route('balance-sheet.pdf', ['date' => request('date'), 'type' => 'stream', 'branch_id' => request('branch_id')]) }}" class="btn btn-secondary me-1" target="_blank"><i class="bi bi-printer"></i> Print</a>
-    <a href="{{ route('balance-sheet.pdf', ['date' => request('date'), 'type' => 'download', 'branch_id' => request('branch_id')]) }}" class="btn btn-danger" target=""><i class="bi bi-file-earmark-pdf"></i> Download PDF</a>
+    <a href="{{ route('mis-balance-sheet.pdf', ['date' => request('date'), 'type' => 'stream', 'branch_id' => request('branch_id')]) }}" class="btn btn-secondary me-1" target="_blank"><i class="bi bi-printer"></i> Print</a>
+    <a href="{{ route('mis-balance-sheet.pdf', ['date' => request('date'), 'type' => 'download', 'branch_id' => request('branch_id')]) }}" class="btn btn-danger" target=""><i class="bi bi-file-earmark-pdf"></i> Download PDF</a>
 </div>
     <div class="table-responsive mt-4">
         <table class="table table-bordered">

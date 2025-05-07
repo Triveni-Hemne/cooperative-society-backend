@@ -204,10 +204,10 @@
                             </h2>
                             <div id="misReports" class="accordion-collapse collapse" data-bs-parent="#reportsAccordion">
                                 <div class="accordion-body">
-                                    <a href="{{route('trial-balance.index')}}" class="side-link">Trial Balance</a>
+                                    <a href="{{route('mis-trial-balance.index')}}" class="side-link">Trial Balance</a>
                                     <a href="{{route('receipt-payment.index')}}" class="side-link">Receipt Payment</a>
-                                    <a href="{{route('profit-loss.index')}}" class="side-link">Profit Loss</a>
-                                    <a href="{{route('balance-sheet.index')}}" class="side-link">Balance Sheet</a>
+                                    <a href="{{route('mis-profit-loss.index')}}" class="side-link">Profit Loss</a>
+                                    <a href="{{route('mis-balance-sheet.index')}}" class="side-link">Balance Sheet</a>
                                     <a href="{{route('cd-ratio.index')}}" class="side-link">CD Ratio</a>
                                     <a href="{{route('mis-report.index')}}" class="side-link">MIS Report</a>
                                     <a href="{{route('gl-statements.index')}}" class="side-link">General Ledger
@@ -323,7 +323,6 @@
         </div> --}}
     </div>
 </nav>
-<script src="{{asset('\assets\js\active-side-menu.js')}}"></script>
 <!-- Custom CSS -->
 <style>
 .sidebar {

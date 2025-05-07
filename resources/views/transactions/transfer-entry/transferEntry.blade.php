@@ -7,21 +7,23 @@
                 <input type="hidden" id="transferEntryId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
-                    <h5 class="modal-title fw-bold" id="transferEntryModalLabel">Add Transfer Entry</h5>
+                    <h5 class="modal-title fw-bold" ><span id="transferEntryModalLabel">Add Transfer Entry</span></h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body bg-light">
                     <div class="p-4 bg-white rounded shadow-sm">
                         {{-- Created By --}}
-                        <div class="form-floating mb-3">
-                           <input name="" id="createdBy" class="w-100 px-2 py-1 form-control @error('created_by') is-invalid @enderror" value="{{$user->name}}" type="text" readonly required>
-                                <input name="created_by"class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->id}}" type="text" hidden required>
-                            <label for="createdBy">Created By</label>
-                            @error('created_by')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                       <div class="form-floating mb-3">
+                                <input id="createdBy" class="form-control" value="{{ $user->name }}" type="text"
+                                       readonly required>
+                                <label for="createdBy" class="form-label">Created By</label>
+                                <input name="created_by" class="form-control" value="{{ $user->id }}" type="text"
+                                       hidden required>
+                                @error('created_by')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                       </div>
 
                         <div class="row g-3 mb-3">
                         @if(Auth::user()->role === 'Admin')

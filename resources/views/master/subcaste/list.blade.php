@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
         form.setAttribute("action", "{{ route('sub-divisions.store') }}");
 
         // Reset modal title & button text
-        document.getElementById("subcasteModalLabel").textContent = "Add Center";
+        document.getElementById("subcasteModalLabel").textContent = 'Add SubCaste';
         document.querySelector("#subcasteModal .btn-primary").textContent = "Save Changes";
     });
 });

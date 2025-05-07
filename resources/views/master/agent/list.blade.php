@@ -106,10 +106,10 @@
 </div>
 
 <!-- Form Model -->
+@include('layouts.deleteModal')
 @include('master.agent.agent')
 
 <!-- Delete Confirmation Model -->
-@include('layouts.deleteModal')
 @endsection
 
 {{-- @section('customeJs')
@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
         form.setAttribute("action", "{{ route('agents.store') }}");
 
         // Reset modal title & button text
-        document.getElementById("agentModalLabel").textContent = "Add Anget";
+        document.getElementById("agentModalLabel").textContent = "Add Agent";
         document.querySelector("#agentModal .btn-primary").textContent = "Save Changes";
     });
 });

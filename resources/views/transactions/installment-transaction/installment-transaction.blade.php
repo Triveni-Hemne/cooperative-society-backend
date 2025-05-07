@@ -7,8 +7,8 @@
                 <input type="hidden" id="installmentTransactionId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
-                    <h5 class="modal-title fw-bold" id="installmentTransactionModalLabel">
-                        <i class="bi bi-credit-card me-2"></i> Installment Transaction
+                    <h5 class="modal-title fw-bold" >
+                        <i class="bi bi-credit-card me-2"></i> <span id="installmentTransactionModalLabel">Installment Transaction</span>
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
@@ -17,8 +17,8 @@
                     <div class="p-4 bg-white rounded shadow-sm">
                         {{-- Created By --}}
                         <div class="form-floating mb-3">
-                           <input id="createdBy" class="w-100 px-2 py-1 form-control" value="{{$user->name}}" type="text" @readonly(true) required>
-                                <input name="created_by" class="w-100 px-2 py-1" value="{{$user->id}}" type="text" hidden required>
+                           <input id="createdBy" class="form-control" value="{{$user->name}}" type="text" @readonly(true) required>
+                                <input name="created_by" class="" value="{{$user->id}}" type="text" hidden required>
                         <label for="createdBy">Created By</label>
                         @error('created_by')
                         <div class="invalid-feedback">{{ $message }}</div>

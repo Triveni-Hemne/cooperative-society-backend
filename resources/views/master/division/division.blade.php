@@ -13,8 +13,8 @@
                 @endif
 
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
-                    <h5 class="modal-title fw-bold" id="divisionModalLabel"><i class="bi bi-diagram-3-fill me-2"></i>
-                        Add Division</h5>
+                    <h5 class="modal-title fw-bold"><i class="bi bi-diagram-3-fill me-2"></i>
+                        <span id="divisionModalLabel">Add Division</span></h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>

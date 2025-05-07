@@ -39,7 +39,7 @@ class DayEndController extends Controller
         // $dayEnds = DayEnd::paginate();
         $user = Auth::user();
         $branches = $user->role === 'Admin' ? Branch::all() : null;
-        return view('transactions.day-ends.list',compact('dayEnds','user','branches'));
+        return view('transactions.day-ends.list',compact('dayEnds','user','branches','users'));
     }
 
     /**

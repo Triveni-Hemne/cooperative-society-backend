@@ -11,8 +11,8 @@
                 <input type="hidden" id="bankInvestmentId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4 border-0">
-                    <h1 class="modal-title fs-5 fw-bold" id="bankInvestmentModalLabel">
-                        <i class="bi bi-bank me-2"></i> Add Bank Investment
+                    <h1 class="modal-title fs-5 fw-bold" >
+                        <i class="bi bi-bank me-2"></i> <span id="bankInvestmentModalLabel">Add Bank Investment</span>
                     </h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>

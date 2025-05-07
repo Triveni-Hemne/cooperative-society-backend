@@ -8,8 +8,8 @@
                 <input type="hidden" id="genAccId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4 border-0">
-                    <h1 class="modal-title fs-5 fw-bold" id="generalAccModalLabel">
-                        <i class="bi bi-journal-bookmark-fill me-2"></i> Add General Account
+                    <h1 class="modal-title fs-5 fw-bold">
+                        <i class="bi bi-journal-bookmark-fill me-2"></i> <span  id="generalAccModalLabel">Add General Account</span>
                     </h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
@@ -322,80 +322,3 @@
         </div>
     </div>
 </div>
-
-<!-- <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const generalAccModal = document.getElementById('generalAccModal');
-    if (generalAccModal) {
-        generalAccModal.addEventListener('show.bs.modal', event => {
-            const relatedTarget = event.relatedTarget;
-            const id = relatedTarget.getAttribute('data-bs-id');
-            const ledgerId = relatedTarget.getAttribute('data-bs-ledger_id');
-            const memberId = relatedTarget.getAttribute('data-bs-member_id');
-            const accountNo = relatedTarget.getAttribute('data-bs-account_no');
-            const accountName = relatedTarget.getAttribute('data-bs-account_name');
-            const name = relatedTarget.getAttribute('data-bs-name');
-            const accountType = relatedTarget.getAttribute('data-bs-account_type');
-            const interestRate = relatedTarget.getAttribute('data-bs-interest_rate');
-            const startDate = relatedTarget.getAttribute('data-bs-start_date');
-            const openBalance = relatedTarget.getAttribute('data-bs-open_balance');
-            const balance = relatedTarget.getAttribute('data-bs-balance');
-            const agentId = relatedTarget.getAttribute('data-bs-agent_id');
-            const closingFlag = relatedTarget.getAttribute('data-bs-closing_flag');
-            const addToDemand = relatedTarget.getAttribute('data-bs-add_to_demand');
-            const installmentType = relatedTarget.getAttribute('data-bs-installment_type');
-            const installmentAmount = relatedTarget.getAttribute('data-bs-installment_amount');
-            const totalInstallmentsPaid = relatedTarget.getAttribute('data-bs-total_installments_paid');
-            const closingDate = relatedTarget.getAttribute('data-bs-closing_date');
-            const modalTitle = generalAccModal.querySelector('#generalAccModalLabel');
-            const genAccIdInput = generalAccModal.querySelector('#genAccId');
-            const formMethod = generalAccModal.querySelector('#formMethod');
-            const ledgerIdInput = generalAccModal.querySelector('#ledgerId');
-            const memberIdInput = generalAccModal.querySelector('#memberId');
-            const accountNoInput = generalAccModal.querySelector('#accountNo');
-            const accountNameInput = generalAccModal.querySelector('#accountName');
-            const nameInput = generalAccModal.querySelector('#name');
-            const accountTypeInput = generalAccModal.querySelector('#accountType');
-            const interestRateInput = generalAccModal.querySelector('#interestRate');
-            const startDateInput = generalAccModal.querySelector('#startDate');
-            const openBalanceInput = generalAccModal.querySelector('#openBalance');
-            const balanceInput = generalAccModal.querySelector('#balance');
-            const agentIdInput = generalAccModal.querySelector('#agentId');
-            const closingFlagInput = generalAccModal.querySelector('#closingFlag');
-            const addToDemandInput = generalAccModal.querySelector('#addToDemand');
-            const installmentTypeInput = generalAccModal.querySelector('#installmentType');
-            const installmentAmountInput = generalAccModal.querySelector('#installmentAmount');
-            const totalInstallmentsPaidInput = generalAccModal.querySelector('#totalInstallmentsPaid');
-            const closingDateInput = generalAccModal.querySelector('#closingDate');
-
-            if (id) {
-                modalTitle.textContent = 'Edit General Account';
-                genAccIdInput.value = id;
-                formMethod.value = 'PUT';
-                if (ledgerId) ledgerIdInput.value = ledgerId;
-                if (memberId) memberIdInput.value = memberId;
-                accountNoInput.value = accountNo || '';
-                accountNameInput.value = accountName || '';
-                nameInput.value = name || '';
-                if (accountType) accountTypeInput.value = accountType;
-                interestRateInput.value = interestRate || '';
-                startDateInput.value = startDate || '';
-                openBalanceInput.value = openBalance || '';
-                balanceInput.value = balance || '';
-                if (agentId) agentIdInput.value = agentId;
-                closingFlagInput.checked = closingFlag == 1;
-                addToDemandInput.checked = addToDemand == 1;
-                if (installmentType) installmentTypeInput.value = installmentType;
-                installmentAmountInput.value = installmentAmount || '';
-                totalInstallmentsPaidInput.value = totalInstallmentsPaid || '';
-                closingDateInput.value = closingDate || '';
-            } else {
-                modalTitle.textContent = 'Add General Account';
-                genAccIdInput.value = '';
-                formMethod.value = 'POST';
-                document.getElementById('generalAccForm').reset();
-            }
-        });
-    }
-});
-</script> -->

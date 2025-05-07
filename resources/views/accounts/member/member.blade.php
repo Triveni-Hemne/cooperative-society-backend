@@ -10,8 +10,8 @@
                 <input type="hidden" id="memberId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4 border-0">
-                    <h1 class="modal-title fs-5 fw-bold" id="memberModalLabel">
-                        <i class="bi bi-person-plus me-2"></i> Add Member
+                    <h1 class="modal-title fs-5 fw-bold">
+                        <i class="bi bi-person-plus me-2"></i><span  id="memberModalLabel"> Add Member</span>
                     </h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>

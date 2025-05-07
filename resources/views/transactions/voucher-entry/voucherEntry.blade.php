@@ -12,8 +12,8 @@
                 @endif
 
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
-                    <h5 class="modal-title fw-bold" id="voucherEntryModalLabel"><i class="bi bi-receipt-fill me-2"></i>
-                        Add Voucher Entry</h5>
+                    <h5 class="modal-title fw-bold" ><i class="bi bi-receipt-fill me-2"></i>
+                        <span id="voucherEntryModalLabel">Add Voucher Entry</span></h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
@@ -410,9 +410,9 @@
                             <div class="col-md-6">
                                 @if ($users->isNotEmpty())
                                 <div class="form-floating">
-                                     <input id="enteredBy" name="" class="w-100 px-2 py-1 form-control" value="{{$user->name}}" readonly required>
-                                <input id="enteredBy" hidden name="entered_by" value="{{$user->id}}" class="w-100 px-2 py-1"  required>
-                                    <label for="enteredBy">Entered By</label>
+                                     <input id="enteredBy" name="" class="form-control" value="{{$user->name}}" readonly required>
+                                     <label for="enteredBy">Entered By</label>
+                                     <input id="enteredBy" hidden name="entered_by" value="{{$user->id}}" class="form-control"  required>
                                     @error('entered_by')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
