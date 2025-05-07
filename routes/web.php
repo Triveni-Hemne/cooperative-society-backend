@@ -36,6 +36,7 @@ use App\Http\Controllers\InstallmentTransactionController;
 use App\Http\Controllers\LoanInstallmentController;
 use App\Http\Controllers\RecurringDepositController;
 use App\Http\Controllers\LoanGuarantorController;
+use App\Http\Controllers\ProfileController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -80,7 +81,6 @@ Route::get('/csrf-token', function () {
         Route::resource('member-bank-details', MemberBankDetailController::class);
         Route::resource('employees', EmployeeController::class);
         Route::resource('departments', DepartmentController::class);
-        Route::resource('users', UserController::class);
         Route::resource('agents', AgentController::class);
         Route::resource('branches', BranchController::class)->names('branches');
         Route::resource('member-financials', MemberFinancialController::class);
@@ -92,6 +92,8 @@ Route::get('/csrf-token', function () {
             return view('interest.interest-calculator');
         })->name('interest.calculator');
         Route::resource('users', UserController::class)->names('users');
+
+        Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     });
 
     

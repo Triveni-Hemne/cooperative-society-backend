@@ -1,5 +1,5 @@
  <div class="modal fade" id="loanInstallmentModal" tabindex="-1" aria-labelledby="loanInstallmentModalLabel"
-     aria-hidden="true">
+     aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-xl">
         <div class="modal-content rounded-4 shadow">
             <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
@@ -174,57 +174,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const loanInstallmentModal = document.getElementById('loanInstallmentModal');
-        if (loanInstallmentModal) {
-            loanInstallmentModal.addEventListener('show.bs.modal', event => {
-                const relatedTarget = event.relatedTarget;
-                const id = relatedTarget.getAttribute('data-bs-id');
-                const loanId = relatedTarget.getAttribute('data-bs-loan_id');
-                const installmentType = relatedTarget.getAttribute('data-bs-installment_type');
-                const matureDate = relatedTarget.getAttribute('data-bs-mature_date');
-                const firstInstallmentDate = relatedTarget.getAttribute('data-bs-first_installment_date');
-                const totalInstallments = relatedTarget.getAttribute('data-bs-total_installments');
-                const installmentAmount = relatedTarget.getAttribute('data-bs-installment_amount');
-                const installmentWithInterest = relatedTarget.getAttribute('data-bs-installment_with_interest');
-                const totalInstallmentsPaid = relatedTarget.getAttribute('data-bs-total_installments_paid');
-
-                const modalTitle = loanInstallmentModal.querySelector('#loanInstallmentModalLabel');
-                const loanInstallmentIdInput = loanInstallmentModal.querySelector('#loanInstallmentId');
-                const formMethod = loanInstallmentModal.querySelector('#formMethod');
-                const loanIdInput = loanInstallmentModal.querySelector('#loanId');
-                const installmentTypeInput = loanInstallmentModal.querySelector('#installmentType');
-                const matureDateInput = loanInstallmentModal.querySelector('#matureDate');
-                const firstInstallmentDateInput = loanInstallmentModal.querySelector('#firstInstallmentDate');
-                const totalInstallmentsInput = loanInstallmentModal.querySelector('#totalInstallments');
-                const installmentAmountInput = loanInstallmentModal.querySelector('#installmentAmount');
-                const installmentWithInterestInput = loanInstallmentModal.querySelector('#installmentWithInterest');
-                const totalInstallmentsPaidInput = loanInstallmentModal.querySelector('#totalInstallmentsPaid');
-
-                if (id) {
-                    modalTitle.textContent = 'Edit Loan Installment';
-                    loanInstallmentIdInput.value = id;
-                    formMethod.value = 'PUT';
-                    if (loanId) loanIdInput.value = loanId;
-                    if (installmentType) installmentTypeInput.value = installmentType;
-                    matureDateInput.value = matureDate || '';
-                    firstInstallmentDateInput.value = firstInstallmentDate || '';
-                    totalInstallmentsInput.value = totalInstallments || '';
-                    installmentAmountInput.value = installmentAmount || '';
-                    installmentWithInterestInput.value = installmentWithInterest || '';
-                    totalInstallmentsPaidInput.value = totalInstallmentsPaid || '';
-                } else {
-                    modalTitle.textContent = 'Add Loan Installment';
-                    loanInstallmentIdInput.value = '';
-                    formMethod.value = 'POST';
-                    document.getElementById('loanInstallmentModalForm').reset();
-                }
-            });
-        }
-    });
-</script>
-
-        
-                    

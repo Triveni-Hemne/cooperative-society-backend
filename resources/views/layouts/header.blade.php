@@ -40,8 +40,12 @@
         <div class="profile-dropdown position-relative">
             <div class="d-flex align-items-center profile-trigger dropdown-toggle" role="button"
                 data-bs-toggle="dropdown">
-                <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    alt="Profile" class="rounded-circle me-2" width="40" height="40">
+               @if( Auth::user()->profile)
+                    <img id="profilePreview" src="{{asset('storage/'.Auth::user()->profile)}}" class="rounded-circle border me-1"
+                        width="40" height="40" style="cursor:pointer;">
+                @else
+                    <i class="bi bi-person-circle fs-1 me-1" style="cursor:pointer;"></i>
+                @endif
                 <span class="text-white fw-bold me-3">{{ Auth::user()->name }}</span>
             </div>
             <div class="dropdown-menu custom-dropdown-menu">
@@ -58,51 +62,93 @@
 <!-- Edit Profile Modal -->
 <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form id="editProfileForm" method="POST" enctype="multipart/form-data">
+        <form id="editProfileForm" action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
             <div class="modal-content">
                 <div class="modal-header my-bg-primary text-white">
                     <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
-                    <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- Profile Picture Upload -->
-                    <!-- <div class="text-center mb-3">
-                        <input type="file" id="profileImageInput" name="profile_picture" accept="image/*" hidden>
-                        <label for="profileImageInput">
-                            <img id="profilePreview" src="https://via.placeholder.com/100" class="rounded-circle border"
-                                width="100" height="100" style="cursor:pointer;">
-                        </label>
-                        <div class="form-text">Click image to change</div>
-                    </div> -->
+                    <div class="text-center mb-3">
+    <input type="file" id="profile" name="profile" accept="image/*" hidden>
+    <label for="profile">
+        <span id="imageWrapper">
+            @if(Auth::user()->profile)
+                <img id="editProfilePreview" src="{{ asset('storage/' . Auth::user()->profile) }}" class="rounded-circle border"
+                     width="100" height="100" style="cursor:pointer;">
+            @else
+                <i id="profileIcon" class="bi bi-person-circle fs-1" style="cursor:pointer;"></i>
+            @endif
+        </span>
+    </label>
+    <div class="form-text">Click image to change</div>
+</div>
+
 
                     <!-- Name -->
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label for="name" class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
-                    </div>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
+                            name="name" value="{{ old('name', Auth::user()->name) }}" required>
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div> --}}
 
                     <!-- Email -->
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                            name="email" value="{{ old('email', Auth::user()->email) }}" required>
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                 <div class="modal-footer bg-white rounded-bottom-4 border-top">
+                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i>Cancel
+                    </button>
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="bi bi-check-circle me-1"></i>Submit
+                    </button>
                 </div>
             </div>
         </form>
     </div>
 </div>
 
+
 <script>
-// document.getElementById('profileImageInput').addEventListener('change', function(e) {
-//     const reader = new FileReader();
-//     reader.onload = function(e) {
-//         document.getElementById('profilePreview').src = e.target.result;
-//     }
-//     reader.readAsDataURL(this.files[0]);
-// });
+    document.getElementById('profile').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const imageWrapper = document.getElementById('imageWrapper');
+
+            // Remove the icon if it exists
+            const icon = document.getElementById('profileIcon');
+            if (icon) icon.remove();
+
+            // Replace or update the preview image
+            let preview = document.getElementById('editProfilePreview');
+            if (!preview) {
+                preview = document.createElement('img');
+                preview.id = 'editProfilePreview';
+                preview.className = 'rounded-circle border';
+                preview.width = 100;
+                preview.height = 100;
+                preview.style.cursor = 'pointer';
+                imageWrapper.appendChild(preview);
+            }
+
+            preview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
 </script>

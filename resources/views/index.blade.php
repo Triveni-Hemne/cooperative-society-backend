@@ -1,3 +1,5 @@
+@include('layouts.session')
+
 @extends('layouts.app')
 @section('title', 'Cooperative Society Bank')
 
