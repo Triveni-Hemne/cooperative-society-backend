@@ -12,10 +12,10 @@
     <h3>Member</h3>
     <div class="row">
         <!-- Search Bar -->
-        <div class="col-5">
+        <div class="col-8 col-lg-5 mb-3">
             @include('layouts.tableSearchInput')
         </div>
-        <div class="col">
+        <div class="col-8 col-lg-5">
            @include('layouts.branchFilterInput', [
                     'action' => route('members.index')
                 ])

@@ -10,11 +10,11 @@
 @section('content')
 <div class="mb-3">
     <h3>General Account</h3>
-    <div class="row">
-        <div class="col-5">
+    <div class="row"> 
+        <div class="col-8 col-lg-5 mb-3">
             @include('layouts.tableSearchInput')
         </div>
-        <div class="col">   
+        <div class="col-8 col-lg-5">   
             @include('layouts.branchFilterInput', [
                 'action' => route('accounts.index')
             ])

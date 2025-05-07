@@ -56,7 +56,7 @@
       </div>
     </div>
 
-    <div class="card shadow-sm">
+    <div class="card shadow-sm" style="overflow: scroll; height: 42vh;">
         <div class="card-body">
             <h5 class="text-center mb-4">
                 Period: {{ \Carbon\Carbon::parse($fromDate)->format('d M Y') }} to {{ \Carbon\Carbon::parse($toDate)->format('d M Y') }}

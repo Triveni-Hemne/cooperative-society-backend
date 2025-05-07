@@ -47,7 +47,7 @@
         </div>
     </form>
 
-    <div class="row">
+    <div class="row" style="overflow: scroll; height: 40vh;">
         <!-- Assets -->
         <div class="col-md-6">
             <div class="card shadow-sm">

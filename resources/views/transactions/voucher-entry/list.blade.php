@@ -11,10 +11,11 @@
 <div class="mb-3">
     <h3>Voucher Entry</h3>
     <div class="row">
-        <div class="col-5">
+        <div class="col-8 col-lg-5 mb-3">
+            {{-- Search Input --}}
             @include('layouts.tableSearchInput')
         </div>
-        <div class="col"> 
+        <div class="col-8 col-lg-5"> 
          @if(Auth::user()->role === 'Admin')  
             @include('layouts.branchFilterInput', [
                 'action' => route('voucher-entry.index')

@@ -1,12 +1,12 @@
 <header class="container-fluid py-3 px-0 my-bg-primary">
     <div class="d-flex justify-content-between align-items-center px-3">
         <!-- Title -->
-        <h3 class="text-white fw-bold my-hero-text">
+        <h3 class="text-white fw-bold my-hero-text text-center">
             महाराष्ट्र राज्य विद्युत क्षेत्र तांत्रिक कर्मचारी सहकारी पत संस्था मर्यादित, र. नं. 153
         </h3>
 
-        <!-- Profile Section -->
-        <div class="profile-dropdown position-relative">
+        <!-- Profile Section for large screen -->
+        <div class="profile-dropdown position-relative d-none d-lg-block">
             <div class="d-flex align-items-center profile-trigger dropdown-toggle" role="button"
                 data-bs-toggle="dropdown">
                @if( Auth::user()->profile)
@@ -24,6 +24,7 @@
                 <a class="dropdown-item text-danger fw-bold" href="{{ route('user.logout') }}">Logout</a>
             </div>
         </div>
+
     </div>
 </header>
 

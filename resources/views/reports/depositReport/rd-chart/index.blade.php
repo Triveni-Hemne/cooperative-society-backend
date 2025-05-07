@@ -9,7 +9,7 @@
 <div class="container mt-4">
     <h2 class="text-center">📊 Recurring Deposit Chart - {{ $date }}</h2>
 
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center  mb-3">
              <form action="{{ route('rd-chart.index') }}" method="GET" class="d-flex">
                 <input type="date" name="date" class="form-control" value="{{ $date }}" required>
                 @if(!empty($branches))

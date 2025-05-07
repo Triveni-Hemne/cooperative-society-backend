@@ -38,6 +38,7 @@
     </div>
 
     <!-- Guarantor Register Table -->
+    <div style="overflow-x: scroll;" class="w-100">
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -66,5 +67,6 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 </div>
 @endsection

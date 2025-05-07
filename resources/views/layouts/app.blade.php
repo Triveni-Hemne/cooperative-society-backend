@@ -34,6 +34,10 @@
             width: 100% !important;
             padding: 15px !important;
         }
+
+        .offcanvas.offcanvas-start{
+            width: 280px !important;
+        }
     }
     </style>
 </head>
@@ -44,7 +48,7 @@
     </div>
 
     <div class="d-flex flex-column flex-lg-row m-0 my-body w-100" style="height: 90.7vh;">
-        <div class="sidebar-container p-0 bg-light" style="width: 18%;">
+        <div class="sidebar-container p-0 bg-light" style="width: 20vw;">
             @include('layouts.sidebar')
         </div>
         <div class="content-container container-fluid p-5 m-1" style="width: 82%; height: 100%;">

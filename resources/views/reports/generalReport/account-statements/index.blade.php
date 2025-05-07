@@ -69,6 +69,7 @@
     </a>
 
     <!-- Account Transactions Table -->
+    <div class="w-100" style="overflow-x: scroll;">
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -103,5 +104,6 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 </div>
 @endsection

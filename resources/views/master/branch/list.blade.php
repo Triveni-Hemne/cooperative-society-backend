@@ -62,9 +62,9 @@
                             data-bs-target="#branchModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" data-id="{{$branch->id }}" data-route="{{ route('branches.destroy', $branch->id) }}" data-name="{{ $branch->name ?? ''}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        {{-- <a href="#" data-id="{{$branch->id }}" data-route="{{ route('branches.destroy', $branch->id) }}" data-name="{{ $branch->name ?? ''}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
+                        </a> --}}
                     </td>
                 </tr>
                 @php $i++ @endphp

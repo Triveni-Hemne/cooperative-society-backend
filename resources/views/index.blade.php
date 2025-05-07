@@ -10,11 +10,11 @@
 @section('content')
 <div class="" style="overflow-y: scroll; height:75vh">
    <div class="row mb-4">
-      <div class="col">
+      <div class="col-8 mb-3 col-md-6">
          <!-- Greeting -->
          <h3 class="">Welcome back, {{ Auth::user()->name }} 👋</h3>
       </div>
-      <div class="col ">
+      <div class="col-10 col-sm-7  col-md-5">
          @if(Auth::user()->role == 'Admin')
             @include('layouts.branchFilterInput', [
                   'action' => route('user.dashboard')

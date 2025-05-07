@@ -19,7 +19,7 @@
                 <input type="date" name="as_on_date" id="as_on_date" value="{{ request('as_on_date') ?? date('Y-m-d') }}" class="form-control" required>
             </div>
             @if(!empty($branches))
-            <div class="col-md-3 ">
+            <div class="col-md-3 mb-3">
                 <label class="form-label">Branch</label>
                 {{-- Branch --}}
                 <select name="branch_id" class="form-select">

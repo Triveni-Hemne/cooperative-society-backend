@@ -19,7 +19,7 @@
                 <input type="date" name="end_date" class="form-control" value="{{ $endDate }}">
             </div>
             @if(!empty($branches))
-            <div class="col-md-3">
+            <div class="col-md-3 mb-3">
                 <label class="">Branch:</label>
                 {{-- Branch --}}
                 <select name="branch_id" class="form-select">
@@ -46,6 +46,7 @@
         </a>
     </div>
 
+    <div class="w-100" style="overflow: scroll">
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -76,5 +77,6 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 </div>
 @endsection
