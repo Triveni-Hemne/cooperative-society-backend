@@ -19,9 +19,9 @@
                     <div class="alert alert-danger rounded-0 m-0">{{ Session::get('error') }}</div>
                     @endif
                     <div class="bg-white rounded shadow-sm p-4">
-                        <div class="row mb-3">
+                        <div class="row">
                             @isset($ledgers)
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 @if ($ledgers->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="ledgerId" name="ledger_id"
@@ -51,7 +51,7 @@
                             @endisset
 
                             @isset($members)
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 @if ($members->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="memberId" name="member_id"
@@ -79,8 +79,8 @@
                             </div>
                             @endisset
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="account_no" id="accountNo"
                                         class="form-control @error('account_no') is-invalid @enderror"
@@ -91,7 +91,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="account_name" id="accountName"
                                         class="form-control @error('account_name') is-invalid @enderror" type="text"
@@ -104,8 +104,8 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="name" id="Name"
                                         class="form-control @error('name') is-invalid @enderror"
@@ -116,7 +116,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <select id="accountType" name="account_type"
                                         class="form-select @error('account_type') is-invalid @enderror"
@@ -144,8 +144,8 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="interest_rate" id="interestRate"
                                         class="form-control @error('interest_rate') is-invalid @enderror"
@@ -156,7 +156,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="start_date" id="startDate"
                                         class="form-control @error('start_date') is-invalid @enderror"
@@ -169,8 +169,8 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="open_balance" id="openBalance"
                                         class="form-control @error('open_balance') is-invalid @enderror"
@@ -181,7 +181,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="balance" id="balance"
                                         class="form-control @error('balance') is-invalid @enderror"
@@ -194,9 +194,9 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
+                        <div class="row">
                             @isset($agents)
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 @if ($agents->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="agentId" name="agent_id"
@@ -244,8 +244,8 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <select id="installmentType" name="installment_type"
                                         class="form-select @error('installment_type') is-invalid @enderror"
@@ -268,7 +268,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="installment_amount" id="installmentAmount"
                                         class="form-control @error('installment_amount') is-invalid @enderror"
@@ -282,8 +282,8 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="total_installments_paid" id="totalInstallmentsPaid"
                                         class="form-control @error('total_installments_paid') is-invalid @enderror"
@@ -296,7 +296,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="closing_date" id="closingDate"
                                         class="form-control @error('closing_date') is-invalid @enderror"

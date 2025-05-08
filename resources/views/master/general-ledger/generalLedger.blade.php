@@ -20,8 +20,8 @@
 
                 <div class="modal-body bg-light">
                     <div class="p-4 bg-white rounded shadow-sm">
-                        <div class="row mb-3">
-                            <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="ledger_no" id="ledgerNo" type="text"
                                         class="form-control @error('ledger_no') is-invalid @enderror"
@@ -32,7 +32,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input id="Name" name="name" type="text"
                                         class="form-control @error('name') is-invalid @enderror"
@@ -47,8 +47,8 @@
 
                         @isset($generalLedgers)
                         @if ($generalLedgers->isNotEmpty())
-                        <div class="row mb-3">
-                            <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <select name="parent_ledger_id" id="parentLedger"
                                         class="form-select @error('parent_ledger_id') is-invalid @enderror">
@@ -75,8 +75,8 @@
                         @endif
                         @endisset
 
-                        <div class="row mb-3">
-                            <div class="col-md-3">
+                        <div class="row ">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-floating">
                                     <input name="balance" id="balance" type="number"
                                         class="form-control @error('balance') is-invalid @enderror"
@@ -87,7 +87,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-floating">
                                     <select name="balance_type" id="balanceType" required
                                         class="form-select @error('balance_type') is-invalid @enderror">
@@ -104,7 +104,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="penal_rate" id="penalRate" type="number"
                                         class="form-control @error('penal_rate') is-invalid @enderror"
@@ -117,8 +117,8 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-3">
+                        <div class="row ">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-floating">
                                     <input name="open_balance" id="openBalance" type="number"
                                         class="form-control @error('open_balance') is-invalid @enderror"
@@ -129,7 +129,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-floating">
                                     <select name="open_balance_type" id="openBalanceType" required
                                         class="form-select @error('open_balance_type') is-invalid @enderror">
@@ -146,7 +146,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-floating">
                                     <input name="interest_rate" id="interestRate" type="number"
                                         class="form-control @error('interest_rate') is-invalid @enderror"
@@ -157,7 +157,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-floating">
                                     <select name="interest_type" id="interestType" required
                                         class="form-select @error('interest_type') is-invalid @enderror">
@@ -178,8 +178,8 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-3">
+                        <div class="row ">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-floating">
                                     <input name="min_balance" id="minBalance" type="number"
                                         class="form-control @error('min_balance') is-invalid @enderror"
@@ -190,7 +190,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-floating">
                                     <select name="min_balance_type" id="minBalanceType" required
                                         class="form-select @error('min_balance_type') is-invalid @enderror">
@@ -207,7 +207,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-floating">
                                     <select name="add_interest_to_balance" id="addInterestToBalance"
                                         class="form-select @error('add_interest_to_balance') is-invalid @enderror">
@@ -225,7 +225,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-floating">
                                     <select name="type" id="type"
                                         class="form-select @error('type') is-invalid @enderror">
@@ -251,8 +251,8 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-3">
+                        <div class="row ">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-floating">
                                     <input name="open_date" id="openDate" type="date"
                                         class="form-control @error('open_date') is-invalid @enderror"
@@ -263,7 +263,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-floating">
                                     <select name="gl_type" id="glType" required
                                         class="form-select @error('gl_type') is-invalid @enderror">
@@ -279,7 +279,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-floating">
                                     <input type="number" name="cd_ratio" id="cdRatio"
                                         class="form-control @error('cd_ratio') is-invalid @enderror"
@@ -290,7 +290,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-floating">
                                     <select name="demand" id="demand"
                                         class="form-select @error('demand') is-invalid @enderror">
@@ -305,8 +305,8 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-floating">
                                     <select name="item_of" id="itemOf"
                                         class="form-select @error('item_of') is-invalid @enderror" required>
@@ -321,7 +321,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-floating">
                                     <select name="group" id="group"
                                         class="form-select @error('group') is-invalid @enderror">
@@ -346,7 +346,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-floating">
                                     <select name="subsidiary" id="subsidiary" required
                                         class="form-select @error('subsidiary') is-invalid @enderror">
@@ -359,7 +359,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-floating">
                                     <select name="send_sms" id="sendSMS"
                                         class="form-select @error('send_sms') is-invalid @enderror" required>

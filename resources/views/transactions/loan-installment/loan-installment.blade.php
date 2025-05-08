@@ -50,7 +50,7 @@
                     </div>
 
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <div class="form-floating">
                                 <select name="installment_type" id="installmentType"
                                         class="form-select @error('installment_type') is-invalid @enderror" required>
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <div class="form-floating">
                                 <input name="first_installment_date" id="firstInstallmentDate"
                                        class="form-control @error('first_installment_date') is-invalid @enderror"
@@ -109,7 +109,7 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <div class="form-floating">
                                 <input name="installment_amount" id="installmentAmount"
                                        class="form-control @error('installment_amount') is-invalid @enderror"
@@ -136,7 +136,7 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-3">
                             <div class="form-floating">
                                 <input name="total_installments_paid" id="totalInstallmentsPaid"
                                        class="form-control @error('total_installments_paid') is-invalid @enderror"

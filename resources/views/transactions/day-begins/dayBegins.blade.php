@@ -93,7 +93,7 @@
 
                     <div class="row">
                     {{-- Opening Cash Balance --}}
-                    <div class="col-md-6">
+                    <div class="col-md-6 mb-3">
                         <div class="form-floating">
                                 <input name="opening_cash_balance" id="openingCashBalance"
                                     class="form-control @error('opening_cash_balance') is-invalid @enderror"

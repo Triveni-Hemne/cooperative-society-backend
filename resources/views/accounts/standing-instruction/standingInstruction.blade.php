@@ -18,9 +18,9 @@
                 </div>
                 <div class="modal-body bg-light">
                     <div class="p-4 bg-white rounded shadow-sm">
-                        <div class="row g-3 mb-3">
+                        <div class="row g-3">
                             <!-- Created By -->
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                    <input id="createdBy" class=" form-control @error('created_by') is-invalid @enderror" value="{{$user->name}}" type="text" readonly required>
                                 <input name="created_by" id="createdBy" class="py-1 @error('created_by') is-invalid @enderror" value="{{$user->id}}" hidden type="text" readonly required>
@@ -33,7 +33,7 @@
 
         @if(Auth::user()->role === 'Admin')
                 @isset($branches)
-                <div class="col-md-6">
+                <div class="col-md-6 mb-3">
                     @if ($branches->isNotEmpty())
                     <div class="form-floating">
                         <select name="branch_id" id="branchId"
@@ -62,9 +62,9 @@
         @endif
 
         {{-- Credit Ledger --}}
-        <div class="row mb-3">
+        <div class="row">
             @isset($ledgers)
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
                 @if ($ledgers->isNotEmpty())
                 <div class="form-floating">
                     <select id="creditLedgerId" name="credit_ledger_id"
@@ -93,7 +93,7 @@
 
             {{-- Credit Account --}}
             @isset($accounts)
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
                 @if ($accounts->isNotEmpty())
                 <div class="form-floating">
                     <select id="creditAccountId" name="credit_account_id"
@@ -119,9 +119,9 @@
             @endisset
         </div>
 
-        <div class="row mb-3">
+        <div class="row">
             {{-- Credit Transfer --}}
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
                 <div class="form-floating">
                     <input name="credit_transfer" id="creditTransfer" type="text"
                         class="form-control @error('credit_transfer') is-invalid @enderror"
@@ -135,7 +135,7 @@
 
             {{-- Debit Ledger --}}
             @isset($ledgers)
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
                 @if ($ledgers->isNotEmpty())
                 <div class="form-floating">
                     <select id="debitLedgerId" name="debit_ledger_id"
@@ -161,10 +161,10 @@
             @endisset
         </div>
 
-        <div class="row mb-3">
+        <div class="row">
             {{-- Debit Account --}}
             @isset($accounts)
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
                 @if ($accounts->isNotEmpty())
                 <div class="form-floating mb-3">
                     <select id="debitAccountId" name="debit_account_id"
@@ -190,7 +190,7 @@
             </div>
             @endisset
 
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
                 {{-- Debit Transfer --}}
                 <div class="form-floating mb-3">
                     <input name="debit_transfer" id="debitTransfer" type="number"
@@ -205,8 +205,8 @@
         </div>
 
         {{-- Date and Frequency --}}
-        <div class="row mb-3">
-            <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-6 mb-3">
                 <div class="form-floating">
                     <input name="date" id="date" type="date" class="form-control @error('date') is-invalid @enderror"
                         value="{{ old('date') }}" required>
@@ -216,7 +216,7 @@
                     @enderror
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
                 <div class="form-floating">
                     <select id="frequency" name="frequency" class="form-select @error('frequency') is-invalid @enderror"
                         required>
@@ -240,9 +240,9 @@
             </div>
         </div>
 
-        <div class="row mb-3">
+        <div class="row">
             {{-- No. of Times --}}
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
                 <div class="form-floating">
                     <input name="no_of_times" id="noOfTimes" type="number"
                         class="form-control @error('no_of_times') is-invalid @enderror" placeholder="No. of Times"
@@ -254,7 +254,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
                 <div class="form-floating">
                     <input name="bal_installment" id="balInstallment" type="number"
                         class="form-control @error('bal_installment') is-invalid @enderror"
@@ -267,9 +267,9 @@
             </div>
         </div>
 
-        <div class="row mb-3">
+        <div class="row">
             {{-- Execution Date --}}
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
                 <div class="form-floating">
                     <input name="execution_date" id="executionDate" type="number"
                         class="form-control @error('execution_date') is-invalid @enderror" placeholder="Execution Date"
@@ -281,7 +281,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-6 mb-3">
                 <div class="form-floating">
                     <input name="amount" id="amount" type="number"
                         class="form-control @error('amount') is-invalid @enderror" placeholder="Amount"
