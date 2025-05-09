@@ -32,7 +32,6 @@
 <div class="d-flex flex-column justify-content-between" style="height: 82%">
     <!-- List of Directors -->
     <div class="border overflow-auto" style="height: 88%">
-        {{$subdivisions}}
         <table id="tableFilter" class="table table-striped">
             <thead>
                 <tr>
@@ -143,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#subDivisionModal .btn-primary").textContent = "Update Sub-Division";
+            document.querySelector("#subDivisionModal .btn-success").textContent = "Update Sub-Division";
 
             // Set the selected division
             let divisionSelect = document.getElementById("division_id");
@@ -172,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset modal title & button text
         document.getElementById("subDivisionModalLabel").textContent = "Add Sub-Division";
-        document.querySelector("#subDivisionModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#subDivisionModal .btn-success").textContent = "Save Changes";
     });
 });
 </script>

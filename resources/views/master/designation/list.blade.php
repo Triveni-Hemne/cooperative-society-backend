@@ -58,9 +58,9 @@
                     <td>{{$designation->division->name ?? ''}}</td>
                     <td>{{$designation->subdivision->name ?? ''}}</td>
                     <td>{{$designation->center->name ?? ''}}</td>
-                    <td>{{$designation->Description ?? ''}}</td>
+                    <td>{{$designation->description ?? ''}}</td>
                     <td>
-                        <a href="#" data-id="{{$designation->id }}" data-name="{{$designation->name ?? ''}}" data-naav="{{$designation->naav ?? ''}}" data-route="{{ route('designations.update', $designation->id) }}" data-division-id="{{$designation->division->id ?? ''}}" data-sub-division-id="{{$designation->subdivision->id ?? ''}}" data-center-id="{{$designation->center->id ?? ''}}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$designation->id }}" data-name="{{$designation->name ?? ''}}" data-naav="{{$designation->naav ?? ''}}" data-route="{{ route('designations.update', $designation->id) }}" data-division-id="{{$designation->division->id ?? ''}}" data-sub-division-id="{{$designation->subdivision->id ?? ''}}" data-center-id="{{$designation->center->id ?? ''}}" data-description="{{$designation->description ?? ''}}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#designationModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
@@ -117,6 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let divisionId = this.getAttribute("data-division-id"); 
             let subDivisionId = this.getAttribute("data-sub-division-id"); 
             let centerId = this.getAttribute("data-center-id"); 
+            let description = this.getAttribute("data-description"); 
 
             let modal = document.getElementById("designationModal");
 
@@ -127,6 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("designationId").value = id;
             document.getElementById("Name").value = name;
             document.getElementById("marathiName").value = naav;
+            document.getElementById("description").value = description;
 
             // Change form action to update route and set PUT method
             let form = document.getElementById("designationForm");
@@ -134,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#designationModal .btn-primary").textContent = "Update Designation Center";
+            document.querySelector("#designationModal .btn-success").textContent = "Update Designation Center";
 
             // Set the selected division
             let divisionSelect = document.getElementById("division_id");
@@ -176,11 +178,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset method and form action
         document.getElementById("formMethod").value = "POST";
-        form.setAttribute("action", "{{ route('sub-divisions.store') }}");
+        form.setAttribute("action", "{{ route('designations.store') }}");
 
         // Reset modal title & button text
         document.getElementById("designationModalLabel").textContent = "Add Designation";
-        document.querySelector("#designationModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#designationModal .btn-success").textContent = "Save Changes";
     });
 });
 </script>

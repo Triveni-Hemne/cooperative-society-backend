@@ -88,9 +88,9 @@
                     <td>{{$generalLedger->group}}</td>
                     <td>{{$generalLedger->type}}</td>
                     <td>{{$generalLedger->interest_type}}</td>
-                    <td>{{$generalLedger->subsidiary}}</td>
-                    <td>{{$generalLedger->demand}}</td>
-                    <td>{{$generalLedger->send_sms}}</td>
+                    <td>{{$generalLedger->subsidiary ? 'Yes': 'No'}}</td>
+                    <td>{{$generalLedger->demand ? 'Yes': 'No'}}</td>
+                    <td>{{$generalLedger->send_sms ? 'Yes': 'No'}}</td>
                     <td>{{$generalLedger->item_of}}</td>
                     <td>
                         <a href="#" data-id="{{$generalLedger->id}}" data-ledger-no="{{$generalLedger->ledger_no}}" data-name="{{$generalLedger->name}}" data-parent-ledger="{{optional($generalLedger->parentLedger)->id ?? ''}}" data-balance="{{$generalLedger->balance}}" data-balance-type="{{$generalLedger->balance_type}}" data-open-balance="{{$generalLedger->open_balance}}" data-open-balance-type="{{$generalLedger->open_balance_type}}" data-min-balance="{{$generalLedger->min_balance}}" data-min-balance-type="{{$generalLedger->min_balance_type}}" data-interest-rate="{{$generalLedger->interest_rate}}" data-add-interest-to-balance="{{$generalLedger->add_interest_to_balance}}" data-open-date="{{$generalLedger->open_date}}" data-penal-rate="{{$generalLedger->penal_rate}}" data-gl-type="{{$generalLedger->gl_type}}" data-cd-ratio="{{$generalLedger->cd_ratio}}" data-group="{{$generalLedger->group}}" data-type="{{$generalLedger->type}}" data-interest-type="{{$generalLedger->interest_type}}" data-subsidiary="{{$generalLedger->subsidiary}}" data-demand="{{$generalLedger->demand}}" data-send-sms="{{$generalLedger->send_sms}}" data-item-of="{{$generalLedger->item_of}}" data-route="{{ route('general-ledgers.destroy', $generalLedger->id) }}"
@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#generalLedgerModal .btn-primary").textContent = "Update General Ledger";
+            document.querySelector("#generalLedgerModal .btn-success").textContent = "Update General Ledger";
 
             let parentLedgerIdSelect = document.getElementById("parentLedger");
             let balanceTypeSelect = document.getElementById("balanceType");
@@ -239,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset modal title & button text
         document.getElementById("generalLedgerModalLabel").textContent = "Add General Ledger";
-        document.querySelector("#generalLedgerModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#generalLedgerModal .btn-success").textContent = "Save Changes";
     });
 });
 </script>

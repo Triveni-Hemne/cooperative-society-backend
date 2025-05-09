@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("openingBalance").value = openingBalance;
             document.getElementById("currentBalance").value = currentBalance;
             document.getElementById("narration").value = narration;
-            document.getElementById("mNarration").value = mNarration;
+            document.getElementById("m_narration").value = mNarration;
             
             // Change form action to update route and set PUT method
             let form = document.getElementById("transferEntryModalForm");
@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#transferEntryModal .btn-primary").textContent = "Update Transfer Entry";
+            document.querySelector("#transferEntryModal .btn-success").textContent = "Update Transfer Entry";
         });
     });
 
@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset modal title & button text
         document.getElementById("transferEntryModalLabel").textContent = "Add Transfer Entry";
-        document.querySelector("#transferEntryModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#transferEntryModal .btn-success").textContent = "Save Changes";
     });
 });
 </script>

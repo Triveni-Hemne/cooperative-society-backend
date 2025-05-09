@@ -465,7 +465,7 @@
 
             // Update modal title and button text
             document.getElementById("memberModalLabel").textContent = "Edit Member";
-            document.querySelector("#memberModal .btn-primary").textContent = "Update Member";
+            document.querySelector("#memberModal .btn-success").textContent = "Update Member";
         });
     });
 
@@ -482,7 +482,7 @@
 
         // Reset modal title & button text
         document.getElementById("memberModalLabel").textContent = "Add Member";
-        document.querySelector("#memberModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#memberModal .btn-success").textContent = "Save Changes";
     });
 });
 </script>

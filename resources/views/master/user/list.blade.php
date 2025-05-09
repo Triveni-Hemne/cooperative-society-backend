@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#userModal .btn-primary").textContent = "Update User";
+            document.querySelector("#userModal .btn-success").textContent = "Update User";
         });
     });
 
@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset modal title & button text
         document.getElementById("userModalLabel").textContent = "Add User";
-        document.querySelector("#userModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#userModal .btn-success").textContent = "Save Changes";
     });
 });
 </script>

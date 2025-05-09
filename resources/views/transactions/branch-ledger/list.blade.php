@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#branchLedgerModal .btn-primary").textContent = "Update Branch Ledger";
+            document.querySelector("#branchLedgerModal .btn-success").textContent = "Update Branch Ledger";
         });
     });
 
@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset modal title & button text
         document.getElementById("branchLedgerModalLabel").textContent = "Add Branch Ledger";
-        document.querySelector("#branchLedgerModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#branchLedgerModal .btn-success").textContent = "Save Changes";
     });
 });
 </script>

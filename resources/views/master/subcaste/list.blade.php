@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#subcasteModal .btn-primary").textContent = "Update Center";
+            document.querySelector("#subcasteModal .btn-success").textContent = "Update Center";
         });
     });
 
@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset modal title & button text
         document.getElementById("subcasteModalLabel").textContent = 'Add SubCaste';
-        document.querySelector("#subcasteModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#subcasteModal .btn-success").textContent = "Save Changes";
     });
 });
 </script>

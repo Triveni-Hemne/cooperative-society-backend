@@ -9,7 +9,7 @@ class DayEnd extends Model
     use HasFactory;
 
     protected $fillable = [
-        'date', 'opening_cash', 'total_credit_rs', 
+        'date', 'opening_cash', 'total_credit_rs', 'user_id', 'branch_id', 'closing_cash_balance', 'total_receipts', 'total_payments', 'system_closing_balance', 'difference_amount', 'is_day_closed',
         'total_credit_chalans', 'total_debit_rs', 'total_debit_challans', 'created_by'
     ];
 

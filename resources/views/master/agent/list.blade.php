@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let userId = this.getAttribute("data-user-id");
             let branchId = this.getAttribute("data-branch-id");
             let agentCode = this.getAttribute("data-agent-code");
-            let Name = this.getAttribute("data-name");
+            let name = this.getAttribute("data-name");
             let email = this.getAttribute("data-email");            
             let phone = this.getAttribute("data-phone");
             let address = this.getAttribute("data-address");
@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("userId").value = userId;
             document.getElementById("branchId").value = branchId;
             document.getElementById("agentCode").value = agentCode;
-            document.getElementById("Name").value = Name;
+            document.getElementById("Name").value = name;
             document.getElementById("Email").value = email;
 
             document.getElementById("phone").value = phone;
@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#agentModal .btn-primary").textContent = "Update Agent";
+            document.querySelector("#agentModal .btn-success").textContent = "Update Agent";
         });
     });
 
@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset modal title & button text
         document.getElementById("agentModalLabel").textContent = "Add Agent";
-        document.querySelector("#agentModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#agentModal .btn-success").textContent = "Save Changes";
     });
 });
 

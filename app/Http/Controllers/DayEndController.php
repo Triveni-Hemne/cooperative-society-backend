@@ -61,14 +61,14 @@ class DayEndController extends Controller
             'branch_id' => auth()->user()->role === 'Admin'
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],
-            'user_id' => 'nullable|exists:users,id',
+            'user_id' => 'required|exists:users,id',
             'closing_cash_balance' => 'required|numeric',
             'total_receipts' => 'required|numeric',
             'total_payments' => 'required|numeric',
             'system_closing_balance' => 'required|numeric',
             'difference_amount' => 'required|numeric',
             'is_day_closed' => 'required|boolean',
-            'opening_cash' => 'required|numeric',
+            // 'opening_cash' => 'required|numeric',
             'total_credit_rs' => 'required|numeric',
             'total_credit_chalans' => 'required|integer',
             'total_debit_rs' => 'required|numeric',
@@ -112,14 +112,14 @@ class DayEndController extends Controller
             'branch_id' => auth()->user()->role === 'Admin'
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],
-            'user_id' => 'nullable|exists:users,id',
+            'user_id' => 'required|exists:users,id',
             'closing_cash_balance' => 'required|numeric',
             'total_receipts' => 'required|numeric',
             'total_payments' => 'required|numeric',
             'system_closing_balance' => 'required|numeric',
             'difference_amount' => 'required|numeric',
             'is_day_closed' => 'required|boolean',
-            'opening_cash' => 'required|numeric',
+            // 'opening_cash' => 'required|numeric',
             'total_credit_rs' => 'required|numeric',
             'total_credit_chalans' => 'required|integer',
             'total_debit_rs' => 'required|numeric',

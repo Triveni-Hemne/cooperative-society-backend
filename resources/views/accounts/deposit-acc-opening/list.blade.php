@@ -298,7 +298,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#depositAccOpeningModal .btn-primary").textContent = "Update Deposite Account";
+            document.querySelector("#depositAccOpeningModal .btn-success").textContent = "Update Deposite Account";
         });
     });
 
@@ -315,7 +315,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset modal title & button text
         document.getElementById("depositAccOpeningModalLabel").textContent = "Add Deposit Account";
-        document.querySelector("#depositAccOpeningModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#depositAccOpeningModal .btn-success").textContent = "Save Changes";
     });
 });
 </script>

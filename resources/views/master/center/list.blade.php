@@ -125,7 +125,6 @@ document.addEventListener("DOMContentLoaded", function () {
             let route = this.getAttribute("data-route");
             let divisionId = this.getAttribute("data-division-id"); 
             let subDivisionId = this.getAttribute("data-sub-division-id"); 
-
             let modal = document.getElementById("subDivisionModal");
 
             // Update modal title
@@ -146,12 +145,12 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#centerModal .btn-primary").textContent = "Update Center";
+            document.querySelector("#centerModal .btn-success").textContent = "Update Center";
 
             // Set the selected division
             let divisionSelect = document.getElementById("division_id");
             let subDivisionSelect = document.getElementById("subdivision_id");
-            
+
             if (divisionSelect) {
                 divisionSelect.value = divisionId; // Pre-select the correct division
             }
@@ -180,11 +179,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset method and form action
         document.getElementById("formMethod").value = "POST";
-        form.setAttribute("action", "{{ route('sub-divisions.store') }}");
+        form.setAttribute("action", "{{ route('centers.store') }}");
 
         // Reset modal title & button text
         document.getElementById("centerModalLabel").textContent = "Add Center";
-        document.querySelector("#centerModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#centerModal .btn-success").textContent = "Save Changes";
     });
 });
 </script>

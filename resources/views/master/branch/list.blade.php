@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#branchModal .btn-primary").textContent = "Update Branch";
+            document.querySelector("#branchModal .btn-success").textContent = "Update Branch";
         });
     });
 
@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset modal title & button text
         document.getElementById("branchModalLabel").textContent = "Add Branch";
-        document.querySelector("#branchModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#branchModal .btn-success").textContent = "Save Changes";
     });
 });
 </script>

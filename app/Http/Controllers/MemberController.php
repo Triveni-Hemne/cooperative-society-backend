@@ -77,6 +77,8 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
+        dd( $request->all());
+
         $validatedData = $request->validate([
             // Employee Validation
             'emp_code' => 'required|string|max:50|unique:employees,emp_code',

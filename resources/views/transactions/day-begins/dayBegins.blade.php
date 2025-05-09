@@ -6,7 +6,10 @@
                 novalidate>
                 <input type="hidden" id="dayBeginId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
-
+                     @csrf
+                        @if(Session::has('error'))
+                        <div class="alert alert-danger rounded-0 m-0">{{ Session::get('error') }}</div>
+                        @endif
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
                     <h5 class="modal-title fw-bold" ><i
                             class="bi bi-calendar-plus-fill me-2"></i><span id="dayBeginsModalLabel">Add Day Begin</span></h5>
@@ -66,7 +69,7 @@
                         @if(Auth::user()->role === 'Admin')
                          @if ($branches->isNotEmpty())
                                 <div class="form-floating mb-3">
-                                    <select name="branch_id" id="userBranch"
+                                    <select name="branch_id" id="branchId"
                                         class="form-select @error('branch_id') is-invalid @enderror" required>
                                         <option value="" disabled selected>Select Branch</option>
                                          @foreach ($branches as $branch)
@@ -77,7 +80,7 @@
                                         </option>
                                     @endforeach
                         </select>
-                        <label for="userBranch">Branch</label>
+                        <label for="branchId">Branch</label>
                         @error('branch_id')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

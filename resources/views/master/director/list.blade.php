@@ -140,8 +140,9 @@ document.addEventListener("DOMContentLoaded", function () {
             // Populate form fields
             document.getElementById("directorId").value = id;
             document.getElementById("memberId").value = memberId;
-            document.getElementById("name").value = name;
-            document.getElementById("email").value = email;
+            document.getElementById("Name").value = name;
+            document.getElementById("Email").value = email;
+            
             document.getElementById("designationId").value = designationId;
             document.getElementById("mob0").value = mob0;
             document.getElementById("mob1").value = mob1;
@@ -154,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#directorModal .btn-primary").textContent = "Update Director";
+            document.querySelector("#directorModal .btn-success").textContent = "Update Director";
         });
     });
 
@@ -163,15 +164,22 @@ document.addEventListener("DOMContentLoaded", function () {
         let form = document.getElementById("directorModalForm");
 
         // Reset form fields
+        if (form) {
         form.reset();
+        } else {
+        console.error("Form not found");
+        }
         
         // Reset method and form action
         document.getElementById("formMethod").value = "POST";
+        if (form) {
         form.setAttribute("action", "{{ route('directors.store') }}");
-
+        } else {
+        console.error("Form not found");
+        }
         // Reset modal title & button text
         document.getElementById("directorModalLabel").textContent = "Add Director";
-        document.querySelector("#directorModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#directorModal .btn-success").textContent = "Save Changes";
     });
 });
 </script>

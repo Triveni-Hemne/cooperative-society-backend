@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#bankInvestmentModal .btn-primary").textContent = "Update Bank Investment";
+            document.querySelector("#bankInvestmentModal .btn-success").textContent = "Update Bank Investment";
         });
     });
 
@@ -273,7 +273,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset modal title & button text
         document.getElementById("bankInvestmentModalLabel").textContent = "Add Bank Investment";
-        document.querySelector("#bankInvestmentModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#bankInvestmentModal .btn-success").textContent = "Save Changes";
     });
 });
 

@@ -58,10 +58,10 @@
                     <td>{{$dayBegin->user->name ??''}}</td>
                     <td>{{$dayBegin->branch->name ??''}}</td>
                     <td>{{$dayBegin->opening_cash_balance ??''}}</td>
-                    <td>{{$dayBegin->status}}</td>  
+                    <td>{{$dayBegin->status ?? ''}}</td>  
                     <td>{{$dayBegin->remarks}}</td>  
                     <td>
-                        <a href="#" data-id="{{$dayBegin->id }}" data-date="{{$dayBegin->date}}" data-user-id="{{$dayBegin->users->id ?? ''}}" data-status="{{$dayBegin->status}}"  data-branch-id="{{$dayBegin->branch->id ?? ''}}" data-opening-cash-balance="{{$dayBegin->opening_cash_balance ?? ''}}"  data-remarks="{{$dayBegin->remarks ?? ''}}" data-route="{{ route('day-begins.update', $dayBegin->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$dayBegin->id }}" data-date="{{$dayBegin->date}}" data-user-id="{{$dayBegin->users->id ?? ''}}" data-status="{{$dayBegin->status ?? ''}}"  data-branch-id="{{$dayBegin->branch->id ?? ''}}" data-opening-cash-balance="{{$dayBegin->opening_cash_balance ?? ''}}"  data-remarks="{{$dayBegin->remarks ?? ''}}" data-route="{{ route('day-begins.update', $dayBegin->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#dayBeginsModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let userId = this.getAttribute("data-user-id");
             
             let branchId = this.getAttribute("data-branch-id");
-            console.log(branchId);
+            console.log(userId);
             let openingCashBalance = this.getAttribute("data-opening-cash-balance");
             let status = this.getAttribute("data-status");
             let remarks = this.getAttribute("data-remarks");
@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#dayBeginsModal .btn-primary").textContent = "Update Day Begin";
+            document.querySelector("#dayBeginsModal .btn-success").textContent = "Update Day Begin";
         });
     });
 
@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset modal title & button text
         document.getElementById("dayBeginsModalLabel").textContent = "Add Day Begin";
-        document.querySelector("#dayBeginsModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#dayBeginsModal .btn-success").textContent = "Save Changes";
     });
 });
 </script>

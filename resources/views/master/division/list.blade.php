@@ -104,7 +104,9 @@
         });
     </script>
 @endif --}}
-<script src="{{asset('/assets/js/marathi-validate-fields.js')}}"></script>
+
+<script src="{{asset('assets\js\marathi-autofil-validate-fields.js')}}"></script>
+
 {{-- Script to send data to the edit modal --}}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -134,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
             
             // Change submit button text
-            document.querySelector("#divisionModal .btn-primary").textContent = "Update Division";
+            document.querySelector("#divisionModal .btn-success").textContent = "Update Division";
             
             console.log(document.getElementById("name").value);
             console.log(name);
@@ -152,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset modal title & button text
         document.getElementById("divisionModalLabel").textContent = "Add Division";
-        document.querySelector("#divisionModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#divisionModal .btn-success").textContent = "Save Changes";
     });
 });
 </script>

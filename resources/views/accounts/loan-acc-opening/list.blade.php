@@ -330,7 +330,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#loanAccOpeningModal .btn-primary").textContent = "Update Loan Account";
+            document.querySelector("#loanAccOpeningModal .btn-success").textContent = "Update Loan Account";
         });
     });
 
@@ -347,7 +347,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset modal title & button text
         document.getElementById("loanAccOpeningModalLabel").textContent = "Add Loan Account";
-        document.querySelector("#loanAccOpeningModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#loanAccOpeningModal .btn-success").textContent = "Save Changes";
     });
 });
 </script>

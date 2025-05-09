@@ -72,7 +72,7 @@
                                 @enderror
                             </div>
                         </div>
-                    </div>
+                   
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
@@ -208,19 +208,20 @@
                                 @enderror
                             </div>
                         </div>
-                    </div>
+                    </div> </div>
+                
+                <div class="modal-footer bg-white rounded-bottom-4 border-top">
+                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i>Cancel
+                    </button>
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="bi bi-check-circle me-1"></i>Submit
+                    </button>
                 </div>
-        </div>
 
-        <div class="modal-footer bg-white rounded-bottom-4 border-top">
-            <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
-                <i class="bi bi-x-circle me-1"></i>Cancel
-            </button>
-            <button type="submit" class="btn btn-success px-4">
-                <i class="bi bi-check-circle me-1"></i>Submit
-            </button>
+                </form>
+            </div>
         </div>
-        </form>
     </div>
 </div>
 </div>

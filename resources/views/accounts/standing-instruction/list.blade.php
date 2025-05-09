@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#standingInstructionModal .btn-primary").textContent = "Update Standing Instruction";
+            document.querySelector("#standingInstructionModal .btn-success").textContent = "Update Standing Instruction";
 
         });
     });
@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset modal title & button text
         document.getElementById("standingInstructionModalLabel").textContent = "Add Standing Instruction";
-        document.querySelector("#standingInstructionModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#standingInstructionModal .btn-success").textContent = "Save Changes";
     });
 });
 </script>

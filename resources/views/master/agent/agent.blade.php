@@ -114,9 +114,9 @@
 
                         {{-- Name --}}
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="Name"
                                 name="name" placeholder="Full Name" value="{{ old('name') }}" required>
-                            <label for="name" class="form-label required">Full Name</label>
+                            <label for="Name" class="form-label required">Full Name</label>
                             @error('name')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -124,10 +124,10 @@
 
                         {{-- Email (Optional) --}}
                         <div class="form-floating mb-3">
-                            <input name="email" id="email" type="email"
+                            <input name="email" id="Email" type="email"
                                 class="form-control @error('email') is-invalid @enderror" placeholder="Email"
                                 value="{{ old('email') }}">
-                            <label for="email">Email</label>
+                            <label for="Email">Email</label>
                             @error('email')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

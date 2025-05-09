@@ -181,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#generalAccModal .btn-primary").textContent = "Update Account";
+            document.querySelector("#generalAccModal .btn-success").textContent = "Update Account";
             
         });
     });
@@ -199,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset modal title & button text
         document.getElementById("generalAccModalLabel").textContent = "Add General Account";
-        document.querySelector("#generalAccModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#generalAccModal .btn-success").textContent = "Save Changes";
     });
 });
 

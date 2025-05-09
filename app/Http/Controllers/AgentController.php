@@ -45,6 +45,8 @@ class AgentController extends Controller
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
+            'joining_date' => 'nullable|date',
+            'resignation_date' => 'nullable|date|after_or_equal:joining_date',
             'branch_id' => auth()->user()->role === 'Admin'
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],
@@ -87,6 +89,8 @@ class AgentController extends Controller
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
+            'joining_date' => 'nullable|date',
+            'resignation_date' => 'nullable|date|after_or_equal:joining_date',
             'branch_id' => auth()->user()->role === 'Admin'
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],

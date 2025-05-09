@@ -24,7 +24,7 @@
                              @isset($users) 
                             <div class="form-floating">
                                 @if ($users->isNotEmpty())
-                                 <select name="user_id" id="userId"  class="form-select @error('user_id') is-invalid @enderror">
+                                 <select name="user_id" id="userId"  class="form-select @error('user_id') is-invalid @enderror" required>
                                     <option value="" disabled {{old('user_id') ? '' : 'selected'}}>---------- Select ----------</option>
                                     @foreach ($users as $u)
                                         <option value="{{ $u->id }}"  
@@ -121,7 +121,7 @@
                     {{-- Total Receipt --}}
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <input name="total_receipts" id="TotalReceipts"
+                            <input name="total_receipts" id="totalReceipts"
                                 class="form-control @error('total_receipts') is-invalid @enderror"
                                 value="{{ old('total_receipts') }}" type="number" required
                                  placeholder="Total
@@ -136,7 +136,7 @@
                 {{-- Total Payment --}}
                 <div class="col-md-6">
                     <div class="form-floating">
-                            <input name="total_payments" id="TotalPayments"
+                            <input name="total_payments" id="totalPayments"
                                 class="form-control @error('total_payments') is-invalid @enderror"
                                 value="{{ old('total_payments') }}" type="number" required placeholder="Total
                     Payments" required>
@@ -152,7 +152,7 @@
         {{-- System Closing Balance --}}
         <div class="col-md-6">
             <div class="form-floating">
-                            <input name="system_closing_balance" id="SystemClosingBalance"
+                            <input name="system_closing_balance" id="systemClosingBalance"
                                 class="form-control @error('system_closing_balance') is-invalid @enderror"
                                 value="{{ old('system_closing_balance') }}" type="number" required
             placeholder="System Closing Balance">
@@ -167,7 +167,7 @@
     {{-- Difference Amount --}}
     <div class="col-md-6">
         <div class="form-floating">
-                            <input name="difference_amount" id="DifferenceAmount"
+                            <input name="difference_amount" id="differenceAmount"
                                 class="form-control @error('difference_amount') is-invalid @enderror"
                                 value="{{ old('difference_amount') }}" type="number" required
         placeholder="Difference Amounts">
@@ -183,7 +183,7 @@
     {{-- Is Day Closed --}}
     <div class="col-md-6">
         <div class="form-floating">
-                            <input name="is_day_closed" id="IsDayClosed"
+                            <input name="is_day_closed" id="isDayClosed"
                                 class="form-control @error('is_day_closed') is-invalid @enderror"
                                 value="{{ old('is_day_closed') }}" type="number" required placeholder="Is Day Closed">
         <label for="IsDayClosed" class="form-label required">Is Day Closed</label>
@@ -194,7 +194,7 @@
 </div>
 
 {{-- Opening Cash --}}
-<div class="col-md-6">
+{{-- <div class="col-md-6">
     <div class="form-floating">
         <input name="opening_cash" id="openingCash" class="form-control @error('opening_cash') is-invalid @enderror"
             value="{{ old('opening_cash') }}" type="number" required placeholder="Opening Cash">
@@ -203,7 +203,7 @@
         <div class="invalid-feedback">{{ $message }}</div>
         @enderror
     </div>
-</div>
+</div> --}}
 </div>
 
 <div class="row g-3 mb-3">

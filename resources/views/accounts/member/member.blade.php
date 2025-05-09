@@ -63,16 +63,16 @@
                         @isset($branches) 
                              @if ($branches->isNotEmpty())
                         <div class="form-floating mb-3">
-                            <select name="branch_id" id="userBranch"
+                            <select name="branch_id" id="branchId"
                                 class="form-select @error('branch_id') is-invalid @enderror" required>
                                 <option value="" disabled selected>Select Branch</option>
                                 @foreach ($branches as $branch)
-                                <option value="{{ $member->id }}"
+                                <option value="{{ $branch->id }}"
                         {{ old('branch_id') == $branch->id ? 'selected' : '' }}>
                         {{ $branch->name }}</option>
                         @endforeach
                         </select>
-                        <label for="userBranch">Branch</label>
+                        <label for="branchId">Branch</label>
                         @error('branch_id')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

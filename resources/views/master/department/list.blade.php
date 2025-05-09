@@ -127,7 +127,7 @@
                 document.getElementById("formMethod").value = "PUT";
 
                 // Change submit button text
-                document.querySelector("#departmentModal .btn-primary").textContent = "Update Designation Center";
+                document.querySelector("#departmentModal .btn-success").textContent = "Update Designation Center";
 
                 // Set the selected division
                 let headSelect = document.getElementById("headId");
@@ -157,7 +157,7 @@
 
             // Reset modal title & button text
             document.getElementById("departmentModalLabel").textContent = "Add Department";
-            document.querySelector("#departmentModal .btn-primary").textContent = "Save Changes";
+            document.querySelector("#departmentModal .btn-success").textContent = "Save Changes";
         });
     });
 </script>

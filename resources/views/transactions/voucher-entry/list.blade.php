@@ -96,9 +96,9 @@
                     <td>{{$entry->payment_mode ?? '' }}</td>
                     <td>{{$entry->transaction_mode ?? '' }}</td>
                     <td>{{$entry->reference_number ?? '' }}</td>
-                    <td>{{$entry->is_reversed ?? '' }}</td>
-                    <td>{{$entry->approved_by ?? '' }}</td>
-                    <td>{{$entry->entered_by ?? '' }}</td>
+                    <td>{{$entry->is_reversed ? 'Yes' : 'No' ?? '' }}</td>
+                    <td>{{$entry->approvedBy->name ?? '' }}</td>
+                    <td>{{$entry->enteredBy->name ?? '' }}</td>
                     <td>{{$entry->branch->name ?? '' }}</td>
                     <td>{{$entry->from_date ?? '' }}</td>
                     <td>{{$entry->to_date  ?? ''}}</td>
@@ -227,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#voucherEntryModal .btn-primary").textContent = "Update Voucher Entry";
+            document.querySelector("#voucherEntryModal .btn-success").textContent = "Update Voucher Entry";
 
             // Set the selected division
             let userSelect = document.getElementById("userId");
@@ -251,7 +251,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset modal title & button text
         document.getElementById("voucherEntryModalLabel").textContent = "Add Voucher Entry";
-        document.querySelector("#voucherEntryModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#voucherEntryModal .btn-success").textContent = "Save Changes";
     });
 });
 </script>

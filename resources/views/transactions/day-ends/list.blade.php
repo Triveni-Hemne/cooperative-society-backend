@@ -171,14 +171,14 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("userId").value = userId;
             document.getElementById("createdBy").value = createdBy;
             document.getElementById("branchId").value = branchId;
-            document.getElementById("closingCashBalance").value = closingCashBalance;
+            document.getElementById("ClosingCashBalance").value = closingCashBalance;
             document.getElementById("totalReceipts").value = totalReceipts;
             document.getElementById("totalPayments").value = totalPayments;
             document.getElementById("systemClosingBalance").value = systemClosingBalance;
             document.getElementById("differenceAmount").value = differenceAmount;
             document.getElementById("isDayClosed").value = isDayClosed;
             document.getElementById("remarks").value = remarks;
-            document.getElementById("openingCash").value = openingCash;
+            // document.getElementById("openingCash").value = openingCash;
             document.getElementById("totalCreditRs").value = totalCreditRs;
             document.getElementById("totalCreditChalans").value = totalCreditChalans;
             document.getElementById("totalDebitRs").value = totalDebitRs;
@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#dayEndsModal .btn-primary").textContent = "Update Day End";
+            document.querySelector("#dayEndsModal .btn-success").textContent = "Update Day End";
         });
     });
 
@@ -209,7 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset modal title & button text
         document.getElementById("dayEndsModalLabel").textContent = "Add Day End";
-        document.querySelector("#dayEndsModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#dayEndsModal .btn-success").textContent = "Save Changes";
     });
 });
 </script>

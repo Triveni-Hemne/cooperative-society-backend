@@ -83,10 +83,10 @@
 
                         {{-- Email (Optional) --}}
                         <div class="form-floating mb-3">
-                            <input name="email" id="email" type="email"
+                            <input name="email" id="Email" type="email"
                                 class="form-control @error('email') is-invalid @enderror" placeholder="Email"
                                 value="{{ old('email') }}">
-                            <label for="email">Email</label>
+                            <label for="Email">Email</label>
                             @error('email')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

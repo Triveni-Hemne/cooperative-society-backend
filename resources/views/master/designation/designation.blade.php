@@ -121,6 +121,17 @@
                         </div>
                         @endisset
 
+                        <div class="form-floating mb-3">
+                            <textarea id="description" name="description"
+                                class="form-control @error('description') is-invalid @enderror"
+                                placeholder="Description"
+                                style="height: 100px; resize: none;">{{ old('description') }}</textarea>
+                            <label for="description">Description</label>
+                            @error('description')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                     </div>
                 </div>
 

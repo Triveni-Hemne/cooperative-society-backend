@@ -168,7 +168,7 @@ class BankInvestmentController extends Controller
         
         BankInvestment::create($investmentData);
      
-        return redirect()->back()->with('success', 'Deposite Account added successfully');
+        return redirect()->back()->with('success', 'Bank Investment added successfully');
     }
 
     /**

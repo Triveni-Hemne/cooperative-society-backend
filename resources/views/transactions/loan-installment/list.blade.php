@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("formMethod").value = "PUT";
 
             // Change submit button text
-            document.querySelector("#loanInstallmentModal .btn-primary").textContent = "Update Loan Installment";
+            document.querySelector("#loanInstallmentModal .btn-success").textContent = "Update Loan Installment";
         });
     });
 
@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset modal title & button text
         document.getElementById("loanInstallmentModalLabel").textContent = "Add Loan Installment";
-        document.querySelector("#loanInstallmentModal .btn-primary").textContent = "Save Changes";
+        document.querySelector("#loanInstallmentModal .btn-success").textContent = "Save Changes";
     });
 });
 </script>
