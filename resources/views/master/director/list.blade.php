@@ -175,4 +175,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+<script>
+const memberData = @json($members);
+</script>
+<script src="{{asset('assets\js\autofil-content-director.js')}}"></script>
 @endsection

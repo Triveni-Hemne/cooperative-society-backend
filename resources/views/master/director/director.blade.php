@@ -29,7 +29,7 @@
                                 <option value="" disabled {{ old('member_id') ? '' : 'selected' }}>Select Member</option>
                                 @foreach ($members as $member)
                                 <option value="{{ $member->id }}"
-                                    {{ old('member_id') == $member->id ? 'selected' : '' }}>{{ $member->name }}</option>
+                                    {{ old('member_id') == $member->id ? 'selected' : '' }}>{{ $member->name }} [ID: {{$member->id}}]</option>
                                 @endforeach
                             </select>
                             <label for="memberId">Member</label>
@@ -159,10 +159,7 @@
         </div>
     </div>
 </div>
-<!-- <style>
-label.required::after {
-    content: " *";
-    color: red;
-    font-weight: bold;
-}
-</style> -->
+
+
+
+

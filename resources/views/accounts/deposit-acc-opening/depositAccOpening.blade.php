@@ -121,7 +121,7 @@
                                         @foreach ($accounts as $account)
                                         <option value="{{ $account->id }}"
                                             {{ old('account_id') == $account->id ? 'selected' : '' }}>
-                                            {{ $account->name }}
+                                            {{ $account->name }} ({{ $account->account_type }})
                                         </option>
                                         @endforeach
                                     </select>
@@ -155,10 +155,10 @@
                         <div class="row mb-3">
                             <div col="col mb-3">
                                 <div class="form-floating">
-                                    <input name="name" id="name"
+                                    <input name="name" id="Name"
                                         class="form-control @error('name') is-invalid @enderror"
                                         value="{{ old('name') }}" type="text" placeholder="Name">
-                                    <label for="name" class="form-label">Name</label>
+                                    <label for="Name" class="form-label">Name</label>
                                     @error('name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -254,7 +254,7 @@
                                         @foreach ($agents as $agent)
                                         <option value="{{ $agent->id }}"
                                             {{ old('agent_id') == $agent->id ? 'selected' : '' }}>
-                                            {{ $agent->name }}
+                                            {{ $agent->name ?? $agent->user->name ?? $agent->agent_code }}
                                         </option>
                                         @endforeach
                                     </select>

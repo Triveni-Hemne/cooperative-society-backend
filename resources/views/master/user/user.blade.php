@@ -29,11 +29,11 @@
                                 <option value="" disabled selected>Select Employee (Optional)</option>
                                 @foreach ($employees as $employee)
                                 <option value="{{ $employee->id }}"
-                        {{ old('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->name }}
+                        {{ old('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->member->name }}
                         </option>
                         @endforeach
                         </select>
-                        <label for="employee">Branch</label>
+                        <label for="employee">Employee</label>
                         @error('employee_id')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -128,3 +128,5 @@
     </div>
 </div>
 </div>
+
+

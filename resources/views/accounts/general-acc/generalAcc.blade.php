@@ -110,7 +110,7 @@
                                     <input name="name" id="Name"
                                         class="form-control @error('name') is-invalid @enderror"
                                         value="{{ old('name') }}" type="text" placeholder="Name">
-                                    <label for="name" class="form-label">Name</label>
+                                    <label for="Name" class="form-label">Name</label>
                                     @error('name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -311,7 +311,7 @@
                     </div>
                 </div>
                 <div class="modal-footer bg-white rounded-bottom-4 border-top">
-                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal" aria-label="Close">
                         <i class="bi bi-x-circle me-1"></i>Cancel
                     </button>
                     <button type="submit" class="btn btn-success px-4">

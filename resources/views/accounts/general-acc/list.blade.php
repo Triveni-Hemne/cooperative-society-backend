@@ -124,7 +124,6 @@
         });
     </script>
 @endif --}}
-@endsection
 
 {{-- Script to send data to the edit modal --}}
 <script>
@@ -205,3 +204,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 </script>
+<script>
+    const memberData = @json($members);
+</script>
+<script src="{{asset('assets\js\autofill-content-generalAcc.js')}}"></script>
+@endsection
+

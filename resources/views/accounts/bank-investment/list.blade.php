@@ -279,4 +279,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </script>
 <script src="{{asset('assets\js\autofill-calc-bank-investment.js')}}"></script>
+<script>
+    const accountsData = @json($accounts);
+    const depoAccountsData = @json($depoAccounts);
+</script>
+<script src="{{asset('assets\js\autofil-content-bankInvest.js')}}"></script>
 @endsection

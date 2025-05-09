@@ -57,20 +57,20 @@
                 <tr>
                     <th scope="row">{{$i}}</th>
                     <td>{{$standingInstruction->id}}</td>
-                    <td>{{$standingInstruction->creditLedger->name}}</td>
-                    <td>{{$standingInstruction->creditAccount->name}}</td>
-                    <td>{{$standingInstruction->credit_transfer}}</td>
-                     <td>{{$standingInstruction->debitLedger->name}}</td>
-                    <td>{{$standingInstruction->debitAccount->name}}</td>
-                    <td>{{$standingInstruction->debit_transfer}}</td>
-                    <td>{{$standingInstruction->date}}</td>
-                    <td>{{$standingInstruction->frequency}}</td>
-                    <td>{{$standingInstruction->no_of_times}}</td>
-                    <td>{{$standingInstruction->bal_installment}}</td>
-                    <td>{{$standingInstruction->execution_date}}</td>
-                    <td>{{$standingInstruction->amount}}</td>
+                    <td>{{$standingInstruction->creditLedger->name ?? ''}}</td>
+                    <td>{{$standingInstruction->creditAccount->name ?? ''}}</td>
+                    <td>{{$standingInstruction->credit_transfer ?? ''}}</td>
+                     <td>{{$standingInstruction->debitLedger->name ?? ''}}</td>
+                    <td>{{$standingInstruction->debitAccount->name ?? ''}}</td>
+                    <td>{{$standingInstruction->debit_transfer ?? ''}}</td>
+                    <td>{{$standingInstruction->date ?? ''}}</td>
+                    <td>{{$standingInstruction->frequency ?? ''}}</td>
+                    <td>{{$standingInstruction->no_of_times ?? ''}}</td>
+                    <td>{{$standingInstruction->bal_installment ?? ''}}</td>
+                    <td>{{$standingInstruction->execution_date ?? ''}}</td>
+                    <td>{{$standingInstruction->amount ?? ''}}</td>
                     <td>
-                        <a href="#"  data-id="{{$standingInstruction->id }}" data-credit-ledger-id="{{$standingInstruction->credit_ledger_id}}" data-credit-account-id="{{$standingInstruction->credit_account_id}}" data-credit-transfer="{{$standingInstruction->credit_transfer}}" data-debit-ledger-id="{{$standingInstruction->debit_ledger_id}}" data-debit-account-id="{{$standingInstruction->debit_account_id}}" data-debit-transfer="{{$standingInstruction->debit_transfer}}" data-date="{{$standingInstruction->date}}" data-frequency="{{$standingInstruction->frequency}}" data-no-of-times="{{$standingInstruction->no_of_times}}" data-bal-installment="{{$standingInstruction->bal_installment}}"  data-execution-date="{{$standingInstruction->execution_date}}"  data-amount="{{$standingInstruction->amount}}" data-route="{{ route('standing-instructions.update', $standingInstruction->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#"  data-id="{{$standingInstruction->id }}" data-credit-ledger-id="{{$standingInstruction->credit_ledger_id ?? ''}}" data-credit-account-id="{{$standingInstruction->credit_account_id}}" data-credit-transfer="{{$standingInstruction->credit_transfer ?? ''}}" data-debit-ledger-id="{{$standingInstruction->debit_ledger_id ?? ''}}" data-debit-account-id="{{$standingInstruction->debit_account_id ?? ''}}" data-debit-transfer="{{$standingInstruction->debit_transfer ?? ''}}" data-date="{{$standingInstruction->date ?? ''}}" data-frequency="{{$standingInstruction->frequency ?? ''}}" data-no-of-times="{{$standingInstruction->no_of_times ?? ''}}" data-bal-installment="{{$standingInstruction->bal_installment ?? ''}}"  data-execution-date="{{$standingInstruction->execution_date ?? ''}}"  data-amount="{{$standingInstruction->amount ?? ''}}" data-route="{{ route('standing-instructions.update', $standingInstruction->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#standingInstructionModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>

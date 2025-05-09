@@ -17,7 +17,7 @@ class DirectorController extends Controller
     public function index()
     {
         $directors = Director::with(['member', 'designation'])->paginate(5);
-        $members = Member::all();
+        $members = Member::with('contact')->get();
         $designations = Designation::all();
         return view('master.director.list',compact('directors','members','designations'));
     }

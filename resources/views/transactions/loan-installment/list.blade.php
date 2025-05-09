@@ -181,4 +181,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+<script>
+    const loanAccountsData = @json($loanAccounts);
+</script>
+<script src="{{asset('assets\js\autofil-content-loanInstallment.js')}}"></script>
 @endsection

@@ -352,4 +352,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 <script src="{{asset('assets/js/autofill-calc-loan-acc-form.js')}}"></script>
+<script>
+    const memberData = @json($members);
+    const generalAccData = @json($accounts);
+</script>
+<script src="{{asset('assets\js\autofil-content-loanAcc.js')}}"></script>
 @endsection

@@ -90,7 +90,9 @@
                 @endif
             </div>
             @endisset
+        </div>
 
+        <div class="row">
             {{-- Credit Account --}}
             @isset($accounts)
             <div class="col-md-6 mb-3">
@@ -117,9 +119,7 @@
                 @endif
             </div>
             @endisset
-        </div>
 
-        <div class="row">
             {{-- Credit Transfer --}}
             <div class="col-md-6 mb-3">
                 <div class="form-floating">
@@ -132,7 +132,8 @@
                     @enderror
                 </div>
             </div>
-
+        </div>
+        <div class="row">
             {{-- Debit Ledger --}}
             @isset($ledgers)
             <div class="col-md-6 mb-3">
@@ -271,7 +272,7 @@
             {{-- Execution Date --}}
             <div class="col-md-6 mb-3">
                 <div class="form-floating">
-                    <input name="execution_date" id="executionDate" type="number"
+                    <input name="execution_date" id="executionDate" type="date"
                         class="form-control @error('execution_date') is-invalid @enderror" placeholder="Execution Date"
                         value="{{ old('execution_date') }}" required>
                     <label for="executionDate" class="form-label required">Execution Date</label>

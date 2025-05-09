@@ -255,4 +255,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+<script>
+    const accountsData = @json($accounts);
+    const loanAccountsData = @json($loanAccounts);
+    const depoAccountsData = @json($depoAccounts);
+</script>
+<script src="{{asset('assets\js\autofil-content-voucherEntry.js')}}"></script>
 @endsection

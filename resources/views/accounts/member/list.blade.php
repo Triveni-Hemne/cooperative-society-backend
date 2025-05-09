@@ -487,4 +487,5 @@
 });
 </script>
 <script src="{{asset('assets/js/autofill-calc-member-from.js')}}"></script>
+<script src="{{asset('assets\js\autofil-content-member.js')}}"></script>
 @endsection

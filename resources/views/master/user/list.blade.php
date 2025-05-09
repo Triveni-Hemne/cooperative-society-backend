@@ -146,4 +146,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+<script>
+const data = @json($employees);
+</script>
+<script src="{{asset('assets\js\autofil-content-user.js')}}"></script>
 @endsection

@@ -41,8 +41,36 @@
                                 </div>
                             </div>
 
+                            @isset($ledgers)
+                            <div class="col-md-6 mb-3">
+                                @if ($ledgers->isNotEmpty())
+                                <div class="form-floating">
+                                    <select id="ledgerId" name="ledger_id" required
+                                        class="form-select @error('ledger_id') is-invalid @enderror">
+                                        <option value="" disabled {{old('ledger_id') ? '' : 'selected'}}>Select Ledger</option>
+                                        @foreach ($ledgers as $ledger)
+                                        <option value="{{ $ledger->id }}"
+                                            {{ old('ledger_id') == $ledger->id ? 'selected' : '' }}>
+                                            {{ $ledger->name }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                    <label for="ledgerId">Ledger</label>
+                                    @error('ledger_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                @else
+                                <div class="alert alert-warning">
+                                    <strong>⚠️ No general ledgers available.</strong><br>
+                                    Please add general ledgers first.
+                                </div>
+                                @endif
+                            </div>
+                            @endisset
+
                             @isset($depoAccounts)
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 @if ($depoAccounts->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="memberDepoAccountId" name="member_depo_account_id"
@@ -68,11 +96,9 @@
                                 @endif
                             </div>
                             @endisset
-                        </div>
 
-                        <div class="row mb-3">
                             @isset($loanAccounts)
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6">
                                 @if ($loanAccounts->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="memberLoanAccountId" name="member_loan_account_id"
@@ -94,33 +120,6 @@
                                 <div class="alert alert-warning">
                                     <strong>⚠️ No loan accounts available.</strong><br>
                                     Please add loan accounts first.
-                                </div>
-                                @endif
-                            </div>
-                            @endisset
-                            @isset($ledgers)
-                            <div class="col-md-6 mb-3">
-                                @if ($ledgers->isNotEmpty())
-                                <div class="form-floating">
-                                    <select id="ledgerId" name="ledger_id" required
-                                        class="form-select @error('ledger_id') is-invalid @enderror">
-                                        <option value="" disabled {{old('ledger_id') ? '' : 'selected'}}>Select Ledger</option>
-                                        @foreach ($ledgers as $ledger)
-                                        <option value="{{ $ledger->id }}"
-                                            {{ old('ledger_id') == $ledger->id ? 'selected' : '' }}>
-                                            {{ $ledger->name }}
-                                        </option>
-                                        @endforeach
-                                    </select>
-                                    <label for="ledgerId">Ledger</label>
-                                    @error('ledger_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                @else
-                                <div class="alert alert-warning">
-                                    <strong>⚠️ No general ledgers available.</strong><br>
-                                    Please add general ledgers first.
                                 </div>
                                 @endif
                             </div>
@@ -406,25 +405,16 @@
                         </div>
 
                         <div class="row mb-3">
-                            @isset($users)
                             <div class="col-md-6 mb-3">
-                                @if ($users->isNotEmpty())
                                 <div class="form-floating">
-                                     <input id="enteredBy" name="" class="form-control" value="{{$user->name}}" readonly required>
+                                     <input id="enteredBy" name="" class="form-control" value="{{Auth::user()->name}}" readonly required>
                                      <label for="enteredBy">Entered By</label>
-                                     <input id="enteredBy" hidden name="entered_by" value="{{$user->id}}" class="form-control"  required>
+                                     <input id="enteredBy" hidden name="entered_by" value="{{Auth::user()->id}}" class="form-control"  required>
                                     @error('entered_by')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                @else
-                                <div class="alert alert-warning">
-                                    <strong>⚠️ No users available.</strong><br>
-                                    Please add users first.
-                                </div>
-                                @endif
                             </div>
-                            @endisset
 
                             @if(Auth::user()->role === 'Admin')
                             @isset($branches)

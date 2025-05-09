@@ -84,7 +84,7 @@ class BranchController extends Controller
     public function destroy(string $id)
     {
         $branch = Branch::findOrFail($id);
-        $branch->delete();
-        return redirect()->back()->with('success','Branch record deleted successfully');
+        // $branch->delete();
+        return redirect()->back()->with('error','Branch record cant be deleted');
     }
 }
