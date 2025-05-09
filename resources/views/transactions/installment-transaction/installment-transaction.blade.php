@@ -6,6 +6,10 @@
                 id="installmentTransactionModalForm">
                 <input type="hidden" id="installmentTransactionId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
+                 @csrf
+                        @if(Session::has('error'))
+                        <div class="alert alert-danger rounded-0 m-0">{{ Session::get('error') }}</div>
+                        @endif
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
                     <h5 class="modal-title fw-bold" >
                         <i class="bi bi-credit-card me-2"></i> <span id="installmentTransactionModalLabel">Installment Transaction</span>

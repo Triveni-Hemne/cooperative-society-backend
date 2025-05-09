@@ -6,6 +6,10 @@
                 class="needs-validation" novalidate>
                 <input type="hidden" id="transferEntryId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
+                 @csrf
+                        @if(Session::has('error'))
+                        <div class="alert alert-danger rounded-0 m-0">{{ Session::get('error') }}</div>
+                        @endif
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
                     <h5 class="modal-title fw-bold" ><span id="transferEntryModalLabel">Add Transfer Entry</span></h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"

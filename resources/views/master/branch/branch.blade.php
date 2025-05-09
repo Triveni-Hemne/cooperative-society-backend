@@ -6,7 +6,10 @@
                 novalidate>
                 <input type="hidden" id="branchId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
-                          
+                        @csrf
+                        @if(Session::has('error'))
+                        <div class="alert alert-danger rounded-0 m-0">{{ Session::get('error') }}</div>
+                        @endif   
                          {{-- @isset($employees) 
                          <div class="row mb-3">
                              <div class="col-2 ps-5 d-none d-xl-block">
