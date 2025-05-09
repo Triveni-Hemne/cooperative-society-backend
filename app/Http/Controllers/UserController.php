@@ -43,7 +43,9 @@ class UserController extends Controller
             'role' => 'required|in:Director,Admin,Employee,Agent,User',
             // 'status' => 'required|in:Active,Inactive',
             'employee_id' => 'nullable|exists:employees,id',
-            'branch_id' => 'nullable|exists:branches,id',
+            'branch_id' => auth()->user()->role === 'Admin'
+                ? ['required', Rule::exists('branches', 'id')]
+                : ['nullable', Rule::exists('branches', 'id')],
         ]);
 
         $user = User::create([
@@ -88,7 +90,9 @@ class UserController extends Controller
             'password' => 'nullable|min:6',
             'role' => 'in:Director,Admin,Employee,Agent,User',
             'employee_id' => 'nullable|exists:employees,id',
-            'branch_id' => 'nullable|exists:branches,id',
+            'branch_id' => auth()->user()->role === 'Admin'
+                ? ['required', Rule::exists('branches', 'id')]
+                : ['nullable', Rule::exists('branches', 'id')],
         ]);
 
         $user->update([

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BranchLedger;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use App\Models\Branch;
 use App\Models\GeneralLedger;
 
@@ -55,6 +56,9 @@ class BranchLedgerController extends Controller
     {
         $request->validate([
             'branch_code' => 'required|string|max:20',
+            'branch_id' => auth()->user()->role === 'Admin'
+                ? ['required', Rule::exists('branches', 'id')]
+                : ['nullable', Rule::exists('branches', 'id')],
             'gl_id' => 'nullable|exists:general_ledgers,id',
             'open_date' => 'required|date',
             'open_balance' => 'required|numeric',
@@ -97,6 +101,9 @@ class BranchLedgerController extends Controller
 
         $request->validate([
             'branch_code' => 'string|max:20',
+            'branch_id' => auth()->user()->role === 'Admin'
+                ? ['required', Rule::exists('branches', 'id')]
+                : ['nullable', Rule::exists('branches', 'id')],
             'gl_id' => 'nullable|exists:general_ledgers,id',
             'open_date' => 'date',
             'open_balance' => 'numeric',

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DayEnd;
 use App\Models\Branch;
+use Illuminate\Validation\Rule;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -57,7 +58,9 @@ class DayEndController extends Controller
     {
         $request->validate([
             'date' => 'required|date',
-            'branch_id' => 'required|exists:branches,id',
+            'branch_id' => auth()->user()->role === 'Admin'
+                ? ['required', Rule::exists('branches', 'id')]
+                : ['nullable', Rule::exists('branches', 'id')],
             'user_id' => 'nullable|exists:users,id',
             'closing_cash_balance' => 'required|numeric',
             'total_receipts' => 'required|numeric',
@@ -106,7 +109,9 @@ class DayEndController extends Controller
 
         $request->validate([
             'date' => 'required|date',
-            'branch_id' => 'required|exists:branches,id',
+            'branch_id' => auth()->user()->role === 'Admin'
+                ? ['required', Rule::exists('branches', 'id')]
+                : ['nullable', Rule::exists('branches', 'id')],
             'user_id' => 'nullable|exists:users,id',
             'closing_cash_balance' => 'required|numeric',
             'total_receipts' => 'required|numeric',

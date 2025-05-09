@@ -45,7 +45,9 @@ class AgentController extends Controller
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
-            'branch_id' => 'nullable|exists:branches,id',
+            'branch_id' => auth()->user()->role === 'Admin'
+                ? ['required', Rule::exists('branches', 'id')]
+                : ['nullable', Rule::exists('branches', 'id')],
             'status' => 'required|in:Active,Inactive',
         ]);
         
@@ -85,7 +87,9 @@ class AgentController extends Controller
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:500',
-            'branch_id' => 'nullable|exists:branches,id',
+            'branch_id' => auth()->user()->role === 'Admin'
+                ? ['required', Rule::exists('branches', 'id')]
+                : ['nullable', Rule::exists('branches', 'id')],
             'status' => ['required', Rule::in(['Active', 'Inactive'])],
         ]);
 

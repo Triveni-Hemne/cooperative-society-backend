@@ -8,6 +8,7 @@ use App\Models\StandingInstruction;
 use App\Models\GeneralLedger;
 use App\Models\Account;
 use App\Models\Branch;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 class StandingInstructionController extends Controller
 {
@@ -76,7 +77,9 @@ class StandingInstructionController extends Controller
             'execution_date' => 'required|date',
             'amount' => 'required|numeric|min:0',
             'created_by' => 'required|exists:users,id',
-            'branch_id' => 'nullable|exists:branches,id',
+            'branch_id' => auth()->user()->role === 'Admin'
+                ? ['required', Rule::exists('branches', 'id')]
+                : ['nullable', Rule::exists('branches', 'id')],
         ]);
 
         $standingInstruction = StandingInstruction::create($request->all());
@@ -123,7 +126,9 @@ class StandingInstructionController extends Controller
             'execution_date' => 'required|date',
             'amount' => 'required|numeric|min:0',
             'created_by' => 'required|exists:users,id',
-            'branch_id' => 'nullable|exists:branches,id',
+            'branch_id' => auth()->user()->role === 'Admin'
+                ? ['required', Rule::exists('branches', 'id')]
+                : ['nullable', Rule::exists('branches', 'id')],
         ]);
         
         $standingInstruction->update($request->all());

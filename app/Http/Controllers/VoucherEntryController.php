@@ -11,6 +11,7 @@ use App\Models\MemberDepoAccount;
 use App\Models\MemberLoanAccount;
 use App\Models\User;
 use App\Models\Branch;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 class VoucherEntryController extends Controller
 {
@@ -116,7 +117,9 @@ class VoucherEntryController extends Controller
             'approved_by' => 'nullable|exists:users,id',
             'approved_at' => 'nullable|date',
             'entered_by' => 'nullable|exists:users,id',
-            'branch_id' => 'nullable|exists:branches,id',
+            'branch_id' => auth()->user()->role === 'Admin'
+                ? ['required', Rule::exists('branches', 'id')]
+                : ['nullable', Rule::exists('branches', 'id')],
         ]);
         
             $selectedCount = 0;
@@ -193,7 +196,9 @@ class VoucherEntryController extends Controller
             'approved_by' => 'nullable|exists:users,id',
             'approved_at' => 'nullable|date',
             'entered_by' => 'nullable|exists:users,id',
-            'branch_id' => 'nullable|exists:branches,id',
+            'branch_id' => auth()->user()->role === 'Admin'
+                ? ['required', Rule::exists('branches', 'id')]
+                : ['nullable', Rule::exists('branches', 'id')],
 
         ]);
          $selectedCount = 0;

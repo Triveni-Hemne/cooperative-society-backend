@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\DayBegin;
 use App\Models\Member;
 use App\Models\User;
+use Illuminate\Validation\Rule;
 use App\Models\Branch;
 use Illuminate\Support\Facades\Auth;
 
@@ -57,7 +58,9 @@ class DayBeginController extends Controller
     {
         $request->validate([
             'date' => 'required|date',
-            'branch_id' => 'required|exists:branches,id',
+            'branch_id' => auth()->user()->role === 'Admin'
+                ? ['required', Rule::exists('branches', 'id')]
+                : ['nullable', Rule::exists('branches', 'id')],
             'user_id' => 'nullable|exists:users,id',
             'status' => 'required|in:Open,Closed',
             'opening_cash_balance' => 'required|numeric',
@@ -97,7 +100,9 @@ class DayBeginController extends Controller
         
         $request->validate([
             'date' => 'date',
-            'branch_id' => 'required|exists:branches,id',
+            'branch_id' => auth()->user()->role === 'Admin'
+                ? ['required', Rule::exists('branches', 'id')]
+                : ['nullable', Rule::exists('branches', 'id')],
             'user_id' => 'nullable|exists:users,id',
             'status' => 'in:Open,Closed',
             'opening_cash_balance' => 'required|numeric',

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\TransferEntry;
 use App\Models\GeneralLedger;
 use App\Models\Branch;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
 class TransferEntryController extends Controller
@@ -65,6 +66,9 @@ class TransferEntryController extends Controller
             'narration' => 'nullable|string',
             'm_narration' => 'nullable|string',
             'created_by' => 'nullable|exists:users,id',
+            'branch_id' => auth()->user()->role === 'Admin'
+                ? ['required', Rule::exists('branches', 'id')]
+                : ['nullable', Rule::exists('branches', 'id')],
 
         ]);
         // return $request->all();
@@ -111,6 +115,9 @@ class TransferEntryController extends Controller
             'narration' => 'nullable|string',
             'm_narration' => 'nullable|string',
             'created_by' => 'required|exists:users,id',
+            'branch_id' => auth()->user()->role === 'Admin'
+                ? ['required', Rule::exists('branches', 'id')]
+                : ['nullable', Rule::exists('branches', 'id')],
 
 
         ]);
