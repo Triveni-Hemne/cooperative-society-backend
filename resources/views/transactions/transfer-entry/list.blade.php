@@ -69,7 +69,7 @@
                     <th scope="row">{{$entry->m_narration  ?? ''}}</th>
                     <th scope="row">{{$entry->user->name  ?? ''}}</th>
                     <td>
-                        <a href="#" data-id="{{$entry->id }}" data-transaction-type="{{$entry->transaction_type}}" data-date="{{$entry->date}}" data-branch-id="{{$entry->branch_id}}" data-receipt-id="{{$entry->receipt_id ?? ''}}" data-payment-id="{{$entry->payment_id ?? ''}}" data-ledger-id="{{$entry->ledger_id}}" data-opening-balance="{{$entry->opening_balance ?? ''}}" data-current-balance="{{$entry->current_balance ?? ''}}" data-narration="{{$entry->narration ?? ''}}" data-m-narration="{{$entry->m_narration ?? ''}}" data-route="{{ route('transfer-entry.update', $entry->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$entry->id }}" data-transaction-type="{{$entry->transaction_type}}" data-date="{{$entry->date}}" data-branch-id="{{$entry->branch_id}}"  data-created-by="{{$entry->user->name ?? Auth::user()->name}}"  data-created-by-id="{{$entry->user->id ?? Auth::user()->id}}" data-receipt-id="{{$entry->receipt_id ?? ''}}" data-payment-id="{{$entry->payment_id ?? ''}}" data-ledger-id="{{$entry->ledger_id}}" data-opening-balance="{{$entry->opening_balance ?? ''}}" data-current-balance="{{$entry->current_balance ?? ''}}" data-narration="{{$entry->narration ?? ''}}" data-m-narration="{{$entry->m_narration ?? ''}}" data-route="{{ route('transfer-entry.update', $entry->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#transferEntryModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
@@ -123,6 +123,8 @@ document.addEventListener("DOMContentLoaded", function () {
             let transactionType = this.getAttribute("data-transaction-type");
             let date = this.getAttribute("data-date");
             let branchId = this.getAttribute("data-branch-id");
+            let createdBy = this.getAttribute("data-created-by");
+            let createdById = this.getAttribute("data-created-by-id");
             let receiptId = this.getAttribute("data-receipt-id");
             let paymentId = this.getAttribute("data-payment-id");
             let ledgerId = this.getAttribute("data-ledger-id");
@@ -142,6 +144,8 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("transactionType").value = transactionType;
             document.getElementById("date").value = date;
             document.getElementById("branchId").value = branchId;
+            document.getElementById("createdBy").value = createdBy;
+            document.getElementById("createdById").value = createdById;
             document.getElementById("receiptId").value = receiptId;
             document.getElementById("paymentId").value = paymentId;
             document.getElementById("ledgerId").value = ledgerId;

@@ -45,6 +45,7 @@
                     <th scope="col">Balance</th>
                     <th scope="col">Balance Type</th>
                     <th scope="col">Item Type</th>
+                    <th scope="col">Created By</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -63,8 +64,9 @@
                     <td>{{$ledger->balance}}</td>
                     <td>{{$ledger->balance_type}}</td>
                     <td>{{$ledger->item_type}}</td>
+                    <td>{{$ledger->user->name}}</td>
                     <td>
-                        <a href="#" data-id="{{$ledger->id }}" data-branch-code="{{$ledger->branch_code}}" data data-branch-id="{{$ledger->branch_id}}"-gl-id="{{$ledger->gl_id}}" data-open-date="{{$ledger->open_date}}" data-open-balance="{{$ledger->open_balance}}" data-balance="{{$ledger->balance}}" data-balance-type="{{$ledger->balance_type}}" data-item-type="{{$ledger->item_type}}"  data-route="{{ route('branch-ledger.update', $ledger->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$ledger->id }}" data-branch-code="{{$ledger->branch_code ?? ''}}" data-branch-id="{{$ledger->branch_id ?? ''}}" data-created-by="{{$ledger->user->name ?? Auth::user()->name}}"  data-created-by-id="{{$ledger->user->id ?? Auth::user()->id}}" data-gl-id="{{$ledger->gl_id ?? ''}}" data-open-date="{{$ledger->open_date ?? ''}}" data-open-balance="{{$ledger->open_balance}}" data-balance="{{$ledger->balance}}" data-balance-type="{{$ledger->balance_type ?? ''}}" data-item-type="{{$ledger->item_type}}"  data-route="{{ route('branch-ledger.update', $ledger->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#branchLedgerModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
@@ -117,6 +119,8 @@ document.addEventListener("DOMContentLoaded", function () {
             let id = this.getAttribute("data-id");
             let branchCode = this.getAttribute("data-branch-code");
             let branchId = this.getAttribute("data-branch-id");
+            let createdBy = this.getAttribute("data-created-by");
+            let createdById = this.getAttribute("data-created-by-id");
             let glId = this.getAttribute("data-gl-id");
             let openDate = this.getAttribute("data-open-date");
             let openBalance = this.getAttribute("data-open-balance");
@@ -134,6 +138,8 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("branchLedgerId").value = id;
             document.getElementById("branchCode").value = branchCode;
             document.getElementById("branchId").value = branchId;
+            document.getElementById("createdById").value = createdById;
+            document.getElementById("createdBy").value = createdBy;            
             document.getElementById("glId").value = glId;
             document.getElementById("openDate").value = openDate;
             document.getElementById("openBalance").value = openBalance;

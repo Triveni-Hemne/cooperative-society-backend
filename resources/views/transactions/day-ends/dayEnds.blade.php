@@ -52,7 +52,7 @@
                                 {{-- Created By --}}
                                 <div class="form-floating">
                                     <input  id="createdBy" class="form-control" value="{{$user->name}}" type="text" @readonly(true) required>
-                                    <input name="created_by"  class="" value="{{$user->id}}" type="text" hidden required>
+                                    <input name="created_by" id="createdById" class="" value="{{$user->id}}" type="text" hidden required>
                                     <label for="createdBy">Created By</label>
                                     @error('created_by')
                                     <div class="invalid-feedback">{{ $message }}</div>

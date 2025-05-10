@@ -41,6 +41,7 @@
                     <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
                     <th scope="col">User</th>
+                    <th scope="col">Branch</th>
                     <th scope="col">Agent Code</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
@@ -62,8 +63,8 @@
                 <tr>
                     <th scope="row">{{$i}}</th>
                     <td>{{$agent->id}}</td>
-                    <td>{{$agent->branch_id}}</td>
                     <td>{{$agent->user->name ?? ''}}</td>
+                    <td>{{$agent->branch->name ?? ''}}</td>
                     <td>{{$agent->agent_code ?? ''}}</td>
                     <td>{{$agent->name ?? ''}}</td>
                     <td>{{$agent->email ?? ''}}</td>
@@ -73,8 +74,8 @@
                     <td>{{$agent->resignation_date ?? ''}}</td>
                     <td>{{$agent->commission_rate ?? ''}}</td>
                     <td>{{$agent->status ?? ''}}</td>
-                    <td>{{$agent->created_by ?? ''}}</td>
-                    <td>{{$agent->updated_by ?? ''}}</td>
+                    <td>{{$agent->createdBy->name ?? ''}}</td>
+                    <td>{{$agent->updatedBy->name ?? ''}}</td>
                     <td>
                         <a href="#" data-id="{{$agent->id}}" data-user-id="{{$agent->user->id ?? ''}}" data-agent-code="{{$agent->agent_code ?? ''}}" data-name="{{$agent->name ?? ''}}" data-branch-id="{{$agent->branch_id ?? ''}}" data-email="{{$agent->email ?? ''}}" data-phone="{{$agent->phone ?? ''}}" data-address="{{$agent->address ?? ''}}" data-joining-date="{{$agent->joining_date ?? ''}}" data-resignation-date="{{$agent->resignation_date ?? ''}}" data-commission-rate="{{$agent->commission_rate ?? ''}}" data-status="{{$agent->status ?? ''}}" data-route="{{ route('agents.update', $agent->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#agentModal">

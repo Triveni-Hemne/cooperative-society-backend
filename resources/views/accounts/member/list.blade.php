@@ -172,7 +172,8 @@
                             data-id="{{$member->id}}" data-nominee-id="{{optional($member->nominee)->member_id }}" 
                             data-name="{{$member->name ?? '' }}" 
                             data-naav="{{$member->naav ?? '' }}" 
-                            data-created-by="{{$member->user->id ?? '' }}" 
+                            data-created-by="{{$member->user->name ?? Auth::user()->name }}" 
+                            data-created-by-id="{{$member->user->id ?? Auth::user()->id }}" 
                             data-branch-id="{{$member->branch->id ?? '' }}" 
                             data-route="{{ route('members.update', $member->id) }}" 
                             data-subcaste-id="{{$member->subcaste->id ?? ''}}" 
@@ -290,6 +291,7 @@
             let name = this.getAttribute("data-name");
             let naav = this.getAttribute("data-naav");
             let createdBy = this.getAttribute("data-created-by");
+            let createdById = this.getAttribute("data-created-by-id");
             let branchId = this.getAttribute("data-branch-id");
             let route = this.getAttribute("data-route");
             let subcasteId = this.getAttribute("data-subcaste-id");
@@ -373,6 +375,8 @@
             document.getElementById("Name").value = name;
             document.getElementById("marathiName").value = naav;
             
+            document.getElementById("createdBy").value = createdBy;
+            document.getElementById("createdById").value = createdById;
             document.getElementById("branchId").value = branchId;
             
             document.getElementById("subcasteId").value = subcasteId;

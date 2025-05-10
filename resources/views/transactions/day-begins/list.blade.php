@@ -61,7 +61,7 @@
                     <td>{{$dayBegin->status ?? ''}}</td>  
                     <td>{{$dayBegin->remarks}}</td>  
                     <td>
-                        <a href="#" data-id="{{$dayBegin->id }}" data-date="{{$dayBegin->date}}" data-user-id="{{$dayBegin->users->id ?? ''}}" data-status="{{$dayBegin->status ?? ''}}"  data-branch-id="{{$dayBegin->branch->id ?? ''}}" data-opening-cash-balance="{{$dayBegin->opening_cash_balance ?? ''}}"  data-remarks="{{$dayBegin->remarks ?? ''}}" data-route="{{ route('day-begins.update', $dayBegin->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$dayBegin->id }}" data-date="{{$dayBegin->date}}" data-user-id="{{$dayBegin->users->id ?? ''}}" data-status="{{$dayBegin->status ?? ''}}"  data-branch-id="{{$dayBegin->branch->id ?? ''}}"  data-created-by="{{$dayBegin->user->name ?? Auth::user()->name}}"  data-created-by-id="{{$dayBegin->user->id ?? Auth::user()->id}}" data-opening-cash-balance="{{$dayBegin->opening_cash_balance ?? ''}}"  data-remarks="{{$dayBegin->remarks ?? ''}}" data-route="{{ route('day-begins.update', $dayBegin->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#dayBeginsModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
@@ -114,9 +114,10 @@ document.addEventListener("DOMContentLoaded", function () {
             let id = this.getAttribute("data-id");
             let date = this.getAttribute("data-date");
             let userId = this.getAttribute("data-user-id");
+            let createdBy = this.getAttribute("data-created-by");
+            let createdById = this.getAttribute("data-created-by-id");
             
             let branchId = this.getAttribute("data-branch-id");
-            console.log(userId);
             let openingCashBalance = this.getAttribute("data-opening-cash-balance");
             let status = this.getAttribute("data-status");
             let remarks = this.getAttribute("data-remarks");
@@ -131,6 +132,10 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("dayBeginId").value = id;
             document.getElementById("date").value = date;
             document.getElementById("userId").value = userId;
+            document.getElementById("createdBy").value = createdBy;
+            document.getElementById("createdById").value = createdById;
+               console.log(createdBy);
+            console.log(createdById);
             document.getElementById("branchId").value = branchId;
             document.getElementById("openingCashBalance").value = openingCashBalance;
             document.getElementById("remarks").value = remarks;

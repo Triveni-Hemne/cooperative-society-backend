@@ -70,7 +70,7 @@
                     <td>{{$standingInstruction->execution_date ?? ''}}</td>
                     <td>{{$standingInstruction->amount ?? ''}}</td>
                     <td>
-                        <a href="#"  data-id="{{$standingInstruction->id }}" data-credit-ledger-id="{{$standingInstruction->credit_ledger_id ?? ''}}" data-credit-account-id="{{$standingInstruction->credit_account_id}}" data-credit-transfer="{{$standingInstruction->credit_transfer ?? ''}}" data-debit-ledger-id="{{$standingInstruction->debit_ledger_id ?? ''}}" data-debit-account-id="{{$standingInstruction->debit_account_id ?? ''}}" data-debit-transfer="{{$standingInstruction->debit_transfer ?? ''}}" data-date="{{$standingInstruction->date ?? ''}}" data-frequency="{{$standingInstruction->frequency ?? ''}}" data-no-of-times="{{$standingInstruction->no_of_times ?? ''}}" data-bal-installment="{{$standingInstruction->bal_installment ?? ''}}"  data-execution-date="{{$standingInstruction->execution_date ?? ''}}"  data-amount="{{$standingInstruction->amount ?? ''}}" data-route="{{ route('standing-instructions.update', $standingInstruction->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#"  data-id="{{$standingInstruction->id }}" data-credit-ledger-id="{{$standingInstruction->credit_ledger_id ?? ''}}" data-created-by="{{$standingInstruction->user->name ?? Auth::user()->name}}" data-created-by-id="{{$standingInstruction->user->id ?? Auth::user()->id}}" data-branch-id="{{$standingInstruction->branch->id ?? ''}}" data-credit-account-id="{{$standingInstruction->credit_account_id}}" data-credit-transfer="{{$standingInstruction->credit_transfer ?? ''}}" data-debit-ledger-id="{{$standingInstruction->debit_ledger_id ?? ''}}" data-debit-account-id="{{$standingInstruction->debit_account_id ?? ''}}" data-debit-transfer="{{$standingInstruction->debit_transfer ?? ''}}" data-date="{{$standingInstruction->date ?? ''}}" data-frequency="{{$standingInstruction->frequency ?? ''}}" data-no-of-times="{{$standingInstruction->no_of_times ?? ''}}" data-bal-installment="{{$standingInstruction->bal_installment ?? ''}}"  data-execution-date="{{$standingInstruction->execution_date ?? ''}}"  data-amount="{{$standingInstruction->amount ?? ''}}" data-route="{{ route('standing-instructions.update', $standingInstruction->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#standingInstructionModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
@@ -123,6 +123,9 @@ document.addEventListener("DOMContentLoaded", function () {
             let id = this.getAttribute("data-id");
             let creditLedgerId = this.getAttribute("data-credit-ledger-id");
             let creditAccountId = this.getAttribute("data-credit-account-id");
+            let createdBy = this.getAttribute("data-created-by");
+            let createdById = this.getAttribute("data-created-by-id");
+            let branchId = this.getAttribute("data-branch-id");
             let creditTransfer = this.getAttribute("data-credit-transfer");
             let debitLedgerId = this.getAttribute("data-debit-ledger-id");
             let debitAccountId = this.getAttribute("data-debit-account-id");
@@ -143,6 +146,9 @@ document.addEventListener("DOMContentLoaded", function () {
             // Populate form fields
             document.getElementById("standingInstructionId").value = id;
             document.getElementById("creditLedgerId").value = creditLedgerId;
+            document.getElementById("createdBy").value = createdBy;          
+            document.getElementById("createdById").value = createdById;
+            document.getElementById("branchId").value = branchId;
             document.getElementById("creditAccountId").value = creditAccountId;
             document.getElementById("creditTransfer").value = creditTransfer;
             document.getElementById("debitLedgerId").value = debitLedgerId;

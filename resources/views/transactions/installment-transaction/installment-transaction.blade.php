@@ -22,7 +22,7 @@
                         {{-- Created By --}}
                         <div class="form-floating mb-3">
                            <input id="createdBy" class="form-control" value="{{$user->name}}" type="text" @readonly(true) required>
-                                <input name="created_by" class="" value="{{$user->id}}" type="text" hidden required>
+                                <input name="created_by" id="createdById" class="" value="{{$user->id}}" type="text" hidden required>
                         <label for="createdBy">Created By</label>
                         @error('created_by')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -58,10 +58,10 @@
 
                     {{-- Installment Number --}}
                     <div class="form-floating mb-3">
-                        <input name="installment_no" id="installmentNo" type="number"
+                        <input name="installment_no" id="installmentNumber" type="text"
                             class="form-control @error('installment_no') is-invalid @enderror"
                             placeholder="Transaction No." value="{{ old('installment_no') }}" required>
-                        <label for="installmentNo" class="form-label required">Installment Transaction No.</label>
+                        <label for="installmentNumber" class="form-label required">Installment Transaction No.</label>
                         @error('installment_no')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

@@ -68,6 +68,8 @@
                         <a href="#" 
                         data-id="{{$LoanInstallment->id}}" 
                         data-loan-id="{{$LoanInstallment->loan_id}}" 
+                        data-created-by-id="{{$LoanInstallment->created_by ?? Auth::user()->id}}" 
+                        data-created-by="{{$LoanInstallment->user->name ?? Auth::user()->name}}"
                         data-installment-type="{{$LoanInstallment->installment_type}}" 
                         data-mature-date="{{$LoanInstallment->mature_date ?? ''}}" 
                         data-first-installment-date="{{$LoanInstallment->first_installment_date ?? ''}}" 
@@ -129,6 +131,8 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", function () {
             let id = this.getAttribute("data-id");
             let loanId = this.getAttribute("data-loan-id");
+            let createdBy = this.getAttribute("data-created-by");
+            let createdById = this.getAttribute("data-created-by-id");
             let installmentType = this.getAttribute("data-installment-type");            
             let matureDate = this.getAttribute("data-mature-date");
             let firstInstallmentDate = this.getAttribute("data-first-installment-date");
@@ -145,7 +149,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Populate form fields
             document.getElementById("loanInstallmentId").value = id;
-            document.getElementById("loanId").value = loanId;            
+            document.getElementById("loanId").value = loanId;  
+            document.getElementById("createdBy").value = createdBy;
+            document.getElementById("createdById").value = createdById;          
             document.getElementById("installmentType").value = installmentType;
             document.getElementById("matureDate").value = matureDate;
             document.getElementById("firstInstallmentDate").value = firstInstallmentDate;

@@ -22,7 +22,7 @@
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="" id="createdBy" class="form-control" value="{{$user->name}}" type="text" readonly required>
-                                <input name="created_by" id="" class="form-control" value="{{$user->id}}" type="text" hidden required>
+                                <input name="created_by" id="createdById" class="form-control" value="{{$user->id}}" type="text" hidden required>
                                     <label for="createdBy">Created By</label>
                                     @error('created_by')
                                     <div class="invalid-feedback">{{ $message }}</div>

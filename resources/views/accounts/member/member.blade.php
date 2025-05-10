@@ -51,7 +51,7 @@
                                 <div class="form-floating">
                                     <input name="" id="createdBy" class="form-control"
                                         value="{{ $user->name }}" type="text" placeholder="Created By" readonly required>
-                                        <input name="created_by" id="" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->id}}" hidden type="text" readonly required>
+                                        <input name="created_by" id="createdById" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->id}}" hidden type="text" readonly required>
                                     <label for="createdBy" class="form-label">Created By</label>
                                 </div>
                             </div>

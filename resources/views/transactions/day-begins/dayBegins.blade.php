@@ -24,7 +24,7 @@
                             <input id="createdBy" class="form-control" value="{{ $user->name }}" type="text"
                                     readonly required>
                             <label for="createdBy" class="form-label">Created By</label>
-                            <input name="created_by" class="form-control" value="{{ $user->id }}" type="text"
+                            <input name="created_by" id="createdById" class="form-control" value="{{ $user->id }}" type="text"
                                     hidden required>
                             @error('created_by')
                             <div class="invalid-feedback">{{ $message }}</div>

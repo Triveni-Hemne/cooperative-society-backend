@@ -61,7 +61,8 @@
                     <td>
                         <a href="#" 
                         data-id="{{$transaction->id}}" 
-                        data-deposit-account-id="{{$transaction->deposit_account_id}}" data-installment-no="{{$transaction->installment_no}}" data-amount-paid="{{$transaction->amount_paid ?? ''}}" data-payment-date="{{$transaction->payment_date ?? ''}}" data-interest-earned="{{$transaction->interest_earned ?? ''}}" data-total-balance="{{$transaction->total_balance ?? ''}}"  data-route="{{ route('installment-transactions.update', $transaction->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        data-deposit-account-id="{{$transaction->deposit_account_id}}" data-installment-no=" {{$transaction->installment_no}}" data-created-by-id="{{$transaction->created_by ?? Auth::user()->id}}" 
+                            data-created-by="{{$transaction->user->name ?? Auth::user()->name}}"  data-amount-paid="{{$transaction->amount_paid ?? ''}}" data-payment-date="{{$transaction->payment_date ?? ''}}" data-interest-earned="{{$transaction->interest_earned ?? ''}}" data-total-balance="{{$transaction->total_balance ?? ''}}"  data-route="{{ route('installment-transactions.update', $transaction->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#installmentTransactionModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
@@ -114,6 +115,8 @@ document.addEventListener("DOMContentLoaded", function () {
             let id = this.getAttribute("data-id");
             let depositAccountId = this.getAttribute("data-deposit-account-id");
             let installmentNo = this.getAttribute("data-installment-no");
+            let createdBy = this.getAttribute("data-created-by");
+            let createdById = this.getAttribute("data-created-by-id");
             let amountPaid = this.getAttribute("data-amount-paid");
             let paymentDate = this.getAttribute("data-payment-date");
             let interestEarned = this.getAttribute("data-interest-earned");
@@ -127,8 +130,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Populate form fields
             document.getElementById("installmentTransactionId").value = id;
+            document.getElementById("createdBy").value = createdBy;
+            document.getElementById("createdById").value = createdById;
             document.getElementById("depositAccountId").value = depositAccountId;
-            document.getElementById("installmentNo").value = installmentNo;
+            document.getElementById("installmentNumber").value = installmentNo;                        
             document.getElementById("amountPaid").value = amountPaid;
             document.getElementById("paymentDate").value = paymentDate;
             document.getElementById("interestEarned").value = interestEarned;

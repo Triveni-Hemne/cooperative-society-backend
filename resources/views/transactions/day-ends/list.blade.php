@@ -80,8 +80,9 @@
                     <td>
                         <a href="#"  data-id="{{$dayEnd->id}}" 
                             data-date="{{$dayEnd->date}}" 
-                            data-user-id="{{$dayEnd->user->id}}" 
-                            data-created-by="{{$dayEnd->created_by}}" 
+                            data-user-id="{{$dayEnd->user_id}}" 
+                            data-created-by-id="{{$dayEnd->created_by}}" 
+                            data-created-by="{{$dayEnd->user->name}}" 
                             data-branch-id="{{$dayEnd->branch_id}}" 
                             data-closing-cash-balance="{{$dayEnd->closing_cash_balance}}" 
                             data-total-receipts="{{$dayEnd->total_receipts}}" 
@@ -145,6 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let date = this.getAttribute("data-date").split(" ")[0];
             let userId = this.getAttribute("data-user-id");
             let createdBy = this.getAttribute("data-created-by");
+            let createdById = this.getAttribute("data-created-by-id");
             let branchId = this.getAttribute("data-branch-id");
             let closingCashBalance = this.getAttribute("data-closing-cash-balance");
             let totalReceipts = this.getAttribute("data-total-receipts");
@@ -169,7 +171,9 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("dayEndsId").value = id;
             document.getElementById("date").value = date;
             document.getElementById("userId").value = userId;
+            
             document.getElementById("createdBy").value = createdBy;
+            document.getElementById("createdById").value = createdById;
             document.getElementById("branchId").value = branchId;
             document.getElementById("ClosingCashBalance").value = closingCashBalance;
             document.getElementById("totalReceipts").value = totalReceipts;
