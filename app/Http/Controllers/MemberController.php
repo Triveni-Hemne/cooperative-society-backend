@@ -47,7 +47,7 @@ class MemberController extends Controller
                     $q->where('id', $branchId);
                 });
             });
-        })->paginate(5);
+        })->latest()->paginate(5);
 
     //    $members = Member::paginate(5);    
        $departments = Department::all();

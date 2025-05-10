@@ -34,7 +34,7 @@ class TransferEntryController extends Controller
                         $q->where('id', $branchId);
                     });
                 });
-            })->paginate(5);
+            })->latest()->paginate(5);
         $ledgers = GeneralLedger::all();
         $user = Auth::user();
         $branches = $user->role === 'Admin' ? Branch::all() : null;

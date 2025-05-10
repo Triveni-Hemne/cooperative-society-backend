@@ -38,7 +38,7 @@ class VoucherEntryController extends Controller
                         $q->where('id', $branchId);
                     });
                 });
-            })->paginate(5);
+            })->latest()->paginate(5);
 
         // $voucherEntries = VoucherEntry::paginate(5);
         $ledgers = GeneralLedger::all();

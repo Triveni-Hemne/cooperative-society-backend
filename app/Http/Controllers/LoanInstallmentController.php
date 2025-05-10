@@ -34,7 +34,7 @@ class LoanInstallmentController extends Controller
                         $q->where('id', $branchId);
                     });
                 });
-            })->paginate(5);
+            })->latest()->paginate(5);
         // $LoanInstallment = BankInvestment::paginate(5);
         $loanAccounts = MemberLoanAccount::when($branchId, function ($query) use ($branchId) {
             $query->where(function ($query) use ($branchId) {

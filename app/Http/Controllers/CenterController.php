@@ -16,7 +16,7 @@ class CenterController extends Controller
      */
     public function index()
     {
-        $centers = Center::with('subdivision')->paginate(5);
+        $centers = Center::with('subdivision')->latest()->paginate(5);
         $subdivisions = Subdivision::with('division')->get();
         $divisions = Division::all();
         // return response()->json($centers);

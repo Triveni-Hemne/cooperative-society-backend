@@ -15,7 +15,7 @@ class SubdivisionController extends Controller
      */
     public function index()
     {
-        $subdivisions = Subdivision::with('division')->paginate(5);
+        $subdivisions = Subdivision::with('division')->latest()->paginate(5);
         $divisions = Division::all();
         return view('master.sub-division.list',compact('subdivisions','divisions'));
     }

@@ -36,7 +36,7 @@ class AccountController extends Controller
                     $q->where('id', $branchId);
                 });
             });
-        })->paginate(5);
+        })->latest()->paginate(5);
         
         // $accounts = Account::paginate(5);
         $ledgers = GeneralLedger::all();

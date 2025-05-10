@@ -33,7 +33,7 @@ class StandingInstructionController extends Controller
                     $q->where('id', $branchId);
                 });
             });
-        })->paginate(5);
+        })->latest()->paginate(5);
         // $standingInstructions = StandingInstruction::paginate(5);
         $ledgers = GeneralLedger::all();
         $accounts = Account::when($branchId, function ($query) use ($branchId) {

@@ -17,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-         $users = User::paginate(5);
+         $users = User::latest()->paginate(5);
          $branches = Branch::all();
          $employees = Employee::all();
          return view('master.user.list', compact('users','branches','employees'));

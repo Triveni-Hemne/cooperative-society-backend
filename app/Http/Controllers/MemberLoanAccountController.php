@@ -41,7 +41,7 @@ class MemberLoanAccountController extends Controller
                     $q->where('id', $branchId);
                 });
             });
-        })->paginate(5);        
+        })->latest()->paginate(5);        
 
     //    $loanAccounts = MemberLoanAccount::with(['member', 'ledger'])->paginate(5);
         $branches = $user->role === 'Admin' ? Branch::all() : null;

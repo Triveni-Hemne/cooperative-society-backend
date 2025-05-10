@@ -16,7 +16,7 @@ class DesignationController extends Controller
      */
     public function index()
     {
-       $designations = Designation::with('subdivision')->paginate(5);
+       $designations = Designation::with('subdivision')->latest()->paginate(5);
         $subdivisions = Subdivision::all();
         $divisions = Division::all();
         $centers = Center::all();

@@ -37,7 +37,7 @@ class DayBeginController extends Controller
                         $q->where('id', $branchId);
                     });
                 });
-            })->paginate(5);
+            })->latest()->paginate(5);
         $user = Auth::user();
         $branches = $user->role === 'Admin' ? Branch::all() : null;
         return view('transactions.day-begins.list', compact('users','dayBegins','user','branches'));

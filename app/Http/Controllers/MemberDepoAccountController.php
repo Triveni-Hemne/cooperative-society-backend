@@ -41,7 +41,7 @@ class MemberDepoAccountController extends Controller
                     $q->where('id', $branchId);
                 });
             });
-        })->paginate(5);
+        })->latest()->paginate(5);
 
         // $depo_accounts = MemberDepoAccount::with('fixedDeposit','recurringDeposit','saveDeposit')->paginate(5);
         $ledgers = GeneralLedger::all();

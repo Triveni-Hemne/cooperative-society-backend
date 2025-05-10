@@ -13,7 +13,7 @@ class SubcasteController extends Controller
      */
     public function index()
     {
-       $subcastes = Subcaste::paginate(5);
+       $subcastes = Subcaste::latest()->paginate(5);
         // return response()->json($subcastes);
         return view('master.subcaste.list',compact('subcastes'));
     }

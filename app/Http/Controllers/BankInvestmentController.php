@@ -35,7 +35,7 @@ class BankInvestmentController extends Controller
                     $q->where('id', $branchId);
                 });
             });
-        })->paginate(5);
+        })->latest()->paginate(5);
         $accounts = Account::when($branchId, function ($query) use ($branchId) {
             $query->where(function ($query) use ($branchId) {
                 $query->whereHas('member.user', function ($q) use ($branchId) {

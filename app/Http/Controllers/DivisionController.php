@@ -14,7 +14,7 @@ class DivisionController extends Controller
      */
     public function index()
     {
-         $divisions = Division::paginate(5);
+         $divisions = Division::latest()->paginate(5);
         // return response()->json($divisions);
         return view('master.division.list',compact('divisions'));
     }

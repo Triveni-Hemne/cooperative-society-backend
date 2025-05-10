@@ -14,7 +14,7 @@ class GeneralLedgerController extends Controller
      */
     public function index()
     {
-        $generalLedgers = GeneralLedger::paginate(5);
+        $generalLedgers = GeneralLedger::latest()->paginate(5);
         // return response()->json($generalLedgers);
         return view('master.general-ledger.list',compact('generalLedgers'));
     }
