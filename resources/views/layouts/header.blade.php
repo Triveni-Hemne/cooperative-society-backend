@@ -4,7 +4,11 @@
         <h3 class="text-white fw-bold my-hero-text text-center">
             महाराष्ट्र राज्य विद्युत क्षेत्र तांत्रिक कर्मचारी सहकारी पत संस्था मर्यादित, र. नं. 153
         </h3>
-
+         @if(Auth::guard('admin')->check())
+                <div class="last-login fs-6 me-3" style="color: #888;">
+                    Last Login: {{ Auth::guard('admin')->user()->last_login_at ? Auth::guard('admin')->user()->last_login_at->format('d M Y, h:i A') : 'First Time Login' }}
+                </div>
+        @endif
         <!-- Profile Section for large screen -->
         <div class="profile-dropdown position-relative d-none d-lg-block">
             <div class="d-flex align-items-center profile-trigger dropdown-toggle" role="button"
@@ -24,7 +28,6 @@
                 <a class="dropdown-item text-danger fw-bold" href="{{ route('user.logout') }}">Logout</a>
             </div>
         </div>
-
     </div>
 </header>
 

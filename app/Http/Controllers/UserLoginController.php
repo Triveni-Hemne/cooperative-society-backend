@@ -30,19 +30,20 @@ class UserLoginController extends Controller
         'name' => 'required|string',
         'password' => 'required',
     ]);
-
     // If validation passes
     if ($validator->passes()) {
 
         // Attempt to authenticate the user
         if (Auth::guard('admin')->attempt(['name' => $request->name, 'password' => $request->password])) {
-            
+            $admin = Auth::guard('admin')->user();
             // Check if the user has an authorized role
-            if (Auth::guard('admin')->user()->role === 'Admin' || Auth::guard('admin')->user()->role === 'User') {
+            if ($admin->role === 'Admin' || $admin->role === 'User') {
                 // Redirect to dashboard if the user has the right role
                 // dd('User role check passed! Redirecting...');
+                $admin->update([
+                    'last_login_at' => now(),
+                ]);
                 return redirect()->intended(route('user.dashboard'));
-                return redirect()->route('user.dashboard');
             } else {
                 // Log the user out if they don't have the right role
                 Auth::guard('admin')->logout();
