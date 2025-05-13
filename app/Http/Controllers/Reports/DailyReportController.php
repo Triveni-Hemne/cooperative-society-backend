@@ -41,6 +41,7 @@ class DailyReportController extends Controller
             });
         })->whereDate('date', $date)
             ->where('payment_mode', 'Cash')
+            ->with(['account', 'memberDepositAccount', 'memberLoanAccount'])
             ->orderBy('date', 'asc')
             ->get();
 
@@ -53,7 +54,7 @@ class DailyReportController extends Controller
                     $q->where('id', $branchId);
                 });
             });
-        })->whereDate('date', '<', $date)
+        })->whereDate('date', $date)
             ->where('payment_mode', 'Cash')
             ->selectRaw("
                 SUM(CASE WHEN transaction_type = 'Deposit' THEN amount ELSE 0 END) -
@@ -311,7 +312,7 @@ class DailyReportController extends Controller
 
         // Fetch General Ledger Transactions with Running Balance
        $query = DB::table('general_ledgers as gl')
-        ->join('accounts as acc', 'gl.parent_ledger_id', '=', 'acc.id')
+        ->join('accounts as acc', 'gl.id', '=', 'acc.ledger_id')
         ->leftJoin('members as m', 'acc.member_id', '=', 'm.id')
         ->leftJoin('users as u', 'm.created_by', '=', 'u.id')
         ->when($branchId, function ($q) use ($branchId) {

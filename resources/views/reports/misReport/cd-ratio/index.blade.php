@@ -13,12 +13,12 @@
     <h2 class="mb-4">Credit-Deposit Ratio (CD Ratio) Report</h2>
     <form method="GET" action="{{ route('cd-ratio.index') }}" class="row g-3 align-items-center border p-3 mb-4 rounded">
         <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 mb-3">
             <label for="date" class="form-label">As on Date:</label>
             <input type="date" id="date" name="date" class="form-control" value="{{ request('date', now()->toDateString()) }}">
         </div>
          @if(!empty($branches))
-            <div class="col-md-3 pt-3 mb-3">
+            <div class="col-md-3 mb-3">
                 <label class="form-label">Branch</label>
                 {{-- Branch --}}
                 <select name="branch_id" class="form-select">
@@ -31,7 +31,7 @@
                 </select>
             </div>
             @endif
-        <div class="col-md-4 d-flex align-items-end">
+        <div class="col-md-4 d-flex align-items-end mb-3">
             <button type="submit" class="btn btn-primary me-2">Generate</button>
         </div>
         </div>

@@ -576,7 +576,7 @@ class MISReportController extends Controller
         }
 
         $branches = $user->role === 'Admin' ? Branch::all() : null;
-        $applyBranchFilter = function ($query, $tableAlias = null, $creatorField = 'created_by') use ($branchId) {
+        $applyBranchFilter = function ($query, $tableAlias = null, $creatorField = 'entered_by') use ($branchId) {
             $branchColumn = $tableAlias ? "$tableAlias.branch_id" : "branch_id";
             $creatorColumn = $tableAlias ? "$tableAlias.$creatorField" : $creatorField;
 

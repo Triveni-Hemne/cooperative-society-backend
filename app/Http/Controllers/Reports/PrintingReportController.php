@@ -70,6 +70,7 @@ class PrintingReportController extends Controller
         $data['voucherNumbers'] = VoucherEntry::select('voucher_num')->distinct()->pluck('voucher_num')->filter()->values();
         $data['members'] = Member::select('id', 'name')->orderBy('name')->get();
         
+        // return $data;
         return view('reports.printingReport.duplicate-printing.index', $data);
     }
 
@@ -276,7 +277,7 @@ class PrintingReportController extends Controller
         if ($accountType === 'loan') {
             $account = MemberLoanAccount::with('member')->findOrFail($accountId);
         } elseif (in_array($accountType, ['deposit', 'rd', 'fd'])) {
-            $account = MemberDepositAccount::with('member')->findOrFail($accountId);
+            $account = MemberDepoAccount::with('member')->findOrFail($accountId);
         } elseif ($accountType === 'share') {
             $account = DB::table('member_financials')->where('id', $accountId)->first();
         } else {

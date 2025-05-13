@@ -44,7 +44,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>SL No.</th>
+                    <th>SR. No.</th>
                     <th>Member Name</th>
                     <th>Account No.</th>
                     <th>Installment Date</th>
@@ -54,14 +54,14 @@
             </thead>
             <tbody>
                 @foreach($demandList as $i => $loan)
-                    @foreach($loan->loanInstallments as $installment)
+                @foreach($loan->loanInstallments as $installment)
                         <tr>
                             <td>{{ $loop->parent->iteration }}.{{ $loop->iteration }}</td>
                             <td>{{ $loan->member->name ?? '-' }}</td>
                             <td>{{ $loan->acc_no ?? '-' }}</td>
-                            <td>{{ \Carbon\Carbon::parse($installment->installment_due_date)->format('d-m-Y') }}</td>
-                            <td>{{ number_format($installment->installment_amount, 2) }}</td>
-                            <td>{{ number_format($installment->installment_with_interest, 2) }}</td>
+                            <td>{{ \Carbon\Carbon::parse($installment->mature_date)->format('d-m-Y') }}</td>
+<td>{{ number_format($installment->installment_amount) }}</td>
+<td>{{ number_format($installment->installment_with_interest, 2) }}</td>
                         </tr>
                     @endforeach
                 @endforeach

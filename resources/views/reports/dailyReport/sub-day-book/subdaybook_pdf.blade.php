@@ -34,7 +34,7 @@
             <tr>
                 <td>{{ $transaction->date }}</td>
                 <td>{{ $transaction->account_type }}</td>
-                <td>{{ $transaction->memberLoanAccount ? $transaction->memberLoanAccount->name : 'N/A' }}</td>
+                <td>{{ $transaction->account->name ?? $transaction->memberLoanAccount->name ?? $transaction->memberDepositAccount->name ?? 'N/A' }}</td>
                 <td>
                     @if($transaction->transaction_type == 'Deposit')
                         <span style="color: green;">{{ $transaction->transaction_type }}</span>

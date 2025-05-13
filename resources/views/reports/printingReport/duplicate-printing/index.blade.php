@@ -110,10 +110,12 @@
                                 <td>{{ \Carbon\Carbon::parse($entry->date)->format('d-m-Y') }}</td>
                                 <td>{{ $entry->voucher_num }}</td>
                                 <td>
-                                    {{ optional($entry->memberDepositAccount->member)->name 
-                                        ?? optional($entry->memberLoanAccount->member)->name 
+                                    {{ optional($entry->memberDepositAccount)->name  
+                                        ?? optional($entry->memberLoanAccount)->name 
+                                        ?? optional($entry->account)->name 
                                         ?? '-' }}
                                 </td>
+
                                 <td>
                                     @if ($entry->member_depo_account_id) Deposit
                                     @elseif ($entry->member_loan_account_id) Loan

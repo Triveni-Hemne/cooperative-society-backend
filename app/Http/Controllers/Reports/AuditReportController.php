@@ -20,7 +20,7 @@ class AuditReportController extends Controller
          if (!$branchId) {
              $branchId = $user->role === 'Admin' ? null : $user->branch_id;
             }
-            
+
         $branches = $user->role === 'Admin' ? Branch::all() : null;
        $ledgers = GeneralLedger::with(['voucherEntries' => function ($query) use ($asOnDate, $branchId) {
     $query->whereDate('date', '<=', $asOnDate);

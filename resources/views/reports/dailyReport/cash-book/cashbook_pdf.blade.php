@@ -51,21 +51,29 @@
     <table>
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Voucher No</th>
-                <th>Particulars</th>
+               <th>Date</th>
+                <th>Account Number</th>
+                <th>Account Holder</th>
                 <th>Transaction Type</th>
                 <th>Amount (&#8377;)</th>
+                <th>Payment Mode</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($transactions as $transaction)
                 <tr>
                     <td>{{ $transaction->date }}</td>
-                    <td>{{ $transaction->voucher_no }}</td>
-                    <td>{{ $transaction->particulars }}</td>
-                    <td>{{ ucfirst($transaction->transaction_type) }}</td>
-                    <td>₹{{ number_format($transaction->amount, 2) }}</td>
+                            <td>{{ $transaction->account->account_no ?? $transaction->memberDepositAccount->acc_no ?? $transaction->memberLoanAccount->acc_no ?? 'N/A' }}</td>
+                            <td>{{ $transaction->account->name ?? $transaction->memberDepositAccount->name ?? $transaction->memberLoanAccount->name ?? 'N/A' }}</td>
+                            <td>
+                                @if($transaction->transaction_type == 'Deposit')
+                                    <span class="badge bg-success">{{ $transaction->transaction_type }}</span>
+                                @else
+                                    <span class="badge bg-danger">{{ $transaction->transaction_type }}</span>
+                                @endif
+                            </td>
+                            <td>₹ {{ number_format($transaction->amount, 2) }}</td>
+                            <td>{{ $transaction->payment_mode }}</td>
                 </tr>
             @endforeach
         </tbody>

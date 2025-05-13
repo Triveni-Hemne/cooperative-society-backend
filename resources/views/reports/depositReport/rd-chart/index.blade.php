@@ -64,8 +64,10 @@
                     <td>{{ $account->start_date }}</td>
                     <td>{{ $account->duration_months }}</td>
                     <td>{{ $account->interest_rate }}%</td>
-                    <td>₹{{ number_format($account->interest_earned, 2) }}</td>
-                    <td>₹{{ number_format($account->total_balance, 2) }}</td>
+                    {{-- <td>₹{{ number_format($account->interest_earned, 2) }}</td> --}}
+                    <td>₹{{ $account->interest_earned }}</td>
+                    {{-- <td>₹{{ number_format($account->total_balance, 2) }}</td> --}}
+                    <td>₹{{ $account->total_balance }}</td>
                     <td>{{ $account->maturity_date }}</td>
                 </tr>
                 @endforeach

@@ -28,7 +28,11 @@ class GeneralReportController extends Controller
             $branches = $user->role === 'Admin' ? Branch::all() : null;
             
             $transactions = \App\Models\VoucherEntry::with(['enteredBy', 'branch'])
-            ->where('account_id', $accountId)
+            ->where(function ($query) use ($accountId) {
+                $query->where('account_id', $accountId)
+                    ->orWhere('member_depo_account_id', $accountId)
+                    ->orWhere('member_loan_account_id', $accountId);
+                })
             ->whereBetween('date', [$startDate, $endDate])
             ->when($branchId, function ($query) use ($branchId) {
                 $query->where(function ($query) use ($branchId) {
@@ -337,23 +341,25 @@ class GeneralReportController extends Controller
             }
 
         $branches = $user->role === 'Admin' ? Branch::all() : null;
-        $demandList = MemberLoanAccount::when($branchId, function ($query) use ($branchId) {
-            $query->where(function ($query) use ($branchId) {
-                $query->whereHas('member.user', function ($q) use ($branchId) {
-                    $q->where('branch_id', $branchId);
-                })->orWhereHas('member.branch', function ($q) use ($branchId) {
-                    $q->where('id', $branchId);
+        
+       $demandList = MemberLoanAccount::with(['member', 'loanInstallments' => function ($q) use ($startDate, $endDate) {
+                $q->whereBetween('mature_date', [$startDate, $endDate])
+                ->whereColumn('total_installments_paid', '<', 'total_installments'); // unpaid
+            }])
+            ->whereHas('loanInstallments', function ($q) use ($startDate, $endDate) {
+                $q->whereBetween('mature_date', [$startDate, $endDate])
+                ->whereColumn('total_installments_paid', '<', 'total_installments'); // unpaid
+            })
+            ->when($branchId, function ($query) use ($branchId) {
+                $query->where(function ($query) use ($branchId) {
+                    $query->whereHas('member.user', function ($q) use ($branchId) {
+                        $q->where('branch_id', $branchId);
+                    })->orWhereHas('member', function ($q) use ($branchId) {
+                        $q->where('branch_id', $branchId);
+                    });
                 });
-            });
-        })->with(['member', 'loanInstallment' => function ($q) use ($startDate, $endDate) {
-            $q->whereBetween('mature_date', [$startDate, $endDate])
-            ->whereColumn('total_installments_paid', '<', 'total_installments'); // unpaid
-        }])
-        ->whereHas('loanInstallment', function ($q) use ($startDate, $endDate) {
-            $q->whereBetween('mature_date', [$startDate, $endDate])
-            ->whereColumn('total_installments_paid', '<', 'total_installments');
-        })
-        ->get();
+            })
+            ->get();
 
         return compact('demandList', 'startDate', 'endDate', 'branches');
     }
@@ -366,7 +372,7 @@ class GeneralReportController extends Controller
         $branchId = $request->input('branch_id'); 
 
         $data = $this->getDemandList($startDate, $endDate, $branchId);
-
+        // return $data;
         return view('reports.generalReport.demand-list.index', $data);
     }
 

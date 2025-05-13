@@ -27,9 +27,10 @@
         </tr>
         <tr>
             <td><strong>Member Name:</strong> 
-                {{ optional($entry->memberDepositAccount->member)->name 
-                    ?? optional($entry->memberLoanAccount->member)->name 
-                    ?? '-' }}
+                {{ optional($entry->memberDepositAccount)->name  
+                                        ?? optional($entry->memberLoanAccount)->name 
+                                        ?? optional($entry->account)->name 
+                                        ?? '-' }}
             </td>
             <td><strong>Account Type:</strong> 
                 @if ($entry->member_depo_account_id) Deposit

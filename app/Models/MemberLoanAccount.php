@@ -44,9 +44,9 @@ class MemberLoanAccount extends Model
         return $this->hasOne(LoanGuarantor::class, 'loan_id'); 
     }
 
-     public function loanInstallment()
+     public function loanInstallments()
     {
-        return $this->hasOne(LoanInstallment::class, 'loan_id'); 
+        return $this->hasMany(LoanInstallment::class, 'loan_id'); 
     }
 
      public function loanResolutionDtl()

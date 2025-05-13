@@ -105,8 +105,8 @@
                         @foreach($transactions as $transaction)
                         <tr>
                             <td>{{ $transaction->date }}</td>
-                            <td>{{ $transaction->memberLoanAccount ? $transaction->memberLoanAccount->acc_no : 'N/A' }}</td>
-                            <td>{{ $transaction->memberLoanAccount ? $transaction->memberLoanAccount->name : 'N/A' }}</td>
+                            <td>{{ $transaction->account->account_no ?? $transaction->memberDepositAccount->acc_no ?? $transaction->memberLoanAccount->acc_no ?? 'N/A' }}</td>
+                            <td>{{ $transaction->account->name ?? $transaction->memberDepositAccount->name ?? $transaction->memberLoanAccount->name ?? 'N/A' }}</td>
                             <td>
                                 @if($transaction->transaction_type == 'Deposit')
                                     <span class="badge bg-success">{{ $transaction->transaction_type }}</span>

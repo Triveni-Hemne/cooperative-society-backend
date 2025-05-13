@@ -608,7 +608,7 @@
                                                 <input name="open_interest_rd" id="openingInterest"
                                                     class="form-control @error('open_interest_rd') is-invalid @enderror"
                                                     value="{{ old('open_interest_rd') }}" type="number"
-                                                    placeholder="Opening Interest" required>
+                                                    placeholder="Opening Interest" >
                                                 <label for="openingInterest" class="form-label">Opening
                                                     Interest</label>
                                                 @error('open_interest_rd')
@@ -621,7 +621,7 @@
                                                 <input name="rd_term_months" id="rdTermMonths"
                                                     class="form-control @error('rd_term_months') is-invalid @enderror"
                                                     value="{{ old('rd_term_months') }}" type="number"
-                                                    placeholder="RD Term Months" required>
+                                                    placeholder="RD Term Months" >
                                                 <label for="rdTermMonths" class="form-label">RD Term Months</label>
                                                 @error('rd_term_months')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -635,7 +635,7 @@
                                                 <input name="maturity_amount_rd" id="rdMaturityAmount"
                                                     class="form-control @error('maturity_amount_rd') is-invalid @enderror"
                                                     value="{{ old('maturity_amount_rd') }}" type="number"
-                                                    placeholder="RD Maturity Amount" required>
+                                                    placeholder="RD Maturity Amount" >
                                                 <label for="rdMaturityAmount" class="form-label">RD Maturity
                                                     Amount</label>@error('maturity_amount_rd')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -653,7 +653,7 @@
                                                 <input name="maturity_amount_fd" id="fdMaturityAmount"
                                                     class="form-control @error('maturity_amount_fd') is-invalid @enderror"
                                                     value="{{ old('maturity_amount_fd') }}" type="number"
-                                                    placeholder="Maturity Amount" required>
+                                                    placeholder="Maturity Amount" >
                                                 <label for="fdMaturityAmount" class="form-label">FD Maturity
                                                     Amount</label>
                                                 @error('maturity_amount_fd')
@@ -666,7 +666,7 @@
                                                 <input name="fd_term_months" id="fdTermMonths"
                                                     class="form-control @error('fd_term_months') is-invalid @enderror"
                                                     value="{{ old('fd_term_months') }}" type="number"
-                                                    placeholder="FD Term Months" required>
+                                                    placeholder="FD Term Months" >
                                                 <label for="fdTermMonths" class="form-label">FD Term Months</label>
                                                 @error('fd_term_months')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -683,7 +683,7 @@
                                             <div class="form-floating">
                                                 <input name="balance_sv" id="svBalance"
                                                     class="form-control @error('balance_sv') is-invalid @enderror"
-                                                    value="{{ old('balance') }}" type="text" placeholder="Balance" required>
+                                                    value="{{ old('balance') }}" type="text" placeholder="Balance" >
                                                 <label for="svBalance" class="form-label">Balance</label>
                                                 @error('balance_sv')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -695,7 +695,7 @@
                                                 <input name="interest_rate_sv" id="svInterestRate"
                                                     class="form-control @error('interest_rate_sv') is-invalid @enderror"
                                                     value="{{ old('interest_rate_sv') }}" type="text"
-                                                    placeholder="Interest Rate" required>
+                                                    placeholder="Interest Rate" >
                                                 <label for="svInterestRate" class="form-label">Interest Rate</label>
                                                 @error('interest_rate_sv')
                                                 <div class="invalid-feedback">{{ $message }}</div>
