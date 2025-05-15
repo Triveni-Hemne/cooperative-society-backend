@@ -29,7 +29,7 @@
                                 <option value="" disabled selected>Select Employee (Optional)</option>
                                 @foreach ($employees as $employee)
                                 <option value="{{ $employee->id }}"
-                        {{ old('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->member->name }}
+                        {{ old('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->member->name ?? '' }}
                         </option>
                         @endforeach
                         </select>

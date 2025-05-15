@@ -144,9 +144,20 @@
                     <th scope="row">{{optional($member->bankdtl)->bank_account_no  ?? ''}}</th>
                     <th scope="row">{{optional($member->bankdtl)->ifsc_code  ?? ''}}</th>
                     <th scope="row">{{optional($member->bankdtl)->proof_1_no  ?? ''}} {{optional($member->bankdtl)->proof_1_type  ?? ''}}</th>
-                    <th scope="row">{{optional($member->bankdtl)->proof_1_image  ?? ''}}</th>
+                    <th scope="row">@php $imagePath = optional($member->bankdtl)->proof_1_image; @endphp
+                        @if ($imagePath)
+                            <img src="{{ asset('storage/' . $imagePath) }}" alt="Proof 1 Image" style="max-width: 50px; max-height: 50px;">
+                        @else
+                            No Image
+                        @endif
+                    </th>
                     <th scope="row">{{optional($member->bankdtl)->proof_2_no  ?? ''}} {{optional($member->bankdtl)->proof_2_type  ?? ''}}</th>
-                    <th scope="row">{{optional($member->bankdtl)->proof_2_image  ?? ''}}</th>
+                    <th scope="row">@php $imagePath = optional($member->bankdtl)->proof_2_image; @endphp
+                        @if ($imagePath)
+                            <img src="{{ asset('storage/' . $imagePath) }}" alt="Proof 1 Image" style="max-width: 50px; max-height: 50px;">
+                        @else
+                            No Image
+                        @endif</th>
                     <th scope="row">{{optional($member->financialdtl)->director->name  ?? ''}}</th>
                     <th scope="row">{{optional($member->financialdtl)->share_amount  ?? ''}}</th>
                     <th scope="row">{{optional($member->financialdtl)->number_of_shares  ?? ''}}</th>
@@ -163,7 +174,12 @@
                     <th scope="row">{{optional($member->nominee)->nominee_age  ?? ''}}</th>
                     <th scope="row">{{optional($member->nominee)->nominee_gender  ?? ''}}</th>
                     <th scope="row">{{optional($member->nominee)->relation  ?? ''}}</th>
-                    <th scope="row">{{optional($member->nominee)->nominee_image  ?? ''}}</th>
+                    <th scope="row">@php $imagePath = optional($member->nominee)->nominee_image; @endphp
+                        @if ($imagePath)
+                            <img src="{{ asset('storage/' . $imagePath) }}" alt="Proof 1 Image" style="max-width: 50px; max-height: 50px;">
+                        @else
+                            No Image
+                        @endif</th>
                     <th scope="row">{{optional($member->nominee)->nominee_address  ?? ''}}</th>
                     <th scope="row">{{optional($member->nominee)->nominee_marathi_address  ?? ''}}</th>
                     <th scope="row">{{optional($member->nominee)->nominee_adhar_no  ?? ''}}</th>

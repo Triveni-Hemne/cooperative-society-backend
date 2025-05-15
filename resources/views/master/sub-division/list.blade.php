@@ -108,6 +108,7 @@
         });
     </script>
 @endif --}}
+<script src="{{asset('assets\js\marathi-autofil-validate-fields.js')}}"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".edit-btn").forEach(button => {

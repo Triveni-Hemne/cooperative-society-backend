@@ -10,7 +10,7 @@ class MemberBankDetail extends Model
 
    protected $fillable = [
         'member_id', 'bank_name', 'branch_name', 'ifsc_code',
-        'bank_account_no', 'proof_1_no', 'proof_1_type', 'proof_2_no', 'proof_2_type'
+        'bank_account_no', 'proof_1_no', 'proof_1_type', 'proof_2_no', 'proof_2_type','proof_1_image','proof_2_image'
     ];
 
     public function member() {

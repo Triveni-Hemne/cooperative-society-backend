@@ -20,10 +20,10 @@ return new class extends Migration
             $table->string('ifsc_code', 11);
             $table->string('proof_1_no', 50)->unique()->nullable();
             $table->string('proof_1_type', 50)->nullable();
-            $table->string('proof_1_image', 50)->unique()->nullable();
+            $table->string('proof_1_image', 255)->unique()->nullable();
             $table->string('proof_2_no', 50)->unique()->nullable();
             $table->string('proof_2_type', 50)->nullable();
-            $table->string('proof_2_image', 50)->unique()->nullable();
+            $table->string('proof_2_image', 255)->unique()->nullable();
             $table->timestamps();
             $table->softDeletes(); // adds deleted_at column
         });

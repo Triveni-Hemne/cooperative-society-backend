@@ -2,7 +2,7 @@
     aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content rounded-4 border-0 shadow">
-            <form method="POST" action="{{ route('members.store') }}" id="memberForm">
+            <form method="POST" action="{{ route('members.store') }}" id="memberForm" enctype="multipart/form-data">
                 @csrf
                 @if(Session::has('error'))
                 <div class="alert alert-danger rounded-0 m-0">{{ Session::get('error') }}</div>
@@ -567,7 +567,7 @@
                                         <label for="nomineeImage" class="form-label text-white">Nominee Photo</label>
                                         <input name="nominee_image" id="nomineeImage"
                                             class="form-control @error('nominee_image') is-invalid @enderror"
-                                            value="{{ old('nominee_image') }}" type="file" accept="image/*"
+                                             type="file" accept="image/*"
                                             placeholder="Nominee Photo">
                                         @error('nominee_image')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -673,7 +673,7 @@
                                         <label for="proof1Image" class="form-label text-white">Proof 1 Copy</label>
                                         <input name="proof_1_image" id="proof1Image"
                                             class="form-control @error('proof_1_image') is-invalid @enderror"
-                                            value="{{ old('proof_1_image') }}" type="file" accept="image/*,.pdf"
+                                             type="file" accept="image/*,.pdf"
                                             placeholder="Proof 1 Copy">
                                         @error('proof_1_image')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -727,7 +727,7 @@
                                         <label for="proof2Image" class="form-label text-white">Proof 2 Copy</label>
                                         <input name="proof_2_image" id="proof2Image"
                                             class="form-control @error('proof_2_image') is-invalid @enderror"
-                                            value="{{ old('proof_2_image') }}" type="file" accept="image/*,.pdf"
+                                             type="file" accept="image/*,.pdf"
                                             placeholder="Proof 2 Copy">
                                         @error('proof_2_image')
                                         <div class="invalid-feedback">{{ $message }}</div>

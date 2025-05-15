@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('marathi_description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

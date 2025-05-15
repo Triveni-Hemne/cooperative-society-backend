@@ -77,8 +77,6 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        dd( $request->all());
-
         $validatedData = $request->validate([
             // Employee Validation
             'emp_code' => 'nullable|string|max:50|unique:employees,emp_code',
@@ -130,7 +128,7 @@ class MemberController extends Controller
             'nominee_age' => 'required|integer',
             'nominee_gender' => 'required|in:Male,Female,Other',
             'relation' => 'required|string|max:50',
-            'nominee_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'nominee_image' => 'nullable|image|max:2048',
             'nominee_address' => 'nullable|string|max:50',
             'nominee_marathi_address' => 'nullable|string|max:50',
             'nominee_adhar_no' => 'nullable|string|max:50',
@@ -142,10 +140,10 @@ class MemberController extends Controller
             'ifsc_code' => 'required|string|min:5|max:11',
             'proof_1_no' => 'nullable|string|unique:member_bank_details,proof_1_no',
             'proof_1_type' => 'nullable|string|max:50',
-            'proof_1_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'proof_1_image' => 'nullable|image|max:2048',
             'proof_2_no' => 'nullable|string|unique:member_bank_details,proof_2_no',
             'proof_2_type' => 'nullable|string|max:50',
-            'proof_2_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'proof_2_image' => 'nullable|image|max:2048',
 
             // Financial Validation
             'director_id' => 'nullable|exists:directors,id',

@@ -73,7 +73,20 @@
                     <td scope="row">{{$i}}</td>
                     <td scope="row">{{$account->id}}</td>
                     <td scope="row">{{$account->ledger->name}}</td>
-                    <td scope="row">{{$account->images ?? ''}}</td>
+                    <td scope="row">
+                        @php
+                        $images = json_decode($account->images, true);
+                        @endphp
+                        @if(!empty($images['photo']))
+                            <p>Photo: </p>
+                            <img src="{{ asset('storage/' . $images['photo']) }}" alt="Photo" style="max-width: 50px;">
+                        @endif
+
+                        @if(!empty($images['signature']))
+                            <p>Signature: </p>
+                            <img src="{{ asset('storage/' . $images['signature']) }}" alt="Signature" style="max-width: 50px;">
+                        @endif
+                    </td>
                     <td scope="row">{{$account->member->name}}</td>
                     <td scope="row">{{$account->acc_no}}</td>
                     <td scope="row">{{$account->deposit_type}}</td>

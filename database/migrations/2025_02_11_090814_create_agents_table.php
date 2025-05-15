@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('commition_rate', 5, 2);
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 
