@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('total_balance', 12, 2);
              $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

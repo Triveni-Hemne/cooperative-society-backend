@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('added_on');
             $table->date('released_on')->nullable();
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

@@ -37,6 +37,7 @@ return new class extends Migration
             $table->decimal('interest_payable', 10, 2)->nullable();
             $table->decimal('open_interest', 10, 2)->nullable();
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

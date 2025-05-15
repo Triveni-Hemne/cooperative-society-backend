@@ -785,7 +785,7 @@
                                         <div class="form-floating">
                                             <input name="salary" id="salary"
                                                 class="form-control @error('salary') is-invalid @enderror"
-                                                value="{{ old('salary') }}" type="number" placeholder="Salary">
+                                                value="{{ old('salary') }}" step="0.01" type="number" placeholder="Salary">
                                             <label for="salary" class="form-label">Salary</label>
                                             @error('salary')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -796,7 +796,7 @@
                                         <div class="form-floating">
                                             <input name="other_allowance" id="otherAllowance"
                                                 class="form-control @error('other_allowance') is-invalid @enderror"
-                                                value="{{ old('other_allowance') }}" type="text"
+                                                value="{{ old('other_allowance') }}" step="0.01" type="text"
                                                 placeholder="Other Allowance">
                                        
                                             <label for="otherAllowance" class="form-label">Other Allowance</label>
@@ -947,7 +947,7 @@
                                         <div class="form-floating">
                                             <input name="hra" id="hra"
                                                 class="form-control @error('hra') is-invalid @enderror"
-                                                value="{{ old('hra') }}" type="number" placeholder="HRA">
+                                                value="{{ old('hra') }}" type="number" step="0.01" placeholder="HRA">
                                             <label for="hra" class="form-label">HRA</label>
                                             @error('hra')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -958,7 +958,7 @@
                                         <div class="form-floating">
                                             <input name="da" id="da"
                                                 class="form-control @error('da') is-invalid @enderror"
-                                                value="{{ old('da') }}" type="number" placeholder="DA">
+                                                value="{{ old('da') }}" type="number" step="0.01" placeholder="DA">
                                             <label for="da" class="form-label">DA</label>
                                             @error('da')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -1016,7 +1016,7 @@
                                         <div class="form-floating">
                                             <input name="dividend_amount" id="dividendAmount"
                                                 class="form-control @error('dividend_amount') is-invalid @enderror"
-                                                value="{{ old('dividend_amount') }}" type="number"
+                                                value="{{ old('dividend_amount') }}" type="number" step="0.01"
                                                 placeholder="Divident Amount">
                                             <label for="dividendAmount" class="form-label">Divident Amount</label>
                                             @error('dividend_amount')
@@ -1028,7 +1028,7 @@
                                         <div class="form-floating">
                                             <input name="share_amount" id="shareAmount"
                                                 class="form-control @error('share_amount') is-invalid @enderror"
-                                                value="{{ old('share_amount') }}" type="number"
+                                                value="{{ old('share_amount') }}" type="number" step="0.01"
                                                 placeholder="Share Amount">
                                             <label for="shareAmount" class="form-label">Share Amount</label>
                                             @error('share_amount')
@@ -1042,7 +1042,7 @@
                                         <div class="form-floating">
                                             <input name="number_of_shares" id="numberOfShares"
                                                 class="form-control @error('number_of_shares') is-invalid @enderror"
-                                                value="{{ old('number_of_shares') }}" type="number"
+                                                value="{{ old('number_of_shares') }}" type="number" step="0.01"
                                                 placeholder="Number of Shares">
                                             <label for="numberOfShares" class="form-label">Number of Shares</label>
                                             @error('number_of_shares')
@@ -1054,7 +1054,7 @@
                                         <div class="form-floating">
                                             <input name="current_balance" id="currentBalance"
                                                 class="form-control @error('current_balance') is-invalid @enderror"
-                                                value="{{ old('current_balance') }}" type="number"
+                                                value="{{ old('current_balance') }}" type="number" step="0.01"
                                                 placeholder="Voucher No.">
                                             <label for="currentBalance" class="form-label">Current Balance</label>
                                             @error('current_balance')
@@ -1068,7 +1068,7 @@
                                         <div class="form-floating">
                                             <input name="monthly_deposit" id="monthlyDeposit"
                                                 class="form-control @error('monthly_deposit') is-invalid @enderror"
-                                                value="{{ old('monthly_deposit') }}" type="number"
+                                                value="{{ old('monthly_deposit') }}" type="number" step="0.01"
                                                 placeholder="Monthly Deposit">
                                             <label for="monthlyDeposit" class="form-label">Monthly Deposit</label>
                                             @error('monthly_deposit')
@@ -1080,7 +1080,7 @@
                                         <div class="form-floating">
                                             <input name="welfare_fund" id="welfareFund"
                                                 class="form-control @error('welfare_fund') is-invalid @enderror"
-                                                value="{{ old('welfare_fund') }}" type="number"
+                                                value="{{ old('welfare_fund') }}" type="number" step="0.01"
                                                 placeholder="Welfare Amount">
                                             <label for="welfareFund" class="form-label">Welfare Amount</label>
                                             @error('welfare_fund')
@@ -1094,7 +1094,7 @@
                                         <div class="form-floating">
                                             <input name="monthly_balance" id="monthlyBalance"
                                                 class="form-control @error('monthly_balance') is-invalid @enderror"
-                                                value="{{ old('monthly_balance') }}" type="number"
+                                                value="{{ old('monthly_balance') }}" type="number" step="0.01"
                                                 placeholder="Monthly Balance">
                                             <label for="monthlyBalance" class="form-label">Monthly Balance</label>
                                             @error('monthly_balance')

@@ -47,6 +47,7 @@ return new class extends Migration
             $table->decimal('notice_fee', 10, 2)->nullable();
             $table->date('insurance_date')->nullable();
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

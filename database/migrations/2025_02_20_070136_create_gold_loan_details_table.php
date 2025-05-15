@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('release_status', ['Pledged', 'Released'])->default('Pledged');
             $table->date('release_date')->nullable();
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

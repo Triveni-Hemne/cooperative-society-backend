@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('subdivision_id')->constrained('subdivisions')->onDelete('cascade');
             $table->foreignId('center_id')->nullable()->constrained('centers')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

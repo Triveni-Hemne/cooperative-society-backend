@@ -17,6 +17,7 @@ return new class extends Migration
             // $table->foreignId('member_id')->constrained('members')->onDelete('cascade');
             $table->enum('status', ['Open', 'Closed'])->default('Open');
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

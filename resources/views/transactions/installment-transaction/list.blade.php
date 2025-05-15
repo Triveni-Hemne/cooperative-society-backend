@@ -158,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         // Reset method and form action
         document.getElementById("formMethod").value = "POST";
-        form.setAttribute("action", "{{ route('transfer-entry.store') }}");
+        form.setAttribute("action", "{{ route('installment-transactions.store') }}");
 
         // Reset modal title & button text
         document.getElementById("installmentTransactionModalLabel").textContent = "Add Installment Transaction";

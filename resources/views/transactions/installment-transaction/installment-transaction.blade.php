@@ -69,7 +69,7 @@
 
                     {{-- Amount Paid --}}
                     <div class="form-floating mb-3">
-                        <input name="amount_paid" id="amountPaid" type="number"
+                        <input name="amount_paid" id="amountPaid" type="number" step="0.01"
                             class="form-control @error('amount_paid') is-invalid @enderror" placeholder="Amount Paid"
                             value="{{ old('amount_paid') }}" required>
                         <label for="amountPaid" class="form-label required">Amount Paid</label>
@@ -102,7 +102,7 @@
 
                     {{-- Total Balance --}}
                     <div class="form-floating mb-3">
-                        <input name="total_balance" id="totalBalance" type="number"
+                        <input name="total_balance" id="totalBalance" type="number" step="0.01"
                             class="form-control @error('total_balance') is-invalid @enderror"
                             placeholder="Total Balance" value="{{ old('total_balance') }}" required>
                         <label for="totalBalance" class="form-label required">Total Balance</label>

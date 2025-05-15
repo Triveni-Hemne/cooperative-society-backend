@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('proof_2_type', 50)->nullable();
             $table->string('proof_2_image', 50)->unique()->nullable();
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

@@ -49,6 +49,7 @@ return new class extends Migration
             $table->index('member_loan_account_id');
             $table->index('member_depo_account_id');
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
 
     }

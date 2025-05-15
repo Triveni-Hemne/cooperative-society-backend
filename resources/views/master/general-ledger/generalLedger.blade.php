@@ -78,7 +78,7 @@
                         <div class="row ">
                             <div class="col-md-3 mb-3">
                                 <div class="form-floating">
-                                    <input name="balance" id="balance" type="number"
+                                    <input name="balance" id="balance" type="number" step="0.01"
                                         class="form-control @error('balance') is-invalid @enderror"
                                         value="{{ old('balance') }}" placeholder="Balance" required>
                                     <label for="balance" class="form-label">Balance</label>
@@ -106,7 +106,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
-                                    <input name="penal_rate" id="penalRate" type="number"
+                                    <input name="penal_rate" id="penalRate" type="number" step="0.01"
                                         class="form-control @error('penal_rate') is-invalid @enderror"
                                         value="{{ old('penal_rate') }}" placeholder="Penal Rate">
                                     <label for="penalRate" class="form-label">Penal Rate</label>
@@ -120,7 +120,7 @@
                         <div class="row ">
                             <div class="col-md-3 mb-3">
                                 <div class="form-floating">
-                                    <input name="open_balance" id="openBalance" type="number"
+                                    <input name="open_balance" id="openBalance" type="number" step="0.01"
                                         class="form-control @error('open_balance') is-invalid @enderror"
                                         value="{{ old('open_balance') }}" placeholder="Open Balance" required>
                                     <label for="openBalance" class="form-label">Open Balance</label>
@@ -148,7 +148,7 @@
                             </div>
                             <div class="col-md-3 mb-3">
                                 <div class="form-floating">
-                                    <input name="interest_rate" id="interestRate" type="number"
+                                    <input name="interest_rate" id="interestRate" type="number" step="0.01"
                                         class="form-control @error('interest_rate') is-invalid @enderror"
                                         value="{{ old('interest_rate') }}" placeholder="Interest Rate" required>
                                     <label for="interestRate" class="form-label">Interest Rate</label>
@@ -181,7 +181,7 @@
                         <div class="row ">
                             <div class="col-md-3 mb-3">
                                 <div class="form-floating">
-                                    <input name="min_balance" id="minBalance" type="number"
+                                    <input name="min_balance" id="minBalance" type="number" step="0.01"
                                         class="form-control @error('min_balance') is-invalid @enderror"
                                         value="{{ old('min_balance') }}" placeholder="Min. Balance" required>
                                     <label for="minBalance" class="form-label">Min. Balance</label>
@@ -281,7 +281,7 @@
                             </div>
                             <div class="col-md-3 mb-3">
                                 <div class="form-floating">
-                                    <input type="number" name="cd_ratio" id="cdRatio"
+                                    <input type="number" name="cd_ratio" id="cdRatio" step="0.01"
                                         class="form-control @error('cd_ratio') is-invalid @enderror"
                                         value="{{ old('cd_ratio') }}" placeholder="CD Ratio">
                                     <label for="cdRatio" class="form-label">CD Ratio</label>

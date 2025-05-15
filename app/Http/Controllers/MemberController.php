@@ -81,14 +81,14 @@ class MemberController extends Controller
 
         $validatedData = $request->validate([
             // Employee Validation
-            'emp_code' => 'required|string|max:50|unique:employees,emp_code',
-            'designation_id' => 'required|exists:designations,id',
-            'salary' => 'required|numeric',
+            'emp_code' => 'nullable|string|max:50|unique:employees,emp_code',
+            'designation_id' => 'nullable|exists:designations,id',
+            'salary' => 'nullable|numeric',
             'other_allowance' => 'nullable|numeric',
-            'division_id' => 'required|exists:divisions,id',
-            'subdivision_id' => 'required|exists:subdivisions,id',
-            'center_id' => 'required|exists:centers,id',
-            'joining_date' => 'required|date',
+            'division_id' => 'nullable|exists:divisions,id',
+            'subdivision_id' => 'nullable|exists:subdivisions,id',
+            'center_id' => 'nullable|exists:centers,id',
+            'joining_date' => 'nullable|date',
             'transfer_date' => 'nullable|date',
             'retirement_date' => 'nullable|date',
             'gpf_no' => 'nullable|string|max:50|unique:employees,gpf_no',
@@ -149,16 +149,16 @@ class MemberController extends Controller
 
             // Financial Validation
             'director_id' => 'nullable|exists:directors,id',
-            'share_amount' => 'numeric|min:0',
-            'number_of_shares' => 'numeric|min:0',
+            'share_amount' => 'nullable|numeric|min:0',
+            'number_of_shares' => 'nullable|numeric|min:0',
             'welfare_fund' => 'nullable|numeric',
             'page_no' => 'nullable|string|max:50',
-            'current_balance' => 'numeric|min:0',
-            'monthly_balance' => 'numeric|min:0',
+            'current_balance' => 'nullable|numeric|min:0',
+            'monthly_balance' => 'nullable|numeric|min:0',
             'dividend_amount' => 'nullable|numeric|min:0',
-            'monthly_deposit' => 'numeric|min:0',
+            'monthly_deposit' => 'nullable|numeric|min:0',
             'demand' => 'nullable|string|in:yes,no',
-            'type' => 'required|in:Share,Dividend,Deposit',
+            'type' => 'nullable|in:Share,Dividend,Deposit',
         ]);
 
 

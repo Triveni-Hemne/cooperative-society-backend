@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('location');
             // $table->foreignId('manager_id')->constrained('employees')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

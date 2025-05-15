@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('fd_term_months');
             $table->decimal('maturity_amount', 10, 2)->nullable();
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

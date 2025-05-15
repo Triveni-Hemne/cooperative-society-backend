@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset method and form action
         document.getElementById("formMethod").value = "POST";
-        form.setAttribute("action", "{{ route('sub-divisions.store') }}");
+        form.setAttribute("action", "{{ route('subcastes.store') }}");
 
         // Reset modal title & button text
         document.getElementById("subcasteModalLabel").textContent = 'Add SubCaste';

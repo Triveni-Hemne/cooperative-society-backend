@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('balance_type', ['Credit', 'Debit'])->notNull();
             $table->enum('item_type', ['Asset', 'Liability', 'Income', 'Expense'])->notNull();
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

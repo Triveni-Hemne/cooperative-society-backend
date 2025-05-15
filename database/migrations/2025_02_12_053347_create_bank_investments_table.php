@@ -34,6 +34,7 @@ return new class extends Migration
             $table->decimal('interest_receivable', 12, 2);
             $table->string('interest_frequency')->nullable();
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

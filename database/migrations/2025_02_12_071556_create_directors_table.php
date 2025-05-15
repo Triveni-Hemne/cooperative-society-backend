@@ -22,6 +22,7 @@ return new class extends Migration
             $table->date('from_date');
             $table->date('to_date')->nullable();
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

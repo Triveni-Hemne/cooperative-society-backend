@@ -100,7 +100,7 @@
                         <div class="form-floating">
                                 <input name="opening_cash_balance" id="openingCashBalance"
                                     class="form-control @error('opening_cash_balance') is-invalid @enderror"
-                                    value="{{ old('opening_cash_balance') }}" type="number" required
+                                    value="{{ old('opening_cash_balance') }}" type="number" step="0.01" required
                         placeholder="Opening Cash Balance">
                         <label for="openingCashBalance" class="form-label required">Opening Cash Balance</label>
                         @error('opening_cash_balance')

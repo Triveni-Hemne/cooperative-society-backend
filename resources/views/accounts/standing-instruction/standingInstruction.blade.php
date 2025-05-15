@@ -194,7 +194,7 @@
             <div class="col-md-6 mb-3">
                 {{-- Debit Transfer --}}
                 <div class="form-floating mb-3">
-                    <input name="debit_transfer" id="debitTransfer" type="number"
+                    <input name="debit_transfer" id="debitTransfer" type="number" step="0.01"
                         class="form-control @error('debit_transfer') is-invalid @enderror" placeholder="Debit Transfer"
                         value="{{ old('debit_transfer') }}">
                     <label for="debitTransfer" class="form-label required">Debit Transfer</label>
@@ -284,7 +284,7 @@
 
             <div class="col-md-6 mb-3">
                 <div class="form-floating">
-                    <input name="amount" id="amount" type="number"
+                    <input name="amount" id="amount" type="number" step="0.01"
                         class="form-control @error('amount') is-invalid @enderror" placeholder="Amount"
                         value="{{ old('amount') }}" required>
                     <label for="amount" class="form-label required">Amount</label>

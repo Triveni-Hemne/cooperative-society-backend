@@ -149,7 +149,7 @@
                                 <div class="form-floating">
                                     <input name="interest_rate" id="interestRate"
                                         class="form-control @error('interest_rate') is-invalid @enderror"
-                                        value="{{ old('interest_rate') }}" type="number" placeholder="Interest Rate">
+                                        value="{{ old('interest_rate') }}" type="number" step="0.01" placeholder="Interest Rate">
                                     <label for="interestRate" class="form-label">Interest Rate</label>
                                     @error('interest_rate')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -185,7 +185,7 @@
                                 <div class="form-floating">
                                     <input name="balance" id="balance"
                                         class="form-control @error('balance') is-invalid @enderror"
-                                        value="{{ old('balance') }}" type="number" placeholder="Balance" required>
+                                        value="{{ old('balance') }}" type="number" step="0.01" placeholder="Balance" required>
                                     <label for="balance" class="form-label">Balance</label>
                                     @error('balance')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -272,7 +272,7 @@
                                 <div class="form-floating">
                                     <input name="installment_amount" id="installmentAmount"
                                         class="form-control @error('installment_amount') is-invalid @enderror"
-                                        value="{{ old('installment_amount') }}" type="number"
+                                        value="{{ old('installment_amount') }}" step="0.01" type="number"
                                         placeholder="Installment Amount">
                                     <label for="installmentAmount" class="form-label">Installment Amount</label>
                                     @error('installment_amount')

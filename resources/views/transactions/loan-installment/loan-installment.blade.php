@@ -99,7 +99,7 @@
                             <div class="form-floating">
                                 <input name="total_installments" id="totalInstallments"
                                        class="form-control @error('total_installments') is-invalid @enderror"
-                                       value="{{ old('total_installments') }}" type="number"
+                                       value="{{ old('total_installments') }}" type="number" 
                                        placeholder="Total Installments" required>
                                 <label for="totalInstallments" class="form-label">Total Installments</label>
                                 @error('total_installments')
@@ -113,7 +113,7 @@
                             <div class="form-floating">
                                 <input name="installment_amount" id="installmentAmount"
                                        class="form-control @error('installment_amount') is-invalid @enderror"
-                                       value="{{ old('installment_amount') }}" type="number"
+                                       value="{{ old('installment_amount') }}" type="number" step="0.01"
                                        placeholder="Installment Amount" required>
                                 <label for="installmentAmount" class="form-label">Installment Amount</label>
                                 @error('installment_amount')

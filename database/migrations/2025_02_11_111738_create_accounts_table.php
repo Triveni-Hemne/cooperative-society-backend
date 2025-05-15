@@ -31,6 +31,7 @@ return new class extends Migration
             $table->integer('total_installments_paid')->default(0);
             $table->date('closing_date')->nullable();
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('adhar_no', 20)->nullable();
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

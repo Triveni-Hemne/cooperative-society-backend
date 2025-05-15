@@ -148,7 +148,7 @@
                                 <div class="form-floating">
                                     <input name="interest_rate" id="interestRate"
                                         class="form-control @error('interest_rate') is-invalid @enderror"
-                                        value="{{ old('interest_rate') }}" type="number" placeholder="Interest Rate">
+                                        value="{{ old('interest_rate') }}" type="number" step="0.01" placeholder="Interest Rate">
                                     <label for="interestRate" class="form-label">Interest Rate</label>
                                     @error('interest_rate')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -173,7 +173,7 @@
                                 <div class="form-floating">
                                     <input name="opening_balance" id="openingBalance"
                                         class="form-control @error('opening_balance') is-invalid @enderror"
-                                        value="{{ old('opening_balance') }}" type="number"
+                                        value="{{ old('opening_balance') }}" type="number" step="0.01"
                                         placeholder="Opening Balance">
                                     <label for="openingBalance" class="form-label">Opening Balance</label>
                                     @error('opening_balance')
@@ -185,7 +185,7 @@
                                 <div class="form-floating">
                                     <input name="current_balance" id="currentBalance"
                                         class="form-control @error('current_balance') is-invalid @enderror"
-                                        value="{{ old('current_balance') }}" type="number"
+                                        value="{{ old('current_balance') }}" type="number" step="0.01"
                                         placeholder="Current Balance">
                                     <label for="currentBalance" class="form-label">Current Balance</label>
                                     @error('current_balance')
@@ -293,7 +293,7 @@
                                             <div class="form-floating">
                                                 <input name="rd_maturity_amount" id="rdMaturityAmount"
                                                     class="form-control @error('rd_maturity_amount') is-invalid @enderror"
-                                                    value="{{ old('rd_maturity_amount') }}" type="number"
+                                                    value="{{ old('rd_maturity_amount') }}" type="number" step="0.01"
                                                     placeholder="Maturity Amount">
                                                 <label for="rdMaturityAmount" class="form-label">Maturity Amount</label>
                                                 @error('rd_maturity_amount')
@@ -305,7 +305,7 @@
                                             <div class="form-floating">
                                                 <input name="rd_interest_receivable" id="rdInterestReceivable"
                                                     class="form-control @error('rd_interest_receivable') is-invalid @enderror"
-                                                    value="{{ old('rd_interest_receivable') }}" type="number"
+                                                    value="{{ old('rd_interest_receivable') }}" type="number" step="0.01"
                                                     placeholder="Interest Receivable">
                                                 <label for="rdInterestReceivable" class="form-label">Interest
                                                     Receivable</label>
@@ -318,7 +318,7 @@
                                             <div class="form-floating">
                                                 <input name="rd_interest_frequency" id="rdInterestFrequency"
                                                     class="form-control @error('rd_interest_frequency') is-invalid @enderror"
-                                                    value="{{ old('rd_interest_frequency') }}" type="number"
+                                                    value="{{ old('rd_interest_frequency') }}" type="number" step="0.01"
                                                     placeholder="Interest Frequency">
                                                 <label for="rdInterestFrequency">
                                                     Interest Frequency</label>
@@ -386,7 +386,7 @@
                                             <div class="form-floating">
                                                 <input name="fd_amount" id="fdAmount"
                                                     class="form-control @error('fd_amount') is-invalid @enderror"
-                                                    value="{{ old('fd_amount') }}" type="number"
+                                                    value="{{ old('fd_amount') }}" type="number" step="0.01"
                                                     placeholder="RD Amount">
                                                 <label for="fdAmount" class="form-label">RD Amount</label>
                                                 @error('fd_amount')
@@ -398,7 +398,7 @@
                                             <div class="form-floating">
                                                 <input name="fd_monthly_deposit" id="fdMonthlyDeposit"
                                                     class="form-control @error('fd_monthly_deposit') is-invalid @enderror"
-                                                    value="{{ old('fd_monthly_deposit') }}" type="number"
+                                                    value="{{ old('fd_monthly_deposit') }}" type="number" step="0.01"
                                                     placeholder="Monthly Amount">
                                                 <label for="fdMonthlyDeposit" class="form-label">Monthly Amount</label>
                                                 @error('fd_monthly_deposit')
@@ -412,7 +412,7 @@
                                             <div class="form-floating">
                                                 <input name="fd_maturity_amount" id="fdMaturityAmount"
                                                     class="form-control @error('fd_maturity_amount') is-invalid @enderror"
-                                                    value="{{ old('fd_maturity_amount') }}" type="number"
+                                                    value="{{ old('fd_maturity_amount') }}" type="number" step="0.01"
                                                     placeholder="Maturity Amount">
                                                 <label for="fdMaturityAmount" class="form-label">Maturity Amount</label>
                                                 @error('fd_maturity_amount')
@@ -424,7 +424,7 @@
                                             <div class="form-floating">
                                                 <input name="interest" id="fdInterest"
                                                     class="form-control @error('interest') is-invalid @enderror"
-                                                    value="{{ old('interest') }}" type="number" placeholder="Interest">
+                                                    value="{{ old('interest') }}" type="number" step="0.01" placeholder="Interest">
                                                 <label for="fdInterest" class="form-label">Interest</label>
                                                 @error('interest')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -435,7 +435,7 @@
                                             <div class="form-floating">
                                                 <input name="fd_interest_receivable" id="fdInterestReceivable"
                                                     class="form-control @error('fd_interest_receivable') is-invalid @enderror"
-                                                    value="{{ old('fd_interest_receivable') }}" type="number"
+                                                    value="{{ old('fd_interest_receivable') }}" type="number" step="0.01"
                                                     placeholder="Interest Receivable">
                                                 <label for="fdInterestReceivable" class="form-label">Interest
                                                     Receivable</label>
@@ -450,7 +450,7 @@
                                             <div class="form-floating">
                                                 <input name="fd_interest_frequency" id="fdInterestFrequency"
                                                     class="form-control @error('fd_interest_frequency') is-invalid @enderror"
-                                                    value="{{ old('fd_interest_frequency') }}" type="number"
+                                                    value="{{ old('fd_interest_frequency') }}" type="number" step="0.01"
                                                     placeholder="Interest Frequency">
                                                 <label for="fdInterestFrequency" class="form-label">Interest
                                                     Frequency</label>

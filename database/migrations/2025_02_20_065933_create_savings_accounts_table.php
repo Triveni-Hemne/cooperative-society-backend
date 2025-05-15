@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('interest_rate', 5, 2)->default(3.50)->comment('Annual Interest Rate (%)');
             $table->enum('status', ['Active', 'Dormant', 'Closed'])->default('Active');
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

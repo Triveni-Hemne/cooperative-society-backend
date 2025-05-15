@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('mobile_no', 15);
             $table->string('phone_no', 15)->nullable();
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

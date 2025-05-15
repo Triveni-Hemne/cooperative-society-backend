@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('resolution_no', 50)->unique();
             $table->date('resolution_date');
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

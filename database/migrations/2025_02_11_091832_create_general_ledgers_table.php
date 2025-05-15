@@ -36,6 +36,7 @@ return new class extends Migration
             $table->boolean('send_sms')->default(false);
             $table->string('item_of', 255)->nullable();
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

@@ -40,9 +40,9 @@ class UserLoginController extends Controller
             if ($admin->role === 'Admin' || $admin->role === 'User') {
                 // Redirect to dashboard if the user has the right role
                 // dd('User role check passed! Redirecting...');
-                $admin->update([
-                    'last_login_at' => now(),
-                ]);
+                // $admin->update([
+                //     'last_login_at' => now(),
+                // ]);
                 return redirect()->intended(route('user.dashboard'));
             } else {
                 // Log the user out if they don't have the right role

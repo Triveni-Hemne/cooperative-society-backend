@@ -124,7 +124,7 @@
                         <div class="form-floating">
                             <input name="open_balance" id="openBalance"
                                 class="form-control @error('open_balance') is-invalid @enderror"
-                                value="{{ old('open_balance') }}" type="number" placeholder="Open Balance">
+                                value="{{ old('open_balance') }}" type="number" step="0.01" placeholder="Open Balance">
                             <label for="openBalance">Open Balance</label>
                             @error('open_balance')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -139,7 +139,7 @@
                         <div class="form-floating">
                             <input name="balance" id="balance"
                                 class="form-control @error('balance') is-invalid @enderror" value="{{ old('balance') }}"
-                                type="number" placeholder="Balance">
+                                type="number" step="0.01" placeholder="Balance">
                             <label for="balance">Balance</label>
                             @error('balance')
                             <div class="invalid-feedback">{{ $message }}</div>

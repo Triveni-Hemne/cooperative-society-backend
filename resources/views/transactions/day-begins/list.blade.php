@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         // Reset method and form action
         document.getElementById("formMethod").value = "POST";
-        form.setAttribute("action", "{{ route('agents.store') }}");
+        form.setAttribute("action", "{{ route('day-begins.store') }}");
 
         // Reset modal title & button text
         document.getElementById("dayBeginsModalLabel").textContent = "Add Day Begin";

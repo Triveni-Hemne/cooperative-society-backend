@@ -326,13 +326,17 @@ class MemberLoanAccountController extends Controller
     public function update(Request $request, string $id)
     {
         $loanAccount = MemberLoanAccount::findOrFail($id);
-        // dd($request->loan_type);
-
+        dd($id, $request->input('acc_no'));
         $validatedData = $request->validate([
             'ledger_id' => 'required|exists:general_ledgers,id',
             'member_id' => 'nullable|exists:members,id',
             'account_id' => 'nullable|exists:accounts,id',
-            'acc_no' => "required|string|max:50|unique:member_loan_accounts,acc_no,{$id}",
+           'acc_no' => [
+                'required',
+                'string',
+                'max:50',
+                Rule::unique('member_loan_accounts', 'acc_no')->ignore($id),
+            ],
             'loan_type' => 'required|in:Personal Loan,Home Loan,Auto Loan,Business Loan,Gold Loan',
             'name' => 'required|string|max:255',
             'ac_start_date' => 'required|date',

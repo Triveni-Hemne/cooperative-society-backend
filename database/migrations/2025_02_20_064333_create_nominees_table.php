@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('nominee_marathi_address', 255)->nullable();
             $table->string('nominee_adhar_no', 20)->nullable();
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

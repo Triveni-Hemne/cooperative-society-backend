@@ -220,7 +220,7 @@
                         <div class="row mb-3">
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
-                                    <input name="amount" id="amount" type="number"
+                                    <input name="amount" id="amount" type="number" step="0.01"
                                         class="form-control @error('amount') is-invalid @enderror"
                                         value="{{ old('amount') }}" placeholder="Amount" required>
                                     <label for="amount">Amount</label>
@@ -231,7 +231,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input name="debit_amount" id="debitAmount" type="number"
+                                    <input name="debit_amount" id="debitAmount" type="number" step="0.01"
                                         class="form-control @error('debit_amount') is-invalid @enderror"
                                         value="{{ old('debit_amount') }}" placeholder="Debit Amount">
                                     <label for="debitAmount">Debit Amount</label>
@@ -245,7 +245,7 @@
                         <div class="row mb-3">
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
-                                    <input name="credit_amount" id="creditAmount" type="number"
+                                    <input name="credit_amount" id="creditAmount" type="number" step="0.01"
                                         class="form-control @error('credit_amount') is-invalid @enderror"
                                         value="{{ old('credit_amount') }}" placeholder="Credit Amount">
                                     <label for="creditAmount">Credit Amount</label>
@@ -474,7 +474,7 @@
                         <div class="row mb-3">
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
-                                    <input name="opening_balance" id="openingBalance" type="number"
+                                    <input name="opening_balance" id="openingBalance" type="number" step="0.01"
                                         class="form-control @error('opening_balance') is-invalid @enderror"
                                         value="{{ old('opening_balance') }}" placeholder="Opening Balance" required>
                                     <label for="openingBalance">Opening Balance</label>
@@ -485,7 +485,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
-                                    <input name="current_balance" id="currentBalance" type="number"
+                                    <input name="current_balance" id="currentBalance" type="number" step="0.01"
                                         class="form-control @error('current_balance') is-invalid @enderror"
                                         value="{{ old('current_balance') }}" placeholder="Current Balance" required>
                                     <label for="currentBalance">Current Balance</label>

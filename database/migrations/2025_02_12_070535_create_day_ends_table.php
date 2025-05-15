@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('total_debit_rs', 12, 2);
             $table->integer('total_debit_challans');
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

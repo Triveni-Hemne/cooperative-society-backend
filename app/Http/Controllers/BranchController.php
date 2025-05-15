@@ -75,7 +75,7 @@ class BranchController extends Controller
         ]);
 
         $branch->update($request->all());
-        return redirect()->back()->with('success','User Updated Successfully');
+        return redirect()->back()->with('success','Branch Updated Successfully');
     }
 
     /**

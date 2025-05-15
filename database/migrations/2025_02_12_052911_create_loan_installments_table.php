@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('total_installments_paid')->default(0);
              $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

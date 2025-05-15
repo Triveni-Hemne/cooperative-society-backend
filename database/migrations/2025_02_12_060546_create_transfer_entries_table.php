@@ -23,6 +23,7 @@ return new class extends Migration
             $table->text('narration')->nullable();
             $table->text('m_narration')->nullable();
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

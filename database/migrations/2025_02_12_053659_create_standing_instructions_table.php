@@ -26,6 +26,7 @@ return new class extends Migration
             $table->date('execution_date');
             $table->decimal('amount', 12, 2);
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

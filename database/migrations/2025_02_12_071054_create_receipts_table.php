@@ -19,11 +19,12 @@ return new class extends Migration
             $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('set null');
             $table->foreignId('member_loan_account_id')->nullable()->constrained('member_loan_accounts')->onDelete('set null');
             $table->string('receipt_no', 50)->unique()->notNull();
-            $table->foreignId('issued_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('issued_by')->constrained('users')->onDelete('set null');
             $table->date('issue_date')->notNull();
             $table->decimal('amount', 12, 2)->notNull();
             $table->enum('method', ['Cash', 'Bank Transfer', 'Cheque'])->notNull();
             $table->timestamps();
+            $table->softDeletes(); // adds deleted_at column
         });
     }
 

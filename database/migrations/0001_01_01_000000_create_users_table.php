@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->nullable()->constrained('employees')->onDelete('cascade');
+            $table->foreignId('employee_id')->nullable()->constrained('employees')->nullOnDelete();
             $table->string('name', 100);
             $table->string('email', 100)->unique()->nullable();
             $table->string('password');
@@ -22,6 +22,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
