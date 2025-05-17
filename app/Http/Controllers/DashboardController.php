@@ -66,6 +66,7 @@ class DashboardController extends Controller
             return [
                 'message' => "New member registered: <strong>{$member->name}</strong>",
                 'time' => $member->created_at,
+                'created_by' => $member->user->name,
             ];
         });
 
@@ -74,6 +75,7 @@ class DashboardController extends Controller
             return [
                 'message' => "Deposit Account Created for: <strong>{$deposit->member->name}</strong> with ₹{$deposit->balance}",
                 'time' => $deposit->created_at,
+                'created_by' => $deposit->member->user->name,
             ];
         });
 
@@ -82,6 +84,7 @@ class DashboardController extends Controller
             return [
                 'message' => "Loan Account Created for: <strong>{$loan->member->name}</strong> with ₹{$loan->balance}",
                 'time' => $loan->created_at,
+                'created_by' => $loan->member->user->name,
             ];
         });
 
@@ -142,9 +145,8 @@ class DashboardController extends Controller
         ->merge($deposits)
         ->merge($loans)
         ->sortByDesc('time')
-        ->take(5); // Take only 5 most recent overall
+        ->take(10); // Take only 5 most recent overall
    
-
         return view('index', compact(
             'branches',
             'branchId',

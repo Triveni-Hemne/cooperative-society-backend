@@ -28,9 +28,11 @@
                                 class="form-select @error('employee_id') is-invalid @enderror">
                                 <option value="" disabled selected>Select Employee (Optional)</option>
                                 @foreach ($employees as $employee)
+                                @if(optional($employee->member)->name)
                                 <option value="{{ $employee->id }}"
-                        {{ old('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->member->name ?? '' }}
-                        </option>
+                                {{ old('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->member->name ?? '' }}
+                                </option>
+                                @endif
                         @endforeach
                         </select>
                         <label for="employee">Employee</label>

@@ -21,7 +21,7 @@
                     <div class="bg-white rounded shadow-sm p-4">
                         <div class="row">
                             @isset($ledgers)
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-12 mb-3">
                                 @if ($ledgers->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="ledgerId" name="ledger_id"
@@ -49,21 +49,10 @@
                                 @endif
                             </div>
                           @endisset
-                            
-                       <div class="col-md-6 mb-3">
-                                <div class="form-floating">
-                                    <input name="photo" id="photoCopy"
-                                        class="form-control @error('photo') is-invalid @enderror"
-                                        value="{{ old('photo') }}" type="file" accept="image/*"
-                                        placeholder="Photo Copy">
-                                    <label for="photoCopy" class="form-label">Photo Copy</label>
-                                    @error('photo')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
                         </div>
 
+                    <fieldset class="border p-3 mb-3 rounded position-relative">
+                    <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Member Information</legend> 
                         <div class="row">
                             @isset($members)
                             <div class="col-md-6 mb-3">
@@ -94,6 +83,20 @@
                                 @endif
                             </div>
                             @endisset
+                       <div class="col-md-6 mb-3">
+                                <div class="form-floating">
+                                    <input name="photo" id="photoCopy"
+                                        class="form-control @error('photo') is-invalid @enderror"
+                                        value="{{ old('photo') }}" type="file" accept="image/*"
+                                        placeholder="Photo Copy">
+                                    <label for="photoCopy" class="form-label">Photo Copy</label>
+                                    @error('photo')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            
 
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
@@ -108,7 +111,9 @@
                                 </div>
                             </div>
                         </div>
-
+                        </fieldset>
+                        <fieldset class="border p-3 mb-3 rounded position-relative">
+                            <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Account Information</legend>
                         <div class="row">
                             @isset($accounts)
                             <div class="col-md-6 mb-3">
@@ -242,7 +247,9 @@
                                 </div>
                             </div>
                         </div>
-
+                    </fieldset>
+                        <fieldset class="border p-3 mb-3 rounded position-relative">
+                            <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Other Information</legend>
                         <div class="row">
                             @isset($agents)
                             <div class="col-md-6 mb-3">
@@ -328,7 +335,9 @@
                                 </div>
                             </div>
                         </div>
-
+                        </fieldset>
+                        <fieldset class="border p-3 mb-3 rounded position-relative">
+                            <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Installment Information</legend>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
@@ -416,7 +425,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        </fieldset>
 
                         <!-- Tabs -->
                         <div class="bg-secondary warning-tabs border rounded mb-3 p-2">

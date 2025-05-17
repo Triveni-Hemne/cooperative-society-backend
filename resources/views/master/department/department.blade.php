@@ -38,10 +38,12 @@
                                 class="form-select @error('head_id') is-invalid @enderror" required>
                                 <option value="" disabled selected>---------- Select ----------</option>
                                 @foreach ($employees as $employee)
+                                @if(optional($employee->member)->name)
                                 <option value="{{ $employee->id }}"
                                     {{ old('head_id') == $employee->id ? 'selected' : '' }}>
-                                    {{ $employee->member->name ?? '' }}
+                                    {{ $employee->member->name ?? ''}}
                                 </option>
+                                @endif
                                 @endforeach
                             </select>
                             <label for="headId" class="form-label required">Head of Department</label>

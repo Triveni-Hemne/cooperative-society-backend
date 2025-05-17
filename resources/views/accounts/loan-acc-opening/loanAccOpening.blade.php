@@ -21,7 +21,7 @@
                     <div class="bg-white rounded shadow-sm p-4">
                         <div class="row ">
                             @isset($ledgers)
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-12 mb-3">
                                 @if ($ledgers->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="ledgerId" name="ledger_id"
@@ -49,23 +49,11 @@
                                 @endif
                             </div>
                             @endisset
-
-                            <div class="col-md-6 mb-3">
-                                <div class="form-floating">
-                                    <input name="photo" id="photoCopy"
-                                        class="form-control @error('photo') is-invalid @enderror"
-                                        value="{{ old('photo') }}" type="file" accept="image/*"
-                                        placeholder="Photo Copy">
-                                    <label for="photoCopy" class="form-label">Photo Copy</label>
-                                    @error('photo')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
                         </div>
-
+                        <fieldset class="border p-3 mb-3 rounded position-relative">
+                            <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Member Information</legend>
                         <div class="row ">
-                            @isset($members)
+                             @isset($members)
                             <div class="col-md-6 mb-3">
                                 @if ($members->isNotEmpty())
                                 <div class="form-floating">
@@ -94,7 +82,18 @@
                                 @endif
                             </div>
                             @endisset
-
+                            <div class="col-md-6 mb-3">
+                                <div class="form-floating">
+                                    <input name="photo" id="photoCopy"
+                                        class="form-control @error('photo') is-invalid @enderror"
+                                        value="{{ old('photo') }}" type="file" accept="image/*"
+                                        placeholder="Photo Copy">
+                                    <label for="photoCopy" class="form-label">Photo Copy</label>
+                                    @error('photo')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="signature" id="signCopy"
@@ -108,7 +107,9 @@
                                 </div>
                             </div>
                         </div>
-
+                        </fieldset>
+                        <fieldset class="border p-3 mb-3 rounded position-relative">
+                            <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Account Information</legend>
                         <div class="row ">
                             @isset($accounts)
                             <div class="col-md-6 mb-3">
@@ -152,18 +153,21 @@
                             </div>
                         </div>
 
-                        <div class="row ">
-                            <div class="col-md-6 mb-3">
-                                <div class="form-floating">
-                                    <input name="name" id="Name"
-                                        class="form-control @error('name') is-invalid @enderror"
-                                        value="{{ old('name') }}" type="text" placeholder="Name" required>
-                                    <label for="Name" class="form-label">Name</label>
-                                    @error('name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="form-floating">
+                                <input name="name" id="Name"
+                                class="form-control @error('name') is-invalid @enderror"
+                                value="{{ old('name') }}" type="text" placeholder="Name" required>
+                                <label for="Name" class="form-label">Name</label>
+                                @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
+                        </div>
+                        </fieldset>
+                        <fieldset class="border p-3 mb-3 rounded position-relative">
+                            <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Loan Details</legend>    
+                        <div class="row ">
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <select name="loan_type" id="loanType"
@@ -258,6 +262,68 @@
                                     @enderror
                                 </div>
                             </div>
+                             <div class="col-md-6 mb-3">
+                                <div class="form-floating">
+                                    <input name="loan_amount" id="loanAmount"
+                                        class="form-control @error('loan_amount') is-invalid @enderror"
+                                        value="{{ old('loan_amount') }}" step="0.01" type="number" placeholder="Loan Amount" required>
+                                    <label for="loanAmount" class="form-label">Loan Amount</label>
+                                    @error('loan_amount')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                             <div class="col-md-6 mb-3">
+                                <div class="form-floating">
+                                    <input name="priority" id="priority"
+                                        class="form-control @error('priority') is-invalid @enderror"
+                                        value="{{ old('priority') }}" type="number" placeholder="Priority" required>
+                                    <label for="priority" class="form-label">Priority</label>
+                                    @error('priority')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                               <div class="col-md-6 mb-3">
+                                <div class="form-floating">
+                                    <input name="tenure" id="tenure"
+                                        class="form-control @error('tenure') is-invalid @enderror"
+                                        value="{{ old('tenure') }}" step="0.01" type="number" placeholder="Tenure" required>
+                                    <label for="tenure" class="form-label">Tenure</label>
+                                    @error('tenure')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-floating">
+                                    <input name="start_date" id="startDate"
+                                        class="form-control @error('start_date') is-invalid @enderror"
+                                        value="{{ old('start_date') }}" type="date" placeholder="Start Date" required>
+                                    <label for="startDate" class="form-label">Start Date</label>
+                                    @error('start_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                  
+                            <div class="col-md-6 mb-3">
+                                <div class="form-floating">
+                                    <input name="end_date" id="endDate"
+                                        class="form-control @error('end_date') is-invalid @enderror"
+                                        value="{{ old('end_date') }}" type="date" placeholder="End Date" required>
+                                    <label for="endDate" class="form-label">End Date</label>
+                                    @error('end_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            </fieldset>
+
+                            <fieldset class="border p-3 mb-3 rounded position-relative">
+                                <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Loan Account
+                                    Loan Purpose</legend>
+                            <div class="row ">
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <select id="purpose" name="purpose" class="form-select" required>
@@ -280,9 +346,7 @@
                                     <label for="purpose" class="form-label">Purpose</label>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row ">
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="principal_amount" id="principalAmount"
@@ -295,69 +359,11 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="form-floating">
-                                    <input name="start_date" id="startDate"
-                                        class="form-control @error('start_date') is-invalid @enderror"
-                                        value="{{ old('start_date') }}" type="date" placeholder="Start Date" required>
-                                    <label for="startDate" class="form-label">Start Date</label>
-                                    @error('start_date')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
                         </div>
+                            </fieldset>                         
 
-                        <div class="row ">
-                            <div class="col-md-6 mb-3">
-                                <div class="form-floating">
-                                    <input name="end_date" id="endDate"
-                                        class="form-control @error('end_date') is-invalid @enderror"
-                                        value="{{ old('end_date') }}" type="date" placeholder="End Date" required>
-                                    <label for="endDate" class="form-label">End Date</label>
-                                    @error('end_date')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="form-floating">
-                                    <input name="tenure" id="tenure"
-                                        class="form-control @error('tenure') is-invalid @enderror"
-                                        value="{{ old('tenure') }}" step="0.01" type="number" placeholder="Tenure" required>
-                                    <label for="tenure" class="form-label">Tenure</label>
-                                    @error('tenure')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row ">
-                            <div class="col-md-6 mb-3">
-                                <div class="form-floating">
-                                    <input name="priority" id="priority"
-                                        class="form-control @error('priority') is-invalid @enderror"
-                                        value="{{ old('priority') }}" type="number" placeholder="Priority" required>
-                                    <label for="priority" class="form-label">Priority</label>
-                                    @error('priority')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="form-floating">
-                                    <input name="loan_amount" id="loanAmount"
-                                        class="form-control @error('loan_amount') is-invalid @enderror"
-                                        value="{{ old('loan_amount') }}" step="0.01" type="number" placeholder="Loan Amount" required>
-                                    <label for="loanAmount" class="form-label">Loan Amount</label>
-                                    @error('loan_amount')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
+                            <fieldset class="border p-3 mb-3 rounded position-relative">
+                                <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Collateral Information</legend>
                         <div class="row ">
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
@@ -396,7 +402,10 @@
                                 </div>
                             </div>
                         </div>
-
+                            </fieldset>
+                        <fieldset class="border p-3 mb-3 rounded position-relative">
+                            <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Loan Account
+                                Classification</legend>
                         <div class="row ">
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
@@ -442,7 +451,9 @@
                                 </div>
                             </div>
                         </div>
-
+                        </fieldset>
+                        <fieldset class="border p-3 mb-3 rounded position-relative">
+                            <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Interest Detail</legend>
                         <div class="row ">
                             <div class="col-md-4 mb-3" >
                                 <div class="form-floating">
@@ -478,7 +489,9 @@
                                 </div>
                             </div>
                         </div>
-
+                        </fieldset>
+                        <fieldset class="border p-3 mb-3 rounded position-relative">
+                            <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Insurance Information</legend>
                         <div class="row ">
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
@@ -503,7 +516,9 @@
                                 </div>
                             </div>
                         </div>
-
+                        </fieldset>
+                        <fieldset class="border p-3 mb-3 rounded position-relative">
+                            <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Other Charges</legend>
                         <div class="row ">
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
@@ -528,6 +543,7 @@
                                 </div>
                             </div>
                         </div>
+                        </fieldset>
 
 
                         <!-- Tabs -->

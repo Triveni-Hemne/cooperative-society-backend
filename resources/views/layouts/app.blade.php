@@ -39,6 +39,11 @@
             width: 280px !important;
         }
     }
+        legend {
+            background: #f8f9fa;
+            top: -0.7rem;
+            left: 1rem;
+        }
     </style>
 </head>
 

@@ -87,7 +87,9 @@
                @forelse($activities  as $activity)
                   <li class="list-group-item">
                     {!! $activity['message'] !!}
-                     <span class="text-muted small float-end">{{ $activity['time']->diffForHumans() }}</span>
+                    <span class="text-muted small float-end">{{ $activity['time']->diffForHumans()}}</span>
+                    <span class="text-muted small float-end me-5">{{ $activity['created_by'] }}</span>
+                    <span class="text-muted small float-end"> Created By : </span>
                   </li>
                @empty
                   <li class="list-group-item text-muted">No recent activity</li>

@@ -79,6 +79,8 @@
                             </div>
                             @endisset
                         </div>
+                        <fieldset class="border rounded-3 p-3 mb-3">
+                            <legend class="float-none w-auto px-2 small">Account Details</legend>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
@@ -192,8 +194,21 @@
                                     @enderror
                                 </div>
                             </div>
+                             <div class="col-md-6 mb-3">
+                                <div class="form-floating">
+                                    <input name="closing_date" id="closingDate"
+                                        class="form-control @error('closing_date') is-invalid @enderror"
+                                        value="{{ old('closing_date') }}" type="date" placeholder="Closing Date">
+                                    <label for="closingDate" class="form-label">Closing Date</label>
+                                    @error('closing_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
-
+                        </fieldset>
+                        <fieldset class="border rounded-3 p-3 mb-3">
+                            <legend class="float-none w-auto px-2 small">Agent & Flags</legend>
                         <div class="row">
                             @isset($agents)
                             <div class="col-md-6 mb-3">
@@ -243,7 +258,8 @@
                                 </div>
                             </div>
                         </div>
-
+                        <fieldset class="border rounded-3 p-3 mb-3">
+                            <legend class="float-none w-auto px-2 small">Installment Details</legend>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
@@ -296,18 +312,9 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="form-floating">
-                                    <input name="closing_date" id="closingDate"
-                                        class="form-control @error('closing_date') is-invalid @enderror"
-                                        value="{{ old('closing_date') }}" type="date" placeholder="Closing Date">
-                                    <label for="closingDate" class="form-label">Closing Date</label>
-                                    @error('closing_date')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
+                           
                         </div>
+                        </fieldset>
                     </div>
                 </div>
                 <div class="modal-footer bg-white rounded-bottom-4 border-top">

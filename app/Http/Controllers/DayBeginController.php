@@ -62,7 +62,7 @@ class DayBeginController extends Controller
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],
             'user_id' => 'nullable|exists:users,id',
-            'status' => 'required|in:Open,Closed',
+            // 'status' => 'required|in:Open,Closed',
             'opening_cash_balance' => 'required|numeric',
             'remarks' => 'nullable|string',
             'created_by' => 'required|exists:users,id',
@@ -104,7 +104,7 @@ class DayBeginController extends Controller
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],
             'user_id' => 'nullable|exists:users,id',
-            'status' => 'in:Open,Closed',
+            // 'status' => 'in:Open,Closed',
             'opening_cash_balance' => 'required|numeric',
             'created_by' => 'nullable|exists:users,id',
             'remarks' => 'nullable|string',

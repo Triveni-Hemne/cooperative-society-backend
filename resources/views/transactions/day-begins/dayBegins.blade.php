@@ -110,7 +110,7 @@
                      </div>
 
                     {{-- Status Dropdown --}}
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
                     <div class="form-floating mb-3">
                         <select id="status" name="status" class="form-select @error('status') is-invalid @enderror"
                             required>
@@ -123,7 +123,7 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                      </div>
-                    </div>
+                    </div> --}}
                     </div>
 
                     <!-- Remark -->

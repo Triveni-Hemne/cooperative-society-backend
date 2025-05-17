@@ -18,6 +18,8 @@
                 </div>
                 <div class="modal-body bg-light">
                     <div class="p-4 bg-white rounded shadow-sm">
+                        <fieldset class="border p-3 rounded">
+                            <legend class="float-none w-auto px-2 small">Instruction Details</legend>
                         <div class="row g-3">
                             <!-- Created By -->
                             <div class="col-md-6 mb-3">
@@ -58,9 +60,22 @@
                     @endif
                 </div>
                 @endisset
+                @endif
+                            <div class="col-md-6 mb-3">
+                <div class="form-floating">
+                    <input name="date" id="date" type="date" class="form-control @error('date') is-invalid @enderror"
+                        value="{{ old('date') }}" required>
+                    <label for="date" class="form-label required">Date</label>
+                    @error('date')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
         </div>
-        @endif
 
+        </fieldset>
+        <fieldset class="border p-3 rounded mt-3">
+            <legend class="float-none w-auto px-2 small">Transfer Details</legend>
         {{-- Credit Ledger --}}
         <div class="row">
             @isset($ledgers)
@@ -133,6 +148,10 @@
                 </div>
             </div>
         </div>
+        </fieldset>
+        <fieldset class="border p-3 rounded mt-3">
+            <legend class="float-none w-auto px-2 small">Debit Details</legend>
+        {{-- Debit Ledger --}}
         <div class="row">
             {{-- Debit Ledger --}}
             @isset($ledgers)
@@ -204,19 +223,12 @@
                 </div>
             </div>
         </div>
-
+        </fieldset>
+        <fieldset class="border p-3 rounded mt-3">
+            <legend class="float-none w-auto px-2 small">Schedule Details</legend>
         {{-- Date and Frequency --}}
         <div class="row">
-            <div class="col-md-6 mb-3">
-                <div class="form-floating">
-                    <input name="date" id="date" type="date" class="form-control @error('date') is-invalid @enderror"
-                        value="{{ old('date') }}" required>
-                    <label for="date" class="form-label required">Date</label>
-                    @error('date')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
+
             <div class="col-md-6 mb-3">
                 <div class="form-floating">
                     <select id="frequency" name="frequency" class="form-select @error('frequency') is-invalid @enderror"
@@ -294,6 +306,7 @@
                 </div>
             </div>
         </div>
+        </fieldset>
     </div>
     <div class="modal-footer bg-white rounded-bottom-4 border-top">
         <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
