@@ -22,9 +22,9 @@
                     <div class="p-4 bg-white rounded shadow-sm">
                         {{-- Employee --}}
                         @isset($employees)
-                        @if ($employees->isNotEmpty())
+                        @if (optional($employees))
                         <div class="form-floating mb-3">
-                            <select name="employee_id" id="employee"
+                            <select name="employee_id" id="employee" required
                                 class="form-select @error('employee_id') is-invalid @enderror">
                                 <option value="" disabled selected>Select Employee (Optional)</option>
                                 @foreach ($employees as $employee)
@@ -35,7 +35,7 @@
                                 @endif
                         @endforeach
                         </select>
-                        <label for="employee">Employee</label>
+                        <label for="employee">Employee <span class="text-danger"> *</span></label>
                         @error('employee_id')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -84,7 +84,7 @@
                         <select name="role" id="role" class="form-select @error('role') is-invalid @enderror" required>
                             <option value="User" selected>User</option>
                         </select>
-                        <label for="role" class="form-label required">Role</label>
+                        <label for="role" class="form-label required">Role <span class="text-danger"> *</span></label>
                         @error('role')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -104,7 +104,7 @@
                                         </option>
                                     @endforeach
                         </select>
-                        <label for="branch">Branch</label>
+                        <label for="branch">Branch <span class="text-danger"> *</span></label>
                         @error('branch_id')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

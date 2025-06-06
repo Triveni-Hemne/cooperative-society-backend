@@ -1,17 +1,17 @@
-<div class="modal fade" id="memberModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="memberModalLabel"
+<div class="modal fade" id="employeeModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="employeeModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content rounded-4 border-0 shadow">
-            <form method="POST" action="{{ route('members.store') }}" id="memberForm" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('employees.store') }}" id="employeeForm" enctype="multipart/form-data">
                 @csrf
                 @if(Session::has('error'))
                 <div class="alert alert-danger rounded-0 m-0">{{ Session::get('error') }}</div>
                 @endif
-                <input type="hidden" id="memberId" name="id">
+                <input type="hidden" id="employeeId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4 border-0">
                     <h1 class="modal-title fs-5 fw-bold">
-                        <i class="bi bi-person-plus me-2"></i><span  id="memberModalLabel"> Add Member</span>
+                        <i class="bi bi-person-plus me-2"></i><span  id="employeeModalLabel"> Add Employee</span>
                     </h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
@@ -77,46 +77,47 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="" id="createdBy" class="form-control"
-                                        value="{{ $user->name }}" type="text" placeholder="Created By" readonly >
-                                        <input name="created_by" id="createdById" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->id}}" hidden type="text" readonly>
+                                        value="{{ $user->name }}" type="text" placeholder="Created By" readonly required>
+                                        <input name="created_by" id="createdById" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->id}}" hidden type="text" readonly required>
                                     <label for="createdBy" class="form-label">Created By <span class="text-danger"> *</span></label>
                                 </div>
                             </div>
-                            @if(Auth::user()->role === 'Admin')
-                            @isset($branches) 
-                            @if ($branches->isNotEmpty())
-                            <div class="col-md-6 mb-3">                    
-                                <div class="form-floating mb-3">
-                                    <select name="branch_id" id="branchId"
-                                        class="form-select @error('branch_id') is-invalid @enderror" >
-                                        <option value="" disabled selected>Select Branch</option>
-                                        @foreach ($branches as $branch)
-                                        <option value="{{ $branch->id }}"
-                                    {{ old('branch_id') == $branch->id ? 'selected' : '' }}>
-                                    {{ $branch->name }}</option>
-                                    @endforeach
-                                    </select>
-                                    <label for="branchId">Branch <span class="text-danger"> *</span></label>
-                                    @error('branch_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            @else
-                            <div class="alert alert-warning">
-                                <strong>⚠️ No Branch available.</strong><br>
-                                Please add Branch first.
-                            </div>
-                            @endif
-                            @endisset
-                            @endif
+                        </div>
+
+                       <div class="row">                           
+                        @if(Auth::user()->role === 'Admin')
+                        @isset($branches) 
+                             @if ($branches->isNotEmpty())
+                        <div class="form-floating mb-3">
+                            <select name="branch_id" id="branchId"
+                                class="form-select @error('branch_id') is-invalid @enderror" required>
+                                <option value="" disabled selected>Select Branch</option>
+                                @foreach ($branches as $branch)
+                                <option value="{{ $branch->id }}"
+                        {{ old('branch_id') == $branch->id ? 'selected' : '' }}>
+                        {{ $branch->name }}</option>
+                        @endforeach
+                        </select>
+                        <label for="branchId">Branch <span class="text-danger"> *</span></label>
+                        @error('branch_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                   
+                    @else
+                    <div class="alert alert-warning">
+                        <strong>⚠️ No Branch available.</strong><br>
+                        Please add Branch first.
+                    </div>
+                    @endif
+                    @endisset
+                    @endif
+                    </div>
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <div class="form-floating">
                                 <input name="name" id="Name" class="form-control @error('name') is-invalid @enderror"
-                                    value="{{ old('name') }}" type="text" placeholder="Name" >
+                                    value="{{ old('name') }}" type="text" placeholder="Name" required>
                                 <label for="Name" class="form-label">Name <span class="text-danger">*</span></label>
                                 @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -159,17 +160,11 @@
                                     aria-controls="bank-tab-pane" aria-selected="false">Bank Detail
                                 </button>
                             </li>
-                            {{-- <li class="nav-item col" role="presentation">
+                             <li class="nav-item col" role="presentation">
                                 <button class="nav-link w-100 text-info fw-bold" id="department-tab"
                                     data-bs-toggle="tab" data-bs-target="#department-tab-pane" type="button" role="tab"
                                     aria-controls="department-tab-pane" aria-selected="false">Department
                                     Detail
-                                </button>
-                            </li> --}}
-                            <li class="nav-item col" role="presentation">
-                                <button class="nav-link w-100 text-info fw-bold" id="share-tab" data-bs-toggle="tab"
-                                    data-bs-target="#share-tab-pane" type="button" role="tab"
-                                    aria-controls="share-tab-pane" aria-selected="false">Share Detail
                                 </button>
                             </li>
                         </ul>
@@ -182,7 +177,7 @@
                                         <div class="form-floating">
                                             <textarea name="address" id="address"
                                                 class="form-control @error('address') is-invalid @enderror"
-                                                placeholder="Address" 
+                                                placeholder="Address" required
                                                 style="height: 100px">{{ old('address') }}</textarea>
                                             <label for="address" class="form-label">Address <span class="text-danger"> *</span></label>
                                             @error('address')
@@ -210,7 +205,7 @@
                                         <div class="form-floating">
                                             <input name="city" id="city"
                                                 class="form-control @error('city') is-invalid @enderror"
-                                                value="{{ old('city') }}" type="text" placeholder="City" >
+                                                value="{{ old('city') }}" type="text" placeholder="City" required>
                                             <label for="city" class="form-label">City <span class="text-danger"> *</span></label>
                                             @error('city')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -222,8 +217,8 @@
                                             <input name="mobile_no" id="mobileNo"
                                                 class="form-control @error('mobile_no') is-invalid @enderror"
                                                 value="{{ old('mobile_no') }}" type="text" placeholder="Mobile No."
-                                                pattern="[0-9]{10}" title="Enter a valid 10-digit mobile number" >
-                                            <label for="mobileNo" class="form-label">Mobile No. <span class="text-danger"> *</span></label>
+                                                pattern="[0-9]{10}" title="Enter a valid 10-digit mobile number" required>
+                                            <label for="mobileNo" class="form-label">Mobile No.<span class="text-danger"> *</span></label>
                                             @error('mobile_no')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -235,7 +230,7 @@
                                     <div class="col-md-4 mb-3">
                                         <div class="form-floating">
                                             <select name="gender" id="gender"
-                                                class="form-select @error('gender') is-invalid @enderror" >
+                                                class="form-select @error('gender') is-invalid @enderror" required>
                                                 <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>
                                                     Male
                                                 </option>
@@ -257,7 +252,7 @@
                                         <div class="form-floating">
                                             <input name="dob" id="dob"
                                                 class="form-control @error('dob') is-invalid @enderror"
-                                                value="{{ old('dob') }}" type="date" placeholder="DOB" >
+                                                value="{{ old('dob') }}" type="date" placeholder="DOB" required>
                                             <label for="dob" class="form-label">Date of Birth <span class="text-danger"> *</span></label>
                                             @error('dob')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -268,7 +263,7 @@
                                         <div class="form-floating">
                                             <input name="age" id="age"
                                                 class="form-control @error('age') is-invalid @enderror"
-                                                value="{{ old('age') }}" type="number" placeholder="Age" >
+                                                value="{{ old('age') }}" type="number" placeholder="Age" required>
                                             <label for="age" class="form-label">Age <span class="text-danger"> *</span></label>
                                             @error('age')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -295,7 +290,7 @@
                                             <input name="m_reg_no" id="MRegNo"
                                                 class="form-control @error('m_reg_no') is-invalid @enderror"
                                                 value="{{ old('m_reg_no') }}" type="number" placeholder="M. Reg. No.">
-                                            <label for="MRegNo" class="form-label ">M. Reg. No.</label>
+                                            <label for="MRegNo" class="form-label">M. Reg. No.</label>
                                             @error('m_reg_no')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -335,7 +330,7 @@
                                                     Other
                                                 </option>
                                             </select>
-                                            <label for="religion" class="form-label">Religion <span class="text-danger"> *</span></label>
+                                            <label for="religion" class="form-label">Religion<span class="text-danger"> *</span></label>
                                             @error('religion')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -367,6 +362,7 @@
                                     </div>
                                     @endif
                                     @endisset
+
                                     @isset($branches) 
                                     @if ($branches->isNotEmpty())
                                     <div class="col-md-4 mb-3">                    
@@ -444,57 +440,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    @isset($designations)
-                                    <div class="col-md-4 mb-3">
-                                        @if ($designations->isNotEmpty())
-                                        <div class="form-floating">
-                                            <select name="designation_id" id="designationId"
-                                                class="form-select @error('designation_id') is-invalid @enderror">
-                                                <option value="" selected>--- Select Designation ---</option>
-                                                @foreach ($designations as $designation)
-                                                <option value="{{ $designation->id }}"
-                                                    {{ old('designation_id') == $designation->id ? 'selected' : '' }}>
-                                                    {{ $designation->name }}
-                                                </option>
-                                                @endforeach
-                                            </select>
-                                            <label for="designationId" class="form-label">Designation</label>
-                                            @error('designation_id')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        @else
-                                        <div class="alert alert-warning">
-                                            <strong>⚠️ No designation available.</strong><br>
-                                            Please add designation first.
-                                        </div>
-                                        @endif
-                                    </div>
-                                    @endisset
-                                    <div class="col-md-4 mb-3">
-                                        <div class="form-floating">
-                                            <input name="cpf_no" id="gpfNo"
-                                                class="form-control @error('cpf_no') is-invalid @enderror"
-                                                value="{{ old('cpf_no') }}" type="text" placeholder="GPF No.">
-                                            <label for="gpfNo" class="form-label">CPF No.</label>
-                                            @error('cpf_no')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <div class="form-floating">
-                                            <input name="membership_date" id="membershipDate"
-                                                class="form-control @error('membership_date') is-invalid @enderror"
-                                                value="{{ old('membership_date') }}" type="date" placeholder="GPF No." >
-                                            <label for="membershipDate" class="form-label ">Membership Date <span class="text-danger"> *</span></label>
-                                            @error('membership_date')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
 
                             <!-- Nominee Details Tab -->
@@ -506,7 +451,7 @@
                                             <input name="nominee_name" id="nomineeName"
                                                 class="form-control @error('nominee_name') is-invalid @enderror"
                                                 value="{{ old('nominee_name') }}" type="text"
-                                                placeholder="Nominee Name" >
+                                                placeholder="Nominee Name" required>
                                             <label for="nomineeName" class="form-label">Name</label>
                                             @error('nominee_name')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -563,7 +508,7 @@
                                             <input name="nominee_age" id="nomineeAge"
                                                 class="form-control @error('nominee_age') is-invalid @enderror"
                                                 value="{{ old('nominee_age') }}" type="number"
-                                                placeholder="Nominee Age" >
+                                                placeholder="Nominee Age" required>
                                             <label for="nomineeAge" class="form-label">Age</label>
                                             @error('nominee_age')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -573,7 +518,7 @@
                                     <div class="col-md-4 mb-3">
                                         <div class="form-floating">
                                             <select name="nominee_gender" id="nomineeGender"
-                                                class="form-select @error('nominee_gender') is-invalid @enderror" >
+                                                class="form-select @error('nominee_gender') is-invalid @enderror" required>
                                                 <option value="" selected>--- Select Gender ---</option>
                                                 <option value="Male"
                                                     {{ old('nominee_gender') == 'Male' ? 'selected' : '' }}>
@@ -597,7 +542,7 @@
                                     <div class="col-md-4 mb-3">
                                         <div class="form-floating">
                                             <select name="relation" id="nomineeRelation"
-                                                class="form-select @error('relation') is-invalid @enderror" >
+                                                class="form-select @error('relation') is-invalid @enderror" required>
                                                 <option value="" selected>--- Select Relation ---</option>
                                                 <option value="husband"
                                                     {{ old('relation') == 'husband' ? 'selected' : '' }}>
@@ -647,28 +592,14 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <div class="form-floating">
-                                            <input name="nominee_image" id="nomineeImage"
+                                        <label for="nomineeImage" class="form-label text-white">Nominee Photo</label>
+                                        <input name="nominee_image" id="nomineeImage"
                                             class="form-control @error('nominee_image') is-invalid @enderror"
-                                            type="file" accept="image/*"
+                                             type="file" accept="image/*"
                                             placeholder="Nominee Photo">
-                                            <label for="nomineeImage" class="form-label">Nominee Photo</label>
-                                            @error('nominee_image')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <div class="form-floating">
-                                            <input name="nominee_signature" id="nomineeSignCopy"
-                                                class="form-control @error('nominee_signature') is-invalid @enderror"
-                                                type="file" accept="image/*"
-                                                placeholder="Signature Copy">
-                                            <label for="nomineeSignCopy" class="form-label">Signature Copy</label>
-                                            @error('nominee_signature')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+                                        @error('nominee_image')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -680,8 +611,8 @@
                                         <div class="form-floating">
                                             <input name="bank_name" id="bankName"
                                                 class="form-control @error('bank_name') is-invalid @enderror"
-                                                value="{{ old('bank_name') }}" type="text" placeholder="Bank Name" >
-                                            <label for="bankName" class="form-label " >Bank Name <span class="text-danger">*</span></label>
+                                                value="{{ old('bank_name') }}" type="text" placeholder="Bank Name" required>
+                                            <label for="bankName" class="form-label">Bank Name</label>
                                             @error('bank_name')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -691,8 +622,8 @@
                                         <div class="form-floating">
                                             <input name="branch_name" id="branchName"
                                                 class="form-control @error('branch_name') is-invalid @enderror"
-                                                value="{{ old('branch_name') }}" type="text" placeholder="Branch Name" >
-                                            <label for="branchName" class="form-label ">Branch Name <span class="text-danger">*</span></label>
+                                                value="{{ old('branch_name') }}" type="text" placeholder="Branch Name" required>
+                                            <label for="branchName" class="form-label">Branch Name</label>
                                             @error('branch_name')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -705,8 +636,8 @@
                                             <input name="bank_account_no" id="bankAccountNo"
                                                 class="form-control @error('bank_account_no') is-invalid @enderror"
                                                 value="{{ old('bank_account_no') }}" type="text"
-                                                placeholder="Account No." >
-                                            <label for="bankAccountNo" class="form-label ">Account No. <span class="text-danger">*</span></label>
+                                                placeholder="Account No." required>
+                                            <label for="bankAccountNo" class="form-label">Account No.</label>
                                             @error('bank_account_no')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -716,8 +647,8 @@
                                         <div class="form-floating">
                                             <input name="ifsc_code" id="ifscCode"
                                                 class="form-control @error('ifsc_code') is-invalid @enderror"
-                                                value="{{ old('ifsc_code') }}" type="text" placeholder="IFSC Code" >
-                                            <label for="ifscCode" class="form-label ">IFSC Code <span class="text-danger">*</span></label>
+                                                value="{{ old('ifsc_code') }}" type="text" placeholder="IFSC Code" required>
+                                            <label for="ifscCode" class="form-label">IFSC Code</label>
                                             @error('ifsc_code')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -747,7 +678,7 @@
                                                     Other
                                                 </option>
                                             </select>
-                                            <label for="proof1Type" class="form-label">Proof 1 Type </label>
+                                            <label for="proof1Type" class="form-label">Proof 1 Type</label>
                                             @error('proof_1_type')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -770,7 +701,7 @@
                                         <label for="proof1Image" class="form-label text-white">Proof 1 Copy</label>
                                         <input name="proof_1_image" id="proof1Image"
                                             class="form-control @error('proof_1_image') is-invalid @enderror"
-                                             type="file" accept="image/*"
+                                             type="file" accept="image/*,.pdf"
                                             placeholder="Proof 1 Copy">
                                         @error('proof_1_image')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -824,187 +755,11 @@
                                         <label for="proof2Image" class="form-label text-white">Proof 2 Copy</label>
                                         <input name="proof_2_image" id="proof2Image"
                                             class="form-control @error('proof_2_image') is-invalid @enderror"
-                                             type="file" accept="image/*"
+                                             type="file" accept="image/*,.pdf"
                                             placeholder="Proof 2 Copy">
                                         @error('proof_2_image')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Share Tab -->
-                            <div class="tab-pane fade p-3" id="share-tab-pane" role="tabpanel"
-                                aria-labelledby="share-tab" tabindex="0">
-                                <div class="row">
-                                    {{-- @isset($directors)
-                                    <div class="col-md-6 mb-3">
-                                        @if ($directors->isNotEmpty())
-                                        <div class="form-floating">
-                                            <select name="director_id" id="directorId"
-                                                class="form-select @error('director_id') is-invalid @enderror">
-                                                <option value="" selected>--- Select Director ---</option>
-                                                @foreach ($directors as $director)
-                                                <option value="{{ $director->id }}"
-                                                    {{ old('director_id') == $director->id ? 'selected' : '' }}>
-                                                    {{ $director->name }}
-                                                </option>
-                                                @endforeach
-                                            </select>
-                                            <label for="directorId" class="form-label">Director</label>
-                                            @error('director_id')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        @else
-                                        <div class="alert alert-warning">
-                                            <strong>⚠️ No director available.</strong><br>
-                                            Please add director first.
-                                        </div>
-                                        @endif
-                                    </div>
-                                    @endisset --}}
-                                    <div class="col-md-6 mb-3">
-                                        <div class="form-floating">
-                                            <input name="page_no" id="pageNo"
-                                                class="form-control @error('page_no') is-invalid @enderror"
-                                                value="{{ old('page_no') }}" type="number" placeholder="Page No.">
-                                            <label for="pageNo" class="form-label">Page No.</label>
-                                            @error('page_no')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <div class="form-floating">
-                                            <input name="dividend_amount" id="dividendAmount"
-                                                class="form-control @error('dividend_amount') is-invalid @enderror"
-                                                value="{{ old('dividend_amount') }}" type="number" step="0.01"
-                                                placeholder="Divident Amount">
-                                            <label for="dividendAmount" class="form-label">Divident Amount</label>
-                                            @error('dividend_amount')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <div class="form-floating">
-                                            <input name="share_amount" id="shareAmount"
-                                                class="form-control @error('share_amount') is-invalid @enderror"
-                                                value="{{ old('share_amount') }}" type="number" step="0.01"
-                                                placeholder="Share Amount">
-                                            <label for="shareAmount" class="form-label">Share Amount</label>
-                                            @error('share_amount')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <div class="form-floating">
-                                            <input name="number_of_shares" id="numberOfShares"
-                                                class="form-control @error('number_of_shares') is-invalid @enderror"
-                                                value="{{ old('number_of_shares') }}" type="number" step="0.01"
-                                                placeholder="Number of Shares">
-                                            <label for="numberOfShares" class="form-label">Number of Shares</label>
-                                            @error('number_of_shares')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <div class="form-floating">
-                                            <input name="current_balance" id="currentBalance"
-                                                class="form-control @error('current_balance') is-invalid @enderror"
-                                                value="{{ old('current_balance') }}" type="number" step="0.01"
-                                                placeholder="Voucher No.">
-                                            <label for="currentBalance" class="form-label">Current Balance</label>
-                                            @error('current_balance')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <div class="form-floating">
-                                            <input name="monthly_deposit" id="monthlyDeposit"
-                                                class="form-control @error('monthly_deposit') is-invalid @enderror"
-                                                value="{{ old('monthly_deposit') }}" type="number" step="0.01"
-                                                placeholder="Monthly Deposit">
-                                            <label for="monthlyDeposit" class="form-label">Monthly Deposit</label>
-                                            @error('monthly_deposit')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <div class="form-floating">
-                                            <input name="welfare_fund" id="welfareFund"
-                                                class="form-control @error('welfare_fund') is-invalid @enderror"
-                                                value="{{ old('welfare_fund') }}" type="number" step="0.01"
-                                                placeholder="Welfare Amount">
-                                            <label for="welfareFund" class="form-label">Welfare Amount</label>
-                                            @error('welfare_fund')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <div class="form-floating">
-                                            <input name="monthly_balance" id="monthlyBalance"
-                                                class="form-control @error('monthly_balance') is-invalid @enderror"
-                                                value="{{ old('monthly_balance') }}" type="number" step="0.01"
-                                                placeholder="Monthly Balance">
-                                            <label for="monthlyBalance" class="form-label">Monthly Balance</label>
-                                            @error('monthly_balance')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <div class="form-floating">
-                                            <select name="demand" id="demand"
-                                                class="form-select @error('demand') is-invalid @enderror">
-                                                <option value="" selected>--- Demand ---</option>
-                                                <option value="yes" {{ old('demand') == 'yes' ? 'selected' : '' }}>Yes
-                                                </option>
-                                                <option value="no" {{ old('demand') == 'no' ? 'selected' : '' }}>No
-                                                </option>
-                                            </select>
-                                            <label for="demand" class="form-label">Demand</label>
-                                            @error('demand')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <div class="form-floating">
-                                            <select name="type" id="type"
-                                                class="form-select @error('type') is-invalid @enderror">
-                                                <option value="" selected>--- Account Type ---</option>
-                                                <option value="Share" {{ old('type') == 'Share' ? 'selected' : '' }}>
-                                                    Share
-                                                </option>
-                                                <option value="Dividend"
-                                                    {{ old('type') == 'Dividend' ? 'selected' : '' }}>Dividend
-                                                </option>
-                                                <option value="Deposit"
-                                                    {{ old('type') == 'Deposit' ? 'selected' : '' }}>Deposit
-                                                </option>
-                                            </select>
-                                            <label for="type" class="form-label">Account Type</label>
-                                            @error('type')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1020,7 +775,7 @@
                 <i class="bi bi-check-circle me-1"></i>Submit
             </button>
         </div>
-    </form>
+        </form>
     </div>
 </div>
 </div>

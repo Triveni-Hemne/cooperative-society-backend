@@ -5,11 +5,10 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\SubdivisionController;
-use App\Http\Controllers\CenterController;
 use App\Http\Controllers\DesignationController;
-use App\Http\Controllers\SubcasteController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\AgentController;
+// use App\Http\Controllers\AgentController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\GeneralLedgerController;
 use App\Http\Controllers\MemberController;
@@ -28,7 +27,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MemberContactDetailController;
 use App\Http\Controllers\MemberBankDetailController;
 use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\DepartmentController;
+// use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MemberFinancialController;
 use App\Http\Controllers\InterestLedgerController;
 use App\Http\Controllers\DepositNomineeController;
@@ -60,9 +59,8 @@ Route::get('/csrf-token', function () {
         Route::resource('directors', DirectorController::class)->names('directors');
         Route::resource('divisions', DivisionController::class)->names('divisions');
         Route::resource('subdivisions', SubdivisionController::class)->names('sub-divisions');
-        Route::resource('centers', CenterController::class)->names('centers');
         Route::resource('designations', DesignationController::class)->names('designations');
-        Route::Resource('subcastes', SubcasteController::class)->names('subcastes');
+        Route::Resource('categories', CategoryController::class)->names('categories');
         // Route::resource('schedule-ledgers', ScheduleLedgerController::class);
         Route::resource('general-ledgers', GeneralLedgerController::class)->names('general-ledgers');
         Route::Resource('members', MemberController::class)->names('members');
@@ -79,9 +77,9 @@ Route::get('/csrf-token', function () {
         // Route::resource('member-nominees', MemberNomineeController::class);
         Route::resource('member-contact-details', MemberContactDetailController::class);
         Route::resource('member-bank-details', MemberBankDetailController::class);
-        Route::resource('employees', EmployeeController::class);
-        Route::resource('departments', DepartmentController::class);
-        Route::resource('agents', AgentController::class);
+        Route::resource('employees', EmployeeController::class)->names('employees');
+        // Route::resource('departments', DepartmentController::class);
+        // Route::resource('agents', AgentController::class);
         Route::resource('branches', BranchController::class)->names('branches');
         Route::resource('member-financials', MemberFinancialController::class);
         Route::resource('installment-transactions', InstallmentTransactionController::class)->names('installment-transactions');
@@ -92,7 +90,6 @@ Route::get('/csrf-token', function () {
             return view('interest.interest-calculator');
         })->name('interest.calculator');
         Route::resource('users', UserController::class)->names('users');
-
         Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     });
 

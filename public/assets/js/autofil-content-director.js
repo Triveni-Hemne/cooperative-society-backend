@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const nameInput = document.getElementById("Name");
     const emailInput = document.getElementById("email");
     const mob0Input = document.getElementById("mob0");
+    const address = document.getElementById("address");
+    const marathiAddress = document.getElementById("marathiAddress");
     const designationSelect = document.getElementById("designationId");
 
     if (typeof memberData !== "undefined") {
@@ -18,6 +20,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 nameInput.value = member.name || "";
                 emailInput.value = member.email || "";
                 mob0Input.value = member.contact.mobile_no || "";
+                address.value = member.contact.address || "";
+                marathiAddress.value = member.contact.marathi_address || "";
 
                 if (designationSelect) {
                     for (let option of designationSelect.options) {
@@ -28,6 +32,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 nameInput.value = "";
                 emailInput.value = "";
                 mob0Input.value = "";
+                address.value = "";
+                marathiAddress.value = "";
 
                 if (designationSelect) {
                     designationSelect.selectedIndex = 0; // Reset to first option

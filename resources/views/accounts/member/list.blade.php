@@ -191,38 +191,26 @@
                             data-created-by="{{$member->user->name ?? Auth::user()->name }}" 
                             data-created-by-id="{{$member->user->id ?? Auth::user()->id }}" 
                             data-branch-id="{{$member->branch->id ?? '' }}" 
+                            data-member-branch-id="{{$member->member_branch_id ?? '' }}" 
+                            data-cpf-no="{{$member->cpf_no ?? '' }}" 
                             data-route="{{ route('members.update', $member->id) }}" 
-                            data-subcaste-id="{{$member->subcaste->id ?? ''}}" 
-                            data-subcaste-name="{{$member->subcaste->name ?? ''}}" 
                             data-department-id="{{$member->department->id ?? ''}}" 
                             data-department-name="{{$member->department->name ?? ''}}" 
                             data-dob="{{$member->dob ?? '' }}" 
                             data-gender="{{$member->gender ?? '' }}" 
                             data-age="{{$member->age ?? '' }}" 
                             data-date-of-joining="{{$member->date_of_joining ?? '' }}" 
+                            data-membership-date="{{$member->membership_date ?? '' }}" 
                             data-religion="{{$member->religion ?? '' }}" 
-                            data-category="{{$member->category ?? '' }}" 
+                            data-category="{{$member->category_id ?? '' }}" 
                             data-caste="{{$member->caste ?? '' }}" 
                             data-m-reg-no="{{$member->m_reg_no ?? '' }}" 
                             data-pan-no="{{$member->pan_no ?? '' }}" 
                             data-adhar-no="{{$member->adhar_no ?? '' }}" 
-                            data-emp-code="{{$member->employee->emp_code ?? '' }}" 
-                            data-designation-id="{{$member->employee->designation->id ?? '' }}" 
-                            data-designation-name="{{$member->employee->designation->name ?? '' }}" 
-                            data-salary="{{$member->employee->salary ?? '' }}" 
-                            data-other-allowance="{{$member->employee->other_allowance ?? '' }}" 
-                            data-division-id="{{$member->employee->division_id ?? '' }}" 
-                            data-division-name="{{$member->employee->division->name ?? '' }}" 
-                            data-subdivision-id="{{$member->employee->subdivision_id ?? '' }}" 
-                            data-subdivision-name="{{$member->employee->subdivision->name ?? '' }}" 
-                            data-center-id="{{$member->employee->center_id ?? '' }}" 
-                            data-center-name="{{$member->employee->center->name ?? '' }}" 
-                            data-joining-date="{{$member->employee->joining_date ?? '' }}" 
-                            data-transfer-date="{{$member->employee->transfer_date ?? '' }}" 
-                            data-retirement-date="{{$member->employee->retirement_date ?? '' }}" 
-                            data-gpf-no="{{$member->employee->gpf_no ?? '' }}" 
-                            data-hra="{{$member->employee->hra ?? '' }}" 
-                            data-da="{{$member->employee->da ?? '' }}" 
+                            data-designation-id="{{$member->designation->id ?? '' }}" 
+                            data-division-id="{{$member->division_id ?? '' }}" 
+                            data-subdivision-id="{{$member->subdivision_id ?? '' }}" 
+                            data-joining-date="{{$member->joining_date ?? '' }}" 
                             data-address="{{ $member->contact->address ?? '' }}" 
                             data-marathiAddress="{{$member->contact->marathi_address ?? ''}}" 
                             data-city="{{$member->contact->city ?? '' }}" 
@@ -255,9 +243,9 @@
                             data-bs-target="#memberModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" data-id="{{$member->id}}" data-route="{{ route('members.destroy', $member->id) }}" data-name="{{ $member->name }}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        {{-- <a href="#" data-id="{{$member->id}}" data-route="{{ route('members.destroy', $member->id) }}" data-name="{{ $member->name }}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
+                        </a> --}}
                     </td>
                 </tr>
                 @php $i++ @endphp
@@ -309,16 +297,18 @@
             let createdBy = this.getAttribute("data-created-by");
             let createdById = this.getAttribute("data-created-by-id");
             let branchId = this.getAttribute("data-branch-id");
+            let memberBranchId = this.getAttribute("data-member-branch-id");
             let route = this.getAttribute("data-route");
-            let subcasteId = this.getAttribute("data-subcaste-id");
-            let subcasteName = this.getAttribute("data-subcaste-name");
-            let departmentId = this.getAttribute("data-department-id");
-            let departmentName = this.getAttribute("data-department-name");
+            // let subcasteId = this.getAttribute("data-subcaste-id");
+            // let subcasteName = this.getAttribute("data-subcaste-name");
+            // let departmentId = this.getAttribute("data-department-id");
+            // let departmentName = this.getAttribute("data-department-name");
             
             let dob = this.getAttribute("data-dob");
             let gender = this.getAttribute("data-gender");
             let age = this.getAttribute("data-age");
             let dateOfJoining = this.getAttribute("data-date-of-joining");
+            let membershipDate = this.getAttribute("data-membership-date");
             let religion = this.getAttribute("data-religion");
             let category = this.getAttribute("data-category");
             let caste = this.getAttribute("data-caste");
@@ -326,23 +316,23 @@
             let dataMRegNo = this.getAttribute("data-m-reg-no");
             let panNo = this.getAttribute("data-pan-no");
             let adharNo = this.getAttribute("data-adhar-no");
-            let empCode = this.getAttribute("data-emp-code");
+            // let empCode = this.getAttribute("data-emp-code");
             let designationId = this.getAttribute("data-designation-id");
-            let designationName = this.getAttribute("data-designation-name");
-            let salary = this.getAttribute("data-salary");
-            let otherAllowance = this.getAttribute("data-other-allowance");
+            // let designationName = this.getAttribute("data-designation-name");
+            // let salary = this.getAttribute("data-salary");
+            // let otherAllowance = this.getAttribute("data-other-allowance");
             let divisionId = this.getAttribute("data-division-id");
-            let divisionName = this.getAttribute("data-division-name");
+            // let divisionName = this.getAttribute("data-division-name");
             let subdivisionId = this.getAttribute("data-subdivision-id");
-            let subdivisionName = this.getAttribute("data-subdivision-name");
-            let centerId = this.getAttribute("data-center-id");
-            let centerName = this.getAttribute("data-center-name");
-            let joiningDate = this.getAttribute("data-joining-date");
-            let transferDate = this.getAttribute("data-transfer-date");
-            let retirementDate = this.getAttribute("data-retirement-date");
-            let gpfNo = this.getAttribute("data-gpf-no");
-            let hra = this.getAttribute("data-hra");
-            let da = this.getAttribute("data-da");          
+            // let subdivisionName = this.getAttribute("data-subdivision-name");
+            // let centerId = this.getAttribute("data-center-id");
+            // let centerName = this.getAttribute("data-center-name");
+            // let joiningDate = this.getAttribute("data-joining-date");
+            // let transferDate = this.getAttribute("data-transfer-date");
+            // let retirementDate = this.getAttribute("data-retirement-date");
+            let gpfNo = this.getAttribute("data-cpf-no");
+            // let hra = this.getAttribute("data-hra");
+            // let da = this.getAttribute("data-da");          
             
             let address = this.getAttribute("data-address");
             let marathiAddress = this.getAttribute("data-marathiAddress");
@@ -374,7 +364,7 @@
             let proof2Type = this.getAttribute("data-proof-2-type");
             let proof2Image = this.getAttribute("data-proof-2-image");
             
-            let directorId = this.getAttribute("data-director-id");
+            // let directorId = this.getAttribute("data-director-id");
             let shareAmount = this.getAttribute("data-share-amount");
             let numberOfShares = this.getAttribute("data-number-of-shares");
             let welfareFund = this.getAttribute("data-welfare-fund");
@@ -394,16 +384,18 @@
             document.getElementById("createdBy").value = createdBy;
             document.getElementById("createdById").value = createdById;
             document.getElementById("branchId").value = branchId;
+            document.getElementById("memberBranchId").value = memberBranchId;
             
-            document.getElementById("subcasteId").value = subcasteId;
+            // document.getElementById("subcasteId").value = subcasteId;
             // document.getElementById("subcasteName").value = subcasteName;
-            document.getElementById("departmentId").value = departmentId;
+            // document.getElementById("departmentId").value = departmentId;
             // document.getElementById("departmentName").value = departmentName;
             
             document.getElementById("dob").value = dob;
             document.getElementById("gender").value = gender;
             document.getElementById("age").value = age;
             document.getElementById("dateOfJoining").value = dateOfJoining;
+            document.getElementById("membershipDate").value = membershipDate;
             document.getElementById("religion").value = religion;
             document.getElementById("category").value = category;
             document.getElementById("caste").value = caste;
@@ -412,24 +404,24 @@
             document.getElementById("adharNo").value = adharNo;
 
 
-            document.getElementById("empCode").value = empCode;
+            // document.getElementById("empCode").value = empCode;
             document.getElementById("designationId").value = designationId;
             // document.getElementById("designationName").value = designationName;
-            document.getElementById("salary").value = salary;
-            document.getElementById("otherAllowance").value = otherAllowance;
+            // document.getElementById("salary").value = salary;
+            // document.getElementById("otherAllowance").value = otherAllowance;
             document.getElementById("divisionId").value = divisionId;
             // document.getElementById("divisionName").value = divisionName;
-            document.getElementById("subdivisionId").value = subdivisionId;
+            document.getElementById("subDivisionId").value = subdivisionId;
             // document.getElementById("subdivisionName").value = subdivisionName;
-            console.log("centerId",centerId);
-            document.getElementById("centerId").value = centerId;
+            // console.log("centerId",centerId);
+            // document.getElementById("centerId").value = centerId;
             // document.getElementById("centerName").value = centerName;
-            document.getElementById("joiningDate").value = joiningDate;
-            document.getElementById("transferDate").value = transferDate;
-            document.getElementById("retirementDate").value = retirementDate;
+            // document.getElementById("joiningDate").value = joiningDate;
+            // document.getElementById("transferDate").value = transferDate;
+            // document.getElementById("retirementDate").value = retirementDate;
             document.getElementById("gpfNo").value = gpfNo;
-            document.getElementById("hra").value = hra;
-            document.getElementById("da").value = da;
+            // document.getElementById("hra").value = hra;
+            // document.getElementById("da").value = da;
             
             document.getElementById("address").value = address;
             document.getElementById("marathiAddress").value = marathiAddress;
@@ -461,12 +453,12 @@
             document.getElementById("proof2Type").value = proof2Type;
             document.getElementById("proof2Image").value = '';
 
-            let directorSelect = document.getElementById("directorId");
-            if (directorSelect){
-                directorSelect.value = directorId;
-            } else {
-                console.error("Element #directorId not found in the DOM.");
-            }
+            // let directorSelect = document.getElementById("directorId");
+            // if (directorSelect){
+            //     directorSelect.value = directorId;
+            // } else {
+            //     console.error("Element #directorId not found in the DOM.");
+            // }
             document.getElementById("shareAmount").value = shareAmount;
             document.getElementById("numberOfShares").value = numberOfShares;
             document.getElementById("welfareFund").value = welfareFund;
@@ -506,6 +498,6 @@
     });
 });
 </script>
-<script src="{{asset('assets/js/autofill-calc-member-from.js')}}"></script>
-<script src="{{asset('assets\js\autofil-content-member.js')}}"></script>
+{{-- <script src="{{asset('assets/js/autofill-calc-member-from.js')}}"></script> --}}
+{{-- <script src="{{asset('assets\js\autofil-content-member.js')}}"></script> --}}
 @endsection

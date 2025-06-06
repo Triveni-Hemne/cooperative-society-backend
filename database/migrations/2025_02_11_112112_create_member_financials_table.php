@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('member_financials', function (Blueprint $table) {
             $table->id();
             $table->foreignId('member_id')->nullable()->constrained('members')->nullOnDelete();
-            $table->foreignId('director_id')->nullable()->constrained('users')->nullOnDelete(); // Assuming directors are stored in users table
+            $table->foreignId('director_id')->nullable()->constrained('directors')->nullOnDelete(); // Assuming directors are stored in users table
             $table->decimal('share_amount', 10, 2)->nullable();
             $table->integer('number_of_shares')->nullable();
             $table->decimal('welfare_fund', 10, 2)->nullable();

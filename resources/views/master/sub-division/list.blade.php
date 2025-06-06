@@ -67,9 +67,9 @@
                             data-bs-target="#subDivisionModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" class="text-decoration-none" data-id="{{$subdivision->id}}" data-route="{{ route('sub-divisions.destroy', $subdivision->id) }}" data-name="{{ $subdivision->name }}" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        {{-- <a href="#" class="text-decoration-none" data-id="{{$subdivision->id}}" data-route="{{ route('sub-divisions.destroy', $subdivision->id) }}" data-name="{{ $subdivision->name }}" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
+                        </a> --}}
                     </td>
                 </tr>
                 @php $i++ @endphp

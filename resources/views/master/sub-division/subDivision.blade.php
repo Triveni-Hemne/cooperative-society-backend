@@ -71,16 +71,16 @@
                         @isset($divisions)
                         @if ($divisions->isNotEmpty())
                         <div class="form-floating mb-3">
-                            <select id="division_id" name="division_id"
+                            <select id="division_id" name="division_id" required
                                 class="form-select @error('division_id') is-invalid @enderror">
-                                <option value="" disabled selected>Select Division</option>
+                                <option value="" disabled selected>Select Division </option>
                                 @foreach ($divisions as $division)
                                 <option value="{{ $division->id }}"
                                     {{ old('division_id') == $division->id ? 'selected' : '' }}>{{ $division->name }}
                                 </option>
                                 @endforeach
                             </select>
-                            <label for="division_id" class="form-label required">Division</label>
+                            <label for="division_id" class="form-label required">Division <span class="text-danger"> *</span></label>
                             @error('division_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

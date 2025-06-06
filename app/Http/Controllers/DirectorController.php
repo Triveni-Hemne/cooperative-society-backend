@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Director;
 use App\Models\Member;
 use App\Models\Designation;
+use App\Models\Division;
 use Illuminate\Validation\Rule;
 
 class DirectorController extends Controller
@@ -19,7 +20,8 @@ class DirectorController extends Controller
         $directors = Director::with(['member', 'designation'])->latest()->paginate(5);
         $members = Member::with('contact')->get();
         $designations = Designation::all();
-        return view('master.director.list',compact('directors','members','designations'));
+        $divisions = Division::all();
+        return view('master.director.list',compact('directors','members','designations','divisions'));
     }
 
     /**
@@ -37,6 +39,7 @@ class DirectorController extends Controller
     {
         $validated = $request->validate([
             'member_id' => 'required|exists:members,id',
+            'division_id' => 'required|exists:divisions,id',
             'name' => 'required|string|max:255',
             'designation_id' => 'nullable|exists:designations,id',
             'contact_nos'=>'required|array|min:1',
@@ -44,6 +47,8 @@ class DirectorController extends Controller
             'email' => 'nullable|email|unique:directors,email',
             'from_date' => 'required|date',
             'to_date' => 'nullable|date|after_or_equal:from_date',
+            'address' => 'nullable|string',
+            'marathi_address' => 'nullable|string',
         ]);
             $validated['contact_nos'] = implode(',', $request->contact_nos); // Convert array to string
             
@@ -78,12 +83,15 @@ class DirectorController extends Controller
         $director = Director::findOrFail($id);
         $validated = $request->validate([
             'member_id' => 'nullable|exists:members,id',
+            'division_id' => 'required|exists:divisions,id',
             'name' => 'required|string|max:255',
             'designation_id' => 'nullable|exists:designations,id',
             'contact_nos' => 'required|array|min:1', // Ensure at least one number is provided
             'email' => ['nullable', 'email', Rule::unique('directors', 'email')->ignore($director->id)],
             'from_date' => 'required|date',
             'to_date' => 'nullable|date|after_or_equal:from_date',
+            'address' => 'nullable|string',
+            'marathi_address' => 'nullable|string',
         ]);
         
         $validated['contact_nos'] = implode(',', $validated['contact_nos']); 

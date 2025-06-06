@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Designation;
-use App\Models\Subdivision;
-use App\Models\Center;
-use App\Models\Division;
 use Illuminate\Validation\Rule;
 class DesignationController extends Controller
 {
@@ -16,11 +13,8 @@ class DesignationController extends Controller
      */
     public function index()
     {
-       $designations = Designation::with('subdivision')->latest()->paginate(5);
-        $subdivisions = Subdivision::all();
-        $divisions = Division::all();
-        $centers = Center::all();
-        return view('master.designation.list',compact('designations','subdivisions','divisions','centers'));
+       $designations = Designation::latest()->paginate(5);
+        return view('master.designation.list',compact('designations'));
     }
 
     /**
@@ -37,9 +31,6 @@ class DesignationController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'division_id' => 'required|exists:divisions,id',
-            'subdivision_id' => 'required|exists:subdivisions,id',
-            'center_id' => 'nullable|exists:centers,id',
             'name' => 'required|string|max:100|unique:designations,name',
             'naav' => 'nullable|string|max:100|unique:designations,naav',
             'description' => 'nullable|string',
@@ -74,9 +65,6 @@ class DesignationController extends Controller
        $designation = Designation::findOrFail($id);
 
        $validated = $request->validate([
-           'division_id' => 'required|exists:divisions,id',
-           'subdivision_id' => 'required|exists:subdivisions,id',
-           'center_id' => 'nullable|exists:centers,id',
            'name' => [
             'required','string','max:100',
                 Rule::unique('designations', 'name')->ignore($request->id), // Ignore the current record

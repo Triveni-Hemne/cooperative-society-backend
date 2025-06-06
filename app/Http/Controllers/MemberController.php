@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\Member;
 use App\Models\Nominee;
 use App\Models\MemberBankDetail;
-use App\Models\MemberFinancial;
 use App\Models\Employee;
 use App\Models\Center;
 use App\Models\Branch;
@@ -15,9 +14,10 @@ use App\Models\User;
 use App\Models\Department;
 use App\Models\Division;
 use App\Models\Subdivision;
-use App\Models\Subcaste;
 use App\Models\Director;
+use App\Models\Category;
 use App\Models\Designation;
+use App\Models\MemberFinancial;
 use App\Models\MemberContactDetail;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Arr;
@@ -50,18 +50,17 @@ class MemberController extends Controller
         })->latest()->paginate(5);
 
     //    $members = Member::paginate(5);    
-       $departments = Department::all();
-       $subcates = Subcaste::all();
        $directors = Director::all();
-       $centers = Center::all();
        $user = Auth::user();
+    //    $divisions = Division::all();
+       $categories = Category::all();
+       $designations = Designation::all();
        $divisions = Division::all();
        $subdivisions = Subdivision::all();
-       $designations = Designation::all();
 
        $branches = $user->role === 'Admin' ? Branch::all() : null;
        
-       return view('accounts.member.list', compact('departments','subcates','members','directors','centers','divisions','subdivisions','designations','user','branches'));
+       return view('accounts.member.list', compact('members','directors','designations','user','branches', 'categories','divisions','subdivisions'));
     }
 
     /**
@@ -76,42 +75,47 @@ class MemberController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+    {   
         $validatedData = $request->validate([
             // Employee Validation
             'emp_code' => 'nullable|string|max:50|unique:employees,emp_code',
-            'designation_id' => 'nullable|exists:designations,id',
-            'salary' => 'nullable|numeric',
             'other_allowance' => 'nullable|numeric',
             'division_id' => 'nullable|exists:divisions,id',
             'subdivision_id' => 'nullable|exists:subdivisions,id',
             'center_id' => 'nullable|exists:centers,id',
             'joining_date' => 'nullable|date',
             'transfer_date' => 'nullable|date',
+            'salary' => 'nullable|numeric',
             'retirement_date' => 'nullable|date',
-            'gpf_no' => 'nullable|string|max:50|unique:employees,gpf_no',
             'hra' => 'nullable|numeric',
             'da' => 'nullable|numeric',
-
+            
             // Member Validation
-            'subcaste_id' => 'nullable|exists:subcastes,id',
             'department_id' => 'nullable|exists:departments,id',
             'branch_id' => auth()->user()->role === 'Admin'
-                ? ['required', Rule::exists('branches', 'id')]
-                : ['nullable', Rule::exists('branches', 'id')],
+            ? ['required', Rule::exists('branches', 'id')]
+            : ['nullable', Rule::exists('branches', 'id')],
+            'created_by' => 'required|exists:users,id',
             'name' => 'required|string|max:255',
             'naav' => 'nullable|string|max:255',
-            'dob' => 'required|date',
             'gender' => 'required|in:Male,Female,Other',
+            'dob' => 'required|date',
             'age' => 'required|integer|min:0',
             'date_of_joining' => 'nullable|date',
-            'religion' => 'nullable|string|max:100',
-            'category' => 'required|in:ST,SC,OBC,General,NT,Other',
-            'caste' => 'required|string|max:100',
             'm_reg_no' => 'nullable|string|max:50',
+            'caste' => 'required|string|max:100',
+            'religion' => 'nullable|string|max:100',
+            'category_id' => 'required|exists:categories,id',
+            'member_branch_id' => 'required|exists:branches,id',
+            'photo' => 'nullable|image|max:2048',
+            'signature' => 'nullable|image|max:2048',
             'pan_no' => 'nullable|string|max:20',
             'adhar_no' => 'nullable|string|max:20',
-            'created_by' => 'required|exists:users,id',
+            'designation_id' => 'nullable|exists:designations,id',
+            'cpf_no' => 'nullable|string|max:50|unique:employees,gpf_no',
+            'division_id' => 'nullable|exists:divisions,id',
+            'subdivision_id' => 'nullable|exists:subdivisions,id',
+            'membership_date' => 'required|date',
 
             // Contact Validation
             'address' => 'required|string',
@@ -123,12 +127,13 @@ class MemberController extends Controller
             // Nominee Validation
             'nominee_id' => 'nullable|exists:members,id',
             'depo_acc_id' => 'nullable|exists:member_depo_accounts,id',
-            'nominee_name' => 'required|string|max:255',
+            'nominee_name' => 'nullable|string|max:255',
             'nominee_naav' => 'nullable|string|max:255',
-            'nominee_age' => 'required|integer',
-            'nominee_gender' => 'required|in:Male,Female,Other',
-            'relation' => 'required|string|max:50',
+            'nominee_age' => 'nullable|integer',
+            'nominee_gender' => 'nullable|in:Male,Female,Other',
+            'relation' => 'nullable|string|max:50',
             'nominee_image' => 'nullable|image|max:2048',
+            'nominee_signature' => 'nullable|image|max:2048',
             'nominee_address' => 'nullable|string|max:50',
             'nominee_marathi_address' => 'nullable|string|max:50',
             'nominee_adhar_no' => 'nullable|string|max:50',
@@ -146,7 +151,7 @@ class MemberController extends Controller
             'proof_2_image' => 'nullable|image|max:2048',
 
             // Financial Validation
-            'director_id' => 'nullable|exists:directors,id',
+            // 'director_id' => 'nullable|exists:directors,id',
             'share_amount' => 'nullable|numeric|min:0',
             'number_of_shares' => 'nullable|numeric|min:0',
             'welfare_fund' => 'nullable|numeric',
@@ -160,10 +165,18 @@ class MemberController extends Controller
         ]);
 
 
+        if ($request->hasFile('photo')) {
+           $photoPath = $validatedData['photo'] = $request->file('photo')->store('uploads/member', 'public');
+        }
+        if ($request->hasFile('signature')) {
+            $signaturePath = $validatedData['signature'] = $request->file('signature')->store('uploads/member', 'public');
+        }
         if ($request->hasFile('nominee_image')) {
             $validatedData['nominee_image'] = $request->file('nominee_image')->store('uploads/nominees', 'public');
         }
-
+        if ($request->hasFile('nominee_signature')) {
+            $validatedData['nominee_signature'] = $request->file('nominee_signature')->store('uploads/nominees', 'public');
+        }
         if ($request->hasFile('proof_1_image')) {
             $validatedData['proof_1_image'] = $request->file('proof_1_image')->store('uploads/bank_proofs', 'public');
         }
@@ -173,28 +186,32 @@ class MemberController extends Controller
         }
 
 
-        $employee = Employee::create([
-            'emp_code' => $validatedData['emp_code'],
-            'designation_id' => $validatedData['designation_id'],
-            'salary' => $validatedData['salary'],
-            'other_allowance' => $validatedData['other_allowance'] ?? null,
-            'division_id' => $validatedData['division_id'],
-            'subdivision_id' => $validatedData['subdivision_id'],
-            'center_id' => $validatedData['center_id'],
-            'joining_date' => $validatedData['joining_date'],
-            'transfer_date' => $validatedData['transfer_date'] ?? null,
-            'retirement_date' => $validatedData['retirement_date'] ?? null,
-            'gpf_no' => $validatedData['gpf_no'] ?? null,
-            'hra' => $validatedData['hra'] ?? null,
-            'da' => $validatedData['da'] ?? null,
-        ]);
-
+        // $employee = Employee::create([
+        //     'emp_code' => $validatedData['emp_code'],
+        //     'salary' => $validatedData['salary'],
+        //     'other_allowance' => $validatedData['other_allowance'] ?? null,
+        //     'division_id' => $validatedData['division_id'],
+        //     'subdivision_id' => $validatedData['subdivision_id'],
+        //     'center_id' => $validatedData['center_id'],
+        //     'joining_date' => $validatedData['joining_date'],
+        //     'transfer_date' => $validatedData['transfer_date'] ?? null,
+        //     'retirement_date' => $validatedData['retirement_date'] ?? null,
+        //     'hra' => $validatedData['hra'] ?? null,
+        //     'da' => $validatedData['da'] ?? null,
+        // ]);
         $member = Member::create(array_merge(
             Arr::only($validatedData, [
-                'subcaste_id', 'department_id', 'name', 'naav', 'dob', 'gender', 'age',
-                'date_of_joining', 'religion', 'category', 'caste', 'm_reg_no', 'pan_no', 'adhar_no', 'created_by'
+                'branch_id', 'created_by', 'name', 'naav', 'gender', 'dob', 'age',
+                'date_of_joining', 'm_reg_no', 'caste', 'religion', 'category_id',
+                'member_branch_id', 'pan_no', 'adhar_no', 'designation_id', 'cpf_no',
+                'membership_date', 'division_id', 'subdivision_id'
             ]),
-            ['employee_id' => $employee->id]
+            [
+                'images' => json_encode([
+                    'photo' => $photoPath ?? null,
+                    'signature' => $signaturePath ?? null
+                ])
+            ]
         ));
 
         $contact = MemberContactDetail::create(array_merge(
@@ -204,8 +221,8 @@ class MemberController extends Controller
 
         $nominee = Nominee::create(array_merge(
             Arr::only($validatedData, [
-                'nominee_id', 'depo_acc_id', 'nominee_name', 'nominee_naav', 'nominee_age',
-                'nominee_gender', 'relation', 'nominee_image', 'nominee_address',
+                'nominee_name', 'nominee_naav', 'nominee_age',
+                'nominee_gender', 'relation', 'nominee_image','nominee_signature', 'nominee_address',
                 'nominee_marathi_address', 'nominee_adhar_no'
             ]),
             ['member_id' => $member->id]
@@ -259,14 +276,14 @@ class MemberController extends Controller
         $member = Member::findOrFail($id);
 
         $employee_validated = $request->validate([
-            'emp_code' => ['required', 'string', 'max:50', Rule::unique('employees', 'emp_code')->ignore($member->employee_id)],
-            'designation_id' => 'required|exists:designations,id',
-            'salary' => 'required|numeric',
+            'emp_code' => ['nullable', 'string', 'max:50', Rule::unique('employees', 'emp_code')->ignore($member->employee_id)],
+            'designation_id' => 'nullable|exists:designations,id',
+            'salary' => 'nullable|numeric',
             'other_allowance' => 'nullable|numeric',
-            'division_id' => 'required|exists:divisions,id',
-            'subdivision_id' => 'required|exists:subdivisions,id',
-            'center_id' => 'required|exists:centers,id',
-            'joining_date' => 'required|date',
+            'division_id' => 'nullable|exists:divisions,id',
+            'subdivision_id' => 'nullable|exists:subdivisions,id',
+            'center_id' => 'nullable|exists:centers,id',
+            'joining_date' => 'nullable|date',
             'transfer_date' => 'nullable|date',
             'retirement_date' => 'nullable|date',
             'gpf_no' => ['nullable', 'string', 'max:50', Rule::unique('employees', 'gpf_no')->ignore($member->employee_id)],
@@ -275,24 +292,33 @@ class MemberController extends Controller
         ]);
         
         $member_validated = $request->validate([
-            'subcaste_id' => 'nullable|exists:subcastes,id',
+            // 'subcaste_id' => 'nullable|exists:subcastes,id',
             'department_id' => 'nullable|exists:departments,id',
             'branch_id' => auth()->user()->role === 'Admin'
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],
+            'created_by' => 'required|exists:users,id',
             'name' => 'required|string|max:255',
             'naav' => 'nullable|string|max:255',
-            'dob' => 'required|date',
             'gender' => 'required|in:Male,Female,Other',
+            'dob' => 'required|date',
             'age' => 'required|integer|min:0',
             'date_of_joining' => 'nullable|date',
-            'religion' => 'nullable|string|max:100',
-            'category' => 'required|in:ST,SC,OBC,General,NT,Other',
-            'caste' => 'required|string|max:100',
             'm_reg_no' => 'nullable|string|max:50',
+            'caste' => 'required|string|max:100',
+            'religion' => 'nullable|string|max:100',
+            'category_id' => 'required|exists:categories,id',
+            'member_branch_id' => 'required|exists:branches,id',
+            'photo' => 'nullable|image|max:2048',
+            'signature' => 'nullable|image|max:2048',
             'pan_no' => 'nullable|string|max:20',
+            // 'adhar_no' => 'nullable|string|max:20',
             'adhar_no' => ['nullable', 'string', 'max:20', Rule::unique('members', 'adhar_no')->ignore($id)],
-            'created_by' => 'required|exists:users,id',
+            'designation_id' => 'nullable|exists:designations,id',
+            'cpf_no' => 'nullable|string|max:50|unique:employees,gpf_no',
+            'division_id' => 'nullable|exists:divisions,id',
+            'subdivision_id' => 'nullable|exists:subdivisions,id',
+            'membership_date' => 'required|date',
         ]);
 
         $contact_validated = $request->validate([
@@ -306,12 +332,13 @@ class MemberController extends Controller
         $nominee_validated = $request->validate([
             'nominee_id' => 'nullable|exists:members,id',
             'depo_acc_id' => 'nullable|exists:member_depo_accounts,id',
-            'nominee_name' => 'required|string|max:255',
+            'nominee_name' => 'nullable|string|max:255',
             'nominee_naav' => 'nullable|string|max:255',
-            'nominee_age' => 'required|integer',
-            'nominee_gender' => 'required|in:Male,Female,Other',
-            'relation' => 'required|string|max:50',
-            'nominee_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'nominee_age' => 'nullable|integer',
+            'nominee_gender' => 'nullable|in:Male,Female,Other',
+            'relation' => 'nullable|string|max:50',
+            'nominee_image' => 'nullable|image|max:2048',
+            'nominee_signature' => 'nullable|image|max:2048',
             'nominee_address' => 'nullable|string|max:50',
             'nominee_marathi_address' => 'nullable|string|max:50',
             'nominee_adhar_no' => 'nullable|string|max:50',
@@ -335,31 +362,34 @@ class MemberController extends Controller
 
         $financial_validated = $request->validate([
             'director_id' => 'nullable|exists:directors,id',
-            'share_amount' => 'numeric|min:0',
-            'number_of_shares' => 'numeric|min:0',
+            'share_amount' => 'nullable|numeric|min:0',
+            'number_of_shares' => 'nullable|numeric|min:0',
             'welfare_fund' => 'nullable|numeric',
             'page_no' => 'nullable|string|max:50',
-            'current_balance' => 'numeric|min:0',
-            'monthly_balance' => 'numeric|min:0',
+            'current_balance' => 'nullable|numeric|min:0',
+            'monthly_balance' => 'nullable|numeric|min:0',
             'dividend_amount' => 'nullable|numeric|min:0',
-            'monthly_deposit' => 'numeric|min:0',
+            'monthly_deposit' => 'nullable|numeric|min:0',
             'demand' => 'nullable|string|in:yes,no',
-            'type' => 'in:Share,Dividend,Deposit'
+            'type' => 'nullable|in:Share,Dividend,Deposit'
         ]);
 
         // **Handle File Uploads Efficiently**
+        $bankDetail_validated['photo'] = $this->handleFileUpload($request, 'photo', $member->bankDetail, 'uploads/member');
+        $bankDetail_validated['signature'] = $this->handleFileUpload($request, 'signature', $member->bankDetail, 'uploads/member');
+        $nominee_validated['nominee_image'] = $this->handleFileUpload($request, 'nominee_image', $member->nominee, 'uploads/nominees');
+        $nominee_validated['nominee_signature'] = $this->handleFileUpload($request, 'nominee_signature', $member->nominee, 'uploads/nominees');
         $bankDetail_validated['proof_1_image'] = $this->handleFileUpload($request, 'proof_1_image', $member->bankDetail, 'uploads/bank_proofs');
         $bankDetail_validated['proof_2_image'] = $this->handleFileUpload($request, 'proof_2_image', $member->bankDetail, 'uploads/bank_proofs');
-        $nominee_validated['nominee_image'] = $this->handleFileUpload($request, 'nominee_image', $member->nominee, 'uploads/nominees');
 
         // **Update Employee**
-        $employee = Employee::findOrFail($member->employee_id);
-        if($employee){
-            $employee->update($employee_validated);
-        }
-        else{
-            MemberContactDetail::create($employee_validated);
-        }
+        // $employee = Employee::findOrFail($member->employee_id);
+        // if($employee){
+        //     $employee->update($employee_validated);
+        // }
+        // else{
+        //     MemberContactDetail::create($employee_validated);
+        // }
 
         // **Update Member**
         $member->update($member_validated);

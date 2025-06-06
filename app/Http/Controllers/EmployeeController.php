@@ -6,15 +6,56 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Employee; 
 use Illuminate\Validation\Rule;
+use App\Models\Nominee;
+use App\Models\MemberBankDetail;
+use App\Models\MemberFinancial;
+use App\Models\Branch;
+use App\Models\User;
+use App\Models\Department;
+use App\Models\Division;
+use App\Models\Subdivision;
+use App\Models\Subcaste;
+use App\Models\Director;
+use App\Models\Designation;
+use App\Models\MemberContactDetail;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 
 class EmployeeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-      return response()->json(Employee::with(['member', 'designation', 'division', 'subdivision', 'center'])->get(), 200);
+        $user = Auth::user();
+        $branchId = null;
+        // Determine branch filter based on role
+        if ($user->role === 'Admin') {
+            $branchId = $request->branch_id; // admin can filter via dropdown
+        } else {
+            $branchId = $user->branch_id; // normal user only sees their branch
+        }
+       $employees = Employee::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->latest()->paginate(5);
+
+       $departments = Department::all();
+       $directors = Director::all();
+       $user = Auth::user();
+       $divisions = Division::all();
+       $subdivisions = Subdivision::all();
+       $designations = Designation::all();
+
+       $branches = $user->role === 'Admin' ? Branch::all() : null;
+       
+       return view('master.employee.list', compact('departments','employees','directors','divisions','subdivisions','designations','user','branches'));
     }
 
     /**
@@ -30,26 +71,7 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'member_id' => 'required|exists:members,id',
-            'emp_code' => 'required|string|max:50|unique:employees,emp_code',
-            'designation_id' => 'required|exists:designations,id',
-            'salary' => 'required|numeric',
-            'other_allowance' => 'nullable|numeric',
-            'division_id' => 'required|exists:divisions,id',
-            'subdivision_id' => 'required|exists:subdivisions,id',
-            'center_id' => 'required|exists:centers,id',
-            'joining_date' => 'required|date',
-            'transfer_date' => 'nullable|date',
-            'retirement_date' => 'nullable|date',
-            'gpf_no' => 'nullable|string|max:50|unique:employees,gpf_no',
-            'hra' => 'nullable|numeric',
-            'da' => 'nullable|numeric',
-            'status' => 'required|in:Active,Inactive,Retired',
-        ]);
-
-        $employee = Employee::create($validated);
-        return response()->json(['message' => 'Employee added successfully', 'employee' => $employee], 201);
+        
     }
 
     /**
@@ -74,28 +96,7 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $employee = Employee::findOrFail($id);
-
-        $validated =  $request->validate([
-            'member_id' => 'exists:members,id',
-            'emp_code' => 'string|max:50|unique:employees,emp_code,' . $id,
-            'designation_id' => 'exists:designations,id',
-            'salary' => 'numeric',
-            'other_allowance' => 'nullable|numeric',
-            'division_id' => 'exists:divisions,id',
-            'subdivision_id' => 'exists:subdivisions,id',
-            'center_id' => 'exists:centers,id',
-            'joining_date' => 'date',
-            'transfer_date' => 'nullable|date',
-            'retirement_date' => 'nullable|date',
-            'gpf_no' => 'nullable|string|max:50|unique:employees,gpf_no,' . $id,
-            'hra' => 'nullable|numeric',
-            'da' => 'nullable|numeric',
-            'status' => 'in:Active,Inactive,Retired',
-        ]);
-
-        $employee->update($validated);
-        return response()->json(['message' => 'Employee updated successfully', 'employee' => $employee]);
+       
     }
 
     /**

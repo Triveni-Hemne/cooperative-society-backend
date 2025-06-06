@@ -45,7 +45,7 @@
                             <p class="errorMsg text-danger small d-none">फक्त मराठी अक्षरे स्वीकारली जातील.</p>
                         </div>
                         {{-- Division Dropdown --}}
-                        @isset($divisions)
+                        {{-- @isset($divisions)
                         <div class="form-floating mb-3">
                             @if ($divisions->isNotEmpty())
                             <select id="division_id" name="division_id"
@@ -68,10 +68,10 @@
                             </div>
                             @endif
                         </div>
-                        @endisset
+                        @endisset --}}
 
                         {{-- Subdivision Dropdown --}}
-                        @isset($subdivisions)
+                        {{-- @isset($subdivisions)
                         <div class="form-floating mb-3">
                             @if ($subdivisions->isNotEmpty())
                             <select id="subdivision_id" name="subdivision_id"
@@ -94,10 +94,10 @@
                             </div>
                             @endif
                         </div>
-                        @endisset
+                        @endisset --}}
 
                         {{-- Center Dropdown --}}
-                        @isset($centers)
+                        {{-- @isset($centers)
                         <div class="form-floating mb-3">
                             @if ($centers->isNotEmpty())
                             <select id="center_id" name="center_id"
@@ -119,7 +119,7 @@
                             </div>
                             @endif
                         </div>
-                        @endisset
+                        @endisset --}}
 
                         <div class="form-floating mb-3">
                             <textarea id="description" name="description"

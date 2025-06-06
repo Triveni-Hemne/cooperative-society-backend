@@ -34,7 +34,7 @@ class GeneralLedgerController extends Controller
     {
         // return $request->all();   
         $validated = $request->validate([
-            'parent_ledger_id' => 'nullable|exists:general_ledgers,id',
+            // 'parent_ledger_id' => 'nullable|exists:general_ledgers,id',
             'ledger_no' => 'required|unique:general_ledgers|max:50',
             'name' => 'required|max:100',
             'balance'=> 'required',
@@ -42,7 +42,7 @@ class GeneralLedgerController extends Controller
             'open_balance'=>'required',
             'open_balance_type' => 'required|in:Credit,Debit',
             'min_balance' => 'required',
-            'min_balance_type' => 'required|in:Credit,Debit',
+            // 'min_balance_type' => 'nullable|in:Credit,Debit',
             'interest_rate' => 'required',
             'open_date' => 'required|date',
             'gl_type' => 'required|in:Society,Store',
@@ -87,10 +87,11 @@ class GeneralLedgerController extends Controller
         $generalLedger = GeneralLedger::findOrFail($id);
      
         $validated = $request->validate([
-            'parent_ledger_id' =>'nullable|exists:general_ledgers,id',
+            // 'parent_ledger_id' =>'nullable|exists:general_ledgers,id',
             'ledger_no' => [
-            'required','string','max:100',
-                Rule::unique('general_ledgers', 'id')->ignore($request->id), // Ignore the current record
+                'required',
+                'max:50',
+                Rule::unique('general_ledgers', 'ledger_no')->ignore($id),
             ],
             'name' => 'required|max:100',
             'balance'=> 'required',
@@ -98,7 +99,7 @@ class GeneralLedgerController extends Controller
             'open_balance'=>'required',
             'open_balance_type' => 'required|in:Credit,Debit',
             'min_balance' => 'required',
-            'min_balance_type' => 'required|in:Credit,Debit',
+            // 'min_balance_type' => 'nullable|in:Credit,Debit',
             'interest_rate' => 'required',
             'open_date' => 'required|date',
             'gl_type' => 'required|in:Society,Store',

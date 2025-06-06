@@ -2,7 +2,7 @@
     <div class="d-flex justify-content-between align-items-center px-3">
         <!-- Title -->
         <h3 class="text-white fw-bold my-hero-text text-center">
-            महाराष्ट्र राज्य विद्युत क्षेत्र तांत्रिक कर्मचारी सहकारी पत संस्था मर्यादित, र. नं. 153
+            महाराष्ट्र राज्य विद्युत क्षेत्र तांत्रिक कर्मचारी सहकारी पत संस्था मर्यादित भंडारा, र. नं. 156 
         </h3>
          @if(Auth::guard('admin')->check())
                 <div class="last-login fs-6 me-3" style="color: #888;">

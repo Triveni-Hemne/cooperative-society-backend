@@ -19,7 +19,8 @@ class UserController extends Controller
     {
          $users = User::latest()->paginate(5);
          $branches = Branch::all();
-         $employees = Employee::all();
+         $employees = [];
+         //  $employees = Employee::all();
          return view('master.user.list', compact('users','branches','employees'));
     }
 

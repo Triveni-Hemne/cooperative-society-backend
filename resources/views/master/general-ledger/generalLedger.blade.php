@@ -28,7 +28,7 @@
                                         <input name="ledger_no" id="ledgerNo" type="text"
                                             class="form-control @error('ledger_no') is-invalid @enderror"
                                             value="{{ old('ledger_no') }}" placeholder="Ledger No." required>
-                                        <label for="ledgerNo" class="form-label">Ledger No.</label>
+                                        <label for="ledgerNo" class="form-label">Ledger No. <span class="text-danger"> *</span></label>
                                         @error('ledger_no')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -47,7 +47,7 @@
                                 </div>
                             </div>
 
-                        @isset($generalLedgers)
+                        {{-- @isset($generalLedgers)
                             @if ($generalLedgers->isNotEmpty())
                             <div class="row">
                                 <div class="col-md-6 mb-3">
@@ -75,7 +75,7 @@
                                 Please add parent ledger first.
                             </div>
                             @endif
-                            @endisset
+                            @endisset --}}
                         </fieldset>
                         <fieldset class="border p-3 mb-3 rounded position-relative">
                             <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Financial Settings</legend>
@@ -85,7 +85,7 @@
                                             <input name="balance" id="balance" type="number" step="0.01"
                                                 class="form-control @error('balance') is-invalid @enderror"
                                                 value="{{ old('balance') }}" placeholder="Balance" required>
-                                            <label for="balance" class="form-label">Balance</label>
+                                            <label for="balance" class="form-label required">Balance</label>
                                             @error('balance')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -102,7 +102,7 @@
                                                     Debit
                                                 </option>
                                             </select>
-                                            <label for="balanceType" class="form-label">Balance Type</label>
+                                            <label for="balanceType" class="form-label">Balance Type <span class="text-danger"> *</span></label>
                                             @error('balance_type')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -121,7 +121,7 @@
                                                     Saving Deposite Monthly
                                                 </option>
                                             </select>
-                                            <label for="interestType" class="form-label">Interest Type</label>
+                                            <label for="interestType" class="form-label">Interest Type <span class="text-danger"> *</span></label>
                                             @error('interest_type')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -155,7 +155,7 @@
                                             <input name="open_balance" id="openBalance" type="number" step="0.01"
                                                 class="form-control @error('open_balance') is-invalid @enderror"
                                                 value="{{ old('open_balance') }}" placeholder="Open Balance" required>
-                                            <label for="openBalance" class="form-label">Open Balance</label>
+                                            <label for="openBalance" class="form-label required">Open Balance</label>
                                             @error('open_balance')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -172,7 +172,7 @@
                                                     {{ old('open_balance_type') == 'Debit' ? 'selected' : '' }}>Debit
                                                 </option>
                                             </select>
-                                            <label for="openBalanceType" class="form-label">Open Balance Type</label>
+                                            <label for="openBalanceType" class="form-label">Open Balance Type <span class="text-danger"> *</span></label>
                                             @error('open_balance_type')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -183,7 +183,7 @@
                                             <input name="open_date" id="openDate" type="date"
                                                 class="form-control @error('open_date') is-invalid @enderror"
                                                 value="{{ old('open_date') }}" placeholder="Open Date" required>
-                                            <label for="openDate" class="form-label">Open Date</label>
+                                            <label for="openDate" class="form-label required">Open Date <span class="text-danger"> *</span></label>
                                             @error('open_date')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -200,7 +200,7 @@
                                     <input name="interest_rate" id="interestRate" type="number" step="0.01"
                                         class="form-control @error('interest_rate') is-invalid @enderror"
                                         value="{{ old('interest_rate') }}" placeholder="Interest Rate" required>
-                                    <label for="interestRate" class="form-label">Interest Rate</label>
+                                    <label for="interestRate" class="form-label required">Interest Rate</label>
                                     @error('interest_rate')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -229,13 +229,13 @@
                                     <input name="min_balance" id="minBalance" type="number" step="0.01"
                                         class="form-control @error('min_balance') is-invalid @enderror"
                                         value="{{ old('min_balance') }}" placeholder="Min. Balance" required>
-                                    <label for="minBalance" class="form-label">Min. Balance</label>
+                                    <label for="minBalance" class="form-label required">Min. Balance</label>
                                     @error('min_balance')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3 mb-3">
+                            {{-- <div class="col-md-3 mb-3">
                                 <div class="form-floating">
                                     <select name="min_balance_type" id="minBalanceType" required
                                         class="form-select @error('min_balance_type') is-invalid @enderror">
@@ -246,12 +246,12 @@
                                             {{ old('min_balance_type') == 'Debit' ? 'selected' : '' }}>Debit
                                         </option>
                                     </select>
-                                    <label for="minBalanceType" class="form-label">Min. Balance Type</label>
+                                    <label for="minBalanceType" class="form-label">Min. Balance Type </label>
                                     @error('min_balance_type')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>                           
+                            </div>                            --}}
                         </div>
                     </fieldset>
                     <fieldset class="border p-3 mb-3 rounded position-relative">
@@ -267,7 +267,7 @@
                                         <option value="Store" {{ old('gl_type') == 'Store' ? 'selected' : '' }}>Store
                                         </option>
                                     </select>
-                                    <label for="glType" class="form-label">GL Type</label>
+                                    <label for="glType" class="form-label">GL Type <span class="text-danger"> *</span></label>
                                     @error('gl_type')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -314,9 +314,11 @@
                         </div>
                           <div class="col-md-3 mb-3">
                                 <div class="form-floating">
-                                    <input type="number" name="cd_ratio" id="cdRatio" step="0.01"
-                                        class="form-control @error('cd_ratio') is-invalid @enderror"
-                                        value="{{ old('cd_ratio') }}" placeholder="CD Ratio">
+                                        <select name="cd_ratio" id="cdRatio"
+                                        class="form-select @error('cd_ratio') is-invalid @enderror">
+                                        <option value="1" {{ old('cd_ratio') == '1' ? 'selected' : '' }}>Yes</option>
+                                        <option value="0" {{ old('cd_ratio') == '0' ? 'selected' : '' }}>No</option>
+                                    </select>
                                     <label for="cdRatio" class="form-label">CD Ratio</label>
                                     @error('cd_ratio')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -337,7 +339,7 @@
                                         <option value="other" {{ old('item_of') == 'other' ? 'selected' : '' }}>Other
                                         </option>
                                     </select>
-                                    <label for="itemOf" class="form-label">Item Of</label>
+                                    <label for="itemOf" class="form-label">Item Of <span class="text-danger"> *</span></label>
                                     @error('item_of')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -375,7 +377,7 @@
                                         <option value="1" {{ old('subsidiary') == '1' ? 'selected' : '' }}>Yes</option>
                                         <option value="0" {{ old('subsidiary') == '0' ? 'selected' : '' }}>No</option>
                                     </select>
-                                    <label for="subsidiary" class="form-label">Subsidiary</label>
+                                    <label for="subsidiary" class="form-label">Subsidiary <span class="text-danger"> *</span></label>
                                     @error('subsidiary')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -388,7 +390,7 @@
                                         <option value="1" {{ old('send_sms') == '1' ? 'selected' : '' }}>Yes</option>
                                         <option value="0" {{ old('send_sms') == '0' ? 'selected' : '' }}>No</option>
                                     </select>
-                                    <label for="sendSMS" class="form-label">Send SMS</label>
+                                    <label for="sendSMS" class="form-label">Send SMS <span class="text-danger"> *</span></label>
                                     @error('send_sms')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror

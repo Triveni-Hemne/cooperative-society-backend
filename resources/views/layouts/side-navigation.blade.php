@@ -16,13 +16,12 @@
                     <a href="{{route('directors.index')}}" class="side-link">👤 Director</a>
                     <a href="{{route('divisions.index')}}" class="side-link">🏢 Division</a>
                     <a href="{{route('sub-divisions.index')}}" class="side-link">📍 Sub Division</a>
-                    <a href="{{route('centers.index')}}" class="side-link">🏬 Center</a>
                     <a href="{{route('designations.index')}}" class="side-link">💼 Designation</a>
-                    <a href="{{route('subcastes.index')}}" class="side-link">🧬 Subcaste</a>
+                    <a href="{{route('categories.index')}}" class="side-link">👥 Category</a>
                     <a href="{{route('general-ledgers.index')}}" class="side-link">📒 General Ledger</a>
-                    <a href="{{route('agents.index')}}" class="side-link">🤝 Agent</a>
+                    {{-- <a href="{{route('agents.index')}}" class="side-link">🤝 Agent</a> --}}
                     <a href="{{route('branches.index')}}" class="side-link">🏢 Branch</a>
-                    <a href="{{route('departments.index')}}" class="side-link">🏛️ Department</a>
+                    <a href="{{route('employees.index')}}" class="side-link">💂 Employee</a>
                     @if(Auth::user()->role === "Admin")
                     <a href="{{route('users.index')}}" class="side-link">👥 User</a>
                     @endif

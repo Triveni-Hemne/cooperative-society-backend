@@ -39,6 +39,7 @@
                 <tr>
                     <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
+                    <th scope="col">Division</th>
                     <th scope="col">Name</th>
                     <th scope="col">contact no. 1</th>
                     <th scope="col">contact no. 2</th>
@@ -46,6 +47,8 @@
                     <th scope="col">Designation</th>
                     <th scope="col">From</th>
                     <th scope="col">To</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Marathi Address</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -56,26 +59,29 @@
                 <tr>
                     <th scope="row">{{$i}}</th>
                     <td>{{$director->id}}</td>
+                    <td>{{$director->division->name ?? ''}}</td>
                     <td>{{$director->name}}</td>
                     @foreach(explode(',', $director->contact_nos) as $contact)
-                        <td>{{ $contact }}</td>
+                        <td>{{ $contact ?? ''}}</td>
                     @endforeach
-                    <td>{{$director->email}}</td>
-                    <td>{{$director->designation->name}}</td>
+                    <td>{{$director->email ?? ''}}</td>
+                    <td>{{$director->designation->name ?? ''}}</td>
                     <td>{{$director->from_date}}</td>
-                    <td>{{$director->to_date}}</td>
+                    <td>{{$director->to_date ?? ''}}</td>
+                    <td>{{$director->address ?? ''}}</td>
+                    <td>{{$director->marathi_address ?? ''}}</td>
                     <td>
-                        <a href="#" data-id="{{$director->id }}" data-member-id="{{$director->member_id }}" data-name="{{$director->name}}" data-email="{{$director->email}}" data-designation-id="{{$director->designation_id}}"
+                        <a href="#" data-id="{{$director->id }}"  data-division="{{$director->division->id  ?? ''}}" data-member-id="{{$director->member_id }}" data-name="{{$director->name ?? ''}}" data-email="{{$director->email ?? ''}}" data-designation-id="{{$director->designation_id ?? ''}}"
                             @foreach(explode(',', $director->contact_nos) as $index => $contact) 
-                                data-mob{{ $index }}="{{ trim($contact) }}" 
+                                data-mob{{ $index }}="{{trim($contact)}}" 
                             @endforeach
-                             data-from-date="{{$director->from_date}}"  data-to-date="{{$director->to_date}}"  data-route="{{ route('directors.update', $director->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                             data-from-date="{{$director->from_date}}"  data-to-date="{{$director->to_date ?? ''}}" data-addresss="{{$director->address ?? ''}}" data-marathi-addresss="{{$director->marathi_address ?? ''}}" data-route="{{ route('directors.update', $director->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#directorModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" data-id="{{$director->id }}" data-route="{{ route('directors.destroy', $director->id) }}" data-name="{{$director->name}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        {{-- <a href="#" data-id="{{$director->id }}" data-route="{{ route('directors.destroy', $director->id) }}" data-name="{{$director->name}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
+                        </a> --}}
                     </td>
                 </tr>
                 @php $i++ @endphp
@@ -122,6 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".edit-btn").forEach(button => {
         button.addEventListener("click", function () {
             let id = this.getAttribute("data-id");
+            let divisionId = this.getAttribute("data-division");
             let memberId = this.getAttribute("data-member-id");
             let name = this.getAttribute("data-name");
             let email = this.getAttribute("data-email");
@@ -129,6 +136,8 @@ document.addEventListener("DOMContentLoaded", function () {
             let mob0 = this.getAttribute("data-mob0");
             let mob1 = this.getAttribute("data-mob1");
             let fromDate = this.getAttribute("data-from-date");
+            let address = this.getAttribute("data-address");
+            let marathiAddress = this.getAttribute("data-marathi-address");
             let toDate = this.getAttribute("data-to-date");
             let route = this.getAttribute("data-route");
 
@@ -139,6 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Populate form fields
             document.getElementById("directorId").value = id;
+            document.getElementById("divisionId").value = divisionId;
             document.getElementById("memberId").value = memberId;
             document.getElementById("Name").value = name;
             document.getElementById("Email").value = email;
@@ -148,6 +158,8 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("mob1").value = mob1;
             document.getElementById("fromDate").value = fromDate;
             document.getElementById("toDate").value = toDate;
+            document.getElementById("address").value = address;
+            document.getElementById("marathiAddress").value = marathiAddress;
             
             // Change form action to update route and set PUT method
             let form = document.getElementById("directorsForm");

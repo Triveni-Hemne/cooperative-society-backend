@@ -4,18 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Subcaste;
+use App\Models\Category;
 
-class SubcasteController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-       $subcastes = Subcaste::latest()->paginate(5);
+       $categories = Category::latest()->paginate(5);
         // return response()->json($subcastes);
-        return view('master.subcaste.list',compact('subcastes'));
+        return view('master.category.list',compact('categories'));
     }
 
     /**
@@ -38,8 +38,8 @@ class SubcasteController extends Controller
             'marathi_description' => 'nullable|string',
         ]);
         
-        $subcaste = Subcaste::create($validated);
-        return redirect()->back()->with('success', 'Subcaste created successfully');
+        $subcaste = Category::create($validated);
+        return redirect()->back()->with('success', 'Category created successfully');
     }
 
     /**
@@ -63,7 +63,7 @@ class SubcasteController extends Controller
      */
     public function update(Request $request, string $id)
     {
-       $subcaste = Subcaste::findOrFail($id);
+       $subcaste = Category::findOrFail($id);
 
         $validated = $request->validate([
             'name' => 'required|string|max:100',
@@ -73,7 +73,7 @@ class SubcasteController extends Controller
         ]);
 
         $subcaste->update($validated);
-        return redirect()->back()->with('success', 'Subcaste updated successfully');
+        return redirect()->back()->with('success', 'Category updated successfully');
     }
 
     /**
@@ -81,8 +81,8 @@ class SubcasteController extends Controller
      */
     public function destroy(string $id)
     {
-       $subcaste = Subcaste::findOrFail($id);
+       $subcaste = Category::findOrFail($id);
         $subcaste->delete();
-        return redirect()->back()->with('success', 'Subcaste deleted successfully');
+        return redirect()->back()->with('success', 'Category deleted successfully');
     }
 }

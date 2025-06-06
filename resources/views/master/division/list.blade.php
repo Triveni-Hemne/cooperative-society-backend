@@ -61,9 +61,9 @@
                             data-bs-target="#divisionModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a class="text-decoration-none" data-id="{{$division->id}}" data-route="{{ route('divisions.destroy', $division->id) }}" data-name="{{ $division->name }}" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        {{-- <a class="text-decoration-none" data-id="{{$division->id}}" data-route="{{ route('divisions.destroy', $division->id) }}" data-name="{{ $division->name }}" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
+                        </a> --}}
                     </td>
                 </tr>
                  @php $i++ @endphp

@@ -15,7 +15,7 @@ class BranchController extends Controller
     public function index()
     {
         $branches = Branch::latest()->paginate(5);
-        $employees = Employee::with('member:name,employee_id')->get();
+        $employees = Employee::all();
         return view('master.branch.list', compact('branches','employees'));
     }
 

@@ -1,10 +1,10 @@
-<div class="modal fade" id="subcasteModal" tabindex="-1" aria-labelledby="subcasteModalLabel" aria-hidden="true"
+<div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true"
     data-bs-backdrop="static">
     <div class="modal-dialog modal-xl">
         <div class="modal-content rounded-4 border-0 shadow">
-            <form method="POST" action="{{ route('subcastes.store') }}" id="subcasteForm" class="needs-validation"
+            <form method="POST" action="{{ route('categories.store') }}" id="categoryForm" class="needs-validation"
                 novalidate>
-                <input type="hidden" id="subcasteId" name="id">
+                <input type="hidden" id="categoryId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">
                 @csrf
                 @if(Session::has('error'))
@@ -13,7 +13,7 @@
 
                 <div class="modal-header bg-gradient bg-primary text-white rounded-top-4">
                     <h5 class="modal-title fw-bold"><i class="bi bi-person-plus-fill me-2"></i>
-                       <span id="subcasteModalLabel"> Add SubCaste </span></h5>
+                       <span id="categoryModalLabel"> Add SubCaste </span></h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>

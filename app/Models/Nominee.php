@@ -20,6 +20,7 @@ class Nominee extends Model
         'nominee_gender',
         'relation',
         'nominee_image',
+        'nominee_signature',
         'nominee_address',
         'nominee_marathi_address',
         'nominee_adhar_no'

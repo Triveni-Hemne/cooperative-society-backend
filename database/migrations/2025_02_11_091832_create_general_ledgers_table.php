@@ -21,13 +21,13 @@ return new class extends Migration
             $table->decimal('open_balance', 12, 2)->default(0.00);
             $table->enum('open_balance_type', ['Credit', 'Debit']);
             $table->decimal('min_balance', 12, 2)->default(0.00);
-            $table->enum('min_balance_type', ['Credit', 'Debit']);
+            $table->enum('min_balance_type', ['Credit', 'Debit'])->nullable();
             $table->decimal('interest_rate', 5, 2)->nullable();
             $table->boolean('add_interest_to_balance')->default(false);
             $table->date('open_date')->nullable();
             $table->decimal('penal_rate', 5, 2)->default(0.00)->nullable();
             $table->enum('gl_type', ['Society', 'Store']);
-            $table->decimal('cd_ratio', 5, 2)->nullable();
+            $table->boolean('cd_ratio')->nullable()->default(false);
             $table->enum('group', ['Deposit', 'Loan', 'Bank', 'General', 'Funds','Share '])->nullable();
             $table->enum('type', ['Saving Deposits', 'Recurring Deposits', 'Current Deposits', 'Fixed Deposits', 'Monthly Deposits']);
             $table->string('interest_type', 50);

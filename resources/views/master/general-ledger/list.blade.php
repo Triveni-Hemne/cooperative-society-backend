@@ -44,7 +44,7 @@
                     <th scope="col">Balance</th>
                     <th scope="col">Balance Type</th>
                     <th scope="col">Open Balance</th>
-                    <th scope="col">Open Balance Type</th>
+                    {{-- <th scope="col">Open Balance Type</th> --}}
                     <th scope="col">Min. Balance</th>
                     <th scope="col">Min. Balance Type</th>
                     <th scope="col">Interest Rate</th>
@@ -78,13 +78,13 @@
                     <td>{{$generalLedger->open_balance}}</td>
                     <td>{{$generalLedger->open_balance_type}}</td>
                     <td>{{$generalLedger->min_balance}}</td>
-                    <td>{{$generalLedger->min_balance_type}}</td>
+                    {{-- <td>{{$generalLedger->min_balance_type}}</td> --}}
                     <td>{{$generalLedger->interest_rate}}</td>
-                    <td>{{$generalLedger->add_interest_to_balance}}</td>
+                    <td>{{$generalLedger->add_interest_to_balance ? 'Yes': 'No'}}</td>
                     <td>{{$generalLedger->open_date}}</td>
                     <td>{{$generalLedger->penal_rate}}</td>
                     <td>{{$generalLedger->gl_type}}</td>
-                    <td>{{$generalLedger->cd_ratio}}</td>
+                    <td>{{$generalLedger->cd_ratio ? 'Yes': 'No'}}</td>
                     <td>{{$generalLedger->group}}</td>
                     <td>{{$generalLedger->type}}</td>
                     <td>{{$generalLedger->interest_type}}</td>
@@ -93,14 +93,14 @@
                     <td>{{$generalLedger->send_sms ? 'Yes': 'No'}}</td>
                     <td>{{$generalLedger->item_of}}</td>
                     <td>
-                        <a href="#" data-id="{{$generalLedger->id}}" data-ledger-no="{{$generalLedger->ledger_no}}" data-name="{{$generalLedger->name}}" data-parent-ledger="{{optional($generalLedger->parentLedger)->id ?? ''}}" data-balance="{{$generalLedger->balance}}" data-balance-type="{{$generalLedger->balance_type}}" data-open-balance="{{$generalLedger->open_balance}}" data-open-balance-type="{{$generalLedger->open_balance_type}}" data-min-balance="{{$generalLedger->min_balance}}" data-min-balance-type="{{$generalLedger->min_balance_type}}" data-interest-rate="{{$generalLedger->interest_rate}}" data-add-interest-to-balance="{{$generalLedger->add_interest_to_balance}}" data-open-date="{{$generalLedger->open_date}}" data-penal-rate="{{$generalLedger->penal_rate}}" data-gl-type="{{$generalLedger->gl_type}}" data-cd-ratio="{{$generalLedger->cd_ratio}}" data-group="{{$generalLedger->group}}" data-type="{{$generalLedger->type}}" data-interest-type="{{$generalLedger->interest_type}}" data-subsidiary="{{$generalLedger->subsidiary}}" data-demand="{{$generalLedger->demand}}" data-send-sms="{{$generalLedger->send_sms}}" data-item-of="{{$generalLedger->item_of}}" data-route="{{ route('general-ledgers.destroy', $generalLedger->id) }}"
+                        <a href="#" data-id="{{$generalLedger->id}}" data-ledger-no="{{$generalLedger->ledger_no}}" data-name="{{$generalLedger->name}}" data-parent-ledger="{{optional($generalLedger->parentLedger)->id ?? ''}}" data-balance="{{$generalLedger->balance}}" data-balance-type="{{$generalLedger->balance_type}}" data-open-balance="{{$generalLedger->open_balance}}" data-open-balance-type="{{$generalLedger->open_balance_type}}" data-min-balance="{{$generalLedger->min_balance}}" data-interest-rate="{{$generalLedger->interest_rate}}" data-add-interest-to-balance="{{$generalLedger->add_interest_to_balance}}" data-open-date="{{$generalLedger->open_date}}" data-penal-rate="{{$generalLedger->penal_rate}}" data-gl-type="{{$generalLedger->gl_type}}" data-cd-ratio="{{$generalLedger->cd_ratio}}" data-group="{{$generalLedger->group}}" data-type="{{$generalLedger->type}}" data-interest-type="{{$generalLedger->interest_type}}" data-subsidiary="{{$generalLedger->subsidiary}}" data-demand="{{$generalLedger->demand}}" data-send-sms="{{$generalLedger->send_sms}}" data-item-of="{{$generalLedger->item_of}}" data-route="{{ route('general-ledgers.update', $generalLedger->id) }}"
                             class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#generalLedgerModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" data-id="{{$generalLedger->id}}" data-route="{{ route('general-ledgers.destroy', $generalLedger->id) }}" data-name="{{ $generalLedger->name }}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        {{-- <a href="#" data-id="{{$generalLedger->id}}" data-route="{{ route('general-ledgers.destroy', $generalLedger->id) }}" data-name="{{ $generalLedger->name }}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
+                        </a> --}}
                     </td>
                 </tr>
                 @php $i++ @endphp
@@ -143,17 +143,19 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".edit-btn").forEach(button => {
+        console.log("Edit button clicked");
+        
         button.addEventListener("click", function () {
             let generalLedgerId = this.getAttribute("data-id");
             let ledgerNo = this.getAttribute("data-ledger-no");
             let name = this.getAttribute("data-name");
-            let parentLedger = this.getAttribute("data-parent-ledger");
+            // let parentLedger = this.getAttribute("data-parent-ledger");
             let balance = this.getAttribute("data-balance");
             let balanceType = this.getAttribute("data-balance-type");
             let openBalance = this.getAttribute("data-open-balance");
             let openBalanceType = this.getAttribute("data-open-balance-type");
             let minBalance = this.getAttribute("data-min-balance"); 
-            let minBalanceType = this.getAttribute("data-min-balance-type"); 
+            // let minBalanceType = this.getAttribute("data-min-balance-type"); 
             let interestRate = this.getAttribute("data-interest-rate"); 
             let addInterestToBalance = this.getAttribute("data-add-interest-to-balance"); 
             let openDate = this.getAttribute("data-open-date"); 
@@ -178,15 +180,13 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("generalLedgerId").value = generalLedgerId;
             document.getElementById("ledgerNo").value = ledgerNo;
             document.getElementById("Name").value = name;
-            document.getElementById("parentLedger").value = parentLedger;
-            console.log(parentLedger);
-            
+            // document.getElementById("parentLedger").value = parentLedger;
             document.getElementById("balance").value = balance;
             document.getElementById("balanceType").value = balanceType;
             document.getElementById("openBalance").value = openBalance;
             document.getElementById("openBalanceType").value = openBalanceType;
             document.getElementById("minBalance").value = minBalance;
-            document.getElementById("minBalanceType").value = minBalanceType;
+            // document.getElementById("minBalanceType").value = minBalanceType;
             document.getElementById("interestRate").value = interestRate;
             document.getElementById("addInterestToBalance").value = addInterestToBalance;
             document.getElementById("openDate").value = openDate;
@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let parentLedgerIdSelect = document.getElementById("parentLedger");
             let balanceTypeSelect = document.getElementById("balanceType");
             let openBalanceTypeSelect = document.getElementById("openBalanceType");
-            let minBalanceTypeSelect = document.getElementById("minBalanceType");
+            // let minBalanceTypeSelect = document.getElementById("minBalanceType");
             let interestTypeSelect = document.getElementById("interestType");
             let glTypeSelect = document.getElementById("glType");
             let cdRatioSelect = document.getElementById("cdRatio");

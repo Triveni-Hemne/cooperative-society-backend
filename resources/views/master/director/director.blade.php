@@ -32,7 +32,7 @@
                                     {{ old('member_id') == $member->id ? 'selected' : '' }}>{{ $member->name }} [ID: {{$member->id}}]</option>
                                 @endforeach
                             </select>
-                            <label for="memberId">Member</label>
+                            <label for="memberId">Member <span class="text-danger"> *</span></label>
                             @error('member_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -43,6 +43,32 @@
                             Please add members first.
                         </div>
                         @endif
+
+                          {{-- Division Dropdown --}}
+                          @isset($divisions)
+                          @if ($divisions->isNotEmpty())
+                          <div class="form-floating mb-3">
+                              <select id="divisionId" name="division_id" required
+                                  class="form-select @error('division_id') is-invalid @enderror">
+                                  <option value="" disabled selected>Select Division</option>
+                                  @foreach ($divisions as $division)
+                                  <option value="{{ $division->id }}"
+                                      {{ old('division_id') == $division->id ? 'selected' : '' }}>{{ $division->name }}
+                                  </option>
+                                  @endforeach
+                              </select>
+                              <label for="divisionId" class="form-label required">Division <span class="text-danger"> *</span></label>
+                              @error('division_id')
+                              <div class="invalid-feedback">{{ $message }}</div>
+                              @enderror
+                          </div>
+                          @else
+                          <div class="alert alert-warning">
+                              <strong>⚠️ No divisions available.</strong><br>
+                              Please add divisions first.
+                          </div>
+                          @endif
+                          @endisset
 
                         {{-- Name --}}
                         <div class="form-floating mb-3">
@@ -60,7 +86,7 @@
                         @if ($designations->isNotEmpty())
                         <div class="form-floating mb-3">
                             <select name="designation_id" id="designationId"
-                                class="form-select @error('designation_id') is-invalid @enderror" required>
+                                class="form-select @error('designation_id') is-invalid @enderror" >
                                 <option value="" disabled {{ old('member_id') ? '' : 'selected' }}>Select Designation</option>
                                 @foreach ($designations as $designation)
                                 <option value="{{ $designation->id }}"
@@ -110,12 +136,38 @@
                                     <input name="contact_nos[]" id="mob1" type="number"
                                         class="form-control @error('contact_nos.1') is-invalid @enderror"
                                         placeholder="Mobile No." value="{{ old('contact_nos.1') }}" required>
-                                    <label for="mob1">Mobile No. 2</label>
+                                    <label for="mob1" class="form-label required">Mobile No. 2</label>
                                     @error('contact_nos.1')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row g-3">
+                            {{-- Address --}}
+                        <div class="form-floating mb-3">
+                            <textarea id="address" name="address"
+                                class="form-control @error('address') is-invalid @enderror" placeholder="Address"
+                                style="height: 100px;" required>{{ old('address') }}</textarea>
+                            <label for="address">Address</label>
+                            @error('address')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        {{-- Marathi Address --}}
+                        <div class="form-floating mb-3">
+                            <textarea id="marathiAddress" name="marathi_address"
+                                class="form-control marathiField @error('marathi_address') is-invalid @enderror"
+                                placeholder="पत्ता" style="height: 100px;"
+                                required>{{ old('marathi_address') }}</textarea>
+                            <label for="marathiAddress">पत्ता</label>
+                            @error('marathi_address')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <p class="errorMsg text-danger small d-none">फक्त मराठी अक्षरे स्वीकारली जातील.</p>
+                        </div>
                         </div>
 
                         {{-- Dates --}}
@@ -125,7 +177,7 @@
                                     <input id="fromDate" name="from_date" type="date"
                                         class="form-control @error('from_date') is-invalid @enderror"
                                         value="{{ old('from_date') }}" required>
-                                    <label for="fromDate" class="form-label required">From Date</label>
+                                    <label for="fromDate" class="form-label required">From Date <span class="text-danger">*</span></label>
                                     @error('from_date')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror

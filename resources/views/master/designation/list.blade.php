@@ -40,9 +40,6 @@
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Naav</th>
-                    <th scope="col">Division</th>
-                    <th scope="col">Sub Division</th>
-                    <th scope="col">Center</th>
                     <th scope="col">Description</th>
                 </tr>
             </thead>
@@ -55,18 +52,15 @@
                     <td>{{$designation->id}}</td>
                     <td>{{$designation->name}}</td>
                     <td>{{$designation->naav ?? ''}}</td>
-                    <td>{{$designation->division->name ?? ''}}</td>
-                    <td>{{$designation->subdivision->name ?? ''}}</td>
-                    <td>{{$designation->center->name ?? ''}}</td>
                     <td>{{$designation->description ?? ''}}</td>
                     <td>
-                        <a href="#" data-id="{{$designation->id }}" data-name="{{$designation->name ?? ''}}" data-naav="{{$designation->naav ?? ''}}" data-route="{{ route('designations.update', $designation->id) }}" data-division-id="{{$designation->division->id ?? ''}}" data-sub-division-id="{{$designation->subdivision->id ?? ''}}" data-center-id="{{$designation->center->id ?? ''}}" data-description="{{$designation->description ?? ''}}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$designation->id }}" data-name="{{$designation->name ?? ''}}" data-naav="{{$designation->naav ?? ''}}" data-route="{{ route('designations.update', $designation->id) }}" data-description="{{$designation->description ?? ''}}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#designationModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" data-id="{{$designation->id }}" data-route="{{ route('designations.destroy', $designation->id) }}" data-name="{{ $designation->name ?? ''}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        {{-- <a href="#" data-id="{{$designation->id }}" data-route="{{ route('designations.destroy', $designation->id) }}" data-name="{{ $designation->name ?? ''}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
+                        </a> --}}
                     </td>
                 </tr>
                 @php $i++ @endphp
@@ -113,10 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let id = this.getAttribute("data-id");
             let name = this.getAttribute("data-name");
             let naav = this.getAttribute("data-naav");
-            let route = this.getAttribute("data-route");
-            let divisionId = this.getAttribute("data-division-id"); 
-            let subDivisionId = this.getAttribute("data-sub-division-id"); 
-            let centerId = this.getAttribute("data-center-id"); 
+            let route = this.getAttribute("data-route"); 
             let description = this.getAttribute("data-description"); 
 
             let modal = document.getElementById("designationModal");
@@ -138,20 +129,6 @@ document.addEventListener("DOMContentLoaded", function () {
             // Change submit button text
             document.querySelector("#designationModal .btn-success").textContent = "Update Designation Center";
 
-            // Set the selected division
-            let divisionSelect = document.getElementById("division_id");
-            let subDivisionSelect = document.getElementById("subdivision_id");
-            let centerSelect = document.getElementById("center_id");
-            
-            if (divisionSelect) {
-                divisionSelect.value = divisionId; // Pre-select the correct division
-            }
-            if (subDivisionSelect) {
-                subDivisionSelect.value = subDivisionId; // Pre-select the correct sub-division
-            } 
-            if (centerSelect) {
-                centerSelect.value = centerId; // Pre-select the correct center
-            }
         });
     });
 
@@ -161,20 +138,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Reset form fields
         form.reset();
-
-        // Reset the division dropdown properly
-        let divisionSelect = document.getElementById("division_id");
-        let subDivisionSelect = document.getElementById("subdivision_id");
-        let centerSelect = document.getElementById("center_id");
-        if (divisionSelect) {
-            divisionSelect.value = ""; // Reset dropdown
-        }
-        if (subDivisionSelect) {
-            subDivisionSelect.value = ""; // Reset dropdown
-        }
-         if (centerSelect) {
-            centerSelect.value = ""; // Reset dropdown
-        }
 
         // Reset method and form action
         document.getElementById("formMethod").value = "POST";

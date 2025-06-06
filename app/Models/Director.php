@@ -10,7 +10,7 @@ class Director extends Model
 
     protected $fillable = [
         'member_id', 'name', 'email', 'contact_nos',
-        'designation_id', 'status', 'from_date', 'to_date'
+        'designation_id', 'status', 'from_date', 'to_date', 'address', 'marathi_address', 'division_id'
     ];
 
     protected $casts = [
@@ -23,5 +23,9 @@ class Director extends Model
 
     public function designation() {
         return $this->belongsTo(Designation::class, 'designation_id');
+    }
+
+    public function division() {
+        return $this->belongsTo(Division::class, 'division_id');
     }
 }
