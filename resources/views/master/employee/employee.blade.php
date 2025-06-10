@@ -160,13 +160,13 @@
                                     aria-controls="bank-tab-pane" aria-selected="false">Bank Detail
                                 </button>
                             </li>
-                             <li class="nav-item col" role="presentation">
+                             {{-- <li class="nav-item col" role="presentation">
                                 <button class="nav-link w-100 text-info fw-bold" id="department-tab"
                                     data-bs-toggle="tab" data-bs-target="#department-tab-pane" type="button" role="tab"
                                     aria-controls="department-tab-pane" aria-selected="false">Department
                                     Detail
                                 </button>
-                            </li>
+                            </li> --}}
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <!-- Personal Details Tab -->
@@ -285,7 +285,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-md-4 mb-3">
+                                    {{-- <div class="col-md-4 mb-3">
                                         <div class="form-floating ">
                                             <input name="m_reg_no" id="MRegNo"
                                                 class="form-control @error('m_reg_no') is-invalid @enderror"
@@ -295,7 +295,7 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-4 mb-3">
                                         <div class="form-floating">
                                             <input name="caste" id="caste"
@@ -763,6 +763,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
