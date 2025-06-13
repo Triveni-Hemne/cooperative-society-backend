@@ -445,7 +445,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    @isset($designations)
+                                    {{-- @isset($designations)
                                     <div class="col-md-4 mb-3">
                                         @if ($designations->isNotEmpty())
                                         <div class="form-floating">
@@ -482,7 +482,7 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md-4 mb-3">
                                         <div class="form-floating">
                                             <input name="membership_date" id="membershipDate"

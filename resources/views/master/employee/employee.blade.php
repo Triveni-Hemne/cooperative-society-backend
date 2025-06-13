@@ -77,7 +77,7 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="" id="createdBy" class="form-control"
-                                        value="{{ $user->name }}" type="text" placeholder="Created By" readonly required>
+                                        value="{{ $user->name }}" type="text" placeholder="Created By" readonly >
                                         <input name="created_by" id="createdById" class="w-100 px-2 py-1 @error('created_by') is-invalid @enderror" value="{{$user->id}}" hidden type="text" readonly required>
                                     <label for="createdBy" class="form-label">Created By <span class="text-danger"> *</span></label>
                                 </div>
@@ -89,8 +89,8 @@
                         @isset($branches) 
                              @if ($branches->isNotEmpty())
                         <div class="form-floating mb-3">
-                            <select name="branch_id" id="branchId"
-                                class="form-select @error('branch_id') is-invalid @enderror" required>
+                            <select name="branch_id" id="branchId" required
+                                class="form-select @error('branch_id') is-invalid @enderror" >
                                 <option value="" disabled selected>Select Branch</option>
                                 @foreach ($branches as $branch)
                                 <option value="{{ $branch->id }}"
@@ -343,7 +343,7 @@
                                             <select name="category_id" id="category"
                                                 class="form-select @error('category_id') is-invalid @enderror" >
                                                 @foreach($categories as $category)
-                                                <option value="{{ $category->id }}"
+                                                <option value="{{ $category->id }}" 
                                                 {{ old('category_id') == $category->id ? 'selected' : '' }}>
                                                 {{ $category->name }}
                                                 </option>
@@ -439,6 +439,46 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        @isset($designations)
+                                        <div class="col-md-4 mb-3">
+                                            @if ($designations->isNotEmpty())
+                                            <div class="form-floating">
+                                                <select name="designation_id" id="designationId"
+                                                    class="form-select @error('designation_id') is-invalid @enderror">
+                                                    <option value="" selected>--- Select Designation ---</option>
+                                                    @foreach ($designations as $designation)
+                                                    <option value="{{ $designation->id }}"
+                                                        {{ old('designation_id') == $designation->id ? 'selected' : '' }}>
+                                                        {{ $designation->name }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                                <label for="designationId" class="form-label">Designation</label>
+                                                @error('designation_id')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            @else
+                                            <div class="alert alert-warning">
+                                                <strong>⚠️ No designation available.</strong><br>
+                                                Please add designation first.
+                                            </div>
+                                            @endif
+                                        </div>
+                                        @endisset
+                                        <div class="col-md-4 mb-3">
+                                            <div class="form-floating">
+                                                <input name="cpf_no" id="gpfNo"
+                                                    class="form-control @error('cpf_no') is-invalid @enderror"
+                                                    value="{{ old('cpf_no') }}" type="text" placeholder="GPF No.">
+                                                <label for="gpfNo" class="form-label">CPF No.</label>
+                                                @error('cpf_no')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -451,7 +491,7 @@
                                             <input name="nominee_name" id="nomineeName"
                                                 class="form-control @error('nominee_name') is-invalid @enderror"
                                                 value="{{ old('nominee_name') }}" type="text"
-                                                placeholder="Nominee Name" required>
+                                                placeholder="Nominee Name" >
                                             <label for="nomineeName" class="form-label">Name</label>
                                             @error('nominee_name')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -508,7 +548,7 @@
                                             <input name="nominee_age" id="nomineeAge"
                                                 class="form-control @error('nominee_age') is-invalid @enderror"
                                                 value="{{ old('nominee_age') }}" type="number"
-                                                placeholder="Nominee Age" required>
+                                                placeholder="Nominee Age" >
                                             <label for="nomineeAge" class="form-label">Age</label>
                                             @error('nominee_age')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -518,7 +558,7 @@
                                     <div class="col-md-4 mb-3">
                                         <div class="form-floating">
                                             <select name="nominee_gender" id="nomineeGender"
-                                                class="form-select @error('nominee_gender') is-invalid @enderror" required>
+                                                class="form-select @error('nominee_gender') is-invalid @enderror" >
                                                 <option value="" selected>--- Select Gender ---</option>
                                                 <option value="Male"
                                                     {{ old('nominee_gender') == 'Male' ? 'selected' : '' }}>
@@ -542,7 +582,7 @@
                                     <div class="col-md-4 mb-3">
                                         <div class="form-floating">
                                             <select name="relation" id="nomineeRelation"
-                                                class="form-select @error('relation') is-invalid @enderror" required>
+                                                class="form-select @error('relation') is-invalid @enderror" >
                                                 <option value="" selected>--- Select Relation ---</option>
                                                 <option value="husband"
                                                     {{ old('relation') == 'husband' ? 'selected' : '' }}>
@@ -592,14 +632,28 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="nomineeImage" class="form-label text-white">Nominee Photo</label>
-                                        <input name="nominee_image" id="nomineeImage"
+                                        <div class="form-floating">
+                                            <input name="nominee_image" id="nomineeImage"
                                             class="form-control @error('nominee_image') is-invalid @enderror"
-                                             type="file" accept="image/*"
+                                            type="file" accept="image/*"
                                             placeholder="Nominee Photo">
-                                        @error('nominee_image')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                            <label for="nomineeImage" class="form-label">Nominee Photo</label>
+                                            @error('nominee_image')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-floating">
+                                            <input name="nominee_signature" id="nomineeSignCopy"
+                                                class="form-control @error('nominee_signature') is-invalid @enderror"
+                                                type="file" accept="image/*"
+                                                placeholder="Signature Copy">
+                                            <label for="nomineeSignCopy" class="form-label">Signature Copy</label>
+                                            @error('nominee_signature')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -611,7 +665,7 @@
                                         <div class="form-floating">
                                             <input name="bank_name" id="bankName"
                                                 class="form-control @error('bank_name') is-invalid @enderror"
-                                                value="{{ old('bank_name') }}" type="text" placeholder="Bank Name" required>
+                                                value="{{ old('bank_name') }}" type="text" placeholder="Bank Name" >
                                             <label for="bankName" class="form-label">Bank Name</label>
                                             @error('bank_name')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -622,7 +676,7 @@
                                         <div class="form-floating">
                                             <input name="branch_name" id="branchName"
                                                 class="form-control @error('branch_name') is-invalid @enderror"
-                                                value="{{ old('branch_name') }}" type="text" placeholder="Branch Name" required>
+                                                value="{{ old('branch_name') }}" type="text" placeholder="Branch Name" >
                                             <label for="branchName" class="form-label">Branch Name</label>
                                             @error('branch_name')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -636,7 +690,7 @@
                                             <input name="bank_account_no" id="bankAccountNo"
                                                 class="form-control @error('bank_account_no') is-invalid @enderror"
                                                 value="{{ old('bank_account_no') }}" type="text"
-                                                placeholder="Account No." required>
+                                                placeholder="Account No." >
                                             <label for="bankAccountNo" class="form-label">Account No.</label>
                                             @error('bank_account_no')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -647,7 +701,7 @@
                                         <div class="form-floating">
                                             <input name="ifsc_code" id="ifscCode"
                                                 class="form-control @error('ifsc_code') is-invalid @enderror"
-                                                value="{{ old('ifsc_code') }}" type="text" placeholder="IFSC Code" required>
+                                                value="{{ old('ifsc_code') }}" type="text" placeholder="IFSC Code" >
                                             <label for="ifscCode" class="form-label">IFSC Code</label>
                                             @error('ifsc_code')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -763,6 +817,238 @@
                                     </div>
                                 </div>
                             </div>
+
+                             <!-- Department Detail Tab -->
+                             {{-- <div class="tab-pane fade p-3" id="department-tab-pane" role="tabpanel"
+                             aria-labelledby="department-tab" tabindex="0">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-floating">
+                                            <input name="emp_code" id="empCode"
+                                                class="form-control @error('emp_code') is-invalid @enderror"
+                                                value="{{ old('emp_code') }}" type="text" placeholder="Emp Code">
+                                            <label for="empCode" class="form-label">Emp Code</label>
+                                            @error('emp_code')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    @isset($designations)
+                                    <div class="col-md-6 mb-3">
+                                        @if ($designations->isNotEmpty())
+                                        <div class="form-floating">
+                                            <select name="designation_id" id="designationId"
+                                                class="form-select @error('designation_id') is-invalid @enderror">
+                                                <option value="" selected>--- Select Designation ---</option>
+                                                @foreach ($designations as $designation)
+                                                <option value="{{ $designation->id }}"
+                                                    {{ old('designation_id') == $designation->id ? 'selected' : '' }}>
+                                                    {{ $designation->name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                            <label for="designationId" class="form-label">Designation</label>
+                                            @error('designation_id')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        @else
+                                        <div class="alert alert-warning">
+                                            <strong>⚠️ No designation available.</strong><br>
+                                            Please add designation first.
+                                        </div>
+                                        @endif
+                                    </div>
+                                    @endisset
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-floating">
+                                            <input name="salary" id="salary"
+                                                class="form-control @error('salary') is-invalid @enderror"
+                                                value="{{ old('salary') }}" step="0.01" type="number" placeholder="Salary">
+                                            <label for="salary" class="form-label">Salary</label>
+                                            @error('salary')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-floating">
+                                            <input name="other_allowance" id="otherAllowance"
+                                                class="form-control @error('other_allowance') is-invalid @enderror"
+                                                value="{{ old('other_allowance') }}" step="0.01" type="text"
+                                                placeholder="Other Allowance">
+                                        
+                                            <label for="otherAllowance" class="form-label">Other Allowance</label>
+                                            @error('other_allowance')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @isset($divisions)
+                                    <div class="col-md-6 mb-3">
+                                        @if ($divisions->isNotEmpty())
+                                        <div class="form-floating">
+                                            <select name="division_id" id="divisionId"
+                                                class="form-select @error('division_id') is-invalid @enderror">
+                                                <option value="" selected>--- Select Division ---</option>
+                                                @foreach ($divisions as $division)
+                                                <option value="{{ $division->id }}"
+                                                    {{ old('division_id') == $division->id ? 'selected' : '' }}>
+                                                    {{ $division->name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                            <label for="divisionId" class="form-label">Division</label>
+                                            @error('division_id')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        @else
+                                        <div class="alert alert-warning">
+                                            <strong>⚠️ No division available.</strong><br>
+                                            Please add division first.
+                                        </div>
+                                        @endif
+                                    </div>
+                                    @endisset
+
+                                    @isset($subdivisions)
+                                    <div class="col-md-6 mb-3">
+                                        @if ($subdivisions->isNotEmpty())
+                                        <div class="form-floating">
+                                            <select name="subdivision_id" id="subdivisionId"
+                                                class="form-select @error('subdivision_id') is-invalid @enderror">
+                                                <option value="" selected>--- Select Sub Division ---</option>
+                                                @foreach ($subdivisions as $subdivision)
+                                                <option value="{{ $subdivision->id }}"
+                                                    {{ old('subdivision_id') == $subdivision->id ? 'selected' : '' }}>
+                                                    {{ $subdivision->name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                            <label for="subdivisionId" class="form-label">Sub Division</label>
+                                            @error('subdivision_id')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        @else
+                                        <div class="alert alert-warning">
+                                            <strong>⚠️ No sub-designation available.</strong><br>
+                                            Please add sub-designation first.
+                                        </div>
+                                        @endif
+                                    </div>
+                                    @endisset
+                                </div>
+                                <div class="row">
+                                    @isset($centers)
+                                    <div class="col-md-6 mb-3">
+                                        @if ($centers->isNotEmpty())
+                                        <div class="form-floating">
+                                            <select name="center_id" id="centerId"
+                                                class="form-select @error('center_id') is-invalid @enderror">
+                                                <option value="" selected>--- Select Center ---</option>
+                                                @foreach ($centers as $center)
+                                                <option value="{{ $center->id }}"
+                                                    {{ old('center_id') == $center->id ? 'selected' : '' }}>
+                                                    {{ $center->name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                            <label for="centerId" class="form-label">Center</label>
+                                            @error('center_id')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        @else
+                                        <div class="alert alert-warning">
+                                            <strong>⚠️ No center available.</strong><br>
+                                            Please add center first.
+                                        </div>
+                                        @endif
+                                    </div>
+
+                                    @endisset
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-floating">
+                                            <input name="joining_date" id="joiningDate"
+                                                class="form-control @error('joining_date') is-invalid @enderror"
+                                                value="{{ old('joining_date') }}" type="date"
+                                                placeholder="Date of Joining">
+                                            <label for="joiningDate" class="form-label">Date of Joining</label>
+                                            @error('joining_date')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <div class="form-floating">
+                                            <input name="transfer_date" id="transferDate"
+                                                class="form-control @error('transfer_date') is-invalid @enderror"
+                                                value="{{ old('transfer_date') }}" type="date"
+                                                placeholder="Transfer Date">
+                                            <label for="transferDate" class="form-label">Transfer Date</label>
+                                            @error('transfer_date')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="form-floating">
+                                            <input name="retirement_date" id="retirementDate"
+                                                class="form-control @error('retirement_date') is-invalid @enderror"
+                                                value="{{ old('retirement_date') }}" type="date"
+                                                placeholder="Retirement Date">
+                                            <label for="retirementDate" class="form-label">Retirement Date</label>
+                                            @error('retirement_date')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="form-floating">
+                                            <input name="gpf_no" id="gpfNo"
+                                                class="form-control @error('gpf_no') is-invalid @enderror"
+                                                value="{{ old('gpf_no') }}" type="text" placeholder="GPF No.">
+                                            <label for="gpfNo" class="form-label">GPF No.</label>
+                                            @error('gpf_no')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-floating">
+                                            <input name="hra" id="hra"
+                                                class="form-control @error('hra') is-invalid @enderror"
+                                                value="{{ old('hra') }}" type="number" step="0.01" placeholder="HRA">
+                                            <label for="hra" class="form-label">HRA</label>
+                                            @error('hra')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-floating">
+                                            <input name="da" id="da"
+                                                class="form-control @error('da') is-invalid @enderror"
+                                                value="{{ old('da') }}" type="number" step="0.01" placeholder="DA">
+                                            <label for="da" class="form-label">DA</label>
+                                            @error('da')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> --}}
 
                         </div>
                     </div>

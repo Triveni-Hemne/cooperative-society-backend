@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             // $table->string('member_id')->unique();
-            // $table->foreignId('employee_id')->nullable()->constrained('employees')->onDelete('set null');
+            $table->foreignId('employee_id')->nullable()->constrained('employees')->onDelete('set null');
             // $table->foreignId('department_id')->nullable()->constrained('departments')->onDelete('set null');
             $table->string('name', 255);
             $table->string('naav', 255)->nullable();

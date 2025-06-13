@@ -75,21 +75,9 @@ class MemberController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {   
+    {       
         $validatedData = $request->validate([
-            // Employee Validation
-            'emp_code' => 'nullable|string|max:50|unique:employees,emp_code',
-            'other_allowance' => 'nullable|numeric',
-            'division_id' => 'nullable|exists:divisions,id',
-            'subdivision_id' => 'nullable|exists:subdivisions,id',
-            'center_id' => 'nullable|exists:centers,id',
-            'joining_date' => 'nullable|date',
-            'transfer_date' => 'nullable|date',
-            'salary' => 'nullable|numeric',
-            'retirement_date' => 'nullable|date',
-            'hra' => 'nullable|numeric',
-            'da' => 'nullable|numeric',
-            
+                        
             // Member Validation
             'department_id' => 'nullable|exists:departments,id',
             'branch_id' => auth()->user()->role === 'Admin'
@@ -164,7 +152,6 @@ class MemberController extends Controller
             'type' => 'nullable|in:Share,Dividend,Deposit',
         ]);
 
-
         if ($request->hasFile('photo')) {
            $photoPath = $validatedData['photo'] = $request->file('photo')->store('uploads/member', 'public');
         }
@@ -185,26 +172,29 @@ class MemberController extends Controller
             $validatedData['proof_2_image'] = $request->file('proof_2_image')->store('uploads/bank_proofs', 'public');
         }
 
-
-        // $employee = Employee::create([
-        //     'emp_code' => $validatedData['emp_code'],
-        //     'salary' => $validatedData['salary'],
-        //     'other_allowance' => $validatedData['other_allowance'] ?? null,
-        //     'division_id' => $validatedData['division_id'],
-        //     'subdivision_id' => $validatedData['subdivision_id'],
-        //     'center_id' => $validatedData['center_id'],
-        //     'joining_date' => $validatedData['joining_date'],
-        //     'transfer_date' => $validatedData['transfer_date'] ?? null,
-        //     'retirement_date' => $validatedData['retirement_date'] ?? null,
-        //     'hra' => $validatedData['hra'] ?? null,
-        //     'da' => $validatedData['da'] ?? null,
-        // ]);
+        if ($request->has('employee_form')) { 
+            $employee = Employee::create([
+                'emp_code' => $validatedData['emp_code'],
+                'salary' => $validatedData['salary'],
+                'other_allowance' => $validatedData['other_allowance'] ?? null,
+                'division_id' => $validatedData['division_id'],
+                'subdivision_id' => $validatedData['subdivision_id'],
+                'center_id' => $validatedData['center_id'],
+                'joining_date' => $validatedData['joining_date'],
+                'transfer_date' => $validatedData['transfer_date'] ?? null,
+                'retirement_date' => $validatedData['retirement_date'] ?? null,
+                'hra' => $validatedData['hra'] ?? null,
+                'da' => $validatedData['da'] ?? null,
+                'cpf_no' => $validatedData['cpf_no'] ?? null,
+                'designation_id' => $validatedData['designation_id'] ?? null,
+            ]);
+        }
+        
         $member = Member::create(array_merge(
             Arr::only($validatedData, [
                 'branch_id', 'created_by', 'name', 'naav', 'gender', 'dob', 'age',
                 'date_of_joining', 'm_reg_no', 'caste', 'religion', 'category_id',
-                'member_branch_id', 'pan_no', 'adhar_no', 'designation_id', 'cpf_no',
-                'membership_date', 'division_id', 'subdivision_id'
+                'member_branch_id', 'pan_no', 'adhar_no', 'membership_date', 'division_id', 'subdivision_id'
             ]),
             [
                 'images' => json_encode([
@@ -237,14 +227,16 @@ class MemberController extends Controller
             ['member_id' => $member->id]
         ));
 
-        $financial = MemberFinancial::create(array_merge(
-            Arr::only($validatedData, [
-                'director_id', 'share_amount', 'number_of_shares', 'welfare_fund',
-                'page_no', 'current_balance', 'monthly_balance',
-                'dividend_amount', 'monthly_deposit', 'demand', 'type'
-            ]),
-            ['member_id' => $member->id]
-        ));
+        if (!$request->has('employee_form')) { 
+            $financial = MemberFinancial::create(array_merge(
+                Arr::only($validatedData, [
+                    'director_id', 'share_amount', 'number_of_shares', 'welfare_fund',
+                    'page_no', 'current_balance', 'monthly_balance',
+                    'dividend_amount', 'monthly_deposit', 'demand', 'type'
+                ]),
+                ['member_id' => $member->id]
+            ));
+        }
 
         // $request->user()->notify(new AccountCreated($member));
         

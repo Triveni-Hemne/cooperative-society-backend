@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::table('members', function (Blueprint $table) {
             $table->foreignId('member_branch_id')->nullable()->constrained('branches')->onDelete('set null')->after('category_id');
             $table->string('images', 255)->nullable()->after('member_branch_id');;
-            $table->foreignId('designation_id')->nullable()->constrained('designations')->onDelete('set null')->after('adhar_no');
-            $table->string('cpf_no', 255)->nullable()->after('designation_id');
-            $table->foreignId('division_id')->nullable()->constrained('divisions')->onDelete('set null')->after('cpf_no');
+            // $table->foreignId('designation_id')->nullable()->constrained('designations')->onDelete('set null')->after('adhar_no');
+            // $table->string('cpf_no', 255)->nullable()->after('designation_id');
+            $table->foreignId('division_id')->nullable()->constrained('divisions')->onDelete('set null')->after('member_branch_id');
             $table->foreignId('subdivision_id')->nullable()->constrained('subdivisions')->onDelete('set null')->after('division_id');
             $table->date('membership_date')->nullable()->after('subdivision_id');
         });

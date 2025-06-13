@@ -23,7 +23,7 @@ return new class extends Migration
             $table->date('joining_date')->nullable();
             $table->date('transfer_date')->nullable();
             $table->date('retirement_date')->nullable();
-            $table->string('gpf_no', 50)->unique()->nullable();
+            $table->string('cpf_no', 50)->unique()->nullable();
             $table->decimal('hra', 10, 2)->nullable();
             $table->decimal('da', 10, 2)->nullable();
             $table->enum('status', ['Active', 'Inactive', 'Retired'])->default('Active')->nullable();
