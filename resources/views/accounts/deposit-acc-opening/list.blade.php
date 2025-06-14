@@ -147,7 +147,7 @@
                         data-nominee-name{{$j}}="{{$nominee->nominee_name}}" data-nominee-naav{{$j}}="{{$nominee->nominee_naav ?? ''}}" data-nominee-age{{$j}}="{{$nominee->nominee_age}}" data-nominee-gender{{$j}}="{{$nominee->nominee_gender}}" data-relation{{$j}}="{{$nominee->relation}}" 
                         @php $j++; @endphp 
                         @endforeach
-                        data-fd-term-months="{{$account->fixedDeposit->fd_term_months ?? '' }}" data-fd-open-interest="{{$account->fixedDeposit->open_interest ?? ''}}" data-fd-maturity-amount="{{$account->fixedDeposit->maturity_amount ?? ''}}" data-fd-balance="{{$account->fixedDeposit->balance ?? ''}}" data-interest-rate="{{$account->interest_rate ?? ''}}"
+                        data-fd-term-months="{{$account->fixedDeposit->fd_term_months ?? '' }}" data-fd-open-interest="{{$account->fixedDeposit->open_interest ?? ''}}" data-fd-maturity-amount="{{$account->fixedDeposit->maturity_amount ?? ''}}" data-slip-no="{{$account->fixedDeposit->slip_no ?? ''}}" data-fd-balance="{{$account->fixedDeposit->balance ?? ''}}" data-interest-rate="{{$account->interest_rate ?? ''}}"
                         data-rd-term-months="{{$account->recurringDeposit->rd_term_months ?? '' }}" data-rd-open-interest="{{$account->recurringDeposit->open_interest ?? ''}}" data-rd-maturity-amount="{{$account->recurringDeposit->maturity_amount ?? ''}}"
                         data-sv-balance="{{$account->saveDeposit->balance ?? '' }}" data-sv-interest="{{$account->saveDeposit->interest_rate ?? ''}}"
                         class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
@@ -238,6 +238,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             let fdTermMonths = this.getAttribute("data-fd-term-months");
             let fdMaturityAmount = this.getAttribute("data-fd-maturity-amount");
+            let slipNo = this.getAttribute("data-slip-no");
 
             let rdTermMonths = this.getAttribute("data-rd-term-months");
             let openingInterest = this.getAttribute("data-rd-open-interest");
@@ -278,10 +279,10 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("installmentAmount").value = installmentAmount;
             document.getElementById("totalInstallments").value = totalInstallments;
             document.getElementById("totalPayableAmount").value = totalPayableAmount;
-            document.getElementById("installmentsPaid").value = installmentsPaid;
+            // document.getElementById("installmentsPaid").value = installmentsPaid;
             document.getElementById("accClosingDate").value = accClosingDate;
             document.getElementById("interestPayable").value = interestPayable;
-            document.getElementById("openInterest").value = openInterest;
+            // document.getElementById("openInterest").value = openInterest;
 
             document.getElementById("nominee1Name").value = nominee1Name;
             document.getElementById("marathiNominee1Name").value = marathiNominee1Name;
@@ -297,9 +298,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
             document.getElementById("fdTermMonths").value = fdTermMonths;
             document.getElementById("fdMaturityAmount").value = fdMaturityAmount;
+            document.getElementById("slipNo").value = slipNo;
 
             document.getElementById("rdTermMonths").value = rdTermMonths;
-            document.getElementById("openingInterest").value = openingInterest;
+            // document.getElementById("openingInterest").value = openingInterest;
             document.getElementById("rdMaturityAmount").value = rdMaturityAmount;
 
             document.getElementById("svBalance").value = svBalance;
@@ -332,10 +334,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
-<script src="{{asset('assets/js/autofill-calc-deposit-acc-form.js')}}"></script>
+{{-- <script src="{{asset('assets/js/autofill-calc-deposit-acc-form.js')}}"></script> --}}
 <script>
     const memberData = @json($members);
     const generalAccData = @json($accounts);
 </script>
-<script src="{{asset('assets\js\autofil-content-depositAcc.js')}}"></script>
+{{-- <script src="{{asset('assets\js\autofil-content-depositAcc.js')}}"></script> --}}
 @endsection

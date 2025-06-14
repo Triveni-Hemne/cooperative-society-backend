@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('cascade');
             $table->string('acc_no', 50)->unique();
             $table->enum('deposit_type', ['savings', 'fd', 'rd']);
-            $table->string('name', 255);
+            $table->string('name', 255)->nullable();
             $table->decimal('interest_rate', 5, 2);
             $table->date('ac_start_date');
             $table->decimal('open_balance', 10, 2);
@@ -28,11 +28,11 @@ return new class extends Migration
             $table->boolean('add_to_demand')->default(false);
             $table->foreignId('agent_id')->nullable()->constrained('agents')->onDelete('set null');
             $table->string('page_no', 50)->nullable();
-            $table->enum('installment_type', ['Monthly', 'Quarterly', 'Yearly'])->nullable();
+            $table->enum('installment_type', ['Monthly', 'Quarterly', 'Yearly', 'Half Yearly'])->nullable();
             $table->decimal('installment_amount', 10, 2)->nullable();
             $table->integer('total_installments')->nullable();
             $table->decimal('total_payable_amount', 10, 2)->nullable();
-            $table->integer('total_installments_paid')->default(0);
+            $table->integer('total_installments_paid')->nullable();
             $table->date('acc_closing_date')->nullable();
             $table->decimal('interest_payable', 10, 2)->nullable();
             $table->decimal('open_interest', 10, 2)->nullable();

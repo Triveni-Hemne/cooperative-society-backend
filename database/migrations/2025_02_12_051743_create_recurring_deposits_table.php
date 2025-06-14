@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('deposit_account_id')->constrained('member_depo_accounts')->onDelete('cascade');
             $table->integer('rd_term_months')->notNull();
-            $table->decimal('open_interest', 10, 2)->notNull();
+            $table->decimal('open_interest', 10, 2)->nullable();
             $table->decimal('maturity_amount', 10, 2)->nullable();
             $table->timestamps();
             $table->softDeletes(); // adds deleted_at column

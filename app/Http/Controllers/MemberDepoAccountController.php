@@ -97,9 +97,9 @@ class MemberDepoAccountController extends Controller
         $validatedData = $request->validate([
             'ledger_id' => 'required|exists:general_ledgers,id',
             'member_id' => 'nullable|exists:members,id',
-            'account_id' => 'nullable|exists:accounts,id',
+            // 'account_id' => 'nullable|exists:accounts,id',
             'acc_no' => 'required|string|max:255|unique:member_depo_accounts,acc_no',
-            'name' => 'required|string|max:255',
+            // 'name' => 'required|string|max:255',
             'interest_rate' => 'required|numeric|min:0|max:999.99',
             'interest_payable' => 'required|numeric',
             'ac_start_date' => 'required|date',
@@ -109,12 +109,12 @@ class MemberDepoAccountController extends Controller
             'agent_id' => 'nullable|string',
             'page_no' => 'nullable|numeric',
             'deposit_type' => 'required|in:fd,rd,savings',
-            'installment_type' => 'nullable|in:Monthly,Quarterly,Yearly',
+            'installment_type' => 'nullable|in:Monthly,Quarterly,Yearly,Half Yearly',
             'installment_amount' => 'nullable|numeric',
             'total_installments' => 'nullable|numeric',
             'total_payable_amount' => 'nullable|numeric',
-            'total_installments_paid' => 'nullable|numeric',
-            'open_interest' => 'nullable|numeric',
+            // 'total_installments_paid' => 'nullable|numeric',
+            // 'open_interest' => 'nullable|numeric',
             'closing_flag' => 'nullable|boolean',
             'add_to_demand' => 'nullable|boolean',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -131,9 +131,10 @@ class MemberDepoAccountController extends Controller
             'nominees.*.nominee_image' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
 
             // RD Fields
-            'open_interest_rd' => 'required_if:deposit_type,rd|nullable|numeric|min:0',
+            // 'open_interest_rd' => 'required_if:deposit_type,rd|nullable|numeric|min:0',
             'rd_term_months' => 'required_if:deposit_type,rd|nullable|integer|min:1',
             'maturity_amount_rd' => 'required_if:deposit_type,rd|nullable|numeric|min:0',
+            'slip_no' => 'required_if:deposit_type,fd|nullable|string|min:1',
             
             // FD Fields
             'maturity_amount_fd' => 'required_if:deposit_type,fd|nullable|numeric|min:0',
@@ -210,6 +211,7 @@ class MemberDepoAccountController extends Controller
                 'deposit_account_id' => $account->id,
                 'fd_term_months' => $validatedData['fd_term_months'],
                 'maturity_amount' => $validatedData['maturity_amount_fd'],
+                'slip_no' => $validatedData['slip_no'],
             ]);
         }
         
@@ -218,7 +220,7 @@ class MemberDepoAccountController extends Controller
             RecurringDeposit::create([
                 'deposit_account_id' => $account->id,
                 'rd_term_months' => $validatedData['rd_term_months'],
-                'open_interest' => $validatedData['open_interest'],
+                // 'open_interest' => $validatedData['open_interest'],
                 'maturity_amount' => $validatedData['maturity_amount_rd'],
             ]);
         }
@@ -230,6 +232,7 @@ class MemberDepoAccountController extends Controller
                 'deposit_account_id' => $account->id,
                 'balance' => $validatedData['balance_sv'],
                 'interest_rate' => $validatedData['interest_rate_sv'],
+                
             ]);
         }
         
@@ -263,9 +266,9 @@ class MemberDepoAccountController extends Controller
         $validatedData = $request->validate([
             'ledger_id' => 'required|exists:general_ledgers,id',
             'member_id' => 'nullable|exists:members,id',
-            'account_id' => 'nullable|exists:accounts,id',
+            // 'account_id' => 'nullable|exists:accounts,id',
             'acc_no' => "required|string|max:255|unique:member_depo_accounts,acc_no,{$id}",
-            'name' => 'required|string|max:255',
+            // 'name' => 'required|string|max:255',
             'interest_rate' => 'required|numeric|min:0|max:999.99',
             'interest_payable' => 'required|numeric',
             'ac_start_date' => 'required|date',
@@ -275,35 +278,36 @@ class MemberDepoAccountController extends Controller
             'agent_id' => 'nullable|string',
             'page_no' => 'nullable|numeric',
             'deposit_type' => 'required|in:fd,rd,savings',
-            'installment_type' => 'nullable|in:Monthly,Quarterly,Yearly',
+            'installment_type' => 'nullable|in:Monthly,Quarterly,Yearly,Half Yearly',
             'installment_amount' => 'nullable|numeric',
             'total_installments' => 'nullable|numeric',
             'total_payable_amount' => 'nullable|numeric',
-            'total_installments_paid' => 'nullable|numeric',
-            'open_interest' => 'nullable|numeric',
+            // 'total_installments_paid' => 'nullable|numeric',
+            // 'open_interest' => 'nullable|numeric',
             'closing_flag' => 'nullable|boolean',
             'add_to_demand' => 'nullable|boolean',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'signature' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
 
             // Nominees
-            'nominees' => 'required|array|min:1|max:2',
+            'nominees' => 'nullable|array|min:1|max:2',
             'nominees.*' => 'array',
-            'nominees.*.nominee_name' => 'required|string|max:255',
+            'nominees.*.nominee_name' => 'nullable|string|max:255',
             'nominees.*.nominee_naav' => 'nullable|string|max:255',
-            'nominees.*.nominee_age' => 'required|integer|min:1|max:120',
-            'nominees.*.nominee_gender' => 'required|in:Male,Female,Other',
-            'nominees.*.relation' => 'required|in:husband,wife,father,mother,brother,sister,son,daughter,other',
+            'nominees.*.nominee_age' => 'nullable|integer|min:1|max:120',
+            'nominees.*.nominee_gender' => 'nullable|in:Male,Female,Other',
+            'nominees.*.relation' => 'nullable|in:husband,wife,father,mother,brother,sister,son,daughter,other',
             'nominees.*.nominee_image' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
 
             // RD Fields
-            'open_interest_rd' => 'required_if:deposit_type,rd|nullable|numeric|min:0',
+            // 'open_interest_rd' => 'required_if:deposit_type,rd|nullable|numeric|min:0',
             'rd_term_months' => 'required_if:deposit_type,rd|nullable|integer|min:1',
             'maturity_amount_rd' => 'required_if:deposit_type,rd|nullable|numeric|min:0',
 
             // FD Fields
             'maturity_amount_fd' => 'required_if:deposit_type,fd|nullable|numeric|min:0',
             'fd_term_months' => 'required_if:deposit_type,fd|nullable|integer|min:1',
+            'slip_no' => 'required_if:deposit_type,fd|nullable|string|min:1',
 
             // Savings Fields
             'balance_sv' => 'required_if:deposit_type,savings|nullable|numeric|min:0',
@@ -384,6 +388,7 @@ class MemberDepoAccountController extends Controller
                 [
                     'fd_term_months' => $validatedData['fd_term_months'],
                     'maturity_amount' => $validatedData['maturity_amount_fd'],
+                    'slip_no' => $validatedData['slip_no'],
                 ]
             );
         } else {
@@ -396,7 +401,7 @@ class MemberDepoAccountController extends Controller
                 ['deposit_account_id' => $account->id],
                 [
                     'rd_term_months' => $validatedData['rd_term_months'],
-                    'open_interest' => $validatedData['open_interest'],
+                    // 'open_interest' => $validatedData['open_interest'],
                     'maturity_amount' => $validatedData['maturity_amount_rd'],
                 ]
             );

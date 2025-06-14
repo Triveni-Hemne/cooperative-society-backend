@@ -65,7 +65,7 @@
                                         @foreach ($members as $member)
                                         <option value="{{ $member->id }}"
                                             {{ old('member_id') == $member->id ? 'selected' : '' }}>
-                                            {{ $member->name }}
+                                            {{ $member->name }} [ID: {{ $member->id }}]
                                         </option>
                                         @endforeach
                                     </select>
@@ -115,7 +115,7 @@
                         <fieldset class="border p-3 mb-3 rounded position-relative">
                             <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Account Information</legend>
                         <div class="row">
-                            @isset($accounts)
+                            {{-- @isset($accounts)
                             <div class="col-md-6 mb-3">
                                 @if ($accounts->isNotEmpty())
                                 <div class="form-floating">
@@ -142,7 +142,7 @@
                                 </div>
                                 @endif
                             </div>
-                            @endisset
+                            @endisset --}}
 
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
@@ -345,13 +345,16 @@
                                         class="form-select @error('installment_type') is-invalid @enderror">
                                         <option value="" selected>--- Select Installment Type ---</option>
                                         <option value="Monthly"
-                                            {{ old('installment_type') == 'monthly' ? 'selected' : '' }}>Monthly
+                                            {{ old('installment_type') == 'Monthly' ? 'selected' : '' }}>Monthly
                                         </option>
                                         <option value="Quarterly"
-                                            {{ old('installment_type') == 'quarterly' ? 'selected' : '' }}>Quarterly
+                                            {{ old('installment_type') == 'Quarterly' ? 'selected' : '' }}>Quarterly
+                                        </option>
+                                        <option value="Half Yearly"
+                                            {{ old('installment_type') == 'Half Yearly' ? 'selected' : '' }}>Half Yearly
                                         </option>
                                         <option value="Yearly"
-                                            {{ old('installment_type') == 'yearly' ? 'selected' : '' }}>Yearly
+                                            {{ old('installment_type') == 'Yearly' ? 'selected' : '' }}>Yearly
                                         </option>
                                     </select>
                                     <label for="installmentType" class="form-label">Installment Type</label>
@@ -400,8 +403,8 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
+                        {{-- <div class="row"> --}}
+                            {{-- <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="total_installments_paid" id="installmentsPaid"
                                         class="form-control @error('total_installments_paid') is-invalid @enderror"
@@ -412,8 +415,8 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
+                            </div> --}}
+                            {{-- <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="open_interest" id="openInterest"
                                         class="form-control @error('open_interest') is-invalid @enderror" type="number"
@@ -423,8 +426,8 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>
-                        </div>
+                            </div> --}}
+                        {{-- </div> --}}
                         </fieldset>
 
                         <!-- Tabs -->
@@ -612,7 +615,7 @@
                                 <div class="tab-pane fade p-3" id="rd-tab-pane" role="tabpanel" aria-labelledby="rd-tab"
                                     tabindex="0">
                                     <div class="row">
-                                        <div class="col-md-6 mb-3">
+                                        {{-- <div class="col-md-6 mb-3">
                                             <div class="form-floating">
                                                 <input name="open_interest_rd" id="openingInterest"
                                                     class="form-control @error('open_interest_rd') is-invalid @enderror"
@@ -624,7 +627,7 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="col-md-6 mb-3">
                                             <div class="form-floating">
                                                 <input name="rd_term_months" id="rdTermMonths"
@@ -678,6 +681,18 @@
                                                     placeholder="FD Term Months" >
                                                 <label for="fdTermMonths" class="form-label">FD Term Months</label>
                                                 @error('fd_term_months')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input name="slip_no" id="slipNo"
+                                                    class="form-control @error('slip_no') is-invalid @enderror"
+                                                    value="{{ old('slip_no') }}" type="text"
+                                                    placeholder="FD Term Months" >
+                                                <label for="slipNo" class="form-label">Slip No.</label>
+                                                @error('slip_no')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
