@@ -19,7 +19,8 @@ class DayBeginController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        $users = User::all();
+        // $users = User::all();
+        $users = Member::whereNotNull('employee_id')->get();
         $branchId = null;
         // Determine branch filter based on role
         if ($user->role === 'Admin') {
