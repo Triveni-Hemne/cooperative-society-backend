@@ -52,20 +52,37 @@
 
                             @isset($members)
                             <div class="col-md-6 mb-3">
+                                @php
+                                    $onlyMembers = $members->filter(fn($m) => is_null($m->employee_id));
+                                    $onlyEmployees = $members->filter(fn($m) => !is_null($m->employee_id));
+                                @endphp
                                 @if ($members->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="memberId" name="member_id"
                                         class="form-select @error('member_id') is-invalid @enderror"
                                         aria-label="Member">
-                                        <option value="" {{ old('member_id') ? '' : 'selected' }}>--- Select Member ---</option>
-                                        @foreach ($members as $member)
-                                        <option value="{{ $member->id }}"
-                                            {{ old('member_id') == $member->id ? 'selected' : '' }}>
-                                            {{ $member->name }}
-                                        </option>
-                                        @endforeach
+                                        <option value="" {{ old('member_id') ? '' : 'selected' }}>--- Select Member/Employee ---</option>
+                                        {{-- Members --}}
+                                        <optgroup label="Members">
+                                            @foreach ($onlyMembers as $member)
+                                                <option value="{{ $member->id }}" {{ old('member_id') == $member->id ? 'selected' : '' }}>
+                                                    {{ $member->name }} [ID: {{$member->id}} ]
+                                                </option>
+                                            @endforeach
+                                        </optgroup>
+
+                                        {{-- Employees --}}
+                                        @if($onlyEmployees->isNotEmpty())
+                                        <optgroup label="Employees">
+                                            @foreach ($onlyEmployees as $member)
+                                                <option value="{{ $member->id }}" {{ old('member_id') == $member->id ? 'selected' : '' }}>
+                                                    {{ $member->name }} [ID: {{$member->id }}]
+                                                </option>
+                                            @endforeach
+                                        </optgroup>
+                                        @endif
                                     </select>
-                                    <label for="memberId" class="form-label">Member</label>
+                                    <label for="memberId" class="form-label">Member/Employee</label>
                                     @error('member_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -93,7 +110,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            {{-- <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="account_name" id="accountName"
                                         class="form-control @error('account_name') is-invalid @enderror" type="text"
@@ -103,11 +120,11 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
+                        {{-- <div class="row"> --}}
+                            {{-- <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="name" id="Name"
                                         class="form-control @error('name') is-invalid @enderror"
@@ -117,8 +134,8 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
+                            </div> --}}
+                            {{-- <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <select id="accountType" name="account_type"
                                         class="form-select @error('account_type') is-invalid @enderror"
@@ -143,8 +160,8 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>
-                        </div>
+                            </div> --}}
+                        {{-- </div> --}}
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -208,9 +225,9 @@
                         </div>
                         </fieldset>
                         <fieldset class="border rounded-3 p-3 mb-3">
-                            <legend class="float-none w-auto px-2 small">Agent & Flags</legend>
+                            <legend class="float-none w-auto px-2 small">Flags</legend>
                         <div class="row">
-                            @isset($agents)
+                            {{-- @isset($agents)
                             <div class="col-md-6 mb-3">
                                 @if ($agents->isNotEmpty())
                                 <div class="form-floating">
@@ -236,7 +253,7 @@
                                 </div>
                                 @endif
                             </div>
-                            @endisset
+                            @endisset --}}
                             <div class="col-md-6 d-flex align-items-center">
                                 <div class="form-check form-switch">
                                     <input class="form-check-input @error('closing_flag') is-invalid @enderror"

@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignId('ledger_id')->constrained('general_ledgers')->onDelete('cascade');
             $table->foreignId('member_id')->nullable()->constrained('members')->onDelete('set null');
             $table->string('account_no', 50)->unique();
-            $table->string('account_name', 50);
-            $table->string('name', 255);
-            $table->enum('account_type', ['Deposit', 'Loan', 'Savings', 'Investment']);
+            $table->string('account_name', 50)->nullable();
+            $table->string('name', 255)->nullable();
+            $table->enum('account_type', ['Deposit', 'Loan', 'Savings', 'Investment'])->nullable();
             $table->decimal('interest_rate', 5, 2)->nullable();
             $table->date('start_date');
             $table->decimal('open_balance', 12, 2)->default(0.00);
