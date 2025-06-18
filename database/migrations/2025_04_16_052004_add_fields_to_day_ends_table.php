@@ -18,8 +18,8 @@ return new class extends Migration
             $table->decimal('closing_cash_balance', 15, 2)->default(0)->after('user_id');
             $table->decimal('total_receipts', 15, 2)->default(0)->after('closing_cash_balance');
             $table->decimal('total_payments', 15, 2)->default(0)->after('total_receipts');
-            $table->decimal('system_closing_balance', 15, 2)->default(0)->after('total_payments');
-            $table->decimal('difference_amount', 15, 2)->default(0)->after('system_closing_balance');
+            $table->decimal('system_closing_balance', 15, 2)->nullable()->default(0)->after('total_payments');
+            $table->decimal('difference_amount', 15, 2)->default(0)->nullable()->after('system_closing_balance');
             $table->boolean('is_day_closed')->default(false)->after('difference_amount');
             $table->text('remarks')->nullable()->after('is_day_closed');
             $table->unsignedBigInteger('created_by')->nullable()->after('remarks');

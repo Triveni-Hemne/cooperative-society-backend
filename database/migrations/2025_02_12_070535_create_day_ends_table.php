@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->date('date');
             $table->decimal('total_credit_rs', 12, 2);
-            $table->integer('total_credit_chalans');
+            $table->integer('total_credit_chalans')->nullable();
             $table->decimal('total_debit_rs', 12, 2);
-            $table->integer('total_debit_challans');
+            $table->integer('total_debit_challans')->nullable();
             $table->timestamps();
             $table->softDeletes(); // adds deleted_at column
         });

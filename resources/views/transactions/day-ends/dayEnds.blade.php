@@ -25,14 +25,19 @@
                             <div class="form-floating">
                                 @if ($users->isNotEmpty())
                                  <select name="user_id" id="userId"  class="form-select @error('user_id') is-invalid @enderror" required>
-                                    <option value="" disabled {{old('user_id') ? '' : 'selected'}}>---------- Select ----------</option>
-                                    @foreach ($users as $u)
-                                        <option value="{{ $u->id }}"  
+                                    {{-- <option value="" disabled {{old('user_id') ? '' : 'selected'}}>---------- Select ----------</option> --}}
+                                    {{-- @foreach ($users as $u) --}}
+                                        {{-- <option value="{{ $u->id }}"  
                                         {{ old('user_id') == $u->id ? 'selected' : '' }}
                                         >
                                         {{ $u->name }}
-                                        </option>
-                                    @endforeach
+                                        </option> --}}
+                                        <option value="{{ Auth::user()->id }}"  
+                                            {{ old('user_id') == Auth::user()->id ? 'selected' : '' }}
+                                            >
+                                            {{ Auth::user()->name }}
+                                            </option>
+                                    {{-- @endforeach --}}
                                 </select>
                                 <label for="userId" class="ms-2">User</label>
                                 @error('user_id')
@@ -148,36 +153,36 @@
         </div>
     </div>
 
-    <div class="row g-3 mb-3">
+    {{-- <div class="row g-3 mb-3"> --}}
         {{-- System Closing Balance --}}
-        <div class="col-md-6">
+        {{-- <div class="col-md-6">
             <div class="form-floating">
                             <input name="system_closing_balance" id="systemClosingBalance"
                                 class="form-control @error('system_closing_balance') is-invalid @enderror"
-                                value="{{ old('system_closing_balance') }}" type="number" step="0.01" required
+                                value="{{ old('system_closing_balance') }}" type="number" step="0.01" 
             placeholder="System Closing Balance">
-            <label for="SystemClosingBalance" class="form-label required">System Closing
+            <label for="SystemClosingBalance" class="form-label ">System Closing
                 Balances</label>
             @error('system_closing_balance')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
-    </div>
+    </div> --}}
 
     {{-- Difference Amount --}}
-    <div class="col-md-6">
+    {{-- <div class="col-md-6">
         <div class="form-floating">
                             <input name="difference_amount" id="differenceAmount"
                                 class="form-control @error('difference_amount') is-invalid @enderror"
-                                value="{{ old('difference_amount') }}" type="number" step="0.01" required
+                                value="{{ old('difference_amount') }}" type="number" step="0.01" 
         placeholder="Difference Amounts">
-        <label for="DifferenceAmount" class="form-label required">Difference Amounts</label>
+        <label for="DifferenceAmount" class="form-label">Difference Amounts</label>
         @error('difference_amount')
         <div class="invalid-feedback">{{ $message }}</div>
         @enderror
     </div>
-</div>
-</div>
+</div> --}}
+{{-- </div> --}}
 
 <div class="row g-3 mb-3">
     {{-- Is Day Closed --}}
@@ -226,8 +231,8 @@
         <div class="form-floating">
             <input name="total_credit_chalans" id="totalCreditChalans"
                 class="form-control @error('total_credit_chalans') is-invalid @enderror"
-                value="{{ old('total_credit_chalans') }}" type="number" step="0.01" required placeholder="Total Credit Challan">
-            <label for="totalCreditChalans" class="form-label required">Total Credit Challan</label>
+                value="{{ old('total_credit_chalans') }}" type="number" step="0.01" placeholder="Total Credit Challan">
+            <label for="totalCreditChalans" class="form-label">Total Credit Challan</label>
             @error('total_credit_chalans')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
@@ -254,8 +259,8 @@
         <div class="form-floating">
             <input name="total_debit_challans" id="totalDebitChallans"
                 class="form-control @error('total_debit_challans') is-invalid @enderror"
-                value="{{ old('total_debit_challans') }}" type="number" required placeholder="Total Debit Challan">
-            <label for="totalDebitChallans" class="form-label required">Total Debit Challan</label>
+                value="{{ old('total_debit_challans') }}" type="number" placeholder="Total Debit Challan">
+            <label for="totalDebitChallans" class="form-label">Total Debit Challan</label>
             @error('total_debit_challans')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
