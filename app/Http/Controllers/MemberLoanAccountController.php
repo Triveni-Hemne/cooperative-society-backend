@@ -10,10 +10,10 @@ use App\Models\Branch;
 use App\Models\Account;
 use App\Models\GeneralLedger;
 use App\Models\Nominee;
-use App\Models\GoldLoanDetail;
+// use App\Models\GoldLoanDetail;
 use App\Models\LoanGuarantor;
 use App\Models\LoanInstallment;
-use App\Models\LoanResolutionDetail;
+// use App\Models\LoanResolutionDetail;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 class MemberLoanAccountController extends Controller
@@ -85,35 +85,35 @@ class MemberLoanAccountController extends Controller
         $validatedData = $request->validate([
             'ledger_id' => 'required|exists:general_ledgers,id',
             'member_id' => 'nullable|exists:members,id',
-            'account_id' => 'nullable|exists:accounts,id',
+            // 'account_id' => 'nullable|exists:accounts,id',
             'acc_no' => 'required|string|max:50|unique:member_loan_accounts,acc_no',
-            'loan_type' => 'required|in:Personal Loan,Home Loan,Auto Loan,Business Loan,Gold Loan',
-            'name' => 'required|string|max:255',
+            // 'loan_type' => 'required|in:Personal Loan,Home Loan,Auto Loan,Business Loan,Gold Loan',
+            // 'name' => 'required|string|max:255',
             'ac_start_date' => 'required|date',
             'open_balance' => 'required|numeric',
             'purpose' => 'required|in:Agriculture,Construction,Cottage,SSI Unit,Dairy',
-            'principal_amount' => 'required|numeric',
+            // 'principal_amount' => 'required|numeric',
             'interest_rate' => 'required|numeric|min:0|max:999.99',
             'tenure' => 'required|integer',
             'emi_amount' => 'required|numeric',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
             'balance' => 'required|numeric',
-            'priority' => 'required|integer|min:-128|max:127',
+            // 'priority' => 'required|integer|min:-128|max:127',
             'loan_amount' => 'required|numeric',
-            'collateral_type' => 'required|in:Gold,Property,Vehicle,None',
-            'collateral_value' => 'numeric',
+            // 'collateral_type' => 'required|in:Gold,Property,Vehicle,None',
+            // 'collateral_value' => 'numeric',
             'add_to_demand' => 'boolean',
             'is_loss_asset' => 'boolean',
             'case_flag' => 'boolean',
             'page_no' => 'nullable|string|max:50',
             'interest' => 'required|numeric',
-            'postage' => 'nullable|numeric',
-            'insurance' => 'nullable|numeric',
-            'open_interest' => 'nullable|numeric',
+            // 'postage' => 'nullable|numeric',
+            // 'insurance' => 'nullable|numeric',
+            // 'open_interest' => 'nullable|numeric',
             'penal_interest' => 'nullable|numeric',
-            'notice_fee' => 'nullable|numeric',
-            'insurance_date' => 'nullable|date',
+            // 'notice_fee' => 'nullable|numeric',
+            // 'insurance_date' => 'nullable|date',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'signature' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
 
@@ -128,60 +128,62 @@ class MemberLoanAccountController extends Controller
             'nominees.*.nominee_image' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
 
             // gold laon detail fields Fields
-            'gold_weight' => [
-                'required_if:loan_type,Gold Loan',
-                'nullable',
-                'numeric',
-                'min:0',
-            ],
-            'gold_purity' => [
-                'required_if:loan_type,Gold Loan',
-                'nullable',
-                'in:18K,22K,24K',
-            ],
-            'market_value' => [
-                'required_if:loan_type,Gold Loan',
-                'nullable',
-                'numeric',
-                'min:0',
-            ],
-            'pledged_date' => [
-                'required_if:loan_type,Gold Loan',
-                'nullable',
-                'date',
-            ],
-            'release_status' => [
-                'required_if:loan_type,Gold Loan',
-                'nullable',
-                'in:Pledged,Released',
-            ],
-            'release_date' => [
-                'nullable',
-                'date',
-                'after_or_equal:pledged_date',
-            ],
+            // 'gold_weight' => [
+            //     'required_if:loan_type,Gold Loan',
+            //     'nullable',
+            //     'numeric',
+            //     'min:0',
+            // ],
+            // 'gold_purity' => [
+            //     'required_if:loan_type,Gold Loan',
+            //     'nullable',
+            //     'in:18K,22K,24K',
+            // ],
+            // 'market_value' => [
+            //     'required_if:loan_type,Gold Loan',
+            //     'nullable',
+            //     'numeric',
+            //     'min:0',
+            // ],
+            // 'pledged_date' => [
+            //     'required_if:loan_type,Gold Loan',
+            //     'nullable',
+            //     'date',
+            // ],
+            // 'release_status' => [
+            //     'required_if:loan_type,Gold Loan',
+            //     'nullable',
+            //     'in:Pledged,Released',
+            // ],
+            // 'release_date' => [
+            //     'nullable',
+            //     'date',
+            //     'after_or_equal:pledged_date',
+            // ],
 
             // laon garantor detail fields Fields
+            'garantors' => 'required|array|min:1|max:2',    
+            'garantors.*' => 'array',
             // 'loan_id' => 'required|exists:member_loan_accounts,id',
-            'gr_member_id' => 'required|exists:members,id',
-            'guarantor_type' => 'required|in:Primary,Secondary,Tertiary',
-            'added_on' => 'required|date',
-            'released_on' => 'nullable|date|after_or_equal:added_on',
+            'garantors.*.gr_member_id' => 'nullable|exists:members,id',
+            'garantors.*.guarantor_type' => 'nullable|in:Primary,Secondary,Tertiary',
+            'garantors.*.added_on' => 'nullable|date',
+            'garantors.*.released_on' => 'nullable|date|after_or_equal:added_on',
             
             // installment detail fields Fields
             // 'loan_id' => 'required|exists:member_loan_accounts,id',
             'installment_type' => 'required|in:Monthly,Quarterly,Yearly',
             'mature_date' => 'nullable|date',
             'first_installment_date' => 'nullable|date',
-            'total_installments' => 'required|integer|min:1',
-            'installment_amount' => 'required|numeric|min:0',
-            'installment_with_interest' => 'required|numeric|min:0',
-            'total_installments_paid' => 'required|integer|min:0',
+            'total_installments' => 'nullable|integer|min:1',
+            'installment_amount' => 'nullable|numeric|min:0',
+            'installment_with_interest' => 'nullable|numeric|min:0',
+            'total_installments_paid' => 'nullable|integer|min:0',
             
             // resolution detail fields Fields
             // 'loan_id' => 'required|exists:member_loan_accounts,id',
-            'resolution_no' => 'required|string|max:50|unique:loan_resolution_details,resolution_no',
-            'resolution_date' => 'required|date',
+            // 'resolution_no' => 'required|string|max:50|unique:loan_resolution_details,resolution_no',
+            // 'resolution_date' => 'required|date',
             
         ]);
         
@@ -202,34 +204,34 @@ class MemberLoanAccountController extends Controller
             $account = MemberLoanAccount::create([
             'ledger_id' => $validatedData['ledger_id'],
             'member_id' => $validatedData['member_id']?? null,
-            'account_id' => $validatedData['account_id']?? null,
+            // 'account_id' => $validatedData['account_id']?? null,
             'acc_no' => $validatedData['acc_no'],
-            'name' => $validatedData['name'] ?? null,
-            'loan_type' => $validatedData['loan_type'],
+            // 'name' => $validatedData['name'] ?? null,
+            // 'loan_type' => $validatedData['loan_type'],
             'purpose' => $validatedData['purpose']?? null,
-            'principal_amount' => $validatedData['principal_amount']?? null,
+            // 'principal_amount' => $validatedData['principal_amount']?? null,
             'tenure' => $validatedData['tenure']?? null,
             'emi_amount' => $validatedData['emi_amount']?? null,
             'start_date' => $validatedData['start_date']?? null,
             'end_date' => $validatedData['end_date']?? null,
-            'priority' => $validatedData['priority']?? null,
-            'collateral_type' => $validatedData['collateral_type']?? null,
-            'collateral_value' => $validatedData['collateral_value']?? null,
+            // 'priority' => $validatedData['priority']?? null,
+            // 'collateral_type' => $validatedData['collateral_type']?? null,
+            // 'collateral_value' => $validatedData['collateral_value']?? null,
             'loan_amount' => $validatedData['loan_amount']?? null,
             'interest_rate' => $validatedData['interest_rate'] ?? null,
             
-            'open_interest' => $validatedData['open_interest'] ?? null,
+            // 'open_interest' => $validatedData['open_interest'] ?? null,
             'ac_start_date' => $validatedData['ac_start_date'] ,
             'acc_closing_date' => $validatedData['acc_closing_date'] ?? null,
             'open_balance' => $validatedData['open_balance'],
             'balance' => $validatedData['balance'] ?? null,
             'page_no' => $validatedData['page_no'] ?? null,
             'interest' => $validatedData['interest'] ?? null,
-            'postage' => $validatedData['postage'] ?? null,
-            'insurance' => $validatedData['insurance'] ?? null,
+            // 'postage' => $validatedData['postage'] ?? null,
+            // 'insurance' => $validatedData['insurance'] ?? null,
             'penal_interest' => $validatedData['penal_interest'] ?? null,
-            'notice_fee' => $validatedData['notice_fee'] ?? null,
-            'insurance_date' => $validatedData['insurance_date'] ?? null,
+            // 'notice_fee' => $validatedData['notice_fee'] ?? null,
+            // 'insurance_date' => $validatedData['insurance_date'] ?? null,
             'is_loss_asset' => $validatedData['is_loss_asset']?? 0,
             'case_flag' => $validatedData['case_flag'] ?? 0,
             'add_to_demand' => $validatedData['add_to_demand'] ?? 0,
@@ -255,25 +257,27 @@ class MemberLoanAccountController extends Controller
             ]);
         }
 
-        if($validatedData['loan_type'] === 'Gold Loan'){
-            GoldLoanDetail::create([
-                'loan_id' => $account->id,
-                'gold_weight' => $validatedData['gold_weight'],
-            'gold_purity' => $validatedData['gold_purity'],
-            'market_value' => $validatedData['market_value'],
-            'pledged_date' => $validatedData['pledged_date'],
-            'release_status' => $validatedData['release_status'],
-            'release_date' => $validatedData['release_date']  ?? null,
-        ]);
-       }
+        // if($validatedData['loan_type'] === 'Gold Loan'){
+        //     GoldLoanDetail::create([
+        //         'loan_id' => $account->id,
+        //         'gold_weight' => $validatedData['gold_weight'],
+        //     'gold_purity' => $validatedData['gold_purity'],
+        //     'market_value' => $validatedData['market_value'],
+        //     'pledged_date' => $validatedData['pledged_date'],
+        //     'release_status' => $validatedData['release_status'],
+        //     'release_date' => $validatedData['release_date']  ?? null,
+        // ]);
+    //    }
 
+    foreach ($validatedData['garantors'] as $garantor) {   
         LoanGuarantor::create([
-            'loan_id' => $account->id,
-            'member_id' => $validatedData['gr_member_id'],
-            'guarantor_type' => $validatedData['guarantor_type'],
-            'added_on' => $validatedData['added_on'],
-            'released_on' => $validatedData['released_on'] ?? null,
-        ]);
+                'loan_id' => $account->id,
+                'member_id' => $garantor['gr_member_id'],
+                'guarantor_type' => $garantor['guarantor_type'],
+                'added_on' => $garantor['added_on'],
+                'released_on' => $garantor['released_on'] ?? null,
+            ]);
+        }
 
          LoanInstallment::create([
             'loan_id' => $account->id,
@@ -286,11 +290,11 @@ class MemberLoanAccountController extends Controller
             'total_installments_paid' => $validatedData['total_installments_paid'] ?? null,
         ]);
 
-         LoanResolutionDetail::create([
-           'loan_id' => $account->id,
-            'resolution_no' => $validatedData['resolution_no'],
-            'resolution_date' => $validatedData['resolution_date'],
-        ]);
+        //  LoanResolutionDetail::create([
+        //    'loan_id' => $account->id,
+        //     'resolution_no' => $validatedData['resolution_no'],
+        //     'resolution_date' => $validatedData['resolution_date'],
+        // ]);
         // return $request->all();
 
         return redirect()->back()->with('success', 'Loan account created successfully.');
@@ -326,111 +330,113 @@ class MemberLoanAccountController extends Controller
     public function update(Request $request, string $id)
     {
         $loanAccount = MemberLoanAccount::findOrFail($id);
-        dd($id, $request->input('acc_no'));
         $validatedData = $request->validate([
             'ledger_id' => 'required|exists:general_ledgers,id',
             'member_id' => 'nullable|exists:members,id',
-            'account_id' => 'nullable|exists:accounts,id',
+            // 'account_id' => 'nullable|exists:accounts,id',
            'acc_no' => [
                 'required',
                 'string',
                 'max:50',
                 Rule::unique('member_loan_accounts', 'acc_no')->ignore($id),
             ],
-            'loan_type' => 'required|in:Personal Loan,Home Loan,Auto Loan,Business Loan,Gold Loan',
-            'name' => 'required|string|max:255',
+            // 'loan_type' => 'required|in:Personal Loan,Home Loan,Auto Loan,Business Loan,Gold Loan',
+            // 'name' => 'required|string|max:255',
             'ac_start_date' => 'required|date',
             'open_balance' => 'required|numeric',
             'purpose' => 'required|in:Agriculture,Construction,Cottage,SSI Unit,Dairy',
-            'principal_amount' => 'required|numeric',
+            // 'principal_amount' => 'required|numeric',
             'interest_rate' => 'required|numeric|min:0|max:999.99',
             'tenure' => 'required|integer',
             'emi_amount' => 'required|numeric',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
             'balance' => 'required|numeric',
-            'priority' => 'required|integer|min:-128|max:127',
+            // 'priority' => 'required|integer|min:-128|max:127',
             'loan_amount' => 'required|numeric',
-            'collateral_type' => 'required|in:Gold,Property,Vehicle,None',
-            'collateral_value' => 'numeric',
+            // 'collateral_type' => 'required|in:Gold,Property,Vehicle,None',
+            // 'collateral_value' => 'numeric',
             'add_to_demand' => 'boolean',
             'is_loss_asset' => 'boolean',
             'case_flag' => 'boolean',
             'page_no' => 'nullable|string|max:50',
             'interest' => 'required|numeric',
-            'postage' => 'nullable|numeric',
-            'insurance' => 'nullable|numeric',
-            'open_interest' => 'nullable|numeric',
+            // 'postage' => 'nullable|numeric',
+            // 'insurance' => 'nullable|numeric',
+            // 'open_interest' => 'nullable|numeric',
             'penal_interest' => 'nullable|numeric',
-            'notice_fee' => 'nullable|numeric',
-            'insurance_date' => 'nullable|date',
+            // 'notice_fee' => 'nullable|numeric',
+            // 'insurance_date' => 'nullable|date',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'signature' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
 
             // nominee fields Fields
             'nominees' => 'required|array|min:1|max:2',    
             'nominees.*' => 'array',
-            'nominees.*.nominee_name' => 'required|string|max:255',
+            'nominees.*.nominee_name' => 'nullable|string|max:255',
             'nominees.*.nominee_naav' => 'nullable|string|max:255',
-            'nominees.*.nominee_age' => 'required|integer|min:1|max:120',
-            'nominees.*.nominee_gender' => 'required|in:Male,Female,Other',
-            'nominees.*.relation' => 'required|in:husband,wife,father,mother,brother,sister,son,daughter,other',
+            'nominees.*.nominee_age' => 'nullable|integer|min:1|max:120',
+            'nominees.*.nominee_gender' => 'nullable|in:Male,Female,Other',
+            'nominees.*.relation' => 'nullable|in:husband,wife,father,mother,brother,sister,son,daughter,other',
             'nominees.*.nominee_image' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
             
             // gold laon detail fields Fields
-            'gold_weight' => [
-                'required_if:loan_type,Gold Loan',
-                'nullable',
-                'numeric',
-                'min:0',
-            ],
-            'gold_purity' => [
-                'required_if:loan_type,Gold Loan',
-                'nullable',
-                'in:18K,22K,24K',
-            ],
-            'market_value' => [
-                'required_if:loan_type,Gold Loan',
-                'nullable',
-                'numeric',
-                'min:0',
-            ],
-            'pledged_date' => [
-                'required_if:loan_type,Gold Loan',
-                'nullable',
-                'date',
-            ],
-            'release_status' => [
-                'required_if:loan_type,Gold Loan',
-                'nullable',
-                'in:Pledged,Released',
-            ],
-            'release_date' => [
-                'nullable',
-                'date',
-                'after_or_equal:pledged_date',
-            ],
+            // 'gold_weight' => [
+            //     'required_if:loan_type,Gold Loan',
+            //     'nullable',
+            //     'numeric',
+            //     'min:0',
+            // ],
+            // 'gold_purity' => [
+            //     'required_if:loan_type,Gold Loan',
+            //     'nullable',
+            //     'in:18K,22K,24K',
+            // ],
+            // 'market_value' => [
+            //     'required_if:loan_type,Gold Loan',
+            //     'nullable',
+            //     'numeric',
+            //     'min:0',
+            // ],
+            // 'pledged_date' => [
+            //     'required_if:loan_type,Gold Loan',
+            //     'nullable',
+            //     'date',
+            // ],
+            // 'release_status' => [
+            //     'required_if:loan_type,Gold Loan',
+            //     'nullable',
+            //     'in:Pledged,Released',
+            // ],
+            // 'release_date' => [
+            //     'nullable',
+            //     'date',
+            //     'after_or_equal:pledged_date',
+            // ],
             
             // laon garantor detail fields Fields
-            'gr_member_id' => 'required|exists:members,id',
-            'guarantor_type' => 'required|in:Primary,Secondary,Tertiary',
-            'added_on' => 'required|date',
-            'released_on' => 'nullable|date|after_or_equal:added_on',
+            'garantors' => 'required|array|min:1|max:2',    
+            'garantors.*' => 'array',
+            // 'loan_id' => 'required|exists:member_loan_accounts,id',
+            'garantors.*.gr_member_id' => 'nullable|exists:members,id',
+            'garantors.*.guarantor_type' => 'nullable|in:Primary,Secondary,Tertiary',
+            'garantors.*.added_on' => 'nullable|date',
+            'garantors.*.released_on' => 'nullable|date|after_or_equal:added_on',
             
             // installment detail fields Fields
-            'installment_type' => 'required|in:Monthly,Quarterly,Yearly',
+            'installment_type' => 'nullable|in:Monthly,Quarterly,Yearly',
             'mature_date' => 'nullable|date',
             'first_installment_date' => 'nullable|date',
-            'total_installments' => 'required|integer|min:1',
-            'installment_amount' => 'required|numeric|min:0',
-            'installment_with_interest' => 'required|numeric|min:0',
-            'total_installments_paid' => 'required|integer|min:0',
+            'total_installments' => 'nullable|integer|min:1',
+            'installment_amount' => 'nullable|numeric|min:0',
+            'installment_with_interest' => 'nullable|numeric|min:0',
+            'total_installments_paid' => 'nullable|integer|min:0',
             
             // resolution detail fields Fields
             // 'resolution_no' => "required|string|max:50|unique:loan_resolution_details,resolution_no,{$id},loan_id",
-            'resolution_no' => ['required','string','max:50', Rule::unique('loan_resolution_details', 'resolution_no')
-                ->where('loan_id', $id)->ignore($id, 'loan_id')],
-            'resolution_date' => 'required|date',
+            // 'resolution_no' => ['required','string','max:50', Rule::unique('loan_resolution_details', 'resolution_no')
+            //     ->where('loan_id', $id)->ignore($id, 'loan_id')],
+            // 'resolution_date' => 'required|date',
             
         ]);
         
@@ -451,34 +457,34 @@ class MemberLoanAccountController extends Controller
             $loanAccount->update([
             'ledger_id' => $validatedData['ledger_id'],
             'member_id' => $validatedData['member_id']?? null,
-            'account_id' => $validatedData['account_id']?? null,
+            // 'account_id' => $validatedData['account_id']?? null,
             'acc_no' => $validatedData['acc_no'],
-            'name' => $validatedData['name'] ?? null,
-            'loan_type' => $validatedData['loan_type'],
+            // 'name' => $validatedData['name'] ?? null,
+            // 'loan_type' => $validatedData['loan_type'],
             'purpose' => $validatedData['purpose']?? null,
-            'principal_amount' => $validatedData['principal_amount']?? null,
+            // 'principal_amount' => $validatedData['principal_amount']?? null,
             'tenure' => $validatedData['tenure']?? null,
             'emi_amount' => $validatedData['emi_amount']?? null,
             'start_date' => $validatedData['start_date']?? null,
             'end_date' => $validatedData['end_date']?? null,
-            'priority' => $validatedData['priority']?? null,
-            'collateral_type' => $validatedData['collateral_type']?? null,
-            'collateral_value' => $validatedData['collateral_value']?? null,
+            // 'priority' => $validatedData['priority']?? null,
+            // 'collateral_type' => $validatedData['collateral_type']?? null,
+            // 'collateral_value' => $validatedData['collateral_value']?? null,
             'loan_amount' => $validatedData['loan_amount']?? null,
             'interest_rate' => $validatedData['interest_rate'] ?? null,
             
-            'open_interest' => $validatedData['open_interest'] ?? null,
+            // 'open_interest' => $validatedData['open_interest'] ?? null,
             'ac_start_date' => $validatedData['ac_start_date'] ,
             'acc_closing_date' => $validatedData['acc_closing_date'] ?? null,
             'open_balance' => $validatedData['open_balance'],
             'balance' => $validatedData['balance'] ?? null,
             'page_no' => $validatedData['page_no'] ?? null,
             'interest' => $validatedData['interest'] ?? null,
-            'postage' => $validatedData['postage'] ?? null,
-            'insurance' => $validatedData['insurance'] ?? null,
+            // 'postage' => $validatedData['postage'] ?? null,
+            // 'insurance' => $validatedData['insurance'] ?? null,
             'penal_interest' => $validatedData['penal_interest'] ?? null,
-            'notice_fee' => $validatedData['notice_fee'] ?? null,
-            'insurance_date' => $validatedData['insurance_date'] ?? null,
+            // 'notice_fee' => $validatedData['notice_fee'] ?? null,
+            // 'insurance_date' => $validatedData['insurance_date'] ?? null,
             'add_to_demand' => $request->boolean('add_to_demand'),
             'is_loss_asset' => $request->boolean('is_loss_asset'),
             'case_flag' => $request->boolean('case_flag'),
@@ -503,29 +509,31 @@ class MemberLoanAccountController extends Controller
             }
         
 
-        if ($validatedData['loan_type'] === 'Gold Loan') {
-            GoldLoanDetail::updateOrCreate(
-                ['loan_id' => $loanAccount->id],  
-                [
-                    'gold_weight' => $validatedData['gold_weight'],
-                    'gold_purity' => $validatedData['gold_purity'],
-                    'market_value' => $validatedData['market_value'],
-                    'pledged_date' => $validatedData['pledged_date'],
-                    'release_status' => $validatedData['release_status'],
-                    'release_date' => $validatedData['release_date'] ?? null,
-                ]
-            );
-        } else {
-            GoldLoanDetail::where('loan_id', $loanAccount->id)->delete();
-        }
+        // if ($validatedData['loan_type'] === 'Gold Loan') {
+        //     GoldLoanDetail::updateOrCreate(
+        //         ['loan_id' => $loanAccount->id],  
+        //         [
+        //             'gold_weight' => $validatedData['gold_weight'],
+        //             'gold_purity' => $validatedData['gold_purity'],
+        //             'market_value' => $validatedData['market_value'],
+        //             'pledged_date' => $validatedData['pledged_date'],
+        //             'release_status' => $validatedData['release_status'],
+        //             'release_date' => $validatedData['release_date'] ?? null,
+        //         ]
+        //     );
+        // } else {
+        //     GoldLoanDetail::where('loan_id', $loanAccount->id)->delete();
+        // }
 
-        LoanGuarantor::updateOrCreate([
-            'loan_id' => $loanAccount->id,
-            'member_id' => $validatedData['gr_member_id'],
-            'guarantor_type' => $validatedData['guarantor_type'],
-            'added_on' => $validatedData['added_on'],
-            'released_on' => $validatedData['released_on'] ?? null,
-        ]);
+        foreach ($validatedData['garantors'] as $garantor) {   
+            LoanGuarantor::updateOrCreate([
+                    'loan_id' => $loanAccount->id,
+                    'member_id' => $garantor['gr_member_id'],
+                    'guarantor_type' => $garantor['guarantor_type'],
+                    'added_on' => $garantor['added_on'],
+                    'released_on' => $garantor['released_on'] ?? null,
+                ]);
+            }
 
          LoanInstallment::updateOrCreate([
             'loan_id' => $loanAccount->id,
@@ -538,11 +546,11 @@ class MemberLoanAccountController extends Controller
             'total_installments_paid' => $validatedData['total_installments_paid'] ?? null,
         ]);
 
-         LoanResolutionDetail::updateOrCreate([
-           'loan_id' => $loanAccount->id,
-            'resolution_no' => $validatedData['resolution_no'],
-            'resolution_date' => $validatedData['resolution_date'],
-        ]);
+        //  LoanResolutionDetail::updateOrCreate([
+        //    'loan_id' => $loanAccount->id,
+        //     'resolution_no' => $validatedData['resolution_no'],
+        //     'resolution_date' => $validatedData['resolution_date'],
+        // ]);
 
         return redirect()->back()->with('success', 'Loan account updated successfully.');
     }

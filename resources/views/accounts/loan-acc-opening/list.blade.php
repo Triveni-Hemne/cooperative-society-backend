@@ -40,32 +40,32 @@
                     <th scope="col">Image</th>
                     <th scope="col">Member Name</th>
                     <th scope="col">Account No. </th>
-                    <th scope="col">Loan Type</th>
+                    {{-- <th scope="col">Loan Type</th> --}}
                     <th scope="col">Acc Start Date</th>
                     <th scope="col">Open. Balance</th>
                     <th scope="col">Purpose</th>
-                    <th scope="col">Principal Amount</th>
+                    {{-- <th scope="col">Principal Amount</th> --}}
                     <th scope="col">Interest Rate</th>
                     <th scope="col">Tenure</th>
                     <th scope="col">IMI Amount</th>
                     <th scope="col">Start Date</th>
                     <th scope="col">End Date</th>
                     <th scope="col">Balance</th>
-                    <th scope="col">Priority</th>
+                    {{-- <th scope="col">Priority</th> --}}
                     <th scope="col">Loan Amount</th>
-                    <th scope="col">Collateral Type</th>
-                    <th scope="col">Collateral Value</th>
+                    {{-- <th scope="col">Collateral Type</th> --}}
+                    {{-- <th scope="col">Collateral Value</th> --}}
                     <th scope="col">Add To Demand</th>
                     <th scope="col">Is Loss Asset</th>
                     <th scope="col">Case Flag</th>
                     <th scope="col">Page No.</th>
                     <th scope="col">Interest</th>
-                    <th scope="col">Postage</th>
-                    <th scope="col">Insurance</th>
-                    <th scope="col">Open. Interest</th> 
+                    {{-- <th scope="col">Postage</th> --}}
+                    {{-- <th scope="col">Insurance</th> --}}
+                    {{-- <th scope="col">Open. Interest</th>  --}}
                     <th scope="col">Penal Interest</th>
-                    <th scope="col">Notice Fee</th>
-                    <th scope="col">Insurance Date</th>
+                    {{-- <th scope="col">Notice Fee</th> --}}
+                    {{-- <th scope="col">Insurance Date</th> --}}
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -97,27 +97,27 @@
                     <td>{{$account->ac_start_date}}</td>
                     <td>{{$account->open_balance ?? ''}}</td>
                     <td>{{$account->purpose ?? ''}}</td>
-                    <td>{{$account->principal_amount ?? ''}}</td>
+                    {{-- <td>{{$account->principal_amount ?? ''}}</td> --}}
                     <td>{{$account->interest_rate ?? ''}}</td>
                     <td>{{$account->tenure ?? ''}}</td>
                     <td>{{$account->emi_amount ?? ''}}</td>
                     <td>{{$account->start_date ?? ''}}</td>
                     <td>{{$account->end_date ?? ''}}</td>
                     <td>{{$account->balance ?? ''}}</td>
-                    <td>{{$account->priority ?? ''}}</td>
+                    {{-- <td>{{$account->priority ?? ''}}</td> --}}
                     <td>{{$account->loan_amount ?? ''}}</td>
-                    <td>{{$account->collateral_type ?? ''}}</td>
-                    <td>{{$account->collateral_value ?? ''}}</td>
+                    {{-- <td>{{$account->collateral_type ?? ''}}</td> --}}
+                    {{-- <td>{{$account->collateral_value ?? ''}}</td> --}}
                     <td>{{$account->add_to_demand ?? ''}}</td>
                     <td>{{$account->is_loss_asset ?? ''}}</td>
                     <td>{{$account->case_flag ?? ''}}</td>
                     <td>{{$account->page_no ?? ''}}</td>
                     <td>{{$account->interest ?? ''}}</td>
-                    <td>{{$account->postage ?? ''}}</td>
-                    <td>{{$account->insurance ?? ''}}</td>
-                    <td>{{$account->open_interest ?? ''}}</td>
+                    {{-- <td>{{$account->postage ?? ''}}</td> --}}
+                    {{-- <td>{{$account->insurance ?? ''}}</td> --}}
+                    {{-- <td>{{$account->open_interest ?? ''}}</td> --}}
                     <td>{{$account->penal_interest ?? ''}}</td>
-                    <td>{{$account->notice_fee ?? ''}}</td>
+                    {{-- <td>{{$account->notice_fee ?? ''}}</td> --}}
                     <td>{{$account->insurance_date ?? ''}}</td>
                     <td>
                         <a href="#" data-id="{{$account->id }}" data-ledger-id="{{$account->ledger_id ?? ''}}" data-member-id="{{$account->member_id ?? ''}}" data-account-id="{{$account->account_id ?? ''}}" data-acc-no="{{$account->acc_no ?? ''}}" data-loan-type="{{$account->loan_type ?? ''}}" data-name="{{$account->name ?? ''}}"data-ac-start-date="{{$account->ac_start_date ?? ''}}" data-open-balance="{{$account->open_balance ?? ''}}" data-purpose="{{$account->purpose ?? ''}}" data-principal-amount="{{$account->principal_amount ?? ''}}" data-interest-rate="{{$account->interest_rate ?? ''}}" data-tenure="{{$account->tenure ?? ''}}" data-emi-amount="{{$account->emi_amount ?? ''}}" data-start-date="{{$account->start_date ?? ''}}" data-end-date="{{$account->end_date ?? ''}}" data-balance="{{$account->balance ?? ''}}" data-priority="{{$account->priority ?? ''}}" data-loan-amount="{{$account->loan_amount ?? ''}}" data-collateral-type="{{$account->collateral_type ?? ''}}" data-collateral-value="{{$account->collateral_value ?? ''}}" data-status="{{$account->status ?? ''}}" data-add-to-demand="{{$account->add_to_demand ?? ''}}" data-is-loss-asset="{{$account->is_loss_asset ?? ''}}" data-case-flag="{{$account->case_flag ?? ''}}" data-page-no="{{$account->page_no ?? ''}}" data-interest="{{$account->interest ?? ''}}" data-postage="{{$account->postage ?? ''}}" data-insurance="{{$account->insurance ?? ''}}" data-open-interest="{{$account->open_interest ?? ''}}" data-penal-interest="{{$account->penal_interest ?? ''}}" data-notice-fee="{{$account->notice_fee ?? ''}}" data-insurance-date="{{$account->insurance_date ?? ''}}" 
@@ -128,13 +128,18 @@
                         @php $j++; @endphp 
                         @endforeach
 
-                        data-gold-weight="{{$account->goldLoanDtl->gold_weight ?? ''}}" data-gold-purity="{{$account->goldLoanDtl->gold_purity ?? ''}}" data-market-value="{{$account->goldLoanDtl->market_value ?? ''}}" data-pledged-date="{{$account->goldLoanDtl->pledged_date ?? ''}}" data-release-status="{{$account->goldLoanDtl->release_status ?? ''}}" data-release-date="{{$account->goldLoanDtl->release_date ?? ''}}"
+                        {{-- data-gold-weight="{{$account->goldLoanDtl->gold_weight ?? ''}}" data-gold-purity="{{$account->goldLoanDtl->gold_purity ?? ''}}" data-market-value="{{$account->goldLoanDtl->market_value ?? ''}}" data-pledged-date="{{$account->goldLoanDtl->pledged_date ?? ''}}" data-release-status="{{$account->goldLoanDtl->release_status ?? ''}}" data-release-date="{{$account->goldLoanDtl->release_date ?? ''}}" --}}
                         
-                         data-gr-member-id="{{$account->loanGarantor->member_id ?? ''}}" data-guarantor-type="{{$account->loanGarantor->guarantor_type ?? ''}}"   data-added-on="{{$account->loanGarantor->added_on ?? ''}}"   data-released-on="{{$account->loanGarantor->released_on  ?? ''}}" 
+                        
+                        @php $j = 1; @endphp 
+                        @foreach($account->loanGarantors as $garantor)
+                         data-gr-member-id{{$j}}="{{$garantor->member_id ?? ''}}" data-guarantor-type{{$j}}="{{$garantor->guarantor_type ?? ''}}"   data-added-on{{$j}}="{{$garantor->added_on ?? ''}}"   data-released-on{{$j}}="{{$garantor->released_on  ?? ''}}" 
+                         @php $j++; @endphp 
+                         @endforeach
 
-                        data-installment-type="{{$account->loanInstallment->installment_type  ?? ''}}" data-mature-date="{{$account->loanInstallment->mature_date ?? ''}}" data-first_installment_date="{{$account->loanInstallment->first_installment_date ?? ''}}" data-total-installments="{{$account->loanInstallment->total_installments ?? ''}}" data-installment-amount="{{$account->loanInstallment->installment_amount ?? ''}}" data-installment-with-interest="{{$account->loanInstallment->installment_with_interest	?? ''}}" data-total-installments-paid="{{$account->loanInstallment->total_installments_paid ?? ''}}" 
+                        data-installment-type="{{$account->loanInstallment->installment_type  ?? ''}}" data-mature-date="{{$account->loanInstallment->mature_date ?? ''}}" data-first-installment-date="{{$account->loanInstallment->first_installment_date ?? ''}}" data-total-installments="{{$account->loanInstallment->total_installments ?? ''}}" data-installment-amount="{{$account->loanInstallment->installment_amount ?? ''}}" data-installment-with-interest="{{$account->loanInstallment->installment_with_interest	?? ''}}" data-total-installments-paid="{{$account->loanInstallment->total_installments_paid ?? ''}}" 
                         
-                        data-resolution-no="{{$account->loanResolutionDtl->resolution_no ?? ''}}" data-resolution-date="{{$account->loanResolutionDtl->resolution_date ?? ''}}"
+                        {{-- data-resolution-no="{{$account->loanResolutionDtl->resolution_no ?? ''}}" data-resolution-date="{{$account->loanResolutionDtl->resolution_date ?? ''}}" --}}
 
                         data-route="{{ route('member-loan-accounts.update', $account->id) }}" class="edit-btn text-decoration-none me-4" data-bs-toggle="modal"
                             data-bs-target="#loanAccOpeningModal">
@@ -189,36 +194,36 @@ document.addEventListener("DOMContentLoaded", function () {
             let id = this.getAttribute("data-id");
             let ledgerId = this.getAttribute("data-ledger-id");
             let memberId = this.getAttribute("data-member-id");
-            let accountId = this.getAttribute("data-account-id");
+            // let accountId = this.getAttribute("data-account-id");
             let accNo = this.getAttribute("data-acc-no");
-            let loanType = this.getAttribute("data-loan-type");
-            let name = this.getAttribute("data-name");
+            //let loanType = this.getAttribute("data-loan-type");
+            // let name = this.getAttribute("data-name");
             let acStartDate = this.getAttribute("data-ac-start-date");
             let openBalance = this.getAttribute("data-open-balance");
             let purpose = this.getAttribute("data-purpose");
-            let principalAmount = this.getAttribute("data-principal-amount");
+            // let principalAmount = this.getAttribute("data-principal-amount");
             let interestRate = this.getAttribute("data-interest-rate");
             let tenure = this.getAttribute("data-tenure");
             let emiAmount = this.getAttribute("data-emi-amount");
             let startDate = this.getAttribute("data-start-date");
             let endDate = this.getAttribute("data-end-date");
             let balance = this.getAttribute("data-balance");
-            let priority = this.getAttribute("data-priority");
+            // let priority = this.getAttribute("data-priority");
             let loanAmount = this.getAttribute("data-loan-amount");
-            let collateralType = this.getAttribute("data-collateral-type");
-            let collateralValue = this.getAttribute("data-collateral-value");
+            // let collateralType = this.getAttribute("data-collateral-type");
+            // let collateralValue = this.getAttribute("data-collateral-value");
             let status = this.getAttribute("data-status");
             let addToDemand = this.getAttribute("data-add-to-demand");
             let isLossAsset = this.getAttribute("data-is-loss-asset");
             let caseFlag = this.getAttribute("data-case-flag");
             let pageNo = this.getAttribute("data-page-no");
             let interest = this.getAttribute("data-interest");
-            let openInterest = this.getAttribute("data-open-interest");
+            // let openInterest = this.getAttribute("data-open-interest");
             let penalInterest = this.getAttribute("data-penal-interest");
-            let insurance = this.getAttribute("data-insurance");
-            let postage = this.getAttribute("data-postage");
-            let noticeFee = this.getAttribute("data-notice-fee");
-            let insuranceDate = this.getAttribute("data-insurance-date");
+            // let insurance = this.getAttribute("data-insurance");
+            // let postage = this.getAttribute("data-postage");
+            // let noticeFee = this.getAttribute("data-notice-fee");
+            // let insuranceDate = this.getAttribute("data-insurance-date");
 
             let nominee1Name = this.getAttribute("data-nominee-name1");
             let marathiNominee1Name = this.getAttribute("data-nominee-naav1");
@@ -232,17 +237,21 @@ document.addEventListener("DOMContentLoaded", function () {
             let nominee2Gender = this.getAttribute("data-nominee-gender2");
             let nominee2Relation = this.getAttribute("data-relation2");
 
-            let goldWeight = this.getAttribute("data-gold-weight");
-            let goldPurity = this.getAttribute("data-gold-purity");
-            let marketValue = this.getAttribute("data-market-value");
-            let pledgedDate = this.getAttribute("data-pledged-date");
-            let releaseStatus = this.getAttribute("data-release-status");
-            let releaseDate = this.getAttribute("data-release-date");
+            // let goldWeight = this.getAttribute("data-gold-weight");
+            // let goldPurity = this.getAttribute("data-gold-purity");
+            // let marketValue = this.getAttribute("data-market-value");
+            // let pledgedDate = this.getAttribute("data-pledged-date");
+            // let releaseStatus = this.getAttribute("data-release-status");
+            // let releaseDate = this.getAttribute("data-release-date");
 
-            let grMemberId = this.getAttribute("data-gr-member-id");
-            let guarantorType = this.getAttribute("data-guarantor-type");
-            let addedOn = this.getAttribute("data-added-on");
-            let releasedOn = this.getAttribute("data-released-on");
+            let grMemberId1 = this.getAttribute("data-gr-member-id1");
+            let guarantorType1 = this.getAttribute("data-guarantor-type1");
+            let addedOn1 = this.getAttribute("data-added-on1");
+            let releasedOn1 = this.getAttribute("data-released-on1");
+            let grMemberId2 = this.getAttribute("data-gr-member-id2");
+            let guarantorType2 = this.getAttribute("data-guarantor-type2");
+            let addedOn2 = this.getAttribute("data-added-on2");
+            let releasedOn2 = this.getAttribute("data-released-on2");
 
             let installmentType = this.getAttribute("data-installment-type");
             let matureDate = this.getAttribute("data-mature-date");
@@ -250,10 +259,10 @@ document.addEventListener("DOMContentLoaded", function () {
             let totalInstallments = this.getAttribute("data-total-installments");
             let installmentAmount = this.getAttribute("data-installment-amount");
             let installmentWithInterest = this.getAttribute("data-installment-with-interest");
-            let installmentsPaid = this.getAttribute("data-total-installments-paid");
+            let installmentsPaid = this.getAttribute("data-total-installments-paid");            
 
-            let resolutionNo = this.getAttribute("data-resolution-no");
-            let resolutionDate = this.getAttribute("data-resolution-date");
+            // let resolutionNo = this.getAttribute("data-resolution-no");
+            // let resolutionDate = this.getAttribute("data-resolution-date");
 
             let route = this.getAttribute("data-route");
 
@@ -273,34 +282,34 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.warn("Element with ID 'accountId' not found.");
             }
             document.getElementById("accNo").value = accNo;
-            document.getElementById("loanType").value = loanType;
-            document.getElementById("Name").value = name;
+            // document.getElementById("loanType").value = loanType;
+            // document.getElementById("Name").value = name;
             document.getElementById("acStartDate").value = acStartDate;
             document.getElementById("openBalance").value = openBalance;
             document.getElementById("purpose").value = purpose;
-            document.getElementById("principalAmount").value = principalAmount;
+            // document.getElementById("principalAmount").value = principalAmount;
             document.getElementById("interestRate").value = interestRate;
             document.getElementById("tenure").value = tenure;
             document.getElementById("emiAmount").value = emiAmount;
             document.getElementById("startDate").value = startDate;
             document.getElementById("endDate").value = endDate;
             document.getElementById("balance").value = balance;
-            document.getElementById("priority").value = priority;
+            // document.getElementById("priority").value = priority;
             document.getElementById("loanAmount").value = loanAmount;
-            document.getElementById("collateralType").value = collateralType;
-            document.getElementById("collateralValue").value = collateralValue;
+            // document.getElementById("collateralType").value = collateralType;
+            // document.getElementById("collateralValue").value = collateralValue;
             // document.getElementById("status").value = status;
             document.getElementById("addToDemand").checked = addToDemand == 1;
             document.getElementById("isLossAsset").checked = isLossAsset == 1;
             document.getElementById("caseFlag").checked = caseFlag == 1;
             document.getElementById("pageNo").value = pageNo;
             document.getElementById("interest").value = interest;
-            document.getElementById("openInterest").value = openInterest;
+            // document.getElementById("openInterest").value = openInterest;
             document.getElementById("penalInterest").value = penalInterest;
-            document.getElementById("insurance").value = insurance;
-            document.getElementById("postage").value = postage;
-            document.getElementById("noticeFee").value = noticeFee;
-            document.getElementById("insuranceDate").value = insuranceDate;
+            // document.getElementById("insurance").value = insurance;
+            // document.getElementById("postage").value = postage;
+            // document.getElementById("noticeFee").value = noticeFee;
+            // document.getElementById("insuranceDate").value = insuranceDate;
 
             document.getElementById("nominee1Name").value = nominee1Name;
             document.getElementById("marathiNominee1Name").value = marathiNominee1Name;
@@ -314,17 +323,21 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("nominee2Gender").value = nominee2Gender;
             document.getElementById("nominee2Relation").value = nominee2Relation;
            
-            document.getElementById("goldWeight").value = goldWeight;
-            document.getElementById("goldPurity").value = goldPurity;
-            document.getElementById("marketValue").value = marketValue;
-            document.getElementById("pledgedDate").value = pledgedDate;
-            document.getElementById("releaseStatus").value = releaseStatus;
-            document.getElementById("releaseDate").value = releaseDate;
+            // document.getElementById("goldWeight").value = goldWeight;
+            // document.getElementById("goldPurity").value = goldPurity;
+            // document.getElementById("marketValue").value = marketValue;
+            // document.getElementById("pledgedDate").value = pledgedDate;
+            // document.getElementById("releaseStatus").value = releaseStatus;
+            // document.getElementById("releaseDate").value = releaseDate;
 
-            document.getElementById("grMemberId").value = grMemberId;
-            document.getElementById("guarantorType").value = guarantorType;
-            document.getElementById("addedOn").value = addedOn;
-            document.getElementById("releasedOn").value = releasedOn;
+            document.getElementById("grMemberId1").value = grMemberId1;
+            document.getElementById("guarantorType1").value = guarantorType1;
+            document.getElementById("addedOn1").value = addedOn1;
+            document.getElementById("releasedOn1").value = releasedOn1;
+            document.getElementById("grMemberId2").value = grMemberId2;
+            document.getElementById("guarantorType2").value = guarantorType2;
+            document.getElementById("addedOn2").value = addedOn2;
+            document.getElementById("releasedOn2").value = releasedOn2;
 
             document.getElementById("installmentType").value = installmentType;
             document.getElementById("matureDate").value = matureDate;
@@ -334,8 +347,8 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("installmentWithInterest").value = installmentWithInterest;
             document.getElementById("installmentsPaid").value = installmentsPaid;
 
-            document.getElementById("resolutionNo").value = resolutionNo;
-            document.getElementById("resolutionDate").value = resolutionDate;
+            // document.getElementById("resolutionNo").value = resolutionNo;
+            // document.getElementById("resolutionDate").value = resolutionDate;
             
             // Change form action to update route and set PUT method
             let form = document.getElementById("memberLoanAccForm");
@@ -364,10 +377,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
-<script src="{{asset('assets/js/autofill-calc-loan-acc-form.js')}}"></script>
+{{-- <script src="{{asset('assets/js/autofill-calc-loan-acc-form.js')}}"></script> --}}
 <script>
     const memberData = @json($members);
     const generalAccData = @json($accounts);
 </script>
-<script src="{{asset('assets\js\autofil-content-loanAcc.js')}}"></script>
+{{-- <script src="{{asset('assets\js\autofil-content-loanAcc.js')}}"></script> --}}
 @endsection

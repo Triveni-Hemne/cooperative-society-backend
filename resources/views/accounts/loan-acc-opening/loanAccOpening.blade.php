@@ -64,7 +64,7 @@
                                         @foreach ($members as $member)
                                         <option value="{{ $member->id }}"
                                             {{ old('member_id') == $member->id ? 'selected' : '' }}>
-                                            {{ $member->name }}
+                                            {{ $member->name }}[ID: {{$member->id}}]
                                         </option>
                                         @endforeach
                                     </select>
@@ -111,7 +111,7 @@
                         <fieldset class="border p-3 mb-3 rounded position-relative">
                             <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Account Information</legend>
                         <div class="row ">
-                            @isset($accounts)
+                            {{-- @isset($accounts)
                             <div class="col-md-6 mb-3">
                                 @if ($accounts->isNotEmpty())
                                 <div class="form-floating">
@@ -138,7 +138,7 @@
                                 </div>
                                 @endif
                             </div>
-                            @endisset
+                            @endisset --}}
 
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
@@ -153,7 +153,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12 mb-3">
+                        {{-- <div class="col-md-12 mb-3">
                             <div class="form-floating">
                                 <input name="name" id="Name"
                                 class="form-control @error('name') is-invalid @enderror"
@@ -163,11 +163,11 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                        </div>
+                        </div> --}}
                         </fieldset>
                         <fieldset class="border p-3 mb-3 rounded position-relative">
                             <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Loan Details</legend>    
-                        <div class="row ">
+                        {{-- <div class="row ">
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <select name="loan_type" id="loanType"
@@ -198,7 +198,7 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="row ">
                             <div class="col-md-6 mb-3">
@@ -273,7 +273,7 @@
                                     @enderror
                                 </div>
                             </div>
-                             <div class="col-md-6 mb-3">
+                             {{-- <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="priority" id="priority"
                                         class="form-control @error('priority') is-invalid @enderror"
@@ -283,7 +283,7 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
                                <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="tenure" id="tenure"
@@ -347,7 +347,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            {{-- <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="principal_amount" id="principalAmount"
                                         class="form-control @error('principal_amount') is-invalid @enderror"
@@ -358,11 +358,11 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                             </fieldset>                         
 
-                            <fieldset class="border p-3 mb-3 rounded position-relative">
+                            {{-- <fieldset class="border p-3 mb-3 rounded position-relative">
                                 <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Collateral Information</legend>
                         <div class="row ">
                             <div class="col-md-6 mb-3">
@@ -402,7 +402,7 @@
                                 </div>
                             </div>
                         </div>
-                            </fieldset>
+                            </fieldset> --}}
                         <fieldset class="border p-3 mb-3 rounded position-relative">
                             <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Loan Account
                                 Classification</legend>
@@ -477,7 +477,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-4 mb-3" >
+                            {{-- <div class="col-md-4 mb-3" >
                                 <div class="form-floating">
                                     <input name="open_interest" id="openInterest"
                                         class="form-control @error('open_interest') is-invalid @enderror"
@@ -487,13 +487,13 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         </fieldset>
-                        <fieldset class="border p-3 mb-3 rounded position-relative">
+                        {{-- <fieldset class="border p-3 mb-3 rounded position-relative">
                             <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Insurance Information</legend>
-                        <div class="row ">
-                            <div class="col-md-6 mb-3">
+                        <div class="row "> --}}
+                            {{-- <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="insurance" id="insurance"
                                         class="form-control @error('insurance') is-invalid @enderror"
@@ -503,8 +503,8 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
+                            </div> --}}
+                            {{-- <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="insurance_date" id="insuranceDate"
                                         class="form-control @error('insurance_date') is-invalid @enderror"
@@ -514,13 +514,13 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>
-                        </div>
-                        </fieldset>
-                        <fieldset class="border p-3 mb-3 rounded position-relative">
+                            </div> --}}
+                        {{-- </div>
+                        </fieldset> --}}
+                        {{-- <fieldset class="border p-3 mb-3 rounded position-relative">
                             <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Other Charges</legend>
-                        <div class="row ">
-                            <div class="col-md-6 mb-3">
+                        <div class="row "> --}}
+                            {{-- <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="postage" id="postage"
                                         class="form-control @error('postage') is-invalid @enderror"
@@ -530,8 +530,8 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
+                            </div> --}}
+                            {{-- <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <input name="notice_fee" id="noticeFee"
                                         class="form-control @error('notice_fee') is-invalid @enderror"
@@ -541,9 +541,9 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>
-                        </div>
-                        </fieldset>
+                            </div> --}}
+                        {{-- </div>
+                        </fieldset> --}}
 
 
                         <!-- Tabs -->
@@ -556,13 +556,13 @@
                                         Detail
                                     </button>
                                 </li>
-                                <li class="nav-item col" role="presentation">
+                                {{-- <li class="nav-item col" role="presentation">
                                     <button class="nav-link w-100 text-info fw-bold" id="goldLoan-tab"
                                         data-bs-toggle="tab" data-bs-target="#goldLoan-tab-pane" type="button"
                                         role="tab" aria-controls="goldLoan-tab-pane" aria-selected="false">Gold Loan
                                         Detail
                                     </button>
-                                </li>
+                                </li> --}}
                                 <li class="nav-item col" role="presentation">
                                     <button class="nav-link w-100 text-info fw-bold" id="guarantors-tab"
                                         data-bs-toggle="tab" data-bs-target="#guarantors-tab-pane" type="button"
@@ -577,13 +577,13 @@
                                         aria-selected="false">Installments Detail
                                     </button>
                                 </li>
-                                <li class="nav-item col" role="presentation">
+                                {{-- <li class="nav-item col" role="presentation">
                                     <button class="nav-link w-100 text-info fw-bold" id="resolution-tab"
                                         data-bs-toggle="tab" data-bs-target="#resolution-tab-pane" type="button"
                                         role="tab" aria-controls="resolution-tab-pane" aria-selected="false">Resolution
                                         Detail
                                     </button>
-                                </li>
+                                </li> --}}
                             </ul>
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade show active p-3" id="nominee-tab-pane" role="tabpanel"
@@ -738,7 +738,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade p-3" id="goldLoan-tab-pane" role="tabpanel"
+                                {{-- <div class="tab-pane fade p-3" id="goldLoan-tab-pane" role="tabpanel"
                                     aria-labelledby="goldLoan-tab" tabindex="0">
                                     <div class="row ">
                                         <div class="col-md-6 mb-3">
@@ -835,25 +835,26 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="tab-pane fade p-3" id="guarantors-tab-pane" role="tabpanel"
                                     aria-labelledby="guarantors-tab" tabindex="0">
+                                    <h6 class="text-center">Guarantor 1</h6>
                                     <div class="row ">
                                         @isset($members)
                                         <div class="col-md-6 mb-3">
                                             <div class="form-floating">
-                                                <select id="grMemberId" name="gr_member_id"
-                                                    class="form-select @error('gr_member_id') is-invalid @enderror" required>
-                                                    <option value="" disabled {{old('gr_member_id') ? '' : 'selected'}}>------ Select Member ------</option>
+                                                <select id="grMemberId1" name="garantors[0][gr_member_id]"
+                                                    class="form-select @error('garantors.0.gr_member_id') is-invalid @enderror" required>
+                                                    <option value="" disabled {{old('garantors.0.gr_member_id') ? '' : 'selected'}}>------ Select Member ------</option>
                                                     @foreach ($members as $member)
                                                     <option value="{{ $member->id }}"
-                                                        {{ old('gr_member_id') == $member->id ? 'selected' : '' }}>
+                                                        {{ old('garantors.0.gr_member_id') == $member->id ? 'selected' : '' }}>
                                                         {{ $member->name }}
                                                     </option>
                                                     @endforeach
                                                 </select>
-                                                <label for="grMemberId" class="form-label">Member</label>
-                                                @error('gr_member_id')
+                                                <label for="grMemberId1" class="form-label">Member</label>
+                                                @error('garantors.0.gr_member_id')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
@@ -861,23 +862,23 @@
                                         @endisset
                                         <div class="col-md-6 mb-3">
                                             <div class="form-floating">
-                                                <select id="guarantorType" name="guarantor_type"
-                                                    class="form-select @error('guarantor_type') is-invalid @enderror" required>
+                                                <select id="guarantorType1" name="garantors[0][guarantor_type]"
+                                                    class="form-select @error('garantors.0.guarantor_type') is-invalid @enderror" required>
                                                     <option value="Primary"
-                                                        {{ old('guarantor_type') == 'Primary' ? 'selected' : '' }}>
+                                                        {{ old('garantors.0.guarantor_type') == 'Primary' ? 'selected' : '' }}>
                                                         Primary
                                                     </option>
                                                     <option value="Secondary"
-                                                        {{ old('guarantor_type') == 'Secondary' ? 'selected' : '' }}>
+                                                        {{ old('garantors.0.guarantor_type') == 'Secondary' ? 'selected' : '' }}>
                                                         Secondary
                                                     </option>
                                                     <option value="Tertiary"
-                                                        {{ old('guarantor_type') == 'Tertiary' ? 'selected' : '' }}>
+                                                        {{ old('garantors.0.guarantor_type') == 'Tertiary' ? 'selected' : '' }}>
                                                         Tertiary
                                                     </option>
                                                 </select>
-                                                <label for="guarantorType" class="form-label">Guarantor Type</label>
-                                                @error('guarantor_type')
+                                                <label for="guarantorType1" class="form-label">Guarantor Type</label>
+                                                @error('garantors.0.guarantor_type')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
@@ -886,28 +887,101 @@
                                     <div class="row ">
                                         <div class="col-md-6 mb-3">
                                             <div class="form-floating">
-                                                <input name="added_on" id="addedOn"
-                                                    class="form-control @error('added_on') is-invalid @enderror"
-                                                    value="{{ old('added_on') }}" type="date" placeholder="Added On" required>
-                                                <label for="addedOn" class="form-label">Added On</label>
-                                                @error('added_on')
+                                                <input name="garantors[0][added_on]" id="addedOn1"
+                                                    class="form-control @error('garantors.0.added_on') is-invalid @enderror"
+                                                    value="{{ old('garantors.0.added_on') }}" type="date" placeholder="Added On" required>
+                                                <label for="addedOn1" class="form-label">Added On</label>
+                                                @error('garantors.0.added_on')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <div class="form-floating">
-                                                <input name="released_on" id="releasedOn"
-                                                    class="form-control @error('released_on') is-invalid @enderror"
-                                                    value="{{ old('released_on') }}" type="date"
+                                                <input name="garantors[0][released_on]" id="releasedOn1"
+                                                    class="form-control @error('garantors.0.released_on') is-invalid @enderror"
+                                                    value="{{ old('garantors.0.released_on') }}" type="date"
                                                     placeholder="Release Date">
-                                                <label for="releasedOn" class="form-label">Release Date</label>
-                                                @error('released_on')
+                                                <label for="releasedOn1" class="form-label">Release Date</label>
+                                                @error('garantors.0.released_on')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
                                     </div>
+
+                                    <h6 class="text-center">Guarantor 2</h6>
+                                    <div class="row ">
+                                        @isset($members)
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <select id="grMemberId2" name="garantors[1][gr_member_id]"
+                                                    class="form-select @error('garantors.1.gr_member_id') is-invalid @enderror" required>
+                                                    <option value="" disabled {{old('garantors.1.gr_member_id') ? '' : 'selected'}}>------ Select Member ------</option>
+                                                    @foreach ($members as $member)
+                                                    <option value="{{ $member->id }}"
+                                                        {{ old('garantors.1.gr_member_id') == $member->id ? 'selected' : '' }}>
+                                                        {{ $member->name }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                                <label for="grMemberId2" class="form-label">Member</label>
+                                                @error('garantors.1.gr_member_id')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        @endisset
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <select id="guarantorType2" name="garantors[1][guarantor_type]"
+                                                    class="form-select @error('garantors.1.guarantor_type') is-invalid @enderror" required>
+                                                    <option value="Primary"
+                                                        {{ old('garantors.1.guarantor_type') == 'Primary' ? 'selected' : '' }}>
+                                                        Primary
+                                                    </option>
+                                                    <option value="Secondary"
+                                                        {{ old('garantors.1.guarantor_type') == 'Secondary' ? 'selected' : '' }}>
+                                                        Secondary
+                                                    </option>
+                                                    <option value="Tertiary"
+                                                        {{ old('garantors.1.guarantor_type') == 'Tertiary' ? 'selected' : '' }}>
+                                                        Tertiary
+                                                    </option>
+                                                </select>
+                                                <label for="guarantorType2" class="form-label">Guarantor Type</label>
+                                                @error('garantors.1.guarantor_type')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input name="garantors[1][added_on]" id="addedOn2"
+                                                    class="form-control @error('garantors.1.added_on') is-invalid @enderror"
+                                                    value="{{ old('garantors.1.added_on') }}" type="date" placeholder="Added On" required>
+                                                <label for="addedOn2" class="form-label">Added On</label>
+                                                @error('garantors.1.added_on')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input name="garantors[1][released_on]" id="releasedOn2"
+                                                    class="form-control @error('garantors.1.released_on') is-invalid @enderror"
+                                                    value="{{ old('garantors.1.released_on') }}" type="date"
+                                                    placeholder="Release Date">
+                                                <label for="releasedOn2" class="form-label">Release Date</label>
+                                                @error('garantors.1.released_on')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <div class="tab-pane fade p-3" id="installments-tab-pane" role="tabpanel"
                                     aria-labelledby="installments-tab" tabindex="0">
@@ -1021,7 +1095,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade p-3" id="resolution-tab-pane" role="tabpanel"
+                                {{-- <div class="tab-pane fade p-3" id="resolution-tab-pane" role="tabpanel"
                                     aria-labelledby="resolution-tab" tabindex="0">
                                     <div class="row ">
                                         <div class="col-md-6 mb-3">
@@ -1048,7 +1122,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('images', 255)->nullable();
             $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('cascade');
             $table->string('acc_no', 50)->unique();
-            $table->enum('loan_type', ['Personal Loan', 'Home Loan', 'Auto Loan', 'Business Loan','Gold Loan']);
-            $table->string('name', 255);
+            $table->enum('loan_type', ['Personal Loan', 'Home Loan', 'Auto Loan', 'Business Loan','Gold Loan'])->nullable();
+            $table->string('name', 255)->nullable();
             $table->date('ac_start_date');
             $table->decimal('open_balance', 10, 2);
             $table->enum('purpose', ['Agriculture', 'Construction', 'Cottage', 'SSI Unit', 'Dairy']);
