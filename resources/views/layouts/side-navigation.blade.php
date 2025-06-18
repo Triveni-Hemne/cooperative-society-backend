@@ -45,8 +45,8 @@
                     <a href="{{route('member-loan-accounts.index')}}" class="side-link" class="side-link">💰 Loan
                         Accounts</a>
                     <a href="{{route('accounts.index')}}" class="side-link" class="side-link">📑 General Accounts</a>
-                    <a href="{{route('bank-investments.index')}}" class="side-link" class="side-link">🏦 Bank
-                        Investments</a>
+                    {{-- <a href="{{route('bank-investments.index')}}" class="side-link" class="side-link">🏦 Bank
+                        Investments</a> --}}
                     <a href="{{route('standing-instructions.index')}}" class="side-link" class="side-link">📌 Standing
                         Instructions</a>
                 </div>

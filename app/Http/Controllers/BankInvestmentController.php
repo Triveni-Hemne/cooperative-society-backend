@@ -79,8 +79,8 @@ class BankInvestmentController extends Controller
             // 'account_id' => 'nullable|exists:accounts,id|required_without:depo_account_id',
             // 'depo_account_id' => 'nullable|exists:member_depo_accounts,id|required_without:account_id',
             
-            'account_id' => 'nullable|exists:accounts,id',
-            'depo_account_id' => 'nullable|exists:member_depo_accounts,id',
+            // 'account_id' => 'nullable|exists:accounts,id',
+            // 'depo_account_id' => 'nullable|exists:member_depo_accounts,id',
             
             'name' => 'required|string|max:255',
             'investment_type' => 'required|in:FD,RD,Other',
@@ -137,8 +137,8 @@ class BankInvestmentController extends Controller
 
         $investmentData = [
             'ledger_id' => $validatedData['ledger_id'],
-            'account_id' => $validatedData['account_id'] ?? null,
-            'depo_account_id' => $validatedData['depo_account_id'],
+            // 'account_id' => $validatedData['account_id'] ?? null,
+            // 'depo_account_id' => $validatedData['depo_account_id'],
             'name' => $validatedData['name'],
             'investment_type' => $validatedData['investment_type'],
             'interest_rate' => $validatedData['interest_rate'],
@@ -201,8 +201,8 @@ class BankInvestmentController extends Controller
             // 'account_id' => 'nullable|exists:accounts,id|required_without:depo_account_id',
             // 'depo_account_id' => 'nullable|exists:member_depo_accounts,id|required_without:account_id',
 
-            'account_id' => 'nullable|exists:accounts,id',
-            'depo_account_id' => 'nullable|exists:member_depo_accounts,id',
+            // 'account_id' => 'nullable|exists:accounts,id',
+            // 'depo_account_id' => 'nullable|exists:member_depo_accounts,id',
 
             'name' => 'required|string|max:255',
             'investment_type' => 'required|in:FD,RD,Other',
@@ -235,22 +235,22 @@ class BankInvestmentController extends Controller
             'interest' => 'required_if:investment_type,FD|nullable|numeric|min:0',
         ]);
 
-        if (
-            (empty($request->account_id) && empty($request->depo_account_id)) || 
-            (!empty($request->account_id) && !empty($request->depo_account_id))
-        ) {
-            return back()->withErrors([
-                'account_id' => 'Please select exactly one account (either general or deposit account).',
-                'depo_account_id' => 'Please select exactly one account (either general or deposit account).',
-            ])->withInput();
-        }
+        // if (
+        //     (empty($request->account_id) && empty($request->depo_account_id)) || 
+        //     (!empty($request->account_id) && !empty($request->depo_account_id))
+        // ) {
+        //     return back()->withErrors([
+        //         'account_id' => 'Please select exactly one account (either general or deposit account).',
+        //         'depo_account_id' => 'Please select exactly one account (either general or deposit account).',
+        //     ])->withInput();
+        // }
         
         $investmentType = strtolower($validatedData['investment_type']);
         
         $investmentData = [
             'ledger_id' => $validatedData['ledger_id'],
-            'account_id' => $validatedData['account_id'] ?? null,
-            'depo_account_id' => $validatedData['depo_account_id'],
+            // 'account_id' => $validatedData['account_id'] ?? null,
+            // 'depo_account_id' => $validatedData['depo_account_id'],
             'name' => $validatedData['name'],
             'investment_type' => $validatedData['investment_type'],
             'interest_rate' => $validatedData['interest_rate'],

@@ -50,7 +50,7 @@
                             </div>
                             @endisset
 
-                            @isset($accounts)
+                            {{-- @isset($accounts)
                             <div class="col-md-4 mb-3">
                                 @if ($accounts->isNotEmpty())
                                 <div class="form-floating">
@@ -78,9 +78,9 @@
                                 </div>
                                 @endif
                             </div>
-                            @endisset
+                            @endisset --}}
 
-                            @isset($depoAccounts)
+                            {{-- @isset($depoAccounts)
                             <div class="col-md-4 mb-3">
                                 @if ($depoAccounts->isNotEmpty())
                                 <div class="form-floating">
@@ -108,7 +108,7 @@
                                 </div>
                                 @endif
                             </div>
-                            @endisset
+                            @endisset --}}
                         </div>
 
                         <div class="row">
