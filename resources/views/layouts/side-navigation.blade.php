@@ -70,6 +70,8 @@
                     <a href="{{route('day-end.index')}}" class="side-link">📆 Day Ends</a>
                     <a href="{{route('installment-transactions.index')}}" class="side-link">💳 Installment</a>
                     {{-- <a href="{{route('loan-installments.index')}}" class="side-link">💳Loan Installment</a> --}}
+                    <a href="{{route('demand-posting.index')}}" class="side-link">📝Personal/ALL Demand Posting</a>
+
                 </div>
             </div>
         </div>

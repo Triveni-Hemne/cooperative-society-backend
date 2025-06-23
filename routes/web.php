@@ -36,6 +36,7 @@ use App\Http\Controllers\LoanInstallmentController;
 use App\Http\Controllers\RecurringDepositController;
 use App\Http\Controllers\LoanGuarantorController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PersonalDemandPostingController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -91,6 +92,7 @@ Route::get('/csrf-token', function () {
         })->name('interest.calculator');
         Route::resource('users', UserController::class)->names('users');
         Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+        Route::resource('personal-all-demand-posting', PersonalDemandPostingController::class)->names('demand-posting');
     });
 
     
