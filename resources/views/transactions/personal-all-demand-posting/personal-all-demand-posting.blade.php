@@ -135,7 +135,7 @@
                             </div>
                         </div>
                     </div>
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                         <div class="form-floating mb-3">
                             <div class="form-floating">
                             <input name="year" id="year"
@@ -148,7 +148,7 @@
                                 @enderror
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="col-md-6">
                         <div class="form-floating mb-3">
@@ -324,9 +324,9 @@
                         <thead class="table-light">
                             <tr>
                             <th>ID</th>
-                            <th>GL Code</th>
+                            <th>Ledger</th>
                             <th>GL Name</th>
-                            <th>Account Code</th>
+                            <th>Account</th>
                             <th>Amount</th>
                             <th>Balance</th>
                             </tr>

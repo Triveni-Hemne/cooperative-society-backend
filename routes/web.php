@@ -72,6 +72,8 @@ Route::get('/csrf-token', function () {
         Route::resource('standing-instructions', StandingInstructionController::class)->names('standing-instructions');
         Route::resource('day-begins', DayBeginController::class)->names('day-begins');
         Route::resource('voucher-entry', VoucherEntryController::class)->names('voucher-entry');
+        Route::get('/get-accounts-by-ledger/{ledger}', [VoucherEntryController::class, 'getAccountsByLedger']);
+        Route::get('/get-account-details/{id}/{name}', [VoucherEntryController::class, 'getAccountsDetails']);
         Route::resource('transfer-entry', TransferEntryController::class)->names('transfer-entry');
         Route::resource('branch-ledger', BranchLedgerController::class)->names('branch-ledger');
         Route::resource('day-end', DayEndController::class)->names('day-end');

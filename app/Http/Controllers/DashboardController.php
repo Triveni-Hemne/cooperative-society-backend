@@ -64,27 +64,27 @@ class DashboardController extends Controller
         $totalMembers = $members->count();
         $members = $members->map(function ($member) {
             return [
-                'message' => "New member registered: <strong>{$member->name}</strong>",
+                'message' => "New member registered: <strong>{$member?->name}</strong>",
                 'time' => $member->created_at,
-                'created_by' => $member->user->name,
+                'created_by' => $member?->user?->name,
             ];
         });
 
         $totalDeposits = $deposits->sum('balance');
          $deposits = $deposits->map(function ($deposit) {
             return [
-                'message' => "Deposit Account Created for: <strong>{$deposit->member->name}</strong> with ₹{$deposit->balance}",
-                'time' => $deposit->created_at,
-                'created_by' => $deposit->member->user->name,
+                'message' => "Deposit Account Created for: <strong>{$deposit?->member?->name}</strong> with ₹{$deposit->balance}",
+                'time' => $deposit?->created_at,
+                'created_by' => $deposit?->member?->user?->name,
             ];
         });
 
         $totalLoans = $loans->sum('balance');
         $loans = $loans->map(function ($loan) {
             return [
-                'message' => "Loan Account Created for: <strong>{$loan->member->name}</strong> with ₹{$loan->balance}",
+                'message' => "Loan Account Created for: <strong>{$loan->member?->name}</strong> with ₹{$loan->balance}",
                 'time' => $loan->created_at,
-                'created_by' => $loan->member->user->name,
+                'created_by' => $loan?->member?->user?->name,
             ];
         });
 

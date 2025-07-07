@@ -10,6 +10,7 @@ use App\Models\Account;
 use App\Models\MemberDepoAccount;
 use App\Models\MemberLoanAccount;
 use App\Models\User;
+use App\Models\Member;
 use App\Models\Branch;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -42,6 +43,15 @@ class VoucherEntryController extends Controller
 
         // $voucherEntries = VoucherEntry::paginate(5);
         $ledgers = GeneralLedger::all();
+        $members = Member::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->get();
         $accounts = Account::when($branchId, function ($query) use ($branchId) {
             $query->where(function ($query) use ($branchId) {
                 $query->whereHas('member.user', function ($q) use ($branchId) {
@@ -71,7 +81,51 @@ class VoucherEntryController extends Controller
         })->get();
         $users = User::all();
         $branches = Branch::all();
-        return view('transactions.voucher-entry.list', compact('voucherEntries', 'ledgers','accounts','depoAccounts','loanAccounts','users','branches','user'));
+        return view('transactions.voucher-entry.list', compact('voucherEntries', 'ledgers','accounts','depoAccounts','loanAccounts','users','branches','user','members'));
+    }
+
+    public function getAccountsByLedger($ledgerId)
+    {
+        $ledger = GeneralLedger::findOrFail($ledgerId);
+        // Replace these with actual relationships or queries based on your structure
+        $generalAccounts = Account::where('ledger_id', $ledgerId)->get(['id', 'name']);
+        $depositAccounts = MemberDepoAccount::where('ledger_id', $ledgerId)->get(['id', 'name']);
+        $loanAccounts = MemberLoanAccount::where('ledger_id', $ledgerId)->get(['id', 'name']);
+        $members = Member::all(['id', 'name']);
+        $ledgerName = $ledger->name;
+
+        return response()->json([
+            'group' => $ledger->group,
+            'general_accounts' => $generalAccounts,
+            'deposit_accounts' => $depositAccounts,
+            'loan_accounts' => $loanAccounts,
+            'ledger_name' => $ledgerName,
+            'members' => $members,
+        ]);
+    }
+
+    public function getAccountsDetails($id, $name)
+    {
+        if($name == "member_depo_account_id"){
+            $account = MemberDepoAccount::findOrFail($id);
+        }
+        else if($name == "member_loan_account_id"){
+            $account = MemberLoanAccount::findOrFail($id);
+        }
+        else if($name == "account_id"){
+            $account = Account::findOrFail($id);
+        }else if($name == "member_id"){
+            $account = Member::findOrFail($id);
+        }
+        // return response()->json([
+        //     'holder_name' => $account->name ?? 'N/A',
+        //     // Add more fields as needed
+        // ]);
+        return response()->json($account);
+
+        return response()->json([
+            'request' => $request ?? 'N/A',
+        ]);
     }
 
     /**
@@ -89,9 +143,9 @@ class VoucherEntryController extends Controller
     {
         $request->validate([
             'transaction_type' => 'required|in:Receipt,Payment,Journal,Deposit,Withdrawal,Loan Payment,Fund Transfer',
-            'voucher_num' => 'nullable|string|max:50|unique:voucher_entries,voucher_num',
-            'token_number' => 'nullable|string|max:50|unique:voucher_entries,token_number',
-            'serial_no' => 'nullable|string|max:50|unique:voucher_entries,serial_no',
+            // 'voucher_num' => 'nullable|string|max:50|unique:voucher_entries,voucher_num',
+            // 'token_number' => 'nullable|string|max:50|unique:voucher_entries,token_number',
+            // 'serial_no' => 'nullable|string|max:50|unique:voucher_entries,serial_no',
             'date' => 'required|date',
             'receipt_id' => 'nullable|string|max:50|unique:voucher_entries,receipt_id',
             'payment_id' => 'nullable|string|max:50|unique:voucher_entries,payment_id',
@@ -101,27 +155,43 @@ class VoucherEntryController extends Controller
             'member_depo_account_id' => 'nullable|exists:member_depo_accounts,id',
             'member_loan_account_id' => 'nullable|exists:member_loan_accounts,id',
 
-            'from_date' => 'nullable|date',
-            'to_date' => 'nullable|date',
-            'opening_balance' => 'required|numeric',
-            'current_balance' => 'required|numeric',
+            // 'from_date' => 'nullable|date',
+            // 'to_date' => 'nullable|date',
+            'opening_balance' => 'nullable|numeric',
+            'current_balance' => 'nullable|numeric',
             'narration' => 'nullable|string',
             'm_narration' => 'nullable|string',
-            'amount' => 'required|numeric|min:0',
-            'debit_amount' => 'nullable|numeric|min:0',
-            'credit_amount' => 'nullable|numeric|min:0',
-            'transaction_mode' => 'nullable|in:Cash,Bank,Online,Cheque',
-            'payment_mode' => 'nullable|in:NEFT,IMPS,UPI,RTGS,Cheque,Cash,Bank Transfer',
-            'reference_number' => 'nullable|string|max:100',
-            'is_reversed' => 'boolean',
+            'amount' => 'nullable|numeric',
+            // // 'debit_amount' => 'nullable|numeric|min:0',
+            // // 'credit_amount' => 'nullable|numeric|min:0',
+            // // 'transaction_mode' => 'nullable|in:Cash,Bank,Online,Cheque',
+            // // 'payment_mode' => 'nullable|in:NEFT,IMPS,UPI,RTGS,Cheque,Cash,Bank Transfer',
+            // // 'reference_number' => 'nullable|string|max:100',
+            // // 'is_reversed' => 'nullable|boolean',
             'approved_by' => 'nullable|exists:users,id',
-            'approved_at' => 'nullable|date',
+            // // 'approved_at' => 'nullable|date',
             'entered_by' => 'nullable|exists:users,id',
             'branch_id' => auth()->user()->role === 'Admin'
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],
+
+            'member_id' => 'nullable|exists:members,id',
+            'cheque_no' => 'nullable|numeric',
+            'balance' => 'nullable|numeric',  
+            'interest' => 'nullable|numeric',  
+            'penal' => 'nullable|numeric',  
+            'post_court' => 'nullable|numeric',  
+            'insurance' => 'nullable|numeric',  
+            'notice_fee' => 'nullable|numeric',  
+            'other' => 'nullable|string',  
+            'trans_chargs' => 'nullable|numeric',  
+            'int_payable' => 'nullable|numeric',  
+            'penal_interest' => 'nullable|numeric',  
+            'total_amount' => 'nullable|numeric',  
+
         ]);
         
+        // return $request->all();
             $selectedCount = 0;
 
             if (!empty($request->account_id)) $selectedCount++;
@@ -182,23 +252,37 @@ class VoucherEntryController extends Controller
             
             'from_date' => 'nullable|date',
             'to_date' => 'nullable|date',
-            'opening_balance' => 'required|numeric',
-            'current_balance' => 'required|numeric',
+            'opening_balance' => 'nullable|numeric',
+            'current_balance' => 'nullable|numeric',
             'narration' => 'nullable|string',
             'm_narration' => 'nullable|string',
-            'amount' => 'required|numeric|min:0',
+            'amount' => 'nullable|numeric|min:0',
             'debit_amount' => 'nullable|numeric|min:0',
             'credit_amount' => 'nullable|numeric|min:0',
             'transaction_mode' => 'nullable|in:Cash,Bank,Online,Cheque',
             'payment_mode' => 'nullable|in:NEFT,IMPS,UPI,RTGS,Cheque,Cash,Bank Transfer',
             'reference_number' => 'nullable|string|max:100',
-            'is_reversed' => 'boolean',
+            'is_reversed' => 'nullable|boolean',
             'approved_by' => 'nullable|exists:users,id',
             'approved_at' => 'nullable|date',
             'entered_by' => 'nullable|exists:users,id',
             'branch_id' => auth()->user()->role === 'Admin'
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],
+            
+            'member_id' => 'nullable|exists:members,id',
+            'cheque_no' => 'nullable|numeric',
+            'balance' => 'nullable|numeric',  
+            'interest' => 'nullable|numeric',  
+            'penal' => 'nullable|numeric',  
+            'post_court' => 'nullable|numeric',  
+            'insurance' => 'nullable|numeric',  
+            'notice_fee' => 'nullable|numeric',  
+            'other' => 'nullable|numeric',  
+            'trans_chargs' => 'nullable|numeric',  
+            'int_payable' => 'nullable|numeric',  
+            'penal_interest' => 'nullable|numeric',  
+            'total_amount' => 'nullable|numeric',
 
         ]);
          $selectedCount = 0;

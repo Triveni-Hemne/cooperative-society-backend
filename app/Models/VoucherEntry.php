@@ -14,7 +14,9 @@ class VoucherEntry extends Model
         'member_loan_account_id', 'amount', 'debit_amount', 'credit_amount',
         'opening_balance', 'current_balance', 'transaction_mode', 'payment_mode',
         'reference_number', 'is_reversed', 'approved_by', 'approved_at', 'entered_by',
-        'branch_id', 'to_date', 'from_date', 'narration', 'm_narration', 'status'
+        'branch_id', 'to_date', 'from_date', 'narration', 'm_narration', 'status','member_id',
+        'cheque_no','balance','interest','penal','post_court','insurance','notice_fee',
+        'other','trans_chargs','int_payable','penal_interest','total_amount'
     ];
 
     public function ledger() {
