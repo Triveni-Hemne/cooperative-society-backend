@@ -6,6 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TransferEntry;
 use App\Models\GeneralLedger;
+use App\Models\Account;
+use App\Models\MemberDepoAccount;
+use App\Models\MemberLoanAccount;
+use App\Models\User;
+use App\Models\Member;
 use App\Models\Branch;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -36,9 +41,46 @@ class TransferEntryController extends Controller
                 });
             })->latest()->paginate(5);
         $ledgers = GeneralLedger::all();
+
+        $members = Member::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->get();
+        $accounts = Account::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->get();
+        $depoAccounts = MemberDepoAccount::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->get();
+        $loanAccounts = MemberLoanAccount::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->get();
         $user = Auth::user();
         $branches = $user->role === 'Admin' ? Branch::all() : null;
-        return view('transactions.transfer-entry.list', compact('transferEntries','ledgers','user','branches'));
+        return view('transactions.transfer-entry.list', compact('transferEntries','ledgers','accounts','depoAccounts','loanAccounts','user','branches','members'));
     }
 
     /**

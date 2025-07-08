@@ -87,7 +87,7 @@
                     <td>{{$entry->narration  ?? ''}}</td>
                     <td>{{$entry->m_narration ?? '' }}</td>
                     <td>
-                        <a href="#" data-id="{{$entry->id }}" data-transaction-type="{{$entry->transaction_type}}" data-voucher-num="{{$entry->voucher_num ?? ''}}" data-token-number="{{$entry->token_number ?? ''}}" data-serial-no="{{$entry->serial_no ?? ''}}" data-date="{{$entry->date ?? ''}}" data-receipt-id="{{$entry->receipt_id ?? ''}}" data-payment-id="{{$entry->payment_id ?? ''}}" data-ledger-id="{{$entry->ledger_id ?? ''}}" data-account-id="{{$entry->account_id ?? ''}}" data-member-depo-account-id="{{$entry->member_depo_account_id ?? ''}}" data-member-loan-account-id="{{$entry->member_loan_account_id ?? ''}}" data-amount="{{$entry->amount ?? ''}}" data-debit-amount="{{$entry->debit_amount ?? ''}}" data-credit-amount="{{$entry->credit_amount ?? ''}}" data-from-date="{{$entry->from_date ?? ''}}" data-to-date="{{$entry->to_date ?? ''}}" data-opening-balance="{{$entry->opening_balance ?? ''}}" data-current-balance="{{$entry->current_balance ?? ''}}" data-transaction-mode="{{$entry->transaction_mode ?? ''}}" data-payment-mode="{{$entry->payment_mode ?? ''}}"  data-reference-no="{{$entry->reference_number ?? ''}}" data-is-reversed="{{$entry->is_reversed ?? ''}}" data-approved-by="{{$entry->approved_by ?? ''}}"  data-entered-by-id="{{$entry->entered_by ?? Auth::user()->id}}" data-entered-by="{{$entry->enteredBy->name ?? Auth::user()->name}}"   data-branch-id="{{$entry->branch->id ?? ''}}"  data-narration="{{$entry->narration ?? ''}}" data-m-narration="{{$entry->m_narration ?? ''}}" data-status="{{$entry->status}}" data-member-id="{{$entry->member_id}}" data-cheque-no="{{$entry->cheque_no}}" data-balance="{{$entry->balance}}" data-interest="{{$entry->interest}}" data-penal="{{$entry->penal}}" data-post-court="{{$entry->post_court}}" data-insurance="{{$entry->insurance}}" data-notice-fee="{{$entry->notice_fee}}" data-other="{{$entry->other}}" data-trans-chargs="{{$entry->trans_chargs}}" data-int-payable="{{$entry->int_payable}}" data-penal-interest="{{$entry->penal_interest}}" data-paid-interest="{{$entry->int_paid}}" data-total-amount="{{$entry->total_amount}}"  data-route="{{ route('voucher-entry.update', $entry->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$entry->id }}" data-transaction-type="{{$entry->transaction_type ?? ''}}" data-voucher-num="{{$entry->voucher_num ?? ''}}" data-token-number="{{$entry->token_number ?? ''}}" data-serial-no="{{$entry->serial_no ?? ''}}" data-date="{{$entry->date ?? ''}}" data-receipt-id="{{$entry->receipt_id ?? ''}}" data-payment-id="{{$entry->payment_id ?? ''}}" data-ledger-id="{{$entry->ledger_id ?? ''}}" data-account-id="{{$entry->account_id ?? ''}}" data-member-depo-account-id="{{$entry->member_depo_account_id ?? ''}}" data-member-loan-account-id="{{$entry->member_loan_account_id ?? ''}}" data-amount="{{$entry->amount ?? ''}}" data-debit-amount="{{$entry->debit_amount ?? ''}}" data-credit-amount="{{$entry->credit_amount ?? ''}}" data-from-date="{{$entry->from_date ?? ''}}" data-to-date="{{$entry->to_date ?? ''}}" data-opening-balance="{{$entry->opening_balance ?? ''}}" data-current-balance="{{$entry->current_balance ?? ''}}" data-transaction-mode="{{$entry->transaction_mode ?? ''}}" data-payment-mode="{{$entry->payment_mode ?? ''}}"  data-reference-no="{{$entry->reference_number ?? ''}}" data-is-reversed="{{$entry->is_reversed ?? ''}}" data-approved-by="{{$entry->approved_by ?? ''}}"  data-entered-by-id="{{$entry->entered_by ?? Auth::user()->id}}" data-entered-by="{{$entry->enteredBy->name ?? Auth::user()->name}}"   data-branch-id="{{$entry->branch->id ?? ''}}"  data-narration="{{$entry->narration ?? ''}}" data-m-narration="{{$entry->m_narration ?? ''}}" data-status="{{$entry->status ?? ''}}" data-member-id="{{$entry->member_id ?? ''}}" data-cheque-no="{{$entry->cheque_no ?? ''}}" data-balance="{{$entry->balance ?? ''}}" data-interest="{{$entry->interest ?? ''}}" data-penal="{{$entry->penal ?? ''}}" data-post-court="{{$entry->post_court ?? ''}}" data-insurance="{{$entry->insurance ?? ''}}" data-notice-fee="{{$entry->notice_fee ?? ''}}" data-other="{{$entry->other ?? ''}}" data-trans-chargs="{{$entry->trans_chargs ?? ''}}" data-int-payable="{{$entry->int_payable ?? ''}}" data-penal-interest="{{$entry->penal_interest ?? ''}}" data-paid-interest="{{$entry->int_paid ?? ''}}" data-total-amount="{{$entry->total_amount ?? ''}}"  data-route="{{ route('voucher-entry.update', $entry->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#voucherEntryModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
@@ -128,7 +128,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".edit-btn").forEach(button => {
-        button.addEventListener("click", function () {
+        button.addEventListener("click", async function () {
             let id = this.getAttribute("data-id");
             let transactionType = this.getAttribute("data-transaction-type");
             let date = this.getAttribute("data-date");
@@ -152,7 +152,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 selectedAccountId = memberLoanAccountId;
                 selectedAccountName = 'member_loan_account_id';
             }
-            
             let amount = this.getAttribute("data-amount");            
             let openingBalance = this.getAttribute("data-opening-balance");
             let currentBalance = this.getAttribute("data-current-balance");
@@ -166,6 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let chequeNo = this.getAttribute("data-cheque-no");
             let balance = this.getAttribute("data-balance");
             let interest = this.getAttribute("data-interest");
+            let penal = this.getAttribute("data-penal");
             let postCourt = this.getAttribute("data-post-court");
             let insurance = this.getAttribute("data-insurance");
             let noticeFee = this.getAttribute("data-notice-fee");
@@ -176,57 +176,100 @@ document.addEventListener("DOMContentLoaded", function () {
             let penalInterest = this.getAttribute("data-penal-interest");
             let totalAmount = this.getAttribute("data-total-amount");
             let route = this.getAttribute("data-route");
-            
-            fetch(`/get-accounts-by-ledger/${ledgerId}`)
-            .then(response => response.json())
-            .then(data => {
-
+           try {
+            const response = await fetch(`/get-accounts-by-ledger/${ledgerId}`);
+            const data = await response.json();
                 const ledgerName = data.ledger_name?.toLowerCase(); // assumes backend sends ledger name
                 const isMasikVargani = ledgerName === 'masik vargani';
-
                 if (isMasikVargani) {
-                    // Only show member dropdown
                     document.getElementById('selectMember')?.classList.remove('d-none');
-                    // updateSelect('memberId', data.members, data.group);
                 }
-                // else {
-                    // document.getElementById('selectMember')?.classList.add('d-none');
                     if (data.general_accounts.length > 0 && accountId) {
-                        // updateSelect('accountId', data.general_accounts, data.group);
                         document.getElementById('accountId')?.closest('.accountField')?.classList.remove('d-none');
                     }
-                    // else {
-                    //     document.getElementById('accountId')?.closest('.accountField')?.classList.add('d-none');
-                    // }
-
                     if (data.deposit_accounts.length > 0 && memberDepoAccountId) {
-                        // updateSelect('memberDepoAccountId', data.deposit_accounts, data.group);
                         document.getElementById('memberDepoAccountId')?.closest('.accountField')?.classList.remove('d-none');
                     }
-                    // else {
-                    //     document.getElementById('memberDepoAccountId')?.closest('.accountField')?.classList.add('d-none');
-                    // }
 
                     if (data.loan_accounts.length > 0 && memberLoanAccountId) {
                         // updateSelect('memberLoanAccountId', data.loan_accounts, data.group);
                         document.getElementById('memberLoanAccountId')?.closest('.accountField')?.classList.remove('d-none');
                     }
-                    // else {
-                    //     document.getElementById('memberLoanAccountId')?.closest('.accountField')?.classList.add('d-none');
-                    // }
-                // }
-
-                selectedLedgerGroup = data.group;
+                  selectedLedgerGroup = data.group;
 
                 // Step 4: Hide all detail field groups
                handleAccountSelection(data.group);
                
-                fetchAccountDetails(selectedAccountId, selectedAccountName, data.group); // fetch selected account's details
-            })
-            .catch(error => console.error('Error fetching accounts:', error))
-            .finally(() => {
+               await fetchAccountDetails(selectedAccountId, selectedAccountName, data.group); // fetch selected account's details
+                const memberIdInput = document.getElementById("memberId");                    
+               if(memberIdInput){
+                document.getElementById("memberId").value = memberId;
+                }
+                
+                // ✅ Safe to set values after dynamic fields exist
+                const chequeNoInput = document.getElementById("cheque_no");
+                console.log("chequeNo" + chequeNoInput);
+                if(chequeNoInput){
+                    document.getElementById("cheque_no").value = chequeNo;
+                }
+                const balanceInput = document.getElementById("balance");
+                if(balanceInput){
+                    document.getElementById("balance").value = balance;
+                }
+                const amountInput = document.getElementById("amount");
+                if(amountInput){
+                    document.getElementById("amount").value = amount;
+                }
+                const interestInput = document.getElementById("interest");
+                if(interestInput){
+                    document.getElementById("interest").value = interest;
+                }
+                const penalInput = document.getElementById("penal");
+                if(penalInput){
+                    document.getElementById("penal").value = penal;
+                }
+                const postCourtInput = document.getElementById("post_court");
+                if(postCourtInput){
+                    document.getElementById("post_court").value = postCourt;
+                }
+                const insuranceInput = document.getElementById("insurance");
+                if(insuranceInput){
+                    document.getElementById("insurance").value = insurance;
+                }
+                const noticeFeeInput = document.getElementById("notice_fee");
+                if(noticeFeeInput){
+                    document.getElementById("notice_fee").value = noticeFee;
+                }
+                const otherInput = document.getElementById("other");
+                if(otherInput){
+                    document.getElementById("other").value = other;
+                }
+                const transChargsInput = document.getElementById("trans_chargs");
+                if(transChargsInput){
+                    document.getElementById("trans_chargs").value = transChargs;
+                }
+                const intPayableInput = document.getElementById("int_payable");
+                if(intPayableInput){
+                    document.getElementById("int_payable").value = intPayable;
+                }
+                const intPaidInput = document.getElementById("int_paid");
+                if(intPaidInput){
+                    document.getElementById("int_paid").value = interestPaid;
+                }
+                const penalInterestInput = document.getElementById("penal_interest");
+                if(penalInterestInput){
+                    document.getElementById("penal_interest").value = penalInterest;
+                }
+                const totalAmountInput = document.getElementById("total_amount");
+                if(totalAmountInput){
+                    document.getElementById("total_amount").value = totalAmount;
+                }
+                
+                } catch (error) {
+                console.error('Error fetching accounts:', error);
+            } finally {
                 document.getElementById('loadingSpinner').classList.add('d-none');
-            });
+            }
 
             let modal = document.getElementById("voucherEntryModal");
 
@@ -254,36 +297,6 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("narration").value = narration;
             document.getElementById("mNarration").value = mNarration;
             
-            if(document.getElementById("memberId")){
-                document.getElementById("memberId").value = memberId;
-            }
-            document.getElementById("cheque_no").value = chequeNo;
-            document.getElementById("balance").value = balance;
-            document.getElementById("amount").value = amount;
-            if(document.getElementById("interest")){
-                document.getElementById("interest").value = interest;
-            }
-             if(document.getElementById("penal")){
-                 document.getElementById("penal").value = penal;
-            } if(document.getElementById("post_court")){
-                document.getElementById("post_court").value = postCourt;
-            } if(document.getElementById("insurance")){
-                document.getElementById("insurance").value = insurance;
-            } if(document.getElementById("notice_fee")){
-                document.getElementById("notice_fee").value = noticeFee;
-            } if(document.getElementById("other")){
-                document.getElementById("other").value = other;
-            } if(document.getElementById("trans_chargs")){
-                document.getElementById("trans_chargs").value = transChargs;
-            } if(document.getElementById("int_payable")){
-                document.getElementById("int_payable").value = intPayable;
-            } if(document.getElementById("int_paid")){
-                document.getElementById("int_paid").value = interestPaid;
-            }if(document.getElementById("penal_interest")){
-                document.getElementById("penal_interest").value = penalInterest;
-            }if(document.getElementById("total_amount")){
-                document.getElementById("total_amount").value = totalAmount;
-            }
             
             // Change form action to update route and set PUT method
             let form = document.getElementById("voucherEntryModalForm");
@@ -332,8 +345,4 @@ document.addEventListener("DOMContentLoaded", function () {
     const validationErrors = @json($errors->toArray());
 </script>       
 <script src="{{asset('assets\js\voucher-transfer-entry-dynamic-fields.js')}}"></script>
-<script>
-   
-
-</script>
 @endsection

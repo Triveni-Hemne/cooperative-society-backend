@@ -131,62 +131,65 @@ function handleAccountSelection(group) {
     }
 }
 
-function fetchAccountDetails(accountId, accountName, group) {
+async function fetchAccountDetails(accountId, accountName, group) {
 
     if (!accountId && !accountName && !group) return;
-    fetch(`/get-account-details/${accountId}/${accountName}`)
-        .then(response => response.json())
-        .then(data => {
-            // Step 1: Hide all detail boxes
-            document.querySelectorAll('.account-details').forEach(el => el.classList.add('d-none'));
+    try {
+        const response = await fetch(`/get-account-details/${accountId}/${accountName}`);
+        const data = await response.json();
+        // Step 1: Hide all detail boxes
+        document.querySelectorAll('.account-details').forEach(el => el.classList.add('d-none'));
 
-            const excludedKeys = ['id', 'created_at', 'updated_at', 'ledger_id', 'images', 'member_id', 'account_id', 'acc_no', 'deposit_type', 'name', 'closing_flag', 'add_to_demand', 'agent_id', 'page_no', 'installment_type', 'acc_closing_date', 'open_interest', 'loan_type', 'purpose', 'principal_amount', 'priority', 'is_loss_asset', 'case_flag', 'postage', 'insurance', 'notice_fee', 'insurance_date', 'account_no', 'account_name', 'account_type', 'employee_id', 'branch_id', 'naav', 'dob', 'gender', 'age', 'date_of_joining', 'religion', 'caste', 'category_id', 'm_reg_no', 'pan_no', 'adhar_no', 'status', 'created_by', 'member_branch_id', 'designation_id', 'cpf_no', 'division_id', 'subdivision_id', 'membership_date'];
+        const excludedKeys = ['id', 'created_at', 'updated_at', 'ledger_id', 'images', 'member_id', 'account_id', 'acc_no', 'deposit_type', 'name', 'closing_flag', 'add_to_demand', 'agent_id', 'page_no', 'installment_type', 'acc_closing_date', 'open_interest', 'loan_type', 'purpose', 'principal_amount', 'priority', 'is_loss_asset', 'case_flag', 'postage', 'insurance', 'notice_fee', 'insurance_date', 'account_no', 'account_name', 'account_type', 'employee_id', 'branch_id', 'naav', 'dob', 'gender', 'age', 'date_of_joining', 'religion', 'caste', 'category_id', 'm_reg_no', 'pan_no', 'adhar_no', 'status', 'created_by', 'member_branch_id', 'designation_id', 'cpf_no', 'division_id', 'subdivision_id', 'membership_date'];
 
-            // Step 2: Map accountName to the correct field group detail section
-            const detailBoxId = mapAccountName(group);
-            if (!detailBoxId) return;
+        // Step 2: Map accountName to the correct field group detail section
+        const detailBoxId = mapAccountName(group);
+        if (!detailBoxId) return;
 
-            const detailBox = document.getElementById(detailBoxId);
-            if (!detailBox) return;
-            // Remove all child nodes except <legend>
-            [...detailBox.children].forEach(child => {
-                if (child.tagName.toLowerCase() !== 'legend') {
-                    detailBox.removeChild(child);
-                }
-            });
+        const detailBox = document.getElementById(detailBoxId);
+        if (!detailBox) return;
+        // Remove all child nodes except <legend>
+        [...detailBox.children].forEach(child => {
+            if (child.tagName.toLowerCase() !== 'legend') {
+                detailBox.removeChild(child);
+            }
+        });
 
-            // Create labeled input fields
-            Object.entries(data).forEach(([key, value]) => {
-                if (excludedKeys.includes(key)) return;
-                const col = document.createElement('div');
-                col.className = 'col-md-2 mb-3';
-                const groupDiv = document.createElement('div');
-                groupDiv.className = 'form-floating';
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.className = 'form-control';
-                input.id = `readOnly-${detailBoxId}-${key}`;
-                input.value = value ?? '';
-                input.readOnly = true;
-                input.disabled = true;
+        // Create labeled input fields
+        Object.entries(data).forEach(([key, value]) => {
+            if (excludedKeys.includes(key)) return;
+            const col = document.createElement('div');
+            col.className = 'col-md-2 mb-3';
+            const groupDiv = document.createElement('div');
+            groupDiv.className = 'form-floating';
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'form-control';
+            input.id = `readOnly-${detailBoxId}-${key}`;
+            input.value = value ?? '';
+            input.readOnly = true;
+            input.disabled = true;
 
-                const label = document.createElement('label');
-                label.setAttribute('for', input.id);
-                label.textContent = toTitleCase(key);
+            const label = document.createElement('label');
+            label.setAttribute('for', input.id);
+            label.textContent = toTitleCase(key);
 
-                col.appendChild(groupDiv);
-                groupDiv.appendChild(input);
-                groupDiv.appendChild(label);
-                detailBox.appendChild(col);
-            });
+            col.appendChild(groupDiv);
+            groupDiv.appendChild(input);
+            groupDiv.appendChild(label);
+            detailBox.appendChild(col);
+        });
 
-            // Now append extra group-specific fields
-            appendExtraFields(detailBox, detailBoxId, group);
+        // Now append extra group-specific fields
+        await appendExtraFields(detailBox, detailBoxId, group);
 
-            detailBox.classList.remove('d-none');
+        detailBox.classList.remove('d-none');
 
-        })
-        .catch(err => console.error("Error fetching account details:", err));
+    } catch (error) {
+        console.error('Error fetching account details:', error);
+    } finally {
+        document.getElementById('loadingSpinner').classList.add('d-none');
+    }
 }
 
 // Helper to make keys like "holder_name" => "Holder Name"
@@ -256,7 +259,7 @@ function mapAccountName(group) {
 }
 
 // Now append extra group-specific fields
-function appendExtraFields(detailBox, detailBoxId, group) {
+async function appendExtraFields(detailBox, detailBoxId, group) {
     switch (group) {
         case 'Loan':
             appendCustomField(detailBox, detailBoxId, 'Cheque No.', 'text', '', 'cheque_no', '');

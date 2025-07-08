@@ -22,7 +22,8 @@
         <div class="col col-md-2">
         @include('layouts.add-button', [
                 'target' => '#transferEntryModal',
-                'text' => 'Add New'
+                'text' => 'Add New',
+                'id' => 'transferAddBtn'
             ])
         </div>
     </div>
@@ -34,19 +35,22 @@
         <table id="tableFilter" class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">Sr.No.</th>
+                     <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
-                    <th scope="col">Branch</th>
-                    <th scope="col">Transation Type</th>
+                    <th scope="col">Transaction Type</th>
                     <th scope="col">Date</th>
-                    <th scope="col">Receipt No. </th>
-                    <th scope="col">Payment No. </th>
+                    <th scope="col">Receipt No.</th>
+                    <th scope="col">Payment No.</th>
                     <th scope="col">Ledger</th>
+                    <th scope="col">Account</th>
+                    <th scope="col">Amount</th>
                     <th scope="col">Opening Balance</th>
                     <th scope="col">Current Balance</th>
-                    <th scope="col">Narration</th>
-                    <th scope="col">M. Narration No. </th>
-                    <th scope="col">Created By</th>
+                    <th scope="col">Approved By</th>
+                    <th scope="col">Entered By</th>
+                    <th scope="col">Branch</th>
+                    <th scope="col">Naration</th>
+                    <th scope="col">M_Naration</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -56,26 +60,37 @@
                  @foreach ($transferEntries as $entry)
                 <tr>
                     <th scope="row">{{$i}}</th>
-                    <th scope="row">{{$entry->id}}</th>
-                    <th scope="row">{{$entry->branch->name ?? ''}}</th>
-                    <th scope="row">{{$entry->transaction_type}}</th>
-                    <th scope="row">{{$entry->date}}</th>
-                    <th scope="row">{{$entry->receipt_id ?? ''}}</th>
-                    <th scope="row">{{$entry->payment_id  ?? ''}}</th>
-                    <th scope="row">{{$entry->ledger->name }}</th>
-                    <th scope="row">{{$entry->opening_balance  ?? ''}}</th>
-                    <th scope="row">{{$entry->current_balance  ?? ''}}</th>
-                    <th scope="row">{{$entry->narration  ?? ''}}</th>
-                    <th scope="row">{{$entry->m_narration  ?? ''}}</th>
-                    <th scope="row">{{$entry->user->name  ?? ''}}</th>
+                    <td>{{$entry->id}}</td>
+                    <td>{{$entry->transaction_type}}</td>
+                    <td>{{$entry->date}}</td>
+                    <td>{{$entry->receipt_id }}</td>
+                    <td>{{$entry->payment_id }}</td>
+                    <td>{{$entry->ledger->name }}</td>
+                      <td> @if (optional($entry->account)->name)
+                            General A/C: {{ $entry->account->name }}
+                        @elseif (optional($entry->memberDepositAccount)->name)
+                            Depo A/C: {{ $entry->memberDepositAccount->name }}
+                        @elseif (optional($entry->memberLoanAccount)->name)
+                            Loan A/C: {{ $entry->memberLoanAccount->name }}
+                        @else
+                            -
+                        @endif</td>
+                    <td>{{$entry->amount ?? '' }}</td>
+                    <td>{{$entry->opening_balance ?? '' }}</td>
+                    <td>{{$entry->current_balance ?? '' }}</td>
+                    <td>{{$entry->approvedBy->name ?? '' }}</td>
+                    <td>{{$entry->enteredBy->name ?? '' }}</td>
+                    <td>{{$entry->branch->name ?? '' }}</td>
+                    <td>{{$entry->narration  ?? ''}}</td>
+                    <td>{{$entry->m_narration ?? '' }}</td>
                     <td>
-                        <a href="#" data-id="{{$entry->id }}" data-transaction-type="{{$entry->transaction_type}}" data-date="{{$entry->date}}" data-branch-id="{{$entry->branch_id}}"  data-created-by="{{$entry->user->name ?? Auth::user()->name}}"  data-created-by-id="{{$entry->user->id ?? Auth::user()->id}}" data-receipt-id="{{$entry->receipt_id ?? ''}}" data-payment-id="{{$entry->payment_id ?? ''}}" data-ledger-id="{{$entry->ledger_id}}" data-opening-balance="{{$entry->opening_balance ?? ''}}" data-current-balance="{{$entry->current_balance ?? ''}}" data-narration="{{$entry->narration ?? ''}}" data-m-narration="{{$entry->m_narration ?? ''}}" data-route="{{ route('transfer-entry.update', $entry->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$entry->id }}" data-transaction-type="{{$entry->transaction_type}}" data-voucher-num="{{$entry->voucher_num ?? ''}}" data-token-number="{{$entry->token_number ?? ''}}" data-serial-no="{{$entry->serial_no ?? ''}}" data-date="{{$entry->date ?? ''}}" data-receipt-id="{{$entry->receipt_id ?? ''}}" data-payment-id="{{$entry->payment_id ?? ''}}" data-ledger-id="{{$entry->ledger_id ?? ''}}" data-account-id="{{$entry->account_id ?? ''}}" data-member-depo-account-id="{{$entry->member_depo_account_id ?? ''}}" data-member-loan-account-id="{{$entry->member_loan_account_id ?? ''}}" data-amount="{{$entry->amount ?? ''}}" data-debit-amount="{{$entry->debit_amount ?? ''}}" data-credit-amount="{{$entry->credit_amount ?? ''}}" data-from-date="{{$entry->from_date ?? ''}}" data-to-date="{{$entry->to_date ?? ''}}" data-opening-balance="{{$entry->opening_balance ?? ''}}" data-current-balance="{{$entry->current_balance ?? ''}}" data-transaction-mode="{{$entry->transaction_mode ?? ''}}" data-payment-mode="{{$entry->payment_mode ?? ''}}"  data-reference-no="{{$entry->reference_number ?? ''}}" data-is-reversed="{{$entry->is_reversed ?? ''}}" data-approved-by="{{$entry->approved_by ?? ''}}"  data-entered-by-id="{{$entry->entered_by ?? Auth::user()->id}}" data-entered-by="{{$entry->enteredBy->name ?? Auth::user()->name}}"   data-branch-id="{{$entry->branch->id ?? ''}}"  data-narration="{{$entry->narration ?? ''}}" data-m-narration="{{$entry->m_narration ?? ''}}" data-status="{{$entry->status}}" data-member-id="{{$entry->member_id}}" data-cheque-no="{{$entry->cheque_no}}" data-balance="{{$entry->balance}}" data-interest="{{$entry->interest}}" data-penal="{{$entry->penal}}" data-post-court="{{$entry->post_court}}" data-insurance="{{$entry->insurance}}" data-notice-fee="{{$entry->notice_fee}}" data-other="{{$entry->other}}" data-trans-chargs="{{$entry->trans_chargs}}" data-int-payable="{{$entry->int_payable}}" data-penal-interest="{{$entry->penal_interest}}" data-paid-interest="{{$entry->int_paid}}" data-total-amount="{{$entry->total_amount}}" data-route="{{ route('transfer-entry.update', $entry->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#transferEntryModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" data-id="{{$entry->id }}" data-route="{{ route('transfer-entry.destroy', $entry->id) }}" data-name="{{$entry->id}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        {{-- <a href="#" data-id="{{$entry->id }}" data-route="{{ route('transfer-entry.destroy', $entry->id) }}" data-name="{{$entry->id}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
+                        </a> --}}
                     </td>
                 </tr>
                 @php $i++ @endphp
@@ -181,4 +196,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+<script>
+    const accountsData = @json($accounts);
+    const loanAccountsData = @json($loanAccounts);
+    const depoAccountsData = @json($depoAccounts);
+</script>
+<script src="{{asset('assets\js\autofil-content-voucherEntry.js')}}"></script>
+<script>
+    const oldValues = @json(old());
+    const validationErrors = @json($errors->toArray());
+</script>       
+<script src="{{asset('assets\js\voucher-transfer-entry-dynamic-fields.js')}}"></script>
 @endsection
