@@ -192,19 +192,21 @@ class VoucherEntryController extends Controller
         ]);
         
         // return $request->all();
-            $selectedCount = 0;
+             $selectedCount = 0;
 
-            if (!empty($request->account_id)) $selectedCount++;
-            if (!empty($request->member_depo_account_id)) $selectedCount++;
-            if (!empty($request->member_loan_account_id)) $selectedCount++;
+        if (!empty($request->account_id)) $selectedCount++;
+        if (!empty($request->member_depo_account_id)) $selectedCount++;
+        if (!empty($request->member_loan_account_id)) $selectedCount++;
+        if (!empty($request->member_id)) $selectedCount++;
 
-            if ($selectedCount !== 1) {
-                return back()->withErrors([
-                    'account_id' => 'Please select exactly one account (general, deposit, or loan account).',
-                    'member_depo_account_id' => 'Please select exactly one account (general, deposit, or loan account).',
-                    'member_loan_account_id' => 'Please select exactly one account (general, deposit, or loan account).',
-                ])->withInput();
-            }
+        if ($selectedCount !== 1) {
+            return back()->withErrors([
+                'account_id' => 'Please select exactly one account (member, general, deposit, or loan account).',
+                'member_depo_account_id' => 'Please select exactly one account (member, general, deposit, or loan account).',
+                'member_loan_account_id' => 'Please select exactly one account (member, general, deposit, or loan account).',
+                'member_id' => 'Please select exactly one account (member, general, deposit, or loan account).',
+            ])->withInput();
+        }
         
         $voucherEntry = VoucherEntry::create($request->all());
         return redirect()->back()->with('success', 'Voucher Entry created successfully');
@@ -285,17 +287,19 @@ class VoucherEntryController extends Controller
             'total_amount' => 'nullable|numeric',
 
         ]);
-         $selectedCount = 0;
+        $selectedCount = 0;
 
         if (!empty($request->account_id)) $selectedCount++;
         if (!empty($request->member_depo_account_id)) $selectedCount++;
         if (!empty($request->member_loan_account_id)) $selectedCount++;
+        if (!empty($request->member_id)) $selectedCount++;
 
         if ($selectedCount !== 1) {
             return back()->withErrors([
-                'account_id' => 'Please select exactly one account (general, deposit, or loan account).',
-                'member_depo_account_id' => 'Please select exactly one account (general, deposit, or loan account).',
-                'member_loan_account_id' => 'Please select exactly one account (general, deposit, or loan account).',
+                'account_id' => 'Please select exactly one account (member, general, deposit, or loan account).',
+                'member_depo_account_id' => 'Please select exactly one account (member, general, deposit, or loan account).',
+                'member_loan_account_id' => 'Please select exactly one account (member, general, deposit, or loan account).',
+                'member_id' => 'Please select exactly one account (member, general, deposit, or loan account).',
             ])->withInput();
         }
         $voucherEntry->update($request->all());

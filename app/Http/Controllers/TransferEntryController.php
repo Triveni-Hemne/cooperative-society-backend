@@ -97,23 +97,54 @@ class TransferEntryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'transaction_type' => 'required|in:Credit,Debit,Journal',
+            'transaction_type' => 'required|in:Credit,Debit,Journal,Receipt,Payment',
             'date' => 'required|date',
             'receipt_id' => 'nullable|string|max:50',
             'payment_id' => 'nullable|string|max:50',
             'ledger_id' => 'required|exists:general_ledgers,id',
+            'account_id' => 'nullable|exists:accounts,id',
+            'member_depo_account_id' => 'nullable|exists:member_depo_accounts,id',
+            'member_loan_account_id' => 'nullable|exists:member_loan_accounts,id',
             'branch_id' => 'nullable|exists:branches,id',
-            'opening_balance' => 'required|numeric',
-            'current_balance' => 'required|numeric',
+            'opening_balance' => 'nullable|numeric',
+            'current_balance' => 'nullable|numeric',
             'narration' => 'nullable|string',
             'm_narration' => 'nullable|string',
-            'created_by' => 'nullable|exists:users,id',
+            'amount' => 'nullable|numeric',
+            // 'approved_by' => 'nullable|exists:users,id',
+            // 'created_by' => 'nullable|exists:users,id',
             'branch_id' => auth()->user()->role === 'Admin'
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],
-
+            'member_id' => 'nullable|exists:members,id',
+            'cheque_no' => 'nullable|numeric',
+            'balance' => 'nullable|numeric',  
+            'interest' => 'nullable|numeric',  
+            'penal' => 'nullable|numeric',  
+            'post_court' => 'nullable|numeric',  
+            'insurance' => 'nullable|numeric',  
+            'notice_fee' => 'nullable|numeric',  
+            'other' => 'nullable|string',  
+            'trans_chargs' => 'nullable|numeric',  
+            'int_payable' => 'nullable|numeric',  
+            'penal_interest' => 'nullable|numeric',  
+            'total_amount' => 'nullable|numeric',
         ]);
-        // return $request->all();
+         $selectedCount = 0;
+
+        if (!empty($request->account_id)) $selectedCount++;
+        if (!empty($request->member_depo_account_id)) $selectedCount++;
+        if (!empty($request->member_loan_account_id)) $selectedCount++;
+        if (!empty($request->member_id)) $selectedCount++;
+
+        if ($selectedCount !== 1) {
+            return back()->withErrors([
+                'account_id' => 'Please select exactly one account (member, general, deposit, or loan account).',
+                'member_depo_account_id' => 'Please select exactly one account (member, general, deposit, or loan account).',
+                'member_loan_account_id' => 'Please select exactly one account (member, general, deposit, or loan account).',
+                'member_id' => 'Please select exactly one account (member, general, deposit, or loan account).',
+            ])->withInput();
+        }
 
         $transferEntry = TransferEntry::create($request->all());
         return redirect()->back()->with('success', 'Transfer Entry Created Successfully');
@@ -144,26 +175,58 @@ class TransferEntryController extends Controller
     {
        $transferEntry = TransferEntry::find($id);
         if (!$transferEntry) return response()->json(['message' => 'Transfer entry not found'], 404);
-
         $request->validate([
-            'transaction_type' => 'required|in:Credit,Debit,Journal',
+            'transaction_type' => 'required|in:Credit,Debit,Journal,Receipt,Payment',
             'date' => 'required|date',
             'receipt_id' => 'nullable|string|max:50|unique:transfer_entries,receipt_id,' . $transferEntry->id,
             'payment_id' => 'nullable|string|max:50|unique:transfer_entries,payment_id,' . $transferEntry->id,
             'ledger_id' => 'required|exists:general_ledgers,id',
             'branch_id' => 'nullable|exists:branches,id',
-            'opening_balance' => 'required|numeric',
-            'current_balance' => 'required|numeric',
+            'opening_balance' => 'nullable|numeric',
+            'current_balance' => 'nullable|numeric',
             'narration' => 'nullable|string',
             'm_narration' => 'nullable|string',
-            'created_by' => 'required|exists:users,id',
+            // 'created_by' => 'required|exists:users,id',
             'branch_id' => auth()->user()->role === 'Admin'
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],
-
+            'account_id' => 'nullable|exists:accounts,id',
+            'member_depo_account_id' => 'nullable|exists:member_depo_accounts,id',
+            'member_loan_account_id' => 'nullable|exists:member_loan_accounts,id',
+            'amount' => 'nullable|numeric|min:0',
+            // 'approved_by' => 'nullable|exists:users,id',
+             'member_id' => 'nullable|exists:members,id',
+            'cheque_no' => 'nullable|numeric',
+            'balance' => 'nullable|numeric',  
+            'interest' => 'nullable|numeric',  
+            'penal' => 'nullable|numeric',  
+            'post_court' => 'nullable|numeric',  
+            'insurance' => 'nullable|numeric',  
+            'notice_fee' => 'nullable|numeric',  
+            'other' => 'nullable|numeric',  
+            'trans_chargs' => 'nullable|numeric',  
+            'int_payable' => 'nullable|numeric',  
+            'penal_interest' => 'nullable|numeric',  
+            'total_amount' => 'nullable|numeric',
 
         ]);
+        // return $request->all();
 
+         $selectedCount = 0;
+
+        if (!empty($request->account_id)) $selectedCount++;
+        if (!empty($request->member_depo_account_id)) $selectedCount++;
+        if (!empty($request->member_loan_account_id)) $selectedCount++;
+        if (!empty($request->member_id)) $selectedCount++;
+
+        if ($selectedCount !== 1) {
+            return back()->withErrors([
+                'account_id' => 'Please select exactly one account (member, general, deposit, or loan account).',
+                'member_depo_account_id' => 'Please select exactly one account (member, general, deposit, or loan account).',
+                'member_loan_account_id' => 'Please select exactly one account (member, general, deposit, or loan account).',
+                'member_id' => 'Please select exactly one account (member, general, deposit, or loan account).',
+            ])->withInput();
+        }
         $transferEntry->update($request->all());
         return redirect()->back()->with('success', 'Transfer Entry Updated Successfully');
     }

@@ -23,7 +23,7 @@
                                     <select name="transaction_type" id="transactionType"
                                         class="form-select @error('transaction_type') is-invalid @enderror" required>
                                         <option value="" disabled {{old('transaction_type') ? '' : 'selected'}}>Select Transaction Type</option>
-                                        @foreach(['Receipt', 'Payment'] as $type)
+                                        @foreach(['Receipt', 'Payment','Credit', 'Debit', 'Journal'] as $type)
                                         <option value="{{ $type }}"
                                             {{ old('transaction_type') == $type ? 'selected' : '' }}>{{ $type }}
                                         </option>

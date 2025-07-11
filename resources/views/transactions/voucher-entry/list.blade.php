@@ -138,8 +138,9 @@ document.addEventListener("DOMContentLoaded", function () {
             let accountId = this.getAttribute("data-account-id");
             let memberDepoAccountId = this.getAttribute("data-member-depo-account-id");
             let memberLoanAccountId = this.getAttribute("data-member-loan-account-id");
+            let memberId = this.getAttribute("data-member-id");
             let selectedAccountId = '';
-            let selectedAccountName = 'member_id';
+            let selectedAccountName = '';
             if(accountId){
                 selectedAccountId = accountId;
                 selectedAccountName = 'account_id';
@@ -152,6 +153,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 selectedAccountId = memberLoanAccountId;
                 selectedAccountName = 'member_loan_account_id';
             }
+            if(memberId){
+                selectedAccountId = memberId;
+                selectedAccountName = 'member_id';
+            }
             let amount = this.getAttribute("data-amount");            
             let openingBalance = this.getAttribute("data-opening-balance");
             let currentBalance = this.getAttribute("data-current-balance");
@@ -161,7 +166,6 @@ document.addEventListener("DOMContentLoaded", function () {
             let branchId = this.getAttribute("data-branch-id");
             let narration = this.getAttribute("data-narration");
             let mNarration = this.getAttribute("data-m-narration");
-            let memberId = this.getAttribute("data-member-id");
             let chequeNo = this.getAttribute("data-cheque-no");
             let balance = this.getAttribute("data-balance");
             let interest = this.getAttribute("data-interest");
