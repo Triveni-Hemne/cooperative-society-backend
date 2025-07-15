@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\DayBegin;
 use App\Models\DayEnd;
 use App\Models\VoucherEntry;
+use App\Models\TransferEntry;
 use App\Models\GeneralLedger;
 use App\Models\BranchLedger;
 use App\Models\Account;
@@ -29,9 +30,8 @@ class DailyReportController extends Controller
         }
 
         $branches = $user->role === 'Admin' ? Branch::all() : null;
-        
         // Fetch transactions for the selected date
-        $transactions = VoucherEntry::when($branchId, function ($query) use ($branchId) {
+        $cashEntries  = VoucherEntry::when($branchId, function ($query) use ($branchId) {
             $query->where(function ($query) use ($branchId) {
                 $query->whereHas('enteredBy', function ($q) use ($branchId) {
                     $q->where('branch_id', $branchId);
@@ -39,30 +39,75 @@ class DailyReportController extends Controller
                     $q->where('id', $branchId);
                 });
             });
-        })->whereDate('date', $date)
-            ->where('payment_mode', 'Cash')
-            ->with(['account', 'memberDepositAccount', 'memberLoanAccount'])
-            ->orderBy('date', 'asc')
-            ->get();
+        })->whereDate('date', '<', $date)->with('ledger')->get();
+        // Fetch transactions for the selected date
+        $transferEntries   = TransferEntry::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->whereDate('date', '<', $date)->with('ledger')->get();
 
-        // Calculate Opening Balance (Previous day's closing balance) in a single query
-        $openingBalance = VoucherEntry::when($branchId, function ($query) use ($branchId) {
-            $query->where(function ($query) use ($branchId) {
-                $query->whereHas('enteredBy', function ($q) use ($branchId) {
-                    $q->where('branch_id', $branchId);
-                })->orWhereHas('branch', function ($q) use ($branchId) {
-                    $q->where('id', $branchId);
-                });
+       $allEntries = $cashEntries->concat($transferEntries)->values();
+
+        $grouped = $allEntries
+            ->groupBy(function ($entry) {
+                return $entry->ledger->name ?? 'Unknown Ledger'; // Group by Ledger name
+            })
+            ->map(function ($entriesByLedger) {
+                return $entriesByLedger
+                    ->groupBy('transaction_type') // Group by transaction_type
+                    ->map(function ($entriesByTransactionType) {
+                        return [
+                            'voucher_entries' => $entriesByTransactionType->filter(fn($e) => $e instanceof VoucherEntry)->values(),
+                            'transfer_entries' => $entriesByTransactionType->filter(fn($e) => $e instanceof TransferEntry)->values(),
+                        ];
+                    });
             });
-        })->whereDate('date', $date)
+
+       // 1. VoucherEntry Opening Balance (Before selected date)
+        $voucherOpening = VoucherEntry::when($branchId, function ($query) use ($branchId) {
+                $query->where(function ($query) use ($branchId) {
+                    $query->whereHas('enteredBy', function ($q) use ($branchId) {
+                        $q->where('branch_id', $branchId);
+                    })->orWhereHas('branch', function ($q) use ($branchId) {
+                        $q->where('id', $branchId);
+                    });
+                });
+            })
             ->where('payment_mode', 'Cash')
+            ->whereDate('date', '<', $date)
             ->selectRaw("
-                SUM(CASE WHEN transaction_type = 'Deposit' THEN amount ELSE 0 END) -
-                SUM(CASE WHEN transaction_type = 'Withdrawal' THEN amount ELSE 0 END)
+                SUM(CASE WHEN transaction_type = 'Receipt' THEN amount ELSE 0 END) -
+                SUM(CASE WHEN transaction_type = 'Payment' THEN amount ELSE 0 END)
                 AS balance
-            ")->value('balance') ?? 0;
+            ")
+            ->value('balance') ?? 0;
 
-        // Calculate Total Receipts & Total Payments for the selected date using a single query
+        // 2. TransferEntry Opening Balance (Before selected date)
+        $transferOpening = TransferEntry::when($branchId, function ($query) use ($branchId) {
+                $query->where(function ($query) use ($branchId) {
+                    $query->whereHas('user', function ($q) use ($branchId) {
+                        $q->where('branch_id', $branchId);
+                    })->orWhereHas('branch', function ($q) use ($branchId) {
+                        $q->where('id', $branchId);
+                    });
+                });
+            })
+            ->whereDate('date', '<', $date)
+            ->selectRaw("
+                SUM(CASE WHEN transaction_type = 'Receipt' THEN amount ELSE 0 END) -
+                SUM(CASE WHEN transaction_type = 'Payment' THEN amount ELSE 0 END)
+                AS balance
+            ")
+            ->value('balance') ?? 0;
+
+        // 3. Final Opening Balance
+        $openingBalance = $voucherOpening + $transferOpening;
+
         $totals = VoucherEntry::when($branchId, function ($query) use ($branchId) {
             $query->where(function ($query) use ($branchId) {
                 $query->whereHas('enteredBy', function ($q) use ($branchId) {
@@ -71,20 +116,22 @@ class DailyReportController extends Controller
                     $q->where('id', $branchId);
                 });
             });
-        })->whereDate('date', $date)
-            ->where('payment_mode', 'Cash')
-            ->selectRaw("
-                SUM(CASE WHEN transaction_type = 'Deposit' THEN amount ELSE 0 END) AS total_receipts,
-                SUM(CASE WHEN transaction_type = 'Withdrawal' THEN amount ELSE 0 END) AS total_payments
-            ")->first();
+        })
+        ->where('payment_mode', 'Cash')
+        ->whereDate('date', $date) // ✅ Current date, not before
+        ->selectRaw("
+            SUM(CASE WHEN transaction_type = 'Receipt' THEN amount ELSE 0 END) AS total_receipts,
+            SUM(CASE WHEN transaction_type = 'Payment' THEN amount ELSE 0 END) AS total_payments
+        ")
+        ->first();
 
         $cashReceipts = $totals->total_receipts ?? 0;
         $cashPayments = $totals->total_payments ?? 0;
 
-        // Calculate Closing Balance
         $closingBalance = $openingBalance + $cashReceipts - $cashPayments;
 
-        return compact('date', 'openingBalance', 'cashReceipts', 'cashPayments', 'closingBalance', 'transactions', 'branches');
+
+        return compact('date', 'openingBalance', 'cashReceipts', 'cashPayments', 'closingBalance', 'grouped', 'branches');
     }
 
     public function cashBook(Request $request)

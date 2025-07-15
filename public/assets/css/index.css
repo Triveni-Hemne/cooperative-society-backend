@@ -65,7 +65,7 @@ body {
 /* Set fixed column width */
 th,
 td {
-    min-width: 150px; /* Adjust width as needed */
+    min-width: 100px; /* Adjust width as needed */
     white-space: nowrap; /* Prevent text wrapping */
 }
 

@@ -43,13 +43,13 @@ class TransferEntry extends Model
         return $this->belongsTo(MemberLoanAccount::class, 'member_loan_account_id');
     }
 
-    public function approvedBy()
-    {
-        return $this->belongsTo(User::class, 'approved_by');
-    }
+    // public function approvedBy()
+    // {
+    //     return $this->belongsTo(User::class, 'approved_by');
+    // }
 
-    public function enteredBy()
-    {
-        return $this->belongsTo(User::class, 'entered_by');
-    }
+    // public function enteredBy()
+    // {
+    //     return $this->belongsTo(User::class, 'entered_by');
+    // }
 }
