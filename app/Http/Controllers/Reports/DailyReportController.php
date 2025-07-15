@@ -39,7 +39,7 @@ class DailyReportController extends Controller
                     $q->where('id', $branchId);
                 });
             });
-        })->whereDate('date', '<', $date)->with('ledger')->get();
+        })->whereDate('date', $date)->with('ledger')->get();
         // Fetch transactions for the selected date
         $transferEntries   = TransferEntry::when($branchId, function ($query) use ($branchId) {
             $query->where(function ($query) use ($branchId) {
@@ -49,7 +49,7 @@ class DailyReportController extends Controller
                     $q->where('id', $branchId);
                 });
             });
-        })->whereDate('date', '<', $date)->with('ledger')->get();
+        })->whereDate('date', $date)->with('ledger')->get();
 
        $allEntries = $cashEntries->concat($transferEntries)->values();
 
@@ -79,7 +79,7 @@ class DailyReportController extends Controller
                 });
             })
             // ->where('payment_mode', 'Cash')
-            ->whereDate('date', '<', $date)
+            ->whereDate('date', $date)
             ->selectRaw("
                 SUM(CASE WHEN transaction_type = 'Receipt' THEN amount ELSE 0 END) -
                 SUM(CASE WHEN transaction_type = 'Payment' THEN amount ELSE 0 END)
@@ -97,7 +97,7 @@ class DailyReportController extends Controller
                     });
                 });
             })
-            ->whereDate('date', '<', $date)
+            ->whereDate('date', $date)
             ->selectRaw("
                 SUM(CASE WHEN transaction_type = 'Receipt' THEN amount ELSE 0 END) -
                 SUM(CASE WHEN transaction_type = 'Payment' THEN amount ELSE 0 END)
@@ -118,10 +118,10 @@ class DailyReportController extends Controller
             });
         })
         // ->where('payment_mode', 'Cash')
-        ->whereDate('date','<', $date) // ✅ Current date, not before
+        ->whereDate('date', $date) // ✅ Current date, not before
         ->selectRaw("
-            SUM(CASE WHEN transaction_type = 'Receipt' THEN amount ELSE 0 END) AS total_receipts,
-            SUM(CASE WHEN transaction_type = 'Payment' THEN amount ELSE 0 END) AS total_payments
+            SUM(CASE WHEN transaction_type = 'Receipt' THEN amount ELSE 0 END) AS total_cash_receipts,
+            SUM(CASE WHEN transaction_type = 'Payment' THEN amount ELSE 0 END) AS total_cash_payments
         ")
         ->first();
         $transferTotals = TransferEntry::when($branchId, function ($query) use ($branchId) {
@@ -133,7 +133,7 @@ class DailyReportController extends Controller
                 });
             });
         })
-        ->whereDate('date','<', $date)
+        ->whereDate('date', $date)
         ->selectRaw("
             SUM(CASE WHEN transaction_type = 'Receipt' THEN amount ELSE 0 END) AS total_transfer_receipts,
             SUM(CASE WHEN transaction_type = 'Payment' THEN amount ELSE 0 END) AS total_transfer_payments
@@ -191,8 +191,8 @@ class DailyReportController extends Controller
 
         $branches = $user->role === 'Admin' ? Branch::all() : null;
         
-        // Fetch all transactions for the selected date (both Cash and Bank)
-        $transactions = VoucherEntry::when($branchId, function ($query) use ($branchId) {
+        // Fetch transactions for the selected date
+        $cashEntries  = VoucherEntry::when($branchId, function ($query) use ($branchId) {
             $query->where(function ($query) use ($branchId) {
                 $query->whereHas('enteredBy', function ($q) use ($branchId) {
                     $q->where('branch_id', $branchId);
@@ -200,12 +200,77 @@ class DailyReportController extends Controller
                     $q->where('id', $branchId);
                 });
             });
-        })->whereDate('date', $date)
-            ->orderBy('date', 'asc')
-            ->get();
+        })->whereDate('date', $date)->with('ledger')->get();
+        // Fetch transactions for the selected date
+        $transferEntries   = TransferEntry::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })->whereDate('date', $date)->with('ledger')->get();
 
-        // Calculate Total Receipts & Total Payments for the selected date
-        $totals = VoucherEntry::when($branchId, function ($query) use ($branchId) {
+       $allEntries = $cashEntries->concat($transferEntries)->values();
+
+        $grouped = $allEntries
+            ->groupBy(function ($entry) {
+                return $entry->ledger->name ?? 'Unknown Ledger'; // Group by Ledger name
+            })
+            ->map(function ($entriesByLedger) {
+                return $entriesByLedger
+                    ->groupBy('transaction_type') // Group by transaction_type
+                    ->map(function ($entriesByTransactionType) {
+                        return [
+                            'voucher_entries' => $entriesByTransactionType->filter(fn($e) => $e instanceof VoucherEntry)->values(),
+                            'transfer_entries' => $entriesByTransactionType->filter(fn($e) => $e instanceof TransferEntry)->values(),
+                        ];
+                    });
+            });
+
+
+        // 1. VoucherEntry Opening Balance (Before selected date)
+        $voucherOpening = VoucherEntry::when($branchId, function ($query) use ($branchId) {
+                $query->where(function ($query) use ($branchId) {
+                    $query->whereHas('enteredBy', function ($q) use ($branchId) {
+                        $q->where('branch_id', $branchId);
+                    })->orWhereHas('branch', function ($q) use ($branchId) {
+                        $q->where('id', $branchId);
+                    });
+                });
+            })
+            // ->where('payment_mode', 'Cash')
+            ->whereDate('date', $date)
+            ->selectRaw("
+                SUM(CASE WHEN transaction_type = 'Receipt' THEN amount ELSE 0 END) -
+                SUM(CASE WHEN transaction_type = 'Payment' THEN amount ELSE 0 END)
+                AS balance
+            ")
+            ->value('balance') ?? 0;
+
+        // 2. TransferEntry Opening Balance (Before selected date)
+        $transferOpening = TransferEntry::when($branchId, function ($query) use ($branchId) {
+                $query->where(function ($query) use ($branchId) {
+                    $query->whereHas('user', function ($q) use ($branchId) {
+                        $q->where('branch_id', $branchId);
+                    })->orWhereHas('branch', function ($q) use ($branchId) {
+                        $q->where('id', $branchId);
+                    });
+                });
+            })
+            ->whereDate('date', $date)
+            ->selectRaw("
+                SUM(CASE WHEN transaction_type = 'Receipt' THEN amount ELSE 0 END) -
+                SUM(CASE WHEN transaction_type = 'Payment' THEN amount ELSE 0 END)
+                AS balance
+            ")
+            ->value('balance') ?? 0;
+
+        // 3. Final Opening Balance
+        $openingBalance = $voucherOpening + $transferOpening;
+
+        $voucherTotals = VoucherEntry::when($branchId, function ($query) use ($branchId) {
             $query->where(function ($query) use ($branchId) {
                 $query->whereHas('enteredBy', function ($q) use ($branchId) {
                     $q->where('branch_id', $branchId);
@@ -213,15 +278,42 @@ class DailyReportController extends Controller
                     $q->where('id', $branchId);
                 });
             });
-        })->whereDate('date', $date)
-            ->selectRaw("SUM(CASE WHEN transaction_type = 'Deposit' THEN amount ELSE 0 END) AS total_receipts,
-                         SUM(CASE WHEN transaction_type = 'Withdrawal' THEN amount ELSE 0 END) AS total_payments")
-            ->first();
+        })
+        // ->where('payment_mode', 'Cash')
+        ->whereDate('date', $date) // ✅ Current date, not before
+        ->selectRaw("
+            SUM(CASE WHEN transaction_type = 'Receipt' THEN amount ELSE 0 END) AS total_cash_receipts,
+            SUM(CASE WHEN transaction_type = 'Payment' THEN amount ELSE 0 END) AS total_cash_payments
+        ")
+        ->first();
+        $transferTotals = TransferEntry::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })
+        ->whereDate('date', $date)
+        ->selectRaw("
+            SUM(CASE WHEN transaction_type = 'Receipt' THEN amount ELSE 0 END) AS total_transfer_receipts,
+            SUM(CASE WHEN transaction_type = 'Payment' THEN amount ELSE 0 END) AS total_transfer_payments
+        ")
+        ->first();
 
-        $totalReceipts = $totals->total_receipts ?? 0;
-        $totalPayments = $totals->total_payments ?? 0;
+        $cashReceipts    = $voucherTotals->total_cash_receipts ?? 0;
+        $cashPayments    = $voucherTotals->total_cash_payments ?? 0;
 
-        return compact('date', 'totalReceipts', 'totalPayments', 'transactions', 'branches');
+        $transReceipts   = $transferTotals->total_transfer_receipts ?? 0;
+        $transPayments   = $transferTotals->total_transfer_payments ?? 0;
+
+        $totalReceipts   = $cashReceipts + $transReceipts;
+        $totalPayments   = $cashPayments + $transPayments;
+
+        $closingBalance  = $openingBalance + $totalReceipts - $totalPayments;
+
+        return compact('date', 'totalReceipts', 'totalPayments','branches', 'grouped', 'openingBalance', 'closingBalance');
     }
 
     public function dayBook(Request $request)
