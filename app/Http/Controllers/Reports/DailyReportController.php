@@ -78,7 +78,7 @@ class DailyReportController extends Controller
                     });
                 });
             })
-            ->where('payment_mode', 'Cash')
+            // ->where('payment_mode', 'Cash')
             ->whereDate('date', '<', $date)
             ->selectRaw("
                 SUM(CASE WHEN transaction_type = 'Receipt' THEN amount ELSE 0 END) -
@@ -108,7 +108,7 @@ class DailyReportController extends Controller
         // 3. Final Opening Balance
         $openingBalance = $voucherOpening + $transferOpening;
 
-        $totals = VoucherEntry::when($branchId, function ($query) use ($branchId) {
+        $voucherTotals = VoucherEntry::when($branchId, function ($query) use ($branchId) {
             $query->where(function ($query) use ($branchId) {
                 $query->whereHas('enteredBy', function ($q) use ($branchId) {
                     $q->where('branch_id', $branchId);
@@ -117,21 +117,42 @@ class DailyReportController extends Controller
                 });
             });
         })
-        ->where('payment_mode', 'Cash')
-        ->whereDate('date', $date) // ✅ Current date, not before
+        // ->where('payment_mode', 'Cash')
+        ->whereDate('date','<', $date) // ✅ Current date, not before
         ->selectRaw("
             SUM(CASE WHEN transaction_type = 'Receipt' THEN amount ELSE 0 END) AS total_receipts,
             SUM(CASE WHEN transaction_type = 'Payment' THEN amount ELSE 0 END) AS total_payments
         ")
         ->first();
+        $transferTotals = TransferEntry::when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
+                });
+            });
+        })
+        ->whereDate('date','<', $date)
+        ->selectRaw("
+            SUM(CASE WHEN transaction_type = 'Receipt' THEN amount ELSE 0 END) AS total_transfer_receipts,
+            SUM(CASE WHEN transaction_type = 'Payment' THEN amount ELSE 0 END) AS total_transfer_payments
+        ")
+        ->first();
 
-        $cashReceipts = $totals->total_receipts ?? 0;
-        $cashPayments = $totals->total_payments ?? 0;
+        $cashReceipts    = $voucherTotals->total_cash_receipts ?? 0;
+        $cashPayments    = $voucherTotals->total_cash_payments ?? 0;
 
-        $closingBalance = $openingBalance + $cashReceipts - $cashPayments;
+        $transReceipts   = $transferTotals->total_transfer_receipts ?? 0;
+        $transPayments   = $transferTotals->total_transfer_payments ?? 0;
+
+        $totalReceipts   = $cashReceipts + $transReceipts;
+        $totalPayments   = $cashPayments + $transPayments;
+
+        $closingBalance  = $openingBalance + $totalReceipts - $totalPayments;
 
 
-        return compact('date', 'openingBalance', 'cashReceipts', 'cashPayments', 'closingBalance', 'grouped', 'branches');
+        return compact('date', 'openingBalance', 'totalReceipts', 'totalPayments', 'closingBalance', 'grouped', 'branches');
     }
 
     public function cashBook(Request $request)

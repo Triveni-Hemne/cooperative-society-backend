@@ -166,7 +166,7 @@
                 <div class="card bg-primary-subtle shadow">
                     <div class="card-body">
                         <h6 class="card-title">Total Receipts</h6>
-                        <h5>₹ {{ number_format($cashReceipts, 2) }}</h5>
+                        <h5>₹ {{ number_format($totalReceipts, 2) }}</h5>
                     </div>
                 </div>
             </div>
@@ -174,7 +174,7 @@
                 <div class="card bg-danger-subtle shadow">
                     <div class="card-body">
                         <h6 class="card-title">Total Payments</h6>
-                        <h5>₹ {{ number_format($cashPayments, 2) }}</h5>
+                        <h5>₹ {{ number_format($totalPayments, 2) }}</h5>
                     </div>
                 </div>
             </div>

@@ -49,38 +49,103 @@
     <p><strong>Opening Balance:</strong>&#8377;{{ number_format($openingBalance, 2) }}</p>
 
     <table>
-        <thead>
-            <tr>
-               <th>Date</th>
-                <th>Account Number</th>
-                <th>Account Holder</th>
-                <th>Transaction Type</th>
-                <th>Amount (&#8377;)</th>
-                <th>Payment Mode</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($transactions as $transaction)
-                <tr>
-                    <td>{{ $transaction->date }}</td>
-                            <td>{{ $transaction->account->account_no ?? $transaction->memberDepositAccount->acc_no ?? $transaction->memberLoanAccount->acc_no ?? 'N/A' }}</td>
-                            <td>{{ $transaction->account->name ?? $transaction->memberDepositAccount->name ?? $transaction->memberLoanAccount->name ?? 'N/A' }}</td>
-                            <td>
-                                @if($transaction->transaction_type == 'Deposit')
-                                    <span class="badge bg-success">{{ $transaction->transaction_type }}</span>
-                                @else
-                                    <span class="badge bg-danger">{{ $transaction->transaction_type }}</span>
-                                @endif
-                            </td>
-                            <td>₹ {{ number_format($transaction->amount, 2) }}</td>
-                            <td>{{ $transaction->payment_mode }}</td>
+            <thead>
+                <tr class="table-dark">
+                    <th>Sr.No.</th>
+                    <th colspan="2">Credit</th>
+                    <th></th>
+                    <th>Ledger</th>
+                    <th colspan="3">Debit</th>
                 </tr>
-            @endforeach
+                <tr class="table-secondary">
+                    <th></th>
+                    <th>Cash</th>
+                    <th>Trans.</th>
+                    <th>Total</th>
+                    <th></th>
+                    <th>Cash</th>
+                    <th>Trans.</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+        <tbody>
+            @php $nos = 1; @endphp
+                @foreach($grouped as $ledgerName => $transactionTypes)
+                        @php
+                        // Totals for each ledger group
+                        $creditCashTotal = 0;
+                        $creditTransTotal = 0;
+                        $debitCashTotal = 0;
+                        $debitTransTotal = 0;
+                    @endphp
+
+                    @foreach(['Receipt', 'Payment'] as $type)
+                        @php
+                            $entries = $transactionTypes[$type] ?? ['voucher_entries' => collect(), 'transfer_entries' => collect()];
+                            $voucherEntries = $entries['voucher_entries'];
+                            $transferEntries = $entries['transfer_entries'];
+                        @endphp
+
+                        @foreach($voucherEntries as $entry)
+                            <tr>
+                                <td>{{ $nos++ }}</td>
+                                <td>{{ $type === 'Receipt' ? number_format($entry->amount, 2) : '0.00' }}</td>
+                                <td>0.00</td>
+                                <td>{{ $type === 'Receipt' ? number_format($entry->amount, 2) : '0.00' }}</td>
+                                <td>{{ $ledgerName }}</td>
+                                <td>{{ $type === 'Payment' ? number_format($entry->amount, 2) : '0.00' }}</td>
+                                <td>0.00</td>
+                                <td>{{ $type === 'Payment' ? number_format($entry->amount, 2) : '0.00' }}</td>
+                            </tr>
+
+                            @php
+                                if ($type === 'Receipt') {
+                                    $creditCashTotal += $entry->amount;
+                                } elseif ($type === 'Payment') {
+                                    $debitCashTotal += $entry->amount;
+                                }
+                            @endphp
+                        @endforeach
+
+                        @foreach($transferEntries as $entry)
+                            <tr>
+                                <td>{{ $nos++ }}</td>
+                                <td>0.00</td>
+                                <td>{{ $type === 'Receipt' ? number_format($entry->amount, 2) : '0.00' }}</td>
+                                <td>{{ $type === 'Receipt' ? number_format($entry->amount, 2) : '0.00' }}</td>
+                                <td>{{ $ledgerName }}</td>
+                                <td>0.00</td>
+                                <td>{{ $type === 'Payment' ? number_format($entry->amount, 2) : '0.00' }}</td>
+                                <td>{{ $type === 'Payment' ? number_format($entry->amount, 2) : '0.00' }}</td>
+                            </tr>
+
+                            @php
+                                if ($type === 'Receipt') {
+                                    $creditTransTotal += $entry->amount;
+                                } elseif ($type === 'Payment') {
+                                    $debitTransTotal += $entry->amount;
+                                }
+                            @endphp
+                        @endforeach
+                    @endforeach
+
+                    {{-- Totals row for this ledger --}}
+                    <tr style="font-weight: bold; background-color: #f8f9fa;">
+                        <td></td>
+                        <td>{{ number_format($creditCashTotal, 2) }}</td>
+                        <td>{{ number_format($creditTransTotal, 2) }}</td>
+                        <td>{{ number_format($creditCashTotal + $creditTransTotal, 2) }}</td>
+                        <td>{{ $ledgerName }}</td>
+                        <td>{{ number_format($debitCashTotal, 2) }}</td>
+                        <td>{{ number_format($debitTransTotal, 2) }}</td>
+                        <td>{{ number_format($debitCashTotal + $debitTransTotal, 2) }}</td>
+                    </tr>
+                @endforeach
         </tbody>
     </table>
 
-    <p class="totals"><strong>Total Receipts:</strong>&#8377;{{ number_format($cashReceipts, 2) }}</p>
-    <p class="totals"><strong>Total Payments:</strong>&#8377;{{ number_format($cashPayments, 2) }}</p>
+    <p class="totals"><strong>Total Receipts:</strong>&#8377;{{ number_format($totalReceipts, 2) }}</p>
+    <p class="totals"><strong>Total Payments:</strong>&#8377;{{ number_format($totalPayments, 2) }}</p>
     <p class="totals"><strong>Closing Balance:</strong>&#8377;{{ number_format($closingBalance, 2) }}</p>
 
 </body>
