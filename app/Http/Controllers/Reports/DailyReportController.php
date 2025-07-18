@@ -596,123 +596,104 @@ class DailyReportController extends Controller
    /**
      * Fetch Cut Book (Loan Repayment) Data
      */
-    public function getCutBookData($startDate, $endDate, $loanAccountId = null, $branchId = null)
+    public function getCutBookData($date, $ledger_id = null, $branchId = null)
     {
         $user = Auth::user();
 
         if (!$branchId) {
             $branchId = $user->role === 'Admin' ? null : $user->branch_id;
         }
-
         $branches = $user->role === 'Admin' ? Branch::all() : null;
+        $ledgers = GeneralLedger::all();
 
-        // Initialize Running Balance for each Loan Account
-        DB::statement('SET @running_balance = 0');
+        $accounts = MemberDepoAccount::where('ledger_id', $ledger_id)->with('member')->get();
 
-        // Fetch Loan Transactions from General Ledgers with branch filter
-        $query = DB::table('general_ledgers as gl')
-            ->join('member_loan_accounts as mla', 'gl.id', '=', 'mla.ledger_id')
-            ->join('members as m', 'mla.member_id', '=', 'm.id')
-            ->whereBetween('gl.created_at', [$startDate, $endDate])
-            ->select(
-                'gl.created_at as date',
-                'mla.acc_no as loan_account_no',
-                'm.name as borrower_name',
-                'mla.loan_type',
-                'mla.emi_amount',
-                DB::raw("CASE WHEN gl.balance_type = 'Credit' THEN gl.balance ELSE 0 END AS interest_paid"),
-                DB::raw("CASE WHEN gl.balance_type = 'Debit' THEN gl.balance ELSE 0 END AS principal_paid"),
-                DB::raw('(@running_balance := @running_balance - 
-                        CASE WHEN gl.balance_type = "Debit" THEN gl.balance ELSE 0 END) AS balance_due')
-            );
+        $data = [];
 
-        // Apply the loan account filter if provided
-        if ($loanAccountId) {
-            $query->where('mla.id', $loanAccountId);
+        foreach ($accounts as $account) {
+            // Sum of credit amounts from VoucherEntry
+            $credit = VoucherEntry::
+            when($branchId, function ($query) use ($branchId) {
+                    $query->where(function ($query) use ($branchId) {
+                        $query->whereHas('enteredBy', function ($q) use ($branchId) {
+                            $q->where('branch_id', $branchId);
+                        })->orWhereHas('branch', function ($q) use ($branchId) {
+                            $q->where('id', $branchId);
+                        });
+                    });
+                })->where('member_depo_account_id', $account->id)
+                ->whereDate('date','<', $date)
+                ->where('ledger_id', $ledger_id)
+                ->where('transaction_type', 'Receipt')
+                ->sum('amount');
+                
+            // Sum of debit amounts from TransferEntry
+            $debit = VoucherEntry::when($branchId, function ($query) use ($branchId) {
+                    $query->where(function ($query) use ($branchId) {
+                        $query->whereHas('enteredBy', function ($q) use ($branchId) {
+                            $q->where('branch_id', $branchId);
+                        })->orWhereHas('branch', function ($q) use ($branchId) {
+                            $q->where('id', $branchId);
+                        });
+                    });
+                })->where('member_depo_account_id', $account->id)
+                ->whereDate('date','<', $date)
+                ->where('ledger_id', $ledger_id)
+                ->where('transaction_type', 'Payment')
+                ->sum('amount');
+
+            // Push data only if there is credit or debit
+            if ($credit != 0 || $debit != 0) {
+                $data[] = [
+                    'account_no'     => $account->acc_no,
+                    'name'           => $account->member->name ?? 'N/A',
+                    'credit_balance' => $credit,
+                    'debit_balance'  => $debit,
+                    'opening_date'   => $account->created_at ? Carbon::parse($account->created_at)->format('d/m/y') : 'N/A',
+                ];
+            }
         }
-
-        // Apply the branch filter if provided (Admin role or user branch)
-        if ($branchId) {
-            $query->where(function ($q) use ($branchId) {
-                $q->where('m.branch_id', $branchId)
-                ->orWhere('m.created_by', function ($sub) use ($branchId) {
-                    $sub->select('id')
-                        ->from('users')
-                        ->where('branch_id', $branchId);
-                });
-            });
-        }
-
-        $transactions = $query->orderBy('gl.created_at', 'asc')->get();
-
-        // Calculate Total Payments
-        $totals = DB::table('general_ledgers as gl')
-        ->join('member_loan_accounts as mla', 'gl.id', '=', 'mla.ledger_id')
-        ->join('members as m', 'mla.member_id', '=', 'm.id')
-        ->leftJoin('users as u', 'm.created_by', '=', 'u.id')
-        ->whereBetween('gl.created_at', [$startDate, $endDate])
-        ->when($loanAccountId, fn($q) => $q->where('mla.id', $loanAccountId))
-        ->when($branchId, function ($q) use ($branchId) {
-            $q->where(function ($subQuery) use ($branchId) {
-                $subQuery->where('m.branch_id', $branchId)
-                        ->orWhere('u.branch_id', $branchId);
-            });
-        })
-        ->selectRaw("
-            SUM(CASE WHEN gl.balance_type = 'Debit' THEN gl.balance ELSE 0 END) AS total_principal_paid,
-            SUM(CASE WHEN gl.balance_type = 'Credit' THEN gl.balance ELSE 0 END) AS total_interest_paid
-        ")
-        ->first();
-
-        $totalPrincipalPaid = $totals->total_principal_paid ?? 0;
-        $totalInterestPaid = $totals->total_interest_paid ?? 0;
-
-        // Fetch Loan Accounts
-        $loanAccounts = DB::table('member_loan_accounts')->pluck('name', 'id');
+        // dd($debit);
 
         return [
-            'startDate' => $startDate,
-            'endDate' => $endDate,
-            'transactions' => $transactions,
-            'totalPrincipalPaid' => $totalPrincipalPaid,
-            'totalInterestPaid' => $totalInterestPaid,
-            'loanAccounts' => $loanAccounts,
-            'loanAccountId' => $loanAccountId,
-            'branches' => $branches
+            'ledgers'    => $ledgers,
+            'ledger_id'  => $ledger_id,
+            'branches'   => $branches,
+            'date'       => $date,
+            'data'       => $data,
         ];
     }
+
 
     /**
      * Show Cut Book Report
      */
     public function cutBookReport(Request $request)
     {
-        $startDate = $request->input('start_date', Carbon::today()->toDateString());
-        $endDate = $request->input('end_date', Carbon::today()->toDateString());
-        $loanAccountId = $request->input('loan_account');
+        $date = $request->input('date', Carbon::today()->toDateString());
+        $ledger_id = $request->input('ledger_id');
         $branchId = $request->input('branch_id');
 
-        $data = $this->getCutBookData($startDate, $endDate, $loanAccountId, $branchId);
+        $data = $this->getCutBookData($date, $ledger_id, $branchId);
          return view('reports.dailyReport.cut-book.index', $data);
     }
 
     public function exportCutBookPDF(Request $request)
     {
-        $startDate = $request->input('start_date', Carbon::today()->toDateString());
-        $endDate = $request->input('end_date', Carbon::today()->toDateString());
-        $loanAccountId = $request->input('loan_account');
+        $date = $request->input('date', Carbon::today()->toDateString());
+        $ledger_id = $request->input('ledger_id');
         $type = $request->input('type', 'stream');
         $branchId = $request->input('branch_id');
 
-         $data = $this->getCutBookData($startDate, $endDate, $loanAccountId, $branchId);
+         $data = $this->getCutBookData($date, $ledger_id, $branchId);
 
         // Load PDF view with the same data
         $pdf = Pdf::loadView('reports.dailyReport.cut-book.cut-book_pdf', $data);
 
         if ($type == 'download') {
-            return $pdf->download('Cut_Book_Report_' . $startDate . '_to_' . $endDate . '.pdf');
+            return $pdf->download('Cut_Book_Report_' . $date . '.pdf');
         }
-        return $pdf->stream('Cut_Book_Report_' . $startDate . '_to_' . $endDate . '.pdf');
+        return $pdf->stream('Cut_Book_Report_' . $date . '.pdf');
     }
 
     /**

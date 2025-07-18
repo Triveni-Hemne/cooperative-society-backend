@@ -20,14 +20,19 @@
     <form method="GET" action="{{ route('cut-book.index') }}" class="border rounded p-3 mb-4">
         <div class="row">
             <div class="col-md-3">
-                <label for="start_date">Start Date:</label>
-                <input type="date" name="start_date" id="start_date" class="form-control" value="{{ request('start_date', $startDate) }}">
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" class="form-control " value="{{request('date')}}" required>
             </div>
             <div class="col-md-3">
-                <label for="end_date">End Date:</label>
-                <input type="date" name="end_date" id="end_date" class="form-control" value="{{ request('end_date', $endDate) }}">
+                <label for="ledgerId">Ledger:</label>
+               <select name="ledger_id" id="ledgerId" class="form-select">
+                    <option value="">All Ledgers</option>
+                    @foreach($ledgers as $ledger)
+                        <option value="{{ $ledger->id }}" {{ $ledger->id == $ledger_id ? 'selected' : '' }}>{{ $ledger->name }}</option>
+                    @endforeach
+                </select>
             </div>
-            <div class="col-md-3">
+            {{-- <div class="col-md-3">
                 <label for="loan_account">Loan Account:</label>
                 <select name="loan_account" id="loan_account" class="form-control">
                     <option value="">All Accounts</option>
@@ -35,7 +40,7 @@
                         <option value="{{ $id }}" {{ $id == $loanAccountId ? 'selected' : '' }}>{{ $account }}</option>
                     @endforeach
                 </select>
-            </div>
+            </div> --}}
             @if(!empty($branches))
             <div class="col-md-3">
                 <label for="">Branch:</label>
@@ -60,65 +65,53 @@
     <div class="d-flex justify-content-end my-3 ">
         <form action="{{ route('cut-book.pdf') }}" method="GET" target="_blank">
              @csrf
-            <input type="hidden" name="start_date" value="{{ $startDate }}">
-            <input type="hidden" name="end_date" value="{{ $endDate }}">
+            <input type="hidden" name="date" value="{{ $date }}">
+            <input type="hidden" name="ledger_id" value="{{ $ledger_id }}">
             <input type="hidden" name="type" value="stream" required>
-            <input type="hidden" name="loan_account" value="{{ $loanAccountId }}">
+            {{-- <input type="hidden" name="loan_account" value="{{ $loanAccountId }}"> --}}
             <button type="submit" class="btn btn-secondary me-1"><i class="bi bi-printer"></i> Print</button>
         </form>
         <form action="{{ route('cut-book.pdf') }}" method="GET" target="">
              @csrf
-            <input type="hidden" name="start_date" value="{{ $startDate }}">
-            <input type="hidden" name="end_date" value="{{ $endDate }}">
+           <input type="hidden" name="date" value="{{ $date }}">
+            <input type="hidden" name="ledger_id" value="{{ $ledger_id }}">
             <input type="hidden" name="type" value="download" required>
-            <input type="hidden" name="loan_account" value="{{ $loanAccountId }}">
+            {{-- <input type="hidden" name="loan_account" value="{{ $loanAccountId }}"> --}}
             <button type="submit" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Export PDF</button>
         </form>
     </div>
 
     <!-- Cut Book Report Table -->
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Loan Account No</th>
-                    <th>Borrower Name</th>
-                    <th>Loan Type</th>
-                    <th>EMI Amount</th>
-                    <th>Interest Paid</th>
-                    <th>Principal Paid</th>
-                    <th>Balance Due</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($transactions as $transaction)
-                    <tr>
-                       <td>{{ \Carbon\Carbon::parse($transaction->date)->format('d-m-Y') }}</td>
-                        <td>{{ $transaction->loan_account_no }}</td>
-                        <td>{{ $transaction->borrower_name }}</td>
-                        <td>{{ $transaction->loan_type }}</td>
-                        <td>{{ number_format($transaction->emi_amount, 2) }}</td>
-                        <td>{{ number_format($transaction->interest_paid, 2) }}</td>
-                        <td>{{ number_format($transaction->principal_paid, 2) }}</td>
-                        <td>{{ number_format($transaction->balance_due, 2) }}</td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="8" class="text-center">No transactions found.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-            <tfoot>
-                <tr class="table-primary">
-                    <th colspan="5" class="text-right">Total:</th>
-                    <th>{{ number_format($totalInterestPaid, 2) }}</th>
-                    <th>{{ number_format($totalPrincipalPaid, 2) }}</th>
-                    <th></th>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
+        @if(isset($data) && count($data))
+            <div class="table-responsive mt-4">
+                <table class="table table-bordered table-striped table-sm">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Sr No</th>
+                            <th>Account No</th>
+                            <th>Member Name</th>
+                            <th class="text-end">Credit Balance</th>
+                            <th class="text-end">Debit Balance</th>
+                            <th>Opening Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($data as $index => $row)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $row['account_no'] }}</td>
+                                <td>{{ $row['name'] }}</td>
+                                <td class="text-end">{{ number_format($row['credit_balance'], 2) }}</td>
+                                <td class="text-end">{{ number_format($row['debit_balance'], 2) }}</td>
+                                <td>{{ $row['opening_date'] }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @elseif(request()->has('ledger_id'))
+            <div class="alert alert-warning mt-4">No data found for the selected ledger and date.</div>
+        @endif
 </div>
 @endsection
 

@@ -13,41 +13,35 @@
 </head>
 <body>
     <h2 style="text-align: center;">Cut Book Report</h2>
-    <p><strong>From:</strong> {{ $startDate }} <strong>To:</strong> {{ $endDate }}</p>
+    <p><strong>Date:</strong> {{ $date }}</p>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Loan Account No</th>
-                <th>Borrower Name</th>
-                <th>Loan Type</th>
-                <th>EMI Amount</th>
-                <th>Interest Paid</th>
-                <th>Principal Paid</th>
-                <th>Balance Due</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if(is_array($transactions) || is_object($transactions))
-             @foreach($transactions as $transaction)
-                <tr>
-                    <td>{{ $transaction->date }}</td>
-                    <td>{{ $transaction->loan_account_no }}</td>
-                    <td>{{ $transaction->borrower_name }}</td>
-                    <td>{{ $transaction->loan_type }}</td>
-                    <td>{{ number_format($transaction->emi_amount, 2) }}</td>
-                    <td>{{ number_format($transaction->interest_paid, 2) }}</td>
-                    <td>{{ number_format($transaction->principal_paid, 2) }}</td>
-                    <td>{{ number_format($transaction->balance_due, 2) }}</td>
-                </tr>
-             @endforeach
-            @else
-                <tr>
-                    <td colspan="8" class="text-center">No transactions available.</td>
-                </tr>
-            @endif
-        </tbody>
-    </table>
+   @if(isset($data) && count($data))
+                <table class="table table-bordered table-striped table-sm">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Sr No</th>
+                            <th>Account No</th>
+                            <th>Member Name</th>
+                            <th class="text-end">Credit Balance</th>
+                            <th class="text-end">Debit Balance</th>
+                            <th>Opening Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($data as $index => $row)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $row['account_no'] }}</td>
+                                <td>{{ $row['name'] }}</td>
+                                <td class="text-end">{{ number_format($row['credit_balance'], 2) }}</td>
+                                <td class="text-end">{{ number_format($row['debit_balance'], 2) }}</td>
+                                <td>{{ $row['opening_date'] }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+        @elseif(request()->has('ledger_id'))
+            <div class="alert alert-warning mt-4">No data found for the selected ledger and date.</div>
+        @endif
 </body>
 </html>
