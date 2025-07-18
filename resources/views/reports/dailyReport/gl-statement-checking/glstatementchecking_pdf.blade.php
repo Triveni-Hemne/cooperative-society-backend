@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Ledger Statement - {{ $date }}</title>
+    <title>Ledger Statement - From: {{ $startDate }} To: {{ $endDate }}</title>
     <style>
         body {
             font-family: DejaVu Sans, sans-serif;
@@ -40,40 +40,36 @@
 <body>
 
     <h2>📜 Ledger Statement</h2>
-    <h4>Date: {{ \Carbon\Carbon::parse($date)->format('d-m-Y') }}</h4>
+    <h4><strong>From:</strong> {{ $startDate }} <strong>To:</strong> {{ $endDate }}</h4>
 
-    <div class="summary">
+    {{-- <div class="summary">
         <div><strong>Total Debit:</strong> ₹ {{ number_format($totalDebits, 2) }}</div>
         <div><strong>Total Credit:</strong> ₹ {{ number_format($totalCredits, 2) }}</div>
         <div><strong>Closing Balance:</strong> ₹ {{ number_format($closingBalance, 2) }}</div>
-    </div>
+    </div> --}}
 
-    <table>
+    <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Ledger Account</th>
-                <th>Transaction Type</th>
-                <th>Debit (₹)</th>
-                <th>Credit (₹)</th>
-                <th>Balance (₹)</th>
+                <th>SrNo</th>
+                <th>GLID</th>
+                <th>Name</th>
+                <th>Credit Trans</th>
+                <th>Debit Trans</th>
+                <th>Difference</th>
             </tr>
         </thead>
         <tbody>
-            @forelse($transactions as $transaction)
+            @foreach($ledgers as $index => $ledger)
                 <tr>
-                    <td>{{ \Carbon\Carbon::parse($transaction->date)->format('d-m-Y') }}</td>
-                    <td>{{ $transaction->account_name }}</td>
-                    <td>{{ $transaction->balance_type }}</td>
-                    <td>₹ {{ number_format($transaction->debit, 2) }}</td>
-                    <td>₹ {{ number_format($transaction->credit, 2) }}</td>
-                    <td>₹ {{ number_format($transaction->running_balance, 2) }}</td>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $ledger['gl_id'] }}</td>
+                    <td>{{ $ledger['name'] }}</td>
+                    <td>{{ number_format($ledger['credit'], 2) }}</td>
+                    <td>{{ number_format($ledger['debit'], 2) }}</td>
+                    <td>{{ number_format($ledger['difference'], 2) }}</td>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="6">No transactions found for {{ $date }}.</td>
-                </tr>
-            @endforelse
+            @endforeach
         </tbody>
     </table>
 

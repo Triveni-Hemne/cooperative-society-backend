@@ -467,89 +467,35 @@ class DailyReportController extends Controller
         // Load branches list for Admins
         $branches = $user->role === 'Admin' ? Branch::all() : null;
 
-    // Reset SQL variable
-    DB::statement('SET @running_balance = 0');
+        // Get all general ledgers
+        $ledgers = GeneralLedger::orderBy('id')->get();
 
-        // Fetch General Ledger Transactions with Running Balance
-       $query = DB::table('general_ledgers as gl')
-        ->join('accounts as acc', 'gl.id', '=', 'acc.ledger_id')
-        ->leftJoin('members as m', 'acc.member_id', '=', 'm.id')
-        ->leftJoin('users as u', 'm.created_by', '=', 'u.id')
-        ->when($branchId, function ($q) use ($branchId) {
-            $q->where(function ($subQuery) use ($branchId) {
-                $subQuery->where('m.branch_id', $branchId)
-                        ->orWhere('u.branch_id', $branchId);
-            });
-        })
-        ->whereBetween('gl.created_at', [$startDate, $endDate])
-        ->when($glAccount, function ($q) use ($glAccount) {
-            return $q->where('acc.id', $glAccount);
-        })
-        ->select(
-            'gl.created_at as date',
-            'acc.account_no',
-            'acc.account_name',
-            'gl.balance',
-            'gl.balance_type',
-            DB::raw("CASE WHEN gl.balance_type = 'Credit' THEN gl.balance ELSE 0 END AS credit"),
-            DB::raw("CASE WHEN gl.balance_type = 'Debit' THEN gl.balance ELSE 0 END AS debit"),
-            DB::raw('(@running_balance := @running_balance + 
-                    CASE WHEN gl.balance_type = "Debit" THEN gl.balance ELSE -gl.balance END) AS running_balance')
-        )
-        ->orderBy('gl.created_at', 'asc');
+        // Loop through ledgers and calculate credit and debit totals
+        $data = $ledgers->map(function ($ledger) use ($startDate, $endDate, $branchId) {
+            $query = VoucherEntry::where('ledger_id', $ledger->id)
+                ->whereBetween('date', [$startDate, $endDate]);
 
-        if ($glAccount) {
-            $query->where('acc.id', $glAccount);
-        }
+            if ($branchId) {
+                $query->where('branch_id', $branchId);
+            }
 
-        $transactions = $query->orderBy('gl.created_at', 'asc')->get();
+            $creditTotal = (clone $query)->where('transaction_type','Receipt')->sum('amount');
+            $debitTotal = (clone $query)->where('transaction_type','Payment')->sum('amount');
 
-        // Calculate total debits and credits
-       $totals = DB::table('general_ledgers as gl')
-        ->join('accounts as acc', 'gl.parent_ledger_id', '=', 'acc.id')
-        ->leftJoin('members as m', 'acc.member_id', '=', 'm.id')
-        ->leftJoin('users as u', 'm.created_by', '=', 'u.id')
-        ->when($branchId, function ($q) use ($branchId) {
-            $q->where(function ($subQuery) use ($branchId) {
-                $subQuery->where('m.branch_id', $branchId)
-                        ->orWhere('u.branch_id', $branchId);
-            });
-        })
-        ->whereBetween('gl.created_at', [$startDate, $endDate])
-        ->when($glAccount, function ($q) use ($glAccount) {
-            return $q->where('acc.id', $glAccount);
-        })
-        ->selectRaw("
-            SUM(CASE WHEN gl.balance_type = 'Debit' THEN gl.balance ELSE 0 END) AS total_debits,
-            SUM(CASE WHEN gl.balance_type = 'Credit' THEN gl.balance ELSE 0 END) AS total_credits
-        ")
-        ->first();
-
-        $totalDebits = $totals->total_debits ?? 0;
-        $totalCredits = $totals->total_credits ?? 0;
-        $isBalanced = ($totalDebits == $totalCredits);
-
-        // Fetch unique GL accounts
-        $glAccounts = DB::table('accounts')->pluck('account_name', 'id');
-
-        // Set default date
-        $date = now()->format('Y-m-d');
-
-        // Calculate Closing Balance
-        $closingBalance = $transactions->isNotEmpty() ? $transactions->last()->running_balance : 0;
-
-        // Return data as an array
+            return [
+                'gl_id' => $ledger->id,
+                'name' => $ledger->name,
+                'credit' => $creditTotal,
+                'debit' => $debitTotal,
+                'difference' => $creditTotal - $debitTotal,
+            ];
+        });
+        // dd($data);
         return [
             'startDate' => $startDate,
             'endDate' => $endDate,
-            'transactions' => $transactions,
-            'totalDebits' => $totalDebits,
-            'totalCredits' => $totalCredits,
-            'isBalanced' => $isBalanced,
-            'glAccounts' => $glAccounts,
-            'glAccount' => $glAccount,
-            'date' => $date,
-            'closingBalance' => $closingBalance, // Pass Closing Balance
+            'branchId' => $branchId,
+            'ledgers' => $data,
             'branches' => $branches
         ];
     }

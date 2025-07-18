@@ -38,7 +38,7 @@
         </div>
      
         {{-- Summary Cards --}}
-        <div class="row text-white">
+        {{-- <div class="row text-white">
             <div class="col-md-4">
                 <div class="card bg-primary-subtle shadow">
                     <div class="card-body">
@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         {{-- Export & Transactions Table --}}
         <div class="mt-4">
@@ -87,33 +87,28 @@
             </div>
             
             <div class="table-responsive mt-3">
-                <table class="table table-striped table-bordered text-center">
-                    <thead class="table-dark">
+                <table class="table table-bordered">
+                    <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Ledger Account</th>
-                            <th>Transaction Type</th>
-                            <th>Debit</th>
-                            <th>Credit</th>
-                            <th>Balance</th>
+                            <th>SrNo</th>
+                            <th>GLID</th>
+                            <th>Name</th>
+                            <th>Credit Trans</th>
+                            <th>Debit Trans</th>
+                            <th>Difference</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($transactions as $transaction)
-                        <tr>
-                            <td>{{ \Carbon\Carbon::parse($transaction->date)->format('d-m-Y') }}</td>
-                            <td>{{ $transaction->account_name }}</td>
-                            <td>{{ $transaction->balance_type }}</td>
-                            <td>₹ {{ number_format($transaction->debit, 2) }}</td>
-                            <td>₹ {{ number_format($transaction->credit, 2) }}</td>
-                            <td>₹ {{ number_format($transaction->running_balance, 2) }}</td>
-                        </tr>
+                        @foreach($ledgers as $index => $ledger)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $ledger['gl_id'] }}</td>
+                                <td>{{ $ledger['name'] }}</td>
+                                <td>{{ number_format($ledger['credit'], 2) }}</td>
+                                <td>{{ number_format($ledger['debit'], 2) }}</td>
+                                <td>{{ number_format($ledger['difference'], 2) }}</td>
+                            </tr>
                         @endforeach
-                        @if($transactions->isEmpty())
-                        <tr>
-                            <td colspan="6">No transactions found for selected criteria.</td>
-                        </tr>
-                        @endif
                     </tbody>
                 </table>
             </div>
