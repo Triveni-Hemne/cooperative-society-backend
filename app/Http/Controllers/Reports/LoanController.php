@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Branch;
 use App\Models\MemberLoanAccount;
+use App\Models\GeneralLedger;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -13,8 +14,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class LoanController extends Controller
 {
-    //
-   public function getOverdueLoans($date, $branchId = null)
+   public function getOverdueLoans($date, $branchId = null, $ledgerId = null, $months = 1, $startDate, $endDate, $type = 'without_interest')
     {
         $user = Auth::user();
 
@@ -23,61 +23,108 @@ class LoanController extends Controller
         }
 
        $branches = $user->role === 'Admin' ? Branch::all() : null;
-       $query = DB::table('member_loan_accounts as mla')
-            ->join('members as m', 'mla.member_id', '=', 'm.id') // join members
-            ->where('mla.status', 'Active')
-            ->whereRaw('DATEDIFF(?, mla.end_date) > 0', [$date])
-            ->selectRaw("
-                mla.acc_no,
-                m.name AS borrower_name,
-                mla.ac_start_date AS loan_sanction_date,
-                mla.loan_amount,
-                mla.emi_amount,
-                mla.end_date AS due_date,
-                mla.balance,
-                DATEDIFF(?, mla.end_date) AS days_overdue,
-                (mla.emi_amount * DATEDIFF(?, mla.end_date) / 30) AS overdue_amount,
-                ((mla.emi_amount * DATEDIFF(?, mla.end_date) / 30) * mla.penal_interest / 100) AS penalty_amount
-            ", [$date, $date, $date]);
-
-        if ($branchId) {
-            $query->where(function ($q) use ($branchId) {
-                $q->where('m.branch_id', $branchId)
-                ->orWhere('m.created_by', function ($sub) use ($branchId) {
-                    $sub->select('id')->from('users')->where('branch_id', $branchId);
+       $ledgers = GeneralLedger::where('group','loan')->get();
+       
+       $loanAccounts = MemberLoanAccount::with(['member', 'loanInstallment' => function ($query) use ($endDate) {
+            $query->where('mature_date', '<=', $endDate);
+        }])
+        ->when($ledgerId, function ($query) use ($ledgerId) {
+            $query->where('ledger_id', $ledgerId);
+        })
+        ->when($branchId, function ($query) use ($branchId) {
+            $query->where(function ($query) use ($branchId) {
+                $query->whereHas('member.user', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                })->orWhereHas('member.branch', function ($q) use ($branchId) {
+                    $q->where('id', $branchId);
                 });
             });
-        }
-        $overdueLoans = $query->orderByDesc('days_overdue')->get();
+        })->get();
 
-        return compact('date', 'overdueLoans','branches');
+        $overdueLoans = collect();
+
+        foreach ($loanAccounts as $account) {
+            $overdueInstallments = $account->loanInstallment()->where('mature_date', '<=', $endDate)->get();
+
+            if ($overdueInstallments->isEmpty()) continue;
+
+            $overdueAmount = $overdueInstallments->sum('installment_amount');
+
+            $interest = 0;
+            if ($type !== 'without_interest') {
+                foreach ($overdueInstallments as $installment) {
+                    $matureDate = Carbon::parse($installment->mature_date);
+                    $calcDate = Carbon::parse($date);
+                    if ($calcDate->greaterThan($matureDate)) {
+                        $daysOverdue = $matureDate->diffInDays($calcDate);
+                        $dailyRate = ($account->interest_rate / 100) / 365;
+                        $interest += $installment->installment_amount * $dailyRate * $daysOverdue;
+                    }
+                }
+            }
+
+            $overdueLoans->push([
+                'name' => $account->member->name ?? 'Unknown',
+                'account_no' => $account->acc_no,
+                'loan_date' => $account->created_at,
+                'sanction_amount' => $account->loan_amount,
+                'overdue_amount' => round($overdueAmount, 2),
+                'interest' => round($interest, 2),
+                'total' => round($overdueAmount + $interest, 2),
+                'penalty_amount' => round($interest, 2),
+            ]);
+        }
+
+        return [
+            'branches' => $branches,
+            'overdueLoans' => $overdueLoans,
+            'ledgers' => $ledgers,
+        ];
+
     }
 
     public function overdueRegister(Request $request)
     {
-        $date = $request->input('date', today()->toDateString());
+        $date = $request->input('date', now()->format('Y-m-d'));
         $branchId = $request->input('branch_id');
 
-        $data = $this->getOverdueLoans($date, $branchId);
+        $ledgerId = $request->input('ledger_id');
+        $months = (int)$request->input('months', 1);
+        $type = $request->input('type', 'without_interest');
+
+        $startDate = Carbon::parse($date)->subMonths($months)->startOfDay();
+        $endDate = Carbon::parse($date)->endOfDay();
+        $data = $this->getOverdueLoans($date, $branchId, $ledgerId, $months, $startDate, $endDate, $type);
 
         $totalOverdueAmount = $data['overdueLoans']->sum('overdue_amount');
         $totalPenalty = $data['overdueLoans']->sum('penalty_amount');
         $overdueLoans = $data['overdueLoans'];
         $branches = $data['branches'];
+        $ledgers = $data['ledgers'];
 
-       return view('reports.loanReport.overdue-register.index', compact('date', 'overdueLoans', 'totalOverdueAmount', 'totalPenalty', 'branches'));
+       return view('reports.loanReport.overdue-register.index', compact('date', 'overdueLoans', 'totalOverdueAmount', 'totalPenalty', 'branches', 'type','ledgers','ledgerId','months','branchId',));
     }
 
     public function exportOverduePDF(Request $request)
     {
-        $date = $request->input('date', Carbon::today()->toDateString());
+        $date = $request->input('date', now()->format('Y-m-d'));
         $branchId = $request->input('branch_id');
-        $data = $this->getOverdueLoans($date);
-        $type = $request->input('type', 'stream');
+
+        $ledgerId = $request->input('ledger_id');
+        $months = (int)$request->input('months', 1);
+        $type = $request->input('type', 'without_interest');
+
+        $startDate = Carbon::parse($date)->subMonths($months)->startOfDay();
+        $endDate = Carbon::parse($date)->endOfDay();
+        $data = $this->getOverdueLoans($date, $branchId, $ledgerId, $months, $startDate, $endDate, $type);
+        
+        $streamType  = $request->input('type', 'stream');
         $data['totalOverdueAmount'] = $data['overdueLoans']->sum('overdue_amount');
         $data['totalPenalty'] = $data['overdueLoans']->sum('penalty_amount');
+        $data['date'] = $date;
+
         $pdf = Pdf::loadView('reports.loanReport.overdue-register.overdue_register_pdf', $data);
-        if($type == 'download'){
+        if($streamType == 'download'){
             return $pdf->download('overdue_report_' . $date . '.pdf');
         }
         return $pdf->stream('overdue_report_' . $date . '.pdf');

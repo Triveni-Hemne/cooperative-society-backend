@@ -14,9 +14,28 @@
 
     {{-- Date Filter --}}
     <div class="row mb-4">
-        <div class="col-md-4 offset-md-4">
+        <div class="col-md-8 offset-md-2">
             <form action="{{ route('overdue-register.index') }}" method="GET" class="d-flex form-outline input-group">
-                <input type="date" name="date" class="form-control" value="" required>
+                @if(!empty($ledgers))
+                <select name="ledger_id" class="form-select">
+                    <option value="">All Ledgers</option>
+                    @foreach($ledgers as $ledger)
+                    <option value="{{ $ledger->id }}" {{ request('ledger_id') == $ledger->id ? 'selected' : '' }}>
+                        {{ $ledger->name }}
+                    </option>
+                    @endforeach
+                </select>
+                @endif
+                <input type="number" name="months" class="form-control" value="{{ request('months')}}" placeholder="Months" required>
+                <input type="date" name="date" class="form-control" value="{{ request('date')}}" required>
+                <select name="type" class="form-select">
+                            <option value="with_interest" {{ request('with interest') == $type ? 'selected' : '' }}>
+                                With Interest
+                            </option>
+                            <option value="without_interest" {{ request('without interest') == $type ? 'selected' : '' }}>
+                                Without Interest
+                            </option>
+                </select>
                 {{-- Branch --}}
                     @if(!empty($branches))
                     <select name="branch_id" class="form-select">
@@ -28,6 +47,7 @@
                         @endforeach
                     </select>
                     @endif
+                    
                 <button type="submit" class="btn btn-primary fs-5" data-mdb-ripple-init>
                     <i class="bi bi-search text-light"></i>
                 </button>
@@ -36,7 +56,7 @@
     </div>
     
     {{-- Summary Cards --}}
-    <div class="row text-white">
+    {{-- <div class="row text-white">
         <div class="col-md-3">
             <div class="card bg-info-subtle shadow">
                 <div class="card-body">
@@ -61,7 +81,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     
     {{-- Export & Transactions Table --}}
     <div class="mt-4">
@@ -69,11 +89,19 @@
             <h4>💰 Overdue Loan Details</h4>
             <div class="d-flex">
                 <form action="{{ route('overdue-register.pdf') }}" method="GET" target="_blank">
+                    <input type="hidden" name="ledger_id" required  value="{{$ledgerId ?? ''}}" style="display: none;">
+                    <input type="text" name="months" required hidden value="{{$months ?? ''}}">
+                    <input type="text" name="type" required hidden value="{{$type ?? ''}}" >
+                    <input type="hidden" name="branch_id" required  value="{{$branchId ?? ''}}" style="display: none;">
                     <input type="date" name="date" required hidden value="{{$date}}">
                     <input type="text" name="type" required hidden value="stream">
                     <button type="submit" class="btn btn-secondary me-1"><i class="bi bi-printer"></i> Print</button>
                 </form>
                 <form action="{{ route('overdue-register.pdf') }}" method="GET" target="">
+                    <input type="text" name="ledger_id" required value="{{$ledgerId ?? ''}}" style="display: none;">
+                    <input type="text" name="months" required hidden value="{{$months ?? ''}}">
+                    <input type="text" name="type" required hidden value="{{$type ?? ''}}">
+                    <input type="text" name="branch_id" required  value="{{$branchId ?? ''}}" style="display: none;">
                     <input type="date" name="date" required hidden value="{{$date}}">
                     <input type="text" name="type" required hidden value="download">
                     <button type="submit" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Export PDF</button>
@@ -82,38 +110,40 @@
         </div>
         
         <div class="table-responsive mt-3">
-            <table class="table table-striped table-bordered text-center">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Loan Account No</th>
-                        <th>Borrower Name</th>
-                        <th>Sanction Date</th>
-                        <th>Loan Amount</th>
-                        <th>EMI Amount</th>
-                        <th>Due Date</th>
-                        <th>Days Overdue</th>
-                        <th>Overdue Amount</th>
-                        <th>Penalty</th>
-                        <th>Balance</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($overdueLoans as $loan)
-                    <tr>
-                        <td>{{ $loan->acc_no }}</td>
-                        <td>{{ $loan->borrower_name }}</td>
-                        <td>{{ $loan->loan_sanction_date }}</td>
-                        <td>₹ {{ number_format($loan->loan_amount, 2) }}</td>
-                        <td>₹ {{ number_format($loan->emi_amount, 2) }}</td>
-                        <td>{{ $loan->due_date }}</td>
-                        <td>{{ $loan->days_overdue }}</td>
-                        <td>₹ {{ number_format($loan->overdue_amount, 2) }}</td>
-                        <td>₹ {{ number_format($loan->penalty_amount, 2) }}</td>
-                        <td>₹ {{ number_format($loan->balance, 2) }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            @if(count($overdueLoans))
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>SrNo</th>
+                            <th>Name</th>
+                            <th>A/C No</th>
+                            <th>Loan Date</th>
+                            <th>Sanction Amount</th>
+                            <th>Overdue Amount</th>
+                            <th>Interest</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($overdueLoans as $index => $row)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $row['name'] }}</td>
+                            <td>{{ $row['account_no'] }}</td>
+                            <td>{{ \Carbon\Carbon::parse($row['loan_date'])->format('d-m-Y') }}</td>
+                            <td>{{ number_format($row['sanction_amount'], 2) }}</td>
+                            <td>{{ number_format($row['overdue_amount'], 2) }}</td>
+                            <td>{{ number_format($row['interest'], 2) }}</td>
+                            <td>{{ number_format($row['total'], 2) }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            @else
+                <div class="alert alert-info mt-4">No overdue loans found for selected filters.</div>
+            @endif
         </div>
     </div>
 </div>

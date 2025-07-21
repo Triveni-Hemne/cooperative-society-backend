@@ -32,38 +32,40 @@
 <body>
     <div class="container">
         <h2>Overdue Loan Register - {{ $date }}</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Loan Account No</th>
-                    <th>Borrower Name</th>
-                    <th>Sanction Date</th>
-                    <th>Loan Amount</th>
-                    <th>EMI Amount</th>
-                    <th>Due Date</th>
-                    <th>Days Overdue</th>
-                    <th>Overdue Amount</th>
-                    <th>Penalty</th>
-                    <th>Balance</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($overdueLoans as $loan)
-                <tr>
-                    <td>{{ $loan->acc_no }}</td>
-                    <td>{{ $loan->borrower_name }}</td>
-                    <td>{{ $loan->loan_sanction_date }}</td>
-                    <td>{{ number_format($loan->loan_amount, 2) }}</td>
-                    <td>{{ number_format($loan->emi_amount, 2) }}</td>
-                    <td>{{ $loan->due_date }}</td>
-                    <td>{{ $loan->days_overdue }}</td>
-                    <td>{{ number_format($loan->overdue_amount, 2) }}</td>
-                    <td>{{ number_format($loan->penalty_amount, 2) }}</td>
-                    <td>{{ number_format($loan->balance, 2) }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        @if(count($overdueLoans))
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>SrNo</th>
+                            <th>Name</th>
+                            <th>A/C No</th>
+                            <th>Loan Date</th>
+                            <th>Sanction Amount</th>
+                            <th>Overdue Amount</th>
+                            <th>Interest</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($overdueLoans as $index => $row)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $row['name'] }}</td>
+                            <td>{{ $row['account_no'] }}</td>
+                            <td>{{ \Carbon\Carbon::parse($row['loan_date'])->format('d-m-Y') }}</td>
+                            <td>{{ number_format($row['sanction_amount'], 2) }}</td>
+                            <td>{{ number_format($row['overdue_amount'], 2) }}</td>
+                            <td>{{ number_format($row['interest'], 2) }}</td>
+                            <td>{{ number_format($row['total'], 2) }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            @else
+                <div class="alert alert-info mt-4">No overdue loans found for selected filters.</div>
+            @endif
     </div>
 </body>
 </html>
