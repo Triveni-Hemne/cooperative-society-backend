@@ -11,13 +11,24 @@
 @section('content')
 <div>
     <div class="container mt-4">
-        <h2 class="mb-4 text-center">📜 Deposit Maturity Report - {{ $date }}</h2>
+        <h3 class="mb-4 text-center">📜 Deposit Maturity Report - From: {{ $fromDate }} To:{{ $toDate }}</h3>
 
         {{-- Date Filter --}}
         <div class="row mb-4">
-            <div class="col-md-4 offset-md-4">
+            <div class="col-md-8 offset-md-2">
                 <form action="{{ route('deposit-maturity.index') }}" method="GET" class="d-flex form-outline input-group">
-                    <input type="date" name="date" class="form-control" value="{{ $date }}" required>
+                    @if(!empty($ledgers))
+                    <select name="ledger_id" class="form-select">
+                        <option value="">All Ledgers</option>
+                        @foreach($ledgers as $ledger)
+                        <option value="{{ $ledger->id }}" {{ request('ledger_id') == $ledger->id ? 'selected' : '' }}>
+                            {{ $ledger->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @endif
+                    <input type="date" name="fromDate" title="From Date" class="form-control" value="{{ $fromDate }}" required>
+                    <input type="date" name="toDate" title="To Date" class="form-control" value="{{ $toDate }}" required>
                      @if(!empty($branches))
                     {{-- Branch --}}
                     <select name="branch_id" class="form-select">
@@ -35,7 +46,7 @@
         </div>
 
         {{-- Summary Cards --}}
-        <div class="row text-white">
+        {{-- <div class="row text-white">
             <div class="col-md-4">
                 <div class="card bg-info-subtle shadow">
                     <div class="card-body">
@@ -52,7 +63,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         {{-- Export & Transactions Table --}}
         <div class="mt-4">
@@ -60,12 +71,16 @@
                 <h4>💰 Maturing Deposits Details</h4>
                 <div class="d-flex">
                     <form action="{{ route('deposit-maturity.pdf') }}" method="GET" target="_blank">
-                        <input type="date" name="date" required hidden value="{{ $date }}">
+                        <input type="hidden" name="ledger_id" required  value="{{ $ledgerId }}">
+                        <input type="date" name="fromDate" required hidden value="{{ $fromDate }}">
+                        <input type="date" name="toDate" required hidden value="{{ $toDate }}">
                         <input type="text" name="type" value="stream" required hidden>
                         <button type="submit" class="btn btn-secondary me-1"><i class="bi bi-printer"></i>Print</button>
                     </form>
                      <form action="{{ route('deposit-maturity.pdf') }}" method="GET" target="">
-                        <input type="date" name="date" required hidden value="{{ $date }}">
+                        <input type="hidden" name="ledger_id" required  value="{{ $ledgerId }}">
+                        <input type="date" name="fromDate" required hidden value="{{ $fromDate }}">
+                        <input type="date" name="toDate" required hidden value="{{ $toDate }}">
                         <input type="text" name="type" value="download" required hidden>
                         <button type="submit" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i>Export PDF</button>
                     </form>
@@ -73,39 +88,41 @@
             </div>
 
             <div class="table-responsive mt-3">
-                <table class="table table-striped table-bordered text-center">
-                    <thead class="table-dark">
+                <table class="table table-bordered table-sm text-center">
+                    <thead class="thead-dark">
                         <tr>
-                            <th>Account Number</th>
-                            <th>Account Holder</th>
-                            <th>Deposit Type</th>
-                            <th>Start Date</th>
-                            <th>Maturity Date</th>
-                            <th>Principal Amount</th>
-                            <th>Interest Rate</th>
-                            <th>Maturity Amount</th>
-                            <th>Status</th>
+                            <th>SrNo</th>
+                            <th>A/cNo</th>
+                            <th>Name</th>
+                            <th>Opening Date</th>
+                            <th>Period</th>
+                            <th>Rate</th>
+                            <th>Closing.Date</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($maturingDeposits as $deposit)
-                        <tr>
-                            <td>{{ $deposit->acc_no }}</td>
-                            <td>{{ $deposit->account_holder_name }}</td>
-                            <td>{{ ucfirst($deposit->deposit_type) }}</td>
-                            <td>{{ $deposit->start_date }}</td>
-                            <td>{{ $deposit->maturity_date }}</td>
-                            <td>₹ {{ number_format($deposit->principal_amount, 2) }}</td>
-                            <td>{{ $deposit->interest_rate }}%</td>
-                            <td>₹ {{ number_format($deposit->maturity_amount, 2) }}</td>
-                            <td>
-                                <span class="badge {{ $deposit->status == 'Matured' ? 'bg-success' : 'bg-warning' }}">
-                                    {{ $deposit->status }}
-                                </span>
-                            </td>
-                        </tr>
-                        @endforeach
+                        @forelse ($maturingDeposits as $index => $deposit)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $deposit->acc_no }}</td>
+                                <td>{{ $deposit->account_holder_name }}</td>
+                                <td>{{ \Carbon\Carbon::parse($deposit->start_date)->format('d/m/Y') }}</td>
+                                <td>
+                                    {{ \Carbon\Carbon::parse($deposit->start_date)->diffInMonths($deposit->maturity_date) }} Months
+                                </td>
+                                <td>{{ number_format($deposit->interest_rate, 2) }}%</td>
+                                <td>{{ \Carbon\Carbon::parse($deposit->maturity_date)->format('d/m/Y') }}</td>
+                            </tr>
+                        @empty
+                            <tr><td colspan="7">No matured deposits found for selected date.</td></tr>
+                        @endforelse
                     </tbody>
+                    <tfoot>
+                        <tr class="font-weight-bold">
+                            <td colspan="6" class="text-right">Total Maturity Amount</td>
+                            <td class="text-success">{{ number_format($totalMaturityAmount, 2) }}</td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>

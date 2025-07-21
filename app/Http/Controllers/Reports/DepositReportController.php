@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\MemberDepoAccount;
 use App\Models\Branch;
+use App\Models\GeneralLedger;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class DepositReportController extends Controller
 {
-    public function getMaturingDeposits($date, $branchId = null)
+    public function getMaturingDeposits($branchId = null, $ledgerId = null, $fromDate, $toDate)
     {
         $user = Auth::user();
 
@@ -25,25 +26,33 @@ class DepositReportController extends Controller
         $query = DB::table('member_depo_accounts as mda')
             ->leftJoin('recurring_deposits as rd', 'rd.deposit_account_id', '=', 'mda.id')
             ->leftJoin('fixed_deposits as fd', 'fd.deposit_account_id', '=', 'mda.id')
-            ->join('members as m', 'mda.member_id', '=', 'm.id') 
-            ->leftJoin('users as u', 'm.created_by', '=', 'u.id') 
+            ->join('members as m', 'mda.member_id', '=', 'm.id')
+            ->leftJoin('users as u', 'm.created_by', '=', 'u.id')
             ->where('mda.deposit_type', '!=', 'savings')
-            ->whereRaw("DATE_ADD(mda.ac_start_date, INTERVAL COALESCE(rd.rd_term_months, fd.fd_term_months, 0) MONTH) <= ?", [$date])
+            // ✅ Filter records where the maturity date falls within given range
+            ->whereRaw("
+                DATE_ADD(mda.ac_start_date, INTERVAL COALESCE(rd.rd_term_months, fd.fd_term_months, 0) MONTH) 
+                BETWEEN ? AND ?", [$fromDate, $toDate])
             ->selectRaw("
                 mda.acc_no,
                 mda.name AS account_holder_name,
                 mda.deposit_type,
                 mda.ac_start_date AS start_date,
+                COALESCE(rd.rd_term_months, fd.fd_term_months, 0) AS period_months,
                 DATE_ADD(mda.ac_start_date, INTERVAL COALESCE(rd.rd_term_months, fd.fd_term_months, 0) MONTH) AS maturity_date,
                 mda.open_balance AS principal_amount,
                 mda.interest_rate,
                 COALESCE(rd.maturity_amount, fd.maturity_amount, 
                     (mda.open_balance + (mda.open_balance * mda.interest_rate / 100))) AS maturity_amount,
                 CASE 
-                    WHEN DATE_ADD(mda.ac_start_date, INTERVAL COALESCE(rd.rd_term_months, fd.fd_term_months, 0) MONTH) <= ? 
-                    THEN 'Matured' ELSE 'Pending' 
+                    WHEN DATE_ADD(mda.ac_start_date, INTERVAL COALESCE(rd.rd_term_months, fd.fd_term_months, 0) MONTH) <= ?
+                    THEN 'Matured' ELSE 'Pending'
                 END AS status
-            ", [$date]);
+            ", [$toDate]);
+
+            if ($ledgerId) {
+                $query->where('mda.ledger_id', $ledgerId);
+            }
 
         if ($branchId) {
             $query->where(function ($q) use ($branchId) {
@@ -53,44 +62,53 @@ class DepositReportController extends Controller
                 });
             });
         }
-
+        $ledgers = GeneralLedger::all();
         $maturingDeposits = $query->orderBy('maturity_date', 'asc')->get();
 
-        return compact('date', 'maturingDeposits', 'branches');
+        return compact('fromDate','toDate', 'maturingDeposits', 'branches','ledgers');
     }
 
     public function depositMaturityRegister(Request $request)
     {
-        $date = $request->input('date', today()->toDateString());
+        $fromDate = $request->input('from_date', now()->startOfMonth()->toDateString());
+        $toDate = $request->input('to_date', now()->toDateString());
         $branchId = $request->input('branch_id');
+        $ledgerId = $request->input('ledger_id');
         // Fetch matured deposits using the correct function
-        $data = $this->getMaturingDeposits($date, $branchId);
+        $data = $this->getMaturingDeposits($branchId, $ledgerId, $fromDate, $toDate);
 
         // Calculate total maturity amount
         $totalMaturityAmount = collect($data['maturingDeposits'])->sum('maturity_amount');
 
         return view('reports.depositReport.deposit-maturity.index', [
-            'date' => $date,
             'maturingDeposits' => $data['maturingDeposits'],
             'totalMaturityAmount' => $totalMaturityAmount,
-            'branches' => $data['branches']
+            'ledgers' => $data['ledgers'],
+            'fromDate' => $fromDate,
+            'toDate' => $toDate,
+            'ledgerId' => $ledgerId,
+            'branches' => $data['branches'],
         ]);
     }
 
     public function exportMaturityPDF(Request $request)
     {
-        $date = $request->input('date', today()->toDateString());
+        $fromDate = $request->input('from_date', now()->startOfMonth()->toDateString());
+        $toDate = $request->input('to_date', now()->toDateString());
         $branchId = $request->input('branch_id');
-        $data = $this->getMaturingDeposits($date, $branchId);
+        $ledgerId = $request->input('ledger_id');
+        // Fetch matured deposits using the correct function
+        $data = $this->getMaturingDeposits($branchId, $ledgerId, $fromDate, $toDate);
         $type = $request->input('type', 'stream'); //default type stream
         // Calculate total maturity amount
         $totalMaturityAmount = collect($data['maturingDeposits'])->sum('maturity_amount');
 
-        $pdf = Pdf::loadView('reports.depositReport.deposit-maturity.maturity_register_pdf',['date' => $date,'maturingDeposits' => $data['maturingDeposits'],'data'=> $data, 'totalMaturityAmount' => $totalMaturityAmount]);
+        $pdf = Pdf::loadView('reports.depositReport.deposit-maturity.maturity_register_pdf',['formDate' => $fromDate, 'toDate' => $toDate,'maturingDeposits' => $data['maturingDeposits'],'data'=> $data, 'totalMaturityAmount' => $totalMaturityAmount,'fromDate' => $fromDate,
+            'toDate' => $toDate,]);
         if($type == 'download'){
-            return $pdf->download('deposit_maturity_register_' . $date . '.pdf');
+            return $pdf->download('deposit_maturity_register_' . $fromDate . '-' . $toDate . '.pdf');
         }
-        return $pdf->stream('deposit_maturity_register_' . $date . '.pdf');
+        return $pdf->stream('deposit_maturity_register_' . $fromDate . '-' . $toDate . '.pdf');
     }
 
     public function getRDChartData($date, $branchId = null)

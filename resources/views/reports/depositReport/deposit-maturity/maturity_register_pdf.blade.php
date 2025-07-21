@@ -18,42 +18,48 @@
 </head>
 <body>
     <div class="container">
-        <div class="title">📜 Deposit Maturity Report - {{ $date }}</div>
+        <div class="title">📜 Deposit Maturity Report - From: {{ $fromDate }} To: {{$toDate}}</div>
         
-        <div class="summary">
+        {{-- <div class="summary">
             <p><strong>Total Matured Deposits:</strong> {{ count($maturingDeposits) }}</p>
             <p><strong>Total Maturity Amount:</strong> ₹ {{ number_format($totalMaturityAmount, 2) }}</p>
-        </div>
+        </div> --}}
         
-        <table>
-            <thead>
+         <table class="table table-bordered table-sm text-center">
+            <thead class="thead-dark">
                 <tr>
-                    <th>Account Number</th>
-                    <th>Account Holder</th>
-                    <th>Deposit Type</th>
-                    <th>Start Date</th>
-                    <th>Maturity Date</th>
-                    <th>Principal Amount</th>
-                    <th>Interest Rate (%)</th>
-                    <th>Maturity Amount</th>
-                    <th>Status</th>
+                    <th>SrNo</th>
+                    <th>A/cNo</th>
+                    <th>Name</th>
+                    <th>Opening Date</th>
+                    <th>Period</th>
+                    <th>Rate</th>
+                    <th>Closing.Date</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($maturingDeposits as $deposit)
-                <tr>
-                    <td>{{ $deposit->acc_no }}</td>
-                    <td>{{ $deposit->account_holder_name }}</td>
-                    <td>{{ ucfirst($deposit->deposit_type) }}</td>
-                    <td>{{ $deposit->start_date }}</td>
-                    <td>{{ $deposit->maturity_date }}</td>
-                    <td>₹ {{ number_format($deposit->principal_amount, 2) }}</td>
-                    <td>{{ $deposit->interest_rate }}</td>
-                    <td>₹ {{ number_format($deposit->maturity_amount, 2) }}</td>
-                    <td>{{ $deposit->status }}</td>
-                </tr>
-                @endforeach
+                @forelse ($maturingDeposits as $index => $deposit)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $deposit->acc_no }}</td>
+                        <td>{{ $deposit->account_holder_name }}</td>
+                        <td>{{ \Carbon\Carbon::parse($deposit->start_date)->format('d/m/Y') }}</td>
+                        <td>
+                            {{ \Carbon\Carbon::parse($deposit->start_date)->diffInMonths($deposit->maturity_date) }} Months
+                        </td>
+                        <td>{{ number_format($deposit->interest_rate, 2) }}%</td>
+                        <td>{{ \Carbon\Carbon::parse($deposit->maturity_date)->format('d/m/Y') }}</td>
+                    </tr>
+                @empty
+                    <tr><td colspan="7">No matured deposits found for selected date.</td></tr>
+                @endforelse
             </tbody>
+            <tfoot>
+                <tr class="font-weight-bold">
+                    <td colspan="6" class="text-right">Total Maturity Amount</td>
+                    <td class="text-success">{{ number_format($totalMaturityAmount, 2) }}</td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </body>
