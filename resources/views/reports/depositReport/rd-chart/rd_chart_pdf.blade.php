@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RD Chart Report - {{ $date }}</title>
+    <title>RD Chart Report</title>
     <style>
         body { font-family: Arial, sans-serif; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
@@ -13,39 +13,38 @@
     </style>
 </head>
 <body>
-    <h2>📊 Recurring Deposit Chart - {{ $date }}</h2>
+    <h2>📊 Recurring Deposit Chart</h2>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Account No</th>
-                <th>Account Holder</th>
-                <th>Installment Amount</th>
-                <th>Start Date</th>
-                <th>Duration (Months)</th>
-                <th>Interest Rate (%)</th>
-                <th>Interest Earned</th>
-                <th>Total Balance</th>
-                <th>Maturity Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($rdAccounts as $account)
-            <tr>
-                <td>{{ $account->acc_no }}</td>
-                <td>{{ $account->account_holder_name }}</td>
-                <td>₹{{ number_format($account->installment_amount, 2) }}</td>
-                <td>{{ $account->start_date }}</td>
-                <td>{{ $account->duration_months }}</td>
-                <td>{{ $account->interest_rate }}%</td>
-                {{-- <td>₹{{ number_format($account->interest_earned, 2) }}</td> --}}
-                <td>₹{{ $account->interest_earned }}</td>
-                {{-- <td>₹{{ number_format($account->total_balance, 2) }}</td> --}}
-                <td>₹{{ $account->total_balance }}</td>
-                <td>{{ $account->maturity_date }}</td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+    @if(!empty($installments))
+    <div class="table-responsive" style="overflow: scroll; height:45vh">
+        <table class="table table-bordered text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>S.No</th>
+                    <th>Date</th>
+                    <th>Installment</th>
+                    <th>Interest</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($installments as $row)
+                <tr>
+                    <td>{{ $row['sno'] }}</td>
+                    <td>{{ $row['date'] }}</td>
+                    <td>₹{{ $row['installment'] }}</td>
+                    <td>₹{{ $row['interest'] }}</td>
+                    <td>₹{{ $row['balance'] }}</td>
+                </tr>
+                @endforeach
+                <tr class="table-secondary fw-bold">
+                    <td colspan="3">Total</td>
+                    <td>₹{{ $totalInterest }}</td>
+                    <td>₹{{ $finalBalance }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    @endif
 </body>
 </html>

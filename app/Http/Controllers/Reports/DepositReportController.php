@@ -111,82 +111,143 @@ class DepositReportController extends Controller
         return $pdf->stream('deposit_maturity_register_' . $fromDate . '-' . $toDate . '.pdf');
     }
 
-    public function getRDChartData($date, $branchId = null)
+    // public function getRDChartData($openingDate, $closingDate, $interestRate = null, $installmentAmount = null, $noOfInstallments = null, $branchId = null)
+    // {
+    //     $user = Auth::user();
+
+    //     if (!$branchId) {
+    //         $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+    //     }
+
+    //     $branches = $user->role === 'Admin' ? Branch::all() : null;
+    //     $opening = Carbon::parse($openingDate);
+    //     $closing = Carbon::parse($closingDate);
+    //     $rdAccounts = DB::table('recurring_deposits as rd')
+    //         ->join('member_depo_accounts as mda', 'rd.deposit_account_id', '=', 'mda.id')
+    //         ->join('members as m', 'mda.member_id', '=', 'm.id') 
+    //         ->leftJoin('users as u', 'm.created_by', '=', 'u.id') 
+    //         ->where('mda.deposit_type', 'rd')
+    //         ->whereRaw("DATE_ADD(mda.ac_start_date, INTERVAL rd.rd_term_months MONTH) <= ?", [$date])
+    //         ->selectRaw("
+    //             mda.acc_no,
+    //             mda.name AS account_holder_name,
+    //             mda.installment_amount,
+    //             mda.ac_start_date AS start_date,
+    //             rd.rd_term_months AS duration_months,
+    //             mda.interest_rate,
+    //             rd.maturity_amount,
+    //             DATE_ADD(mda.ac_start_date, INTERVAL rd.rd_term_months MONTH) AS maturity_date
+    //         ");
+
+    //     if ($branchId) {
+    //         $rdAccounts->where(function ($q) use ($branchId) {
+    //             $q->where('m.branch_id', $branchId)
+    //             ->orWhereIn('m.created_by', function ($sub) use ($branchId) {
+    //                 $sub->select('id')->from('users')->where('branch_id', $branchId);
+    //             });
+    //         });
+    //     }
+
+    //     $rdAccounts = $rdAccounts->orderBy('maturity_date', 'asc')->get();
+
+    //     // Calculate interest earned till date
+    //     foreach ($rdAccounts as $account) {
+    //         $monthsElapsed = now()->diffInMonths($account->start_date);
+    //         $interestEarned = ($account->installment_amount * $monthsElapsed * $account->interest_rate) / 100;
+    //         $account->interest_earned = number_format($interestEarned, 2);
+    //         $account->total_balance = number_format($account->maturity_amount + $interestEarned, 2);
+    //     }
+
+    //     return compact('date', 'rdAccounts', 'branches');
+    // }
+
+    public function getRDChartData($openingDate, $closingDate, $interestRate = null, $installmentAmount = null, $noOfInstallments = null, $interestFrequency = null)
     {
-        $user = Auth::user();
+        $opening = Carbon::parse($openingDate);
+        $closing = Carbon::parse($closingDate);
+        $installments = [];
+        $balance = 0;
+        $totalInterest = 0;
 
-        if (!$branchId) {
-            $branchId = $user->role === 'Admin' ? null : $user->branch_id;
+        // Iterate through each installment date
+        for ($i = 0; $i < $noOfInstallments; $i++) {
+            $date = $opening->copy()->addMonths($i);
+
+            // Break loop if date exceeds closing date
+            if ($date->gt($closing)) {
+                break;
+            }
+
+            // Interest Calculation - adjust based on frequency
+            $interest = 0;
+            if ($interestFrequency === 'monthly') {
+                $interest = ($balance + $installmentAmount) * ($interestRate / 100) / 12;
+            }
+
+            $totalInterest += $interest;
+            $balance += $installmentAmount + $interest;
+
+            $installments[] = [
+                'sno' => $i + 1,
+                'date' => $date->format('d/m/Y'),
+                'installment' => number_format($installmentAmount, 2),
+                'interest' => number_format($interest, 2),
+                'balance' => number_format($balance, 2),
+            ];
         }
-
-        $branches = $user->role === 'Admin' ? Branch::all() : null;
-        $rdAccounts = DB::table('recurring_deposits as rd')
-            ->join('member_depo_accounts as mda', 'rd.deposit_account_id', '=', 'mda.id')
-            ->join('members as m', 'mda.member_id', '=', 'm.id') 
-            ->leftJoin('users as u', 'm.created_by', '=', 'u.id') 
-            ->where('mda.deposit_type', 'rd')
-            ->whereRaw("DATE_ADD(mda.ac_start_date, INTERVAL rd.rd_term_months MONTH) <= ?", [$date])
-            ->selectRaw("
-                mda.acc_no,
-                mda.name AS account_holder_name,
-                mda.installment_amount,
-                mda.ac_start_date AS start_date,
-                rd.rd_term_months AS duration_months,
-                mda.interest_rate,
-                rd.maturity_amount,
-                DATE_ADD(mda.ac_start_date, INTERVAL rd.rd_term_months MONTH) AS maturity_date
-            ");
-
-        if ($branchId) {
-            $rdAccounts->where(function ($q) use ($branchId) {
-                $q->where('m.branch_id', $branchId)
-                ->orWhereIn('m.created_by', function ($sub) use ($branchId) {
-                    $sub->select('id')->from('users')->where('branch_id', $branchId);
-                });
-            });
-        }
-
-        $rdAccounts = $rdAccounts->orderBy('maturity_date', 'asc')->get();
-
-        // Calculate interest earned till date
-        foreach ($rdAccounts as $account) {
-            $monthsElapsed = now()->diffInMonths($account->start_date);
-            $interestEarned = ($account->installment_amount * $monthsElapsed * $account->interest_rate) / 100;
-            $account->interest_earned = number_format($interestEarned, 2);
-            $account->total_balance = number_format($account->maturity_amount + $interestEarned, 2);
-        }
-
-        return compact('date', 'rdAccounts', 'branches');
+        return [
+            'installments' => $installments,
+            'totalInterest' => number_format($totalInterest, 2),
+            'finalBalance' => number_format($balance, 2),
+        ];
     }
+
 
     public function showRDChart(Request $request)
     {
-        $date = $request->input('date', today()->toDateString());
-        $branchId = $request->input('branch_id');
-        $data = $this->getRDChartData($date, $branchId);
+        $openingDate = $request->input('opening_date');
+        $closingDate = $request->input('closing_date');
+        $interestRate = $request->input('interest_rate');
+        $installmentAmount = $request->input('installment_amount');
+        $noOfInstallments = $request->input('no_of_installments');
+        // $branchId = $request->input('branch_id');
+        $interestFrequency = $request->input('interest_frequency');
+        $data = $this->getRDChartData($openingDate, $closingDate, $interestRate, $installmentAmount, $noOfInstallments, $interestFrequency);
 
         return view('reports.depositReport.rd-chart.index', [
-            'date' => $date,
-            'rdAccounts' => $data['rdAccounts'],
-            'branches' => $data['branches']
+            'installments' => $data['installments'],
+            'totalInterest' => $data['totalInterest'],
+            'finalBalance' => $data['finalBalance'],
+            // 'branches' => $data['branches'],
+            'opening_date' => $openingDate,
+            'closing_date' => $closingDate,
+            'interest_rate' => $interestRate,
+            'installment_amount' => $installmentAmount,
+            'no_of_installments' => $noOfInstallments,
         ]);
     }
 
     public function exportRDChartPDF(Request $request)
     {
-        $date = $request->input('date', today()->toDateString());
-        $branchId = $request->input('branch_id');
-        $data = $this->getRDChartData($date, $branchId);
+        $openingDate = $request->input('opening_date');
+        $closingDate = $request->input('closing_date');
+        $interestRate = $request->input('interest_rate');
+        $installmentAmount = $request->input('installment_amount');
+        $noOfInstallments = $request->input('no_of_installments');
+        // $branchId = $request->input('branch_id');
+        $interestFrequency = $request->input('interest_frequency');
+        $data = $this->getRDChartData($openingDate, $closingDate, $interestRate, $installmentAmount, $noOfInstallments, $interestFrequency);
         $type = $request->input('type','stream'); //default type stream
 
         $pdf = Pdf::loadView('reports.depositReport.rd-chart.rd_chart_pdf', [
-            'date' => $date,
-            'rdAccounts' => $data['rdAccounts']
+            'installments' => $data['installments'],
+            'totalInterest' => $data['totalInterest'],
+            'finalBalance' => $data['finalBalance'],
         ]);
         if($type == 'download'){
-            return $pdf->download('rd_chart_' . $date . '.pdf');
+            return $pdf->download('rd_chart_' . $openingDate .'-'.$closingDate. '.pdf');
         }
-        return $pdf->stream('rd_chart_' . $date . '.pdf');
+        return $pdf->stream('rd_chart_' . $openingDate .'-'.$closingDate. '.pdf');
     }
 
     public function getFDChartData($date, $branchId = null)
