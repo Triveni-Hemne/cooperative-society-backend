@@ -2,7 +2,7 @@
     data-bs-backdrop="static">
     <div class="modal-dialog modal-xl">
         <div class="modal-content rounded-4 border-0 shadow">
-            <form method="POST" action="{{ route('agents.store') }}" id="agentModalForm" class="needs-validation"
+            {{-- <form method="POST" action="{{ route('agents.store') }}" id="agentModalForm" class="needs-validation" --}}
                 novalidate>
                 <input type="hidden" id="agentId" name="id">
                 <input type="hidden" name="_method" id="formMethod" value="POST">

@@ -109,7 +109,7 @@
                                 <div class="accordion-body">
                                     <a href="{{route('cash-book.index')}}" class="side-link">💵 Cash Book</a>
                                     <a href="{{route('day-book.index')}}" class="side-link">📖 Day Book</a>
-                                    <a href="{{route('sub-day-book.index')}}" class="side-link">📘 Sub Day Book</a>
+                                    {{-- <a href="{{route('sub-day-book.index')}}" class="side-link">📘 Sub Day Book</a> --}}
                                     <a href="{{route('gl-statement-checking.index')}}" class="side-link">🧾 GL Statement
                                         Checking</a>
                                     <a href="{{route('cut-book.index')}}" class="side-link">✂️ Cut Book</a>

@@ -10,15 +10,15 @@
 @endsection
 
 @section('content')
-<div class="container mt-4">
-    <h2 class="mb-4">Management Information System (MIS) Report</h2>
+<div class="container mt-0">
+    <h3 class="mb-4">Management Information System (MIS) Report</h3>
     <form method="GET" action="{{ route('mis-report.index') }}" class="row g-3 d-flex align-items-end border rounded p-3 mb-4 ">
-        <div class="col-md-4">
+        <div class="col-md-4 mt-0">
             <label for="date" class="form-label">As on Date:</label>
             <input type="date" id="date" name="date" class="form-control" value="{{ request('date', now()->toDateString()) }}">
         </div>
         @if(!empty($branches))
-            <div class="col-md-3">
+            <div class="col-md-3 mt-0">
                 <label class="form-label">Branch:</label>
                 {{-- Branch --}}
                 <select name="branch_id" class="form-select">
@@ -31,7 +31,7 @@
                 </select>
             </div>
             @endif
-        <div class="col-md-4 d-flex align-items-end">
+        <div class="col-md-4 d-flex align-items-end mt-0">
             <button type="submit" class="btn btn-primary me-2">Generate</button>
         </div>
     </form>
@@ -40,7 +40,7 @@
             <a href="{{ route('mis-report.pdf', ['date' => request('date'), 'type' => 'download', 'branch_id' => request('branch_id')]) }}" target="" class="btn btn-danger"><i class="bi bi-file-earmark-pdf"></i> Download PDF</a>
     </div>
 
-    <div class="table-responsive mt-4">
+    <div class="table-responsive mt-4" style="height: 45vh; overflow:scroll">
         <table class="table table-bordered">
             <thead class="table-dark">
                 <tr>
@@ -51,23 +51,23 @@
             <tbody>
                 <tr class="table-primary">
                     <td><strong>Total Deposits Collected</strong></td>
-                    <td>{{ number_format($totalDeposits, 2) }}</td>
+                    <td>₹{{ number_format($totalDeposits, 2) }}</td>
                 </tr>
                 <tr class="table-success">
                     <td><strong>Total Loans Disbursed</strong></td>
-                    <td>{{ number_format($totalLoansDisbursed, 2) }}</td>
+                    <td>₹{{ number_format($totalLoansDisbursed, 2) }}</td>
                 </tr>
                 <tr class="table-info">
                     <td><strong>Total Loans Outstanding</strong></td>
-                    <td>{{ number_format($totalLoansOutstanding, 2) }}</td>
+                    <td>₹{{ number_format($totalLoansOutstanding, 2) }}</td>
+                </tr>
+                <tr class="table-success">
+                    <td><strong>Total Interest Earned</strong></td>
+                    <td>₹{{ number_format($totalInterestEarned, 2) }}</td>
                 </tr>
                 <tr class="table-warning">
-                    <td><strong>Total Interest Earned</strong></td>
-                    <td>{{ number_format($totalInterestEarned, 2) }}</td>
-                </tr>
-                <tr class="table-danger">
                     <td><strong>Total Interest Paid</strong></td>
-                    <td>{{ number_format($totalInterestPaid, 2) }}</td>
+                    <td>₹{{ number_format($totalInterestPaid, 2) }}</td>
                 </tr>
                 <tr class="table-secondary">
                     <td><strong>Total Members</strong></td>
@@ -79,15 +79,43 @@
                 </tr>
                 <tr class="table-danger">
                     <td><strong>Loan Overdue Amount</strong></td>
-                    <td>{{ number_format($loanOverdue, 2) }}</td>
+                    <td>₹{{ number_format($loanOverdue, 2) }}</td>
                 </tr>
-                <tr class="table-dark text-white">
+                <tr class="table-danger text-white">
                     <td><strong>NPA Loans</strong></td>
-                    <td>{{ number_format($totalNPALoans, 2) }}</td>
+                    <td>₹{{ number_format($totalNPALoans, 2) }}</td>
                 </tr>
                 <tr class="table-danger">
                     <td><strong>NPA Ratio (%)</strong></td>
                     <td>{{ number_format($npaRatio, 2) }}%</td>
+                </tr>
+                <tr class="table-primary">
+                    <td><strong>Share Capital Amount</strong></td>
+                    <td>{{ number_format($shareCapitalAmount, 2) }}%</td>
+                </tr>
+                <tr class="table-warning">
+                    <td><strong>Cd Ratio</strong></td>
+                    <td>{{ number_format($cdRatio, 2) }}%</td>
+                </tr>
+                <tr class="table-light">
+                    <td><strong>Total Credit</strong></td>
+                    <td>₹{{ number_format($totalCredit, 2) }}</td>
+                </tr>
+                <tr class="table-light">
+                    <td><strong>Total Debit</strong></td>
+                    <td>₹{{ number_format($totalDebit, 2) }}</td>
+                </tr>
+                <tr class="table-success">
+                    <td><strong>Profit</strong></td>
+                    <td>₹{{ number_format($profit, 2) }}</td>
+                </tr>
+                <tr class="table-danger">
+                    <td><strong>Loss</strong></td>
+                    <td>₹{{ number_format($loss, 2) }}</td>
+                </tr>
+                <tr class="table-warning">
+                    <td><strong>Overdue Percent</strong></td>
+                    <td>{{ number_format($overduePercent, 2) }}%</td>
                 </tr>
             </tbody>
         </table>

@@ -533,10 +533,33 @@ class MISReportController extends Controller
         // NPA Ratio
         $npaRatio = $totalLoansOutstanding > 0 ? ($totalNPALoans / $totalLoansOutstanding) * 100 : 0;
 
+        $shareCapital = DB::table('member_financials as mf')
+            ->join('members as m', 'mf.member_id', '=', 'm.id')
+            ->whereDate('mf.created_at', '<=', $date);
+        $applyBranchFilter($shareCapital, 'm');
+        $shareCapitalAmount = $shareCapital->sum('mf.share_amount');
+
+        $cdRatio = $totalDeposits > 0 ? ($totalLoansDisbursed / $totalDeposits) * 100 : 0;
+
+        $credit = DB::table('voucher_entries as ve')
+            ->whereDate('ve.created_at', '<=', $date);
+        $applyBranchFilter($credit, 've', 'entered_by');
+        $totalCredit = $credit->where('ve.transaction_type', 'Payment')->sum('ve.amount');
+
+        $debit = DB::table('voucher_entries as ve')
+            ->whereDate('ve.created_at', '<=', $date);
+        $applyBranchFilter($debit, 've', 'entered_by');
+        $totalDebit = $credit->where('ve.transaction_type', 'Receipt')->sum('ve.amount');
+
+        $profit = $totalCredit > $totalDebit ? $totalCredit - $totalDebit : 0;
+        $loss = $totalDebit > $totalCredit ? $totalDebit - $totalCredit : 0;
+
+        $overduePercent = $totalLoansDisbursed > 0 ? ($loanOverdue / $totalLoansDisbursed) * 100 : 0;
+
         return compact(
             'date', 'totalDeposits', 'totalLoansDisbursed', 'totalLoansOutstanding',
             'totalInterestEarned', 'totalInterestPaid', 'totalMembers', 'totalAccounts',
-            'loanOverdue', 'totalNPALoans', 'npaRatio', 'branches'
+            'loanOverdue', 'totalNPALoans', 'npaRatio', 'branches', 'shareCapitalAmount', 'cdRatio','totalCredit','totalDebit', 'profit','loss','overduePercent'
         );
     }
 
@@ -567,7 +590,7 @@ class MISReportController extends Controller
         return $pdf->stream('mis_report_' . $date . '.pdf');
     }
 
-   public function getGeneralLedgerStatement($ledgerId, $fromDate, $toDate, $branchId = null)
+    public function getGeneralLedgerStatement($ledgerId, $fromDate, $toDate, $branchId = null)
     {
         $user = Auth::user();
 

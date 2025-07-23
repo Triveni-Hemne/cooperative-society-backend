@@ -54,7 +54,7 @@
 
 .accordion-button {
     font-weight: 600;
-    font-size: 16px;
+    /* font-size: 16px; */
     transition: background 0.2s;
 }
 
@@ -93,7 +93,7 @@
 }
 
 .accordion-body a {
-    font-size: 15px;
+    /* font-size: 15px; */
 }
 
 /* Make the accordion arrow white */
