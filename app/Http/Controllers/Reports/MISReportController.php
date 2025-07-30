@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Reports;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\GeneralLedger;
 use App\Models\Branch;
+use App\Models\VoucherEntry;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -370,45 +372,29 @@ class MISReportController extends Controller
 
         $branches = $user->role === 'Admin' ? Branch::all() : null;
 
-        // Reusable branch filter logic
-        $applyBranchFilter = function ($query, $tableAlias = null, $creatorField = 'created_by') use ($branchId) {
-            $branchColumn = $tableAlias ? "$tableAlias.branch_id" : "branch_id";
-            $creatorColumn = $tableAlias ? "$tableAlias.$creatorField" : $creatorField;
-
-            if ($branchId) {
-                $query->where(function ($q) use ($branchColumn, $creatorColumn, $branchId) {
-                    $q->where($branchColumn, $branchId)
-                        ->orWhereIn($creatorColumn, function ($sub) use ($branchId) {
-                            $sub->select('id')->from('users')->where('branch_id', $branchId);
-                        });
+        $data = VoucherEntry::with('ledger')->when($branchId, function ($query) use ($branchId) {
+                $query->where(function ($q) use ($branchId) {
+                    $q->whereHas('enteredBy', function ($q) use ($branchId) {
+                        $q->where('branch_id', $branchId);
+                    })->orWhereHas('branch', function ($q) use ($branchId) {
+                        $q->where('id', $branchId);
+                    });
                 });
-            }
-        };
+            })
+            ->select('ledger_id', DB::raw('SUM(amount) as total_amount'))
+            ->groupBy('ledger_id')
+            ->get()
+            ->map(function ($entry) {
+                return [
+                    'group' => $entry->ledger->group,
+                    'id' => $entry->ledger->id,
+                    'name' => $entry->ledger->name,
+                    'total_amount' => $entry->total_amount,
+                ];
+            })->groupBy('group');
 
-        // Loan Query
-        $loanQuery = DB::table('member_loan_accounts as mla')
-            ->join('members as m', 'mla.member_id', '=', 'm.id')
-            ->whereDate('mla.ac_start_date', '<=', $date)
-            ->where('mla.status', 'Active');
 
-        $applyBranchFilter($loanQuery, 'm');
-
-        // Deposit Query
-        $depositQuery = DB::table('member_depo_accounts as mda')
-            ->join('members as m', 'mda.member_id', '=', 'm.id')
-            ->whereDate('mda.ac_start_date', '<=', $date)
-            ->where('mda.closing_flag', false);
-
-        $applyBranchFilter($depositQuery, 'm');
-
-        // Calculate totals
-        $totalLoans = $loanQuery->sum('mla.loan_amount');
-        $totalDeposits = $depositQuery->sum('mda.balance');
-
-        // CD Ratio calculation
-        $cdRatio = ($totalDeposits > 0) ? ($totalLoans / $totalDeposits) * 100 : 0;
-
-        return compact('date', 'totalLoans', 'totalDeposits', 'cdRatio', 'branches');
+        return compact('data','branches');
     }
 
     /**
@@ -420,6 +406,7 @@ class MISReportController extends Controller
         $branchId = $request->input('branch_id'); 
         $data = $this->getCDRatio($date,$branchId);
         return view('reports.misReport.cd-ratio.index', $data);
+        // return $data;
     }
 
     /**
@@ -431,6 +418,7 @@ class MISReportController extends Controller
         $type = $request->input('type','stream');
         $branchId = $request->input('branch_id'); 
         $data = $this->getCDRatio($date,$branchId);
+        $data['date'] = $date;
         $pdf = Pdf::loadView('reports.misReport.cd-ratio.cd_ratio_pdf', $data);
         if($type == 'download'){
             return $pdf->download('cd_ratio_' . $date . '.pdf');

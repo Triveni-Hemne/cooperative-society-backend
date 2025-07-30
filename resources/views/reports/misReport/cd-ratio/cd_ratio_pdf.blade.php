@@ -16,27 +16,45 @@
     <h2>Credit-Deposit Ratio (CD Ratio) Report</h2>
     <p><strong>As on:</strong> {{ $date }}</p>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Category</th>
-                <th>Amount (₹)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>Total Loans Given</strong></td>
-                <td>{{ number_format($totalLoans, 2) }}</td>
-            </tr>
-            <tr>
-                <td><strong>Total Deposits Collected</strong></td>
-                <td>{{ number_format($totalDeposits, 2) }}</td>
-            </tr>
-            <tr>
-                <td><strong>CD Ratio (%)</strong></td>
-                <td>{{ number_format($cdRatio, 2) }}%</td>
-            </tr>
-        </tbody>
-    </table>
+   <div class="table-responsive mt-4" style="height: 45vh; overflow:scroll">
+        @if(isset($data))
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark text-center">
+                    <tr>
+                        <th style="width: 10%;">GL Id</th>
+                        <th style="width: 60%;">Ledger Name</th>
+                        <th style="width: 30%;" class="text-end">Amount (₹)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($data as $group => $ledgers)
+                        {{-- Group Header Row --}}
+                        <tr class="table-primary fw-semibold">
+                            <td colspan="3" class="text-start">{{ strtoupper($group) }}</td>
+                        </tr>
+
+                        @php $total = 0; @endphp
+
+                        {{-- Ledgers under Group --}}
+                        @foreach($ledgers as $ledger)
+                            <tr>
+                                <td class="text-center">{{ $ledger['id'] }}</td>
+                                <td>{{ $ledger['name'] }}</td>
+                                <td class="text-end">{{ number_format($ledger['total_amount'], 2) }}</td>
+                            </tr>
+                            @php $total += $ledger['total_amount']; @endphp
+                        @endforeach
+
+                        {{-- Group Total --}}
+                        <tr class="table-secondary fw-bold">
+                            <td></td>
+                            <td class="text-end">Group Total:</td>
+                            <td class="text-end">{{ number_format($total, 2) }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+    </div>
 </body>
 </html>

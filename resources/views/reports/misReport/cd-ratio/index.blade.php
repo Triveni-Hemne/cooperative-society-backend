@@ -9,8 +9,8 @@
 @endsection
 
 @section('content')
-<div class="container mt-4">
-    <h2 class="mb-4">Credit-Deposit Ratio (CD Ratio) Report</h2>
+<div class="container ">
+    <h3 class="mb-4">Credit-Deposit Ratio (CD Ratio) Report</h3>
     <form method="GET" action="{{ route('cd-ratio.index') }}" class="row g-3 align-items-center border p-3 mb-4 rounded">
         <div class="row">
         <div class="col-md-4 mb-3">
@@ -42,31 +42,46 @@
             <a href="{{ route('cd-ratio.pdf', ['date' => request('date'), 'type' => 'download', 'branch_id' => request('branch_id')]) }}" class="btn btn-danger" target=""><i class="bi bi-file-earmark-pdf"></i> Download PDF</a>
     </div>
 
-    <div class="table-responsive mt-4">
-        <table class="table table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>Category</th>
-                    <th>Amount (₹)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="table-primary">
-                    <td><strong>Total Loans Given</strong></td>
-                    <td>{{ number_format($totalLoans, 2) }}</td>
-                </tr>
+    <div class="table-responsive mt-4" style="height: 45vh; overflow:scroll">
+        @if(isset($data))
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark text-center">
+                    <tr>
+                        <th style="width: 10%;">GL Id</th>
+                        <th style="width: 60%;">Ledger Name</th>
+                        <th style="width: 30%;" class="text-end">Amount (₹)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($data as $group => $ledgers)
+                        {{-- Group Header Row --}}
+                        <tr class="table-primary fw-semibold">
+                            <td colspan="3" class="text-start">{{ strtoupper($group) }}</td>
+                        </tr>
 
-                <tr class="table-success">
-                    <td><strong>Total Deposits Collected</strong></td>
-                    <td>{{ number_format($totalDeposits, 2) }}</td>
-                </tr>
+                        @php $total = 0; @endphp
 
-                <tr class="table-warning">
-                    <td><strong>CD Ratio (%)</strong></td>
-                    <td>{{ number_format($cdRatio, 2) }}%</td>
-                </tr>
-            </tbody>
-        </table>
+                        {{-- Ledgers under Group --}}
+                        @foreach($ledgers as $ledger)
+                            <tr>
+                                <td class="text-center">{{ $ledger['id'] }}</td>
+                                <td>{{ $ledger['name'] }}</td>
+                                <td class="text-end">{{ number_format($ledger['total_amount'], 2) }}</td>
+                            </tr>
+                            @php $total += $ledger['total_amount']; @endphp
+                        @endforeach
+
+                        {{-- Group Total --}}
+                        <tr class="table-secondary fw-bold">
+                            <td></td>
+                            <td class="text-end">Group Total:</td>
+                            <td class="text-end">{{ number_format($total, 2) }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
     </div>
+
 </div>
 @endsection
