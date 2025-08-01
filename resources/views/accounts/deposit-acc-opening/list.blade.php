@@ -22,7 +22,8 @@
             <div class="col col-md-2">
             @include('layouts.add-button', [
                     'target' => '#depositAccOpeningModal',
-                    'text' => 'Add New'
+                    'text' => 'Add New',
+                    'id' => 'addNeewDepoAcc',
                 ])
             </div>
         </div>

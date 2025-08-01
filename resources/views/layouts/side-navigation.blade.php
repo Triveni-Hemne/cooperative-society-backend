@@ -1,17 +1,21 @@
+@php
+    $prefix = $prefix ?? 'desktop';
+@endphp
+
 <div class="navigation-bar">
      <a href="/" class="text-white text-decoration-none d-flex align-items-center mb-4 dashboard-link">
         <span class="fs-4 fw-bold">📊 Dashboard</span>
     </a>
-<div class="accordion" id="sidebarAccordion">
+<div class="accordion" id="sidebarAccordion-{{ $prefix }}">
         <!-- Master Section -->
         <div class="accordion-item bg-dark border-0">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed bg-dark text-white shadow-none" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#masterMenu">
+                    data-bs-toggle="collapse" data-bs-target="#masterMenu-{{ $prefix }}">
                     🗂️ Master
                 </button>
             </h2>
-            <div id="masterMenu" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
+            <div id="masterMenu-{{ $prefix }}" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion-{{ $prefix }}">
                 <div class="accordion-body">
                     <a href="{{route('directors.index')}}" class="side-link">👤 Director</a>
                     <a href="{{route('divisions.index')}}" class="side-link">🏢 Division</a>
@@ -33,13 +37,13 @@
         <div class="accordion-item bg-dark border-0">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed bg-dark text-white shadow-none" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#accountsMenu">
+                    data-bs-toggle="collapse" data-bs-target="#accountsMenu-{{ $prefix }}" aria-expanded="false" aria-controls="accountsMenu-{{ $prefix }}">
                     💳 Accounts
                 </button>
             </h2>
-            <div id="accountsMenu" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
+            <div id="accountsMenu-{{ $prefix }}" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion-{{ $prefix }}">
                 <div class="accordion-body">
-                    <a href="{{route('members.index')}}" class="side-link" class="side-link">👥 Manage Member</a>
+                    <a href="{{route('members.index')}}" class="side-link" class="side-link">👥 Members</a>
                     <a href="{{route('member-depo-accounts.index')}}" class="side-link" class="side-link">🏦 Deposit
                         Accounts</a>
                     <a href="{{route('member-loan-accounts.index')}}" class="side-link" class="side-link">💰 Loan
@@ -47,8 +51,8 @@
                     <a href="{{route('accounts.index')}}" class="side-link" class="side-link">📑 General Accounts</a>
                     {{-- <a href="{{route('bank-investments.index')}}" class="side-link" class="side-link">🏦 Bank
                         Investments</a> --}}
-                    <a href="{{route('standing-instructions.index')}}" class="side-link" class="side-link">📌 Standing
-                        Instructions</a>
+                    {{-- <a href="{{route('standing-instructions.index')}}" class="side-link" class="side-link">📌 Standing
+                        Instructions</a> --}}
                 </div>
             </div>
         </div>
@@ -57,11 +61,11 @@
         <div class="accordion-item bg-dark border-0">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed bg-dark text-white shadow-none" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#transactionsMenu">
+                    data-bs-toggle="collapse" data-bs-target="#transactionsMenu-{{ $prefix }}" aria-expanded="false" aria-controls="transactionsMenu-{{ $prefix }}">
                     🔄 Transactions
                 </button>
             </h2>
-            <div id="transactionsMenu" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
+            <div id="transactionsMenu-{{ $prefix }}" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion-{{ $prefix }}">
                 <div class="accordion-body">
                     <a href="{{route('day-begins.index')}}" class="side-link">📅 Day Begins</a>
                     <a href="{{route('voucher-entry.index')}}" class="side-link">🧾 Voucher Entry</a>
@@ -88,24 +92,24 @@
         <div class="accordion-item bg-dark border-0">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed bg-dark text-white shadow-none" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#reportsMenu">
+                    data-bs-toggle="collapse" data-bs-target="#reportsMenu-{{ $prefix }}">
                     📊 Reports
                 </button>
             </h2>
-            <div id="reportsMenu" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
+            <div id="reportsMenu-{{ $prefix }}" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion-{{ $prefix }}">
                 <div class="accordion-body">
                     <!-- Nested Reports Accordion -->
-                    <div class="accordion" id="reportsAccordion">
+                    <div class="accordion" id="reportsAccordion-{{ $prefix }}">
                         <!-- Example Subcategory -->
                         <div class="accordion-item bg-dark border-0">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed bg-dark text-white shadow-none" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#dailyReports">
+                                    data-bs-toggle="collapse" data-bs-target="#dailyReports-{{ $prefix }}">
                                     📅 Daily Reports
                                 </button>
                             </h2>
-                            <div id="dailyReports" class="accordion-collapse collapse"
-                                data-bs-parent="#reportsAccordion">
+                            <div id="dailyReports-{{ $prefix }}" class="accordion-collapse collapse"
+                                data-bs-parent="#reportsAccordion-{{ $prefix }}">
                                 <div class="accordion-body">
                                     <a href="{{route('cash-book.index')}}" class="side-link">💵 Cash Book</a>
                                     <a href="{{route('day-book.index')}}" class="side-link">📖 Day Book</a>
@@ -124,12 +128,12 @@
                         <div class="accordion-item bg-transparent border-0">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed bg-dark text-white shadow-none" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#loanReports">
+                                    data-bs-toggle="collapse" data-bs-target="#loanReports-{{ $prefix }}">
                                     💳 Loan
                                 </button>
                             </h2>
-                            <div id="loanReports" class="accordion-collapse collapse"
-                                data-bs-parent="#reportsAccordion">
+                            <div id="loanReports-{{ $prefix }}" class="accordion-collapse collapse"
+                                data-bs-parent="#reportsAccordion-{{ $prefix }}">
                                 <div class="accordion-body">
                                     {{-- <a href="#" class="side-link">Loan Scheme</a> --}}
                                     <a href="{{route('overdue-register.index')}}" class="side-link">📄 Overdue
@@ -150,12 +154,12 @@
                         <div class="accordion-item bg-transparent border-0">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed bg-dark text-white shadow-none" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#depositReports">
+                                    data-bs-toggle="collapse" data-bs-target="#depositReports-{{ $prefix }}">
                                     🏦 Deposit
                                 </button>
                             </h2>
-                            <div id="depositReports" class="accordion-collapse collapse"
-                                data-bs-parent="#reportsAccordion">
+                            <div id="depositReports-{{ $prefix }}" class="accordion-collapse collapse"
+                                data-bs-parent="#reportsAccordion-{{ $prefix }}">
                                 <div class="accordion-body">
                                     <a href="{{route('deposit-maturity.index')}}" class="side-link">📆 Deposit Maturity
                                         Register</a>
@@ -175,12 +179,12 @@
                         <div class="accordion-item bg-transparent border-0">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed bg-dark text-white shadow-none" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#shareReports">
+                                    data-bs-toggle="collapse" data-bs-target="#shareReports-{{ $prefix }}">
                                     📈 Share
                                 </button>
                             </h2>
-                            <div id="shareReports" class="accordion-collapse collapse"
-                                data-bs-parent="#reportsAccordion">
+                            <div id="shareReports-{{ $prefix }}" class="accordion-collapse collapse"
+                                data-bs-parent="#reportsAccordion-{{ $prefix }}">
                                 <div class="accordion-body">
                                     <a href="{{route('share-list.index')}}" class="side-link">📃 Share List</a>
                                     <a href="{{route('dividend-calculation.index')}}" class="side-link">💰 Dividend
@@ -197,11 +201,11 @@
                         <div class="accordion-item bg-transparent border-0">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed bg-dark text-white shadow-none" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#misReports">
-                                    📊 MIS
+                                    data-bs-toggle="collapse" data-bs-target="#misReports-{{ $prefix }}">
+                                    📊 Financial Statements
                                 </button>
                             </h2>
-                            <div id="misReports" class="accordion-collapse collapse" data-bs-parent="#reportsAccordion">
+                            <div id="misReports-{{ $prefix }}" class="accordion-collapse collapse" data-bs-parent="#reportsAccordion-{{ $prefix }}">
                                 <div class="accordion-body">
                                     <a href="{{route('mis-trial-balance.index')}}" class="side-link">Trial Balance</a>
                                     <a href="{{route('receipt-payment.index')}}" class="side-link">Receipt Payment</a>
@@ -219,12 +223,12 @@
                         <div class="accordion-item bg-transparent border-0">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed bg-dark text-white shadow-none" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#generalReports">
+                                    data-bs-toggle="collapse" data-bs-target="#generalReports-{{ $prefix }}">
                                     ⚙️ General
                                 </button>
                             </h2>
-                            <div id="generalReports" class="accordion-collapse collapse"
-                                data-bs-parent="#reportsAccordion">
+                            <div id="generalReports-{{ $prefix }}" class="accordion-collapse collapse"
+                                data-bs-parent="#reportsAccordion-{{ $prefix }}">
                                 <div class="accordion-body">
                                     <a href="{{route('account-statement.index')}}" class="side-link">📄 Account
                                         Statement</a>
@@ -244,12 +248,12 @@
                         <div class="accordion-item bg-transparent border-0">
                             <h2 class="accordion-header">
                                 <button class="accordion-button bg-transparent text-white" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#printingReports">
+                                    data-bs-toggle="collapse" data-bs-target="#printingReports-{{ $prefix }}">
                                     🖨️ Printing
                                 </button>
                             </h2>
-                            <div id="printingReports" class="accordion-collapse collapse"
-                                data-bs-parent="#reportsAccordion">
+                            <div id="printingReports-{{ $prefix }}" class="accordion-collapse collapse"
+                                data-bs-parent="#reportsAccordion-{{ $prefix }}">
                                 <div class="accordion-body">
                                     <a href="{{route('duplicate-printing.index')}}" class="side-link">🖨️ Duplicate Printing</a>
                                     <a href="{{route('passbook.printing.form')}}" class="side-link">📒 Passbook Printing</a>
@@ -263,12 +267,12 @@
                         <div class="accordion-item bg-transparent border-0">
                             <h2 class="accordion-header">
                                 <button class="accordion-button bg-transparent text-white" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#auditReports">
+                                    data-bs-toggle="collapse" data-bs-target="#auditReports-{{ $prefix }}">
                                     🧾 Audit
                                 </button>
                             </h2>
-                            <div id="auditReports" class="accordion-collapse collapse"
-                                data-bs-parent="#reportsAccordion">
+                            <div id="auditReports-{{ $prefix }}" class="accordion-collapse collapse"
+                                data-bs-parent="#reportsAccordion-{{ $prefix }}">
                                 <div class="accordion-body">
                                     <a href="{{route('trial-balance.index')}}" class="side-link">📑 Trial Balance</a>
                                     <a href="{{route('balance-sheet.index')}}" class="side-link">📊 Balance Sheet</a>

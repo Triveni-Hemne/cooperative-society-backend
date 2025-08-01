@@ -23,7 +23,8 @@
         <div class="col col-md-2">
         @include('layouts.add-button', [
                 'target' => '#dayEndsModal',
-                'text' => 'Add New'
+                'text' => 'Add New',
+                'id' => 'addNewDayEnd',
             ])
         </div>
     </div>

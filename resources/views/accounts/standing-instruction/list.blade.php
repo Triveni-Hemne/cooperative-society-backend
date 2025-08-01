@@ -22,7 +22,8 @@
         <div class="col col-md-2">
         @include('layouts.add-button', [
                 'target' => '#standingInstructionModal',
-                'text' => 'Add New'
+                'text' => 'Add New',
+                'id' => 'standingInstructionAddBtn'
             ])
         </div>    
     </div>

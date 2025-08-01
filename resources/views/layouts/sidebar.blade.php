@@ -27,22 +27,21 @@
 </div>
 
 <div class="offcanvas offcanvas-start bg-dark text-white d-lg-none" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
-  <div class="offcanvas-header">
-    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body p-0">
-    <nav class="navbar-expand-lg sidebar bg-dark text-white">
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    @include('layouts.side-navigation')
-</nav>
-</div>
+    <div class="offcanvas-header">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+        <nav class="navbar-expand-lg sidebar bg-dark text-white">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            @include('layouts.side-navigation', ['prefix' => 'mobile'])
+        </nav>
+    </div>
 </div>
 
 <nav class="sidebar bg-dark text-white d-none d-lg-block">
-@include('layouts.side-navigation')
+@include('layouts.side-navigation', ['prefix' => 'desktop'])
 </nav>
 <!-- Custom CSS -->
 <style>

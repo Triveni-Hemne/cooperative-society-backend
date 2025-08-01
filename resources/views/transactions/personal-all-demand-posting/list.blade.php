@@ -22,7 +22,8 @@
         <div class="col col-md-2">
         @include('layouts.add-button', [
                 'target' => '#personalDemandPostModal',
-                'text' => 'Add New'
+                'text' => 'Add New',
+                'id' => 'addNewPersonalDemandPost',
             ])
         </div>
     </div>
