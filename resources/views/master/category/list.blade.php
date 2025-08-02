@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let modal = document.getElementById("categoryModal");
 
             // Update modal title
-            document.getElementById("categoryModalLabel").textContent = "Edit Center";
+            document.getElementById("categoryModalLabel").textContent = "Edit Category";
 
             // Populate form fields
             document.getElementById("categoryId").value = id;

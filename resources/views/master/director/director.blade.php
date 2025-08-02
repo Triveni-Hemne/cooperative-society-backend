@@ -21,21 +21,24 @@
 
                 <div class="modal-body bg-light">
                     <div class="p-4 bg-white rounded shadow-sm">
+                        <div class="row g-3">
                         {{-- Member Dropdown --}}
                         @if ($members->isNotEmpty())
-                        <div class="form-floating mb-3">
-                            <select name="member_id" id="memberId"
-                                class="form-select @error('member_id') is-invalid @enderror" required>
-                                <option value="" disabled {{ old('member_id') ? '' : 'selected' }}>Select Member</option>
-                                @foreach ($members as $member)
-                                <option value="{{ $member->id }}"
-                                    {{ old('member_id') == $member->id ? 'selected' : '' }}>{{ $member->name }} [ID: {{$member->id}}]</option>
-                                @endforeach
-                            </select>
-                            <label for="memberId">Member <span class="text-danger"> *</span></label>
-                            @error('member_id')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        <div class="col-md-4">
+                            <div class="form-floating ">
+                                <select name="member_id" id="memberId"
+                                    class="form-select @error('member_id') is-invalid @enderror" required>
+                                    <option value="" disabled {{ old('member_id') ? '' : 'selected' }}>Select Member</option>
+                                    @foreach ($members as $member)
+                                    <option value="{{ $member->id }}"
+                                        {{ old('member_id') == $member->id ? 'selected' : '' }}>{{ $member->name }} [ID: {{$member->id}}]</option>
+                                    @endforeach
+                                </select>
+                                <label for="memberId">Member <span class="text-danger"> *</span></label>
+                                @error('member_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
                         @else
                         <div class="alert alert-warning">
@@ -47,7 +50,8 @@
                           {{-- Division Dropdown --}}
                           @isset($divisions)
                           @if ($divisions->isNotEmpty())
-                          <div class="form-floating mb-3">
+                          <div class="col-md-4">
+                          <div class="form-floating ">
                               <select id="divisionId" name="division_id" required
                                   class="form-select @error('division_id') is-invalid @enderror">
                                   <option value="" disabled selected>Select Division</option>
@@ -62,6 +66,7 @@
                               <div class="invalid-feedback">{{ $message }}</div>
                               @enderror
                           </div>
+                           </div>
                           @else
                           <div class="alert alert-warning">
                               <strong>⚠️ No divisions available.</strong><br>
@@ -70,21 +75,11 @@
                           @endif
                           @endisset
 
-                        {{-- Name --}}
-                        <div class="form-floating mb-3">
-                            <input id="Name" name="name" type="text"
-                                class="form-control @error('name') is-invalid @enderror" placeholder="Name"
-                                value="{{ old('name') }}" required>
-                            <label for="Name" class="form-label required">Name</label>
-                            @error('name')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        {{-- Designation --}}
+                          {{-- Designation --}}
                         @isset($designations)
                         @if ($designations->isNotEmpty())
-                        <div class="form-floating mb-3">
+                        <div class="col-md-4">
+                        <div class="form-floating ">
                             <select name="designation_id" id="designationId"
                                 class="form-select @error('designation_id') is-invalid @enderror" >
                                 <option value="" disabled {{ old('member_id') ? '' : 'selected' }}>Select Designation</option>
@@ -99,6 +94,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                         </div>
                         @else
                         <div class="alert alert-warning">
                             <strong>⚠️ No designation available.</strong><br>
@@ -107,8 +103,22 @@
                         @endif
                         @endisset
 
+                        {{-- Name --}}
+                        <div class="col-md-6 ">
+                        <div class="form-floating ">
+                            <input id="Name" name="name" type="text"
+                                class="form-control @error('name') is-invalid @enderror" placeholder="Name"
+                                value="{{ old('name') }}" required>
+                            <label for="Name" class="form-label required">Name</label>
+                            @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
                         {{-- Email (Optional) --}}
-                        <div class="form-floating mb-3">
+                        <div class="col-md-6">
+                        <div class="form-floating ">
                             <input name="email" id="Email" type="email"
                                 class="form-control @error('email') is-invalid @enderror" placeholder="Email"
                                 value="{{ old('email') }}">
@@ -117,9 +127,9 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        </div>
 
                         {{-- Mobile Numbers --}}
-                        <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="contact_nos[]" id="mob0" type="number"
@@ -142,11 +152,10 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row g-3">
                             {{-- Address --}}
-                        <div class="form-floating mb-3">
+                            <div class="col-md-6">
+                        <div class="form-floating ">
                             <textarea id="address" name="address"
                                 class="form-control @error('address') is-invalid @enderror" placeholder="Address"
                                 style="height: 100px;" required>{{ old('address') }}</textarea>
@@ -155,9 +164,11 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        </div>
 
                         {{-- Marathi Address --}}
-                        <div class="form-floating mb-3">
+                            <div class="col-md-6">
+                        <div class="form-floating ">
                             <textarea id="marathiAddress" name="marathi_address"
                                 class="form-control marathiField @error('marathi_address') is-invalid @enderror"
                                 placeholder="पत्ता" style="height: 100px;"
@@ -171,7 +182,6 @@
                         </div>
 
                         {{-- Dates --}}
-                        <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input id="fromDate" name="from_date" type="date"
@@ -195,7 +205,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 

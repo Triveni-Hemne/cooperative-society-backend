@@ -20,9 +20,10 @@
                 </div>
 
                 <div class="modal-body bg-light">
-                    <div class="p-4 bg-white rounded shadow-sm">
+                    <div class="p-4 bg-white rounded shadow-sm row">
 
                         {{-- Designation Name (English) --}}
+                        <div class="col-md-6">
                         <div class="form-floating mb-3">
                             <input type="text" id="Name" name="name"
                                 class="form-control @error('name') is-invalid @enderror" placeholder="Name"
@@ -32,8 +33,10 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        </div>
 
                         {{-- Designation Name (Marathi) --}}
+                        <div class="col-md-6">
                         <div class="form-floating mb-3">
                             <input type="text" id="marathiName" name="naav"
                                 class="form-control marathiField @error('naav') is-invalid @enderror" placeholder="नाव"
@@ -43,6 +46,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                             <p class="errorMsg text-danger small d-none">फक्त मराठी अक्षरे स्वीकारली जातील.</p>
+                        </div>
                         </div>
                         {{-- Division Dropdown --}}
                         {{-- @isset($divisions)
@@ -120,7 +124,7 @@
                             @endif
                         </div>
                         @endisset --}}
-
+                        <div class="col-md-12">
                         <div class="form-floating mb-3">
                             <textarea id="description" name="description"
                                 class="form-control @error('description') is-invalid @enderror"
@@ -131,7 +135,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-
+                        </div>
                     </div>
                 </div>
 

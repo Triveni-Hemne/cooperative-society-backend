@@ -20,10 +20,11 @@
                 </div>
 
                 <div class="modal-body bg-light">
-                    <div class="p-4 bg-white rounded shadow-sm">
+                    <div class="p-4 bg-white rounded shadow-sm row g-3">
 
                         <!-- Name -->
-                        <div class="form-floating mb-3">
+                        <div class="col-md-6">
+                        <div class="form-floating">
                             <input type="text" class="form-control @error('name') is-invalid @enderror" id="Name"
                                 name="name" placeholder="Name" value="{{ old('name') }}" required>
                             <label for="Name" class="form-label required">Name</label>
@@ -31,8 +32,10 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        </div>
                         <!-- Marathi Name -->
-                        <div class="form-floating mb-3">
+                        <div class="col-md-6">
+                        <div class="form-floating">
                             <input type="text" class="form-control marathiField @error('naav') is-invalid @enderror"
                                 id="marathiName" name="naav" placeholder="नाव" value="{{ old('naav') }}" required>
                             <label for="marathiName">नाव</label>
@@ -41,9 +44,11 @@
                             @enderror
                             <p class="errorMsg text-danger small d-none">फक्त मराठी अक्षरे स्वीकारली जातील.</p>
                         </div>
+                        </div>
 
                         <!-- Description -->
-                        <div class="form-floating mb-3">
+                        <div class="col-md-12">
+                        <div class="form-floating">
                             <textarea class="form-control @error('description') is-invalid @enderror"
                                 placeholder="Description" id="description" name="description" style="height: 100px"
                                 required>{{ old('description') }}</textarea>
@@ -52,9 +57,11 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        </div>
 
                         <!-- Marathi Description -->
-                        <div class="form-floating mb-3">
+                        <div class="col-md-12">
+                        <div class="form-floating">
                             <textarea
                                 class="form-control marathiField @error('marathi_description') is-invalid @enderror"
                                 placeholder="वर्णन" id="marathiDescription" name="marathi_description"
@@ -64,6 +71,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                             <p class="errorMsg text-danger small d-none">फक्त मराठी अक्षरे स्वीकारली जातील.</p>
+                        </div>
                         </div>
 
                     </div>
