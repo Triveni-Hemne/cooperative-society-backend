@@ -43,41 +43,40 @@
                     <th scope="col">DOB</th>
                     <th scope="col">Gender</th>
                     <th scope="col">Age</th>
-                    <th scope="col">Date Of Join</th>
                     <th scope="col">Religion</th>
                     <th scope="col">Category</th>
                     <th scope="col">Caste</th>
-                    <th scope="col">Subcaste</th>
+                    {{-- <th scope="col">Subcaste</th> --}}
                     {{-- <th scope="col">M. Reg. No.</th> --}}
                     <th scope="col">Pan No.</th>
                     <th scope="col">Adhar</th>
-                    <th scope="col">Department</th>
+                    {{-- <th scope="col">Department</th> --}}
                     <th scope="col">Branch</th>
                     <th scope="col">Created By</th>
                     <th scope="col">Address</th>
                     <th scope="col">पत्ता</th>
                     <th scope="col">City</th>
                     <th scope="col">Mobile No.</th>
-                    <th scope="col">Employee Code</th>
+                    {{-- <th scope="col">Employee Code</th> --}}
                     <th scope="col">Designation</th>
-                    <th scope="col">Salary</th>
-                    <th scope="col">Other Allowance</th>
+                    {{-- <th scope="col">Salary</th> --}}
+                    {{-- <th scope="col">Other Allowance</th> --}}
                     <th scope="col">Division</th>
                     <th scope="col">Sub Division</th>
                     {{-- <th scope="col">Center</th> --}}
                     <th scope="col">Joining Date</th>
-                    <th scope="col">Retirement Date</th>
-                    <th scope="col">GPF No.</th>
-                    <th scope="col">HRA</th>
-                    <th scope="col">DA</th>
-                    <th scope="col">Bank Name</th>
-                    <th scope="col">Branch Name</th>
-                    <th scope="col">Bank Acc. No.</th>
-                    <th scope="col">IFSC Code</th>
-                    <th scope="col">Proof1 No (Type) </th>
-                    <th scope="col">Proof1 Image</th>
-                    <th scope="col">Proof2 No (Type) </th>
-                    <th scope="col">Proof2 Image</th>
+                    {{-- <th scope="col">Retirement Date</th> --}}
+                    {{-- <th scope="col">GPF No.</th> --}}
+                    {{-- <th scope="col">HRA</th> --}}
+                    {{-- <th scope="col">DA</th> --}}
+                    {{-- <th scope="col">Bank Name</th> --}}
+                    {{-- <th scope="col">Branch Name</th> --}}
+                    {{-- <th scope="col">Bank Acc. No.</th> --}}
+                    {{-- <th scope="col">IFSC Code</th> --}}
+                    {{-- <th scope="col">Proof1 No (Type) </th> --}}
+                    {{-- <th scope="col">Proof1 Image</th> --}}
+                    {{-- <th scope="col">Proof2 No (Type) </th> --}}
+                    {{-- <th scope="col">Proof2 Image</th> --}}
                     {{-- <th scope="col">Director</th>
                     <th scope="col">Share Amount</th>
                     <th scope="col">Number of Shares</th>
@@ -89,15 +88,15 @@
                     <th scope="col">Monthly Deposit</th>
                     <th scope="col">Demand</th>
                     <th scope="col">Type</th> --}}
-                    <th scope="col">Nominee Name</th>
-                    <th scope="col">Nominee Naav</th>
-                    <th scope="col">Nominee Age</th>
-                    <th scope="col">Nominee Gender</th>
-                    <th scope="col">Nominee Relation</th>
-                    <th scope="col">Nominee Image</th>
-                    <th scope="col">Nominee Address</th>
-                    <th scope="col">Nominee Address in Marathi</th>
-                    <th scope="col">Nominee Adhar No. </th>
+                    {{-- <th scope="col">Nominee Name</th> --}}
+                    {{-- <th scope="col">Nominee Naav</th> --}}
+                    {{-- <th scope="col">Nominee Age</th> --}}
+                    {{-- <th scope="col">Nominee Gender</th> --}}
+                    {{-- <th scope="col">Nominee Relation</th> --}}
+                    {{-- <th scope="col">Nominee Image</th> --}}
+                    {{-- <th scope="col">Nominee Address</th> --}}
+                    {{-- <th scope="col">Nominee Address in Marathi</th> --}}
+                    {{-- <th scope="col">Nominee Adhar No. </th> --}}
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -110,58 +109,59 @@
                     
                     <th scope="row">{{$i}}</th>
                     <th scope="row">{{$employee->id}}</th>
-                    <th scope="row">{{$employee->member->name ?? ''}}</th>
-                    <th scope="row">{{$employee->member->naav ?? ''}}</th>
-                    <th scope="row">{{$employee->member->dob ?? ''}}</th>
-                    <th scope="row">{{$employee->member->gender ?? ''}}</th>
-                    <th scope="row">{{$employee->member->age ?? ''}}</th>
-                    <th scope="row">{{$employee->member->date_of_joining ?? ''}}</th>
-                    <th scope="row">{{$employee->member->religion ?? ''}}</th>
-                    <th scope="row">{{$employee->member->category ?? ''}}</th>
-                    <th scope="row">{{$employee->member->caste ?? ''}}</th>
-                    <th scope="row">{{$employee->member->subcaste->name ?? ''}}</th>
+                    <th scope="row">{{$employee->name ?? ''}}</th>
+                    <th scope="row">{{$employee->naav ?? ''}}</th>
+                    <th scope="row">{{$employee->dob ?? ''}}</th>
+                    <th scope="row">{{$employee->gender ?? ''}}</th>
+                    <th scope="row">{{$employee->age ?? ''}}</th>
+                    {{-- <th scope="row">{{$employee->employee->date_of_joining ?? ''}}</th> --}}
+                    <th scope="row">{{$employee->religion ?? ''}}</th>
+                    <th scope="row">{{$employee->category->name ?? ''}}</th>
+                    <th scope="row">{{$employee->caste ?? ''}}</th>
+                    {{-- <th scope="row">{{$employee->subcaste->name ?? ''}}</th> --}}
                     {{-- <th scope="row">{{$employee->m_reg_no  ?? ''}}</th> --}}
-                    <th scope="row">{{$employee->member->pan_no ?? ''}} </th>
-                    <th scope="row">{{$employee->member->adhar_no ?? ''}} </th>
-                    <th scope="row">{{optional($employee->department)->name  ?? ''}}</th>
+                    <th scope="row">{{$employee->pan_no ?? ''}} </th>
+                    <th scope="row">{{$employee->adhar_no ?? ''}} </th>
+                    {{-- <th scope="row">{{optional($employee->department)->name  ?? ''}}</th> --}}
                     <th scope="row">{{optional($employee->branch)->name  ?? ''}}</th>
                     <th scope="row">{{$employee->user->name ?? ''}}</th>
-                    <th scope="row">{{$employee->member->contact->address ?? ''}}</th>
-                    <th scope="row">{{$employee->member->contact->marathi_address ?? ''}}</th>
-                    <th scope="row">{{$employee->member->contact->city ?? ''}}</th>
-                    <th scope="row">{{$employee->member->contact->mobile_no ?? ''}}</th>
-                    <th scope="row">{{optional($employee)->emp_code  ?? ''}}</th>
-                    <th scope="row">{{optional($employee)->designation->name  ?? ''}}</th>
-                    <th scope="row">{{optional($employee)->salary  ?? ''}}</th>
-                    <th scope="row">{{optional($employee)->other_allowance  ?? ''}}</th>
+                    <th scope="row">{{$employee->contact->address ?? ''}}</th>
+                    <th scope="row">{{$employee->contact->marathi_address ?? ''}}</th>
+                    <th scope="row">{{$employee->contact->city ?? ''}}</th>
+                    <th scope="row">{{$employee->contact->mobile_no ?? ''}}</th>
+                    {{-- <th scope="row">{{$employee->employee->emp_code  ?? ''}}</th> --}}
+                    <th scope="row">{{optional($employee->employee)->designation->name  ?? ''}}</th>
+                    {{-- <th scope="row">{{optional($employee->employee)->salary  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($employee->employee)->other_allowance  ?? ''}}</th> --}}
                     <th scope="row">{{optional($employee)->division->name  ?? ''}}</th>
                     <th scope="row">{{optional($employee)->subdivision->name  ?? ''}}</th>
                     {{-- <th scope="row">{{optional($employee)->center->name  ?? ''}}</th> --}}
-                    <th scope="row">{{optional($employee)->joining_date  ?? ''}}</th>
-                    <th scope="row">{{optional($employee)->transfer_date  ?? ''}}</th>
-                    <th scope="row">{{optional($employee)->retirement_date  ?? ''}}</th>
-                    <th scope="row">{{optional($employee)->gpf_no  ?? ''}}</th>
-                    <th scope="row">{{optional($employee)->da  ?? ''}}</th>
+                    <th scope="row">{{$employee->employee->joining_date  ?? ''}}</th>
+                    {{-- <th scope="row">{{optional($employee->employee)->transfer_date  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($employee->employee)->retirement_date  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($employee->employee)->gpf_no  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($employee->employee)->da  ?? ''}}</th> --}}
             
-                    <th scope="row">{{optional($employee->member)->bankdtl->bank_name  ?? ''}}</th>
-                    <th scope="row">{{optional($employee->member)->bankdtl->branch_name  ?? ''}}</th>
-                    <th scope="row">{{optional($employee->member)->bankdtl->bank_account_no  ?? ''}}</th>
-                    <th scope="row">{{optional($employee->member)->bankdtl->ifsc_code  ?? ''}}</th>
-                    <th scope="row">{{optional($employee->member)->bankdtl->proof_1_no  ?? ''}} {{optional($employee->member)->bankdtl->proof_1_type  ?? ''}}</th>
-                    <th scope="row">@php $imagePath = optional($employee->member)->bankdtl->proof_1_image ?? ''; @endphp
+                    {{-- <th scope="row">{{optional($employee)->bankdtl->bank_name  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($employee)->bankdtl->branch_name  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($employee)->bankdtl->bank_account_no  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($employee)->bankdtl->ifsc_code  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($employee)->bankdtl->proof_1_no  ?? ''}} {{optional($employee)->bankdtl->proof_1_type  ?? ''}}</th> --}}
+                    {{-- <th scope="row">@php $imagePath = optional($employee)->bankdtl->proof_1_image ?? ''; @endphp
                         @if ($imagePath)
                             <img src="{{ asset('storage/' . $imagePath) }}" alt="Proof 1 Image" style="max-width: 50px; max-height: 50px;">
                         @else
                             No Image
                         @endif
-                    </th>
-                    <th scope="row">{{optional($employee->member)->bankdtl->proof_2_no  ?? ''}} {{optional($employee->member)->bankdtl->proof_2_type  ?? ''}}</th>
-                    <th scope="row">@php $imagePath = optional($employee->member)->bankdtl->proof_2_image ?? ''; @endphp
+                    </th> --}}
+                    {{-- <th scope="row">{{optional($employee)->bankdtl->proof_2_no  ?? ''}} {{optional($employee)->bankdtl->proof_2_type  ?? ''}}</th> --}}
+                    {{-- <th scope="row">@php $imagePath = optional($employee)->bankdtl->proof_2_image ?? ''; @endphp
                         @if ($imagePath)
                             <img src="{{ asset('storage/' . $imagePath) }}" alt="Proof 1 Image" style="max-width: 50px; max-height: 50px;">
                         @else
                             No Image
-                        @endif</th>
+                        @endif
+                    </th> --}}
                     {{-- <th scope="row">{{optional($employee->financialdtl)->director->name  ?? ''}}</th>
                     <th scope="row">{{optional($employee->financialdtl)->share_amount  ?? ''}}</th>
                     <th scope="row">{{optional($employee->financialdtl)->number_of_shares  ?? ''}}</th>
@@ -173,92 +173,92 @@
                     <th scope="row">{{optional($employee->financialdtl)->monthly_deposit  ?? ''}}</th>
                     <th scope="row">{{optional($employee->financialdtl)->demand  ?? ''}}</th>
                     <th scope="row">{{optional($employee->financialdtl)->type  ?? ''}}</th> --}}
-                    <th scope="row">{{optional($employee->member)->nominee->nominee_name  ?? ''}}</th>
-                    <th scope="row">{{optional($employee->member)->nominee->nominee_naav  ?? ''}}</th>
-                    <th scope="row">{{optional($employee->member)->nominee->nominee_age  ?? ''}}</th>
-                    <th scope="row">{{optional($employee->member)->nominee->nominee_gender  ?? ''}}</th>
-                    <th scope="row">{{optional($employee->member)->nominee->relation  ?? ''}}</th>
-                    <th scope="row">@php $imagePath = optional($employee->nominee)->nominee_image; @endphp
+                    {{-- <th scope="row">{{optional($employee)->nominee->nominee_name  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($employee)->nominee->nominee_naav  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($employee)->nominee->nominee_age  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($employee)->nominee->nominee_gender  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($employee)->nominee->relation  ?? ''}}</th> --}}
+                    {{-- <th scope="row">@php $imagePath = optional($employee->nominee)->nominee_image; @endphp
                         @if ($imagePath)
                             <img src="{{ asset('storage/' . $imagePath) }}" alt="Proof 1 Image" style="max-width: 50px; max-height: 50px;">
                         @else
                             No Image
-                        @endif</th>
-                    <th scope="row">{{optional($employee->member)->nominee->nominee_address  ?? ''}}</th>
-                    <th scope="row">{{optional($employee->member)->nominee->nominee_marathi_address  ?? ''}}</th>
-                    <th scope="row">{{optional($employee->member)->nominee->nominee_adhar_no  ?? ''}}</th>
+                        @endif
+                    </th> --}}
+                    {{-- <th scope="row">{{optional($employee)->nominee->nominee_address  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($employee)->nominee->nominee_marathi_address  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($employee)->nominee->nominee_adhar_no  ?? ''}}</th> --}}
                     <td>
                        <a href="#" 
-                            data-id="{{$employee->id}}" data-nominee-id="{{optional($employee->member)->nominee->id ?? '' }}" 
-                            data-name="{{$employee->member->name ?? '' }}" 
-                            data-naav="{{$employee->member->naav ?? '' }}" 
-                            data-created-by="{{$employee->member->user->name ?? Auth::user()->name }}" 
+                            data-id="{{$employee->id}}" data-nominee-id="{{optional($employee)->nominee->id ?? '' }}" 
+                            data-name="{{$employee->name ?? '' }}" 
+                            data-naav="{{$employee->naav ?? '' }}" 
+                            data-created-by="{{$employee->user->name ?? Auth::user()->name }}" 
                             data-created-by-id="{{$employee->user->id ?? Auth::user()->id }}" 
-                            data-branch-id="{{$employee->member->branch->id ?? '' }}" 
-                            data-route="{{ route('employees.update', $employee->member->id ?? '') }}" 
-                            data-subcaste-id="{{$employee->member->subcaste->id ?? ''}}" 
-                            data-subcaste-name="{{$employee->member->subcaste->name ?? ''}}" 
-                            data-department-id="{{$employee->member->department->id ?? ''}}" 
-                            data-department-name="{{$employee->member->department->name ?? ''}}" 
-                            data-dob="{{$employee->member->dob ?? '' }}" 
-                            data-gender="{{$employee->member->gender ?? '' }}" 
-                            data-age="{{$employee->member->age ?? '' }}" 
-                            data-date-of-joining="{{$employee->member->date_of_joining ?? '' }}" 
-                            data-religion="{{$employee->member->religion ?? '' }}" 
-                            data-category="{{$employee->member->category ?? '' }}" 
-                            data-caste="{{$employee->member->caste ?? '' }}" 
-                            data-m-reg-no="{{$employee->member->m_reg_no ?? '' }}" 
-                            data-pan-no="{{$employee->member->pan_no ?? '' }}" 
-                            data-adhar-no="{{$employee->member->adhar_no ?? '' }}" 
-                            data-emp-code="{{$employee->member->employee->emp_code ?? '' }}" 
-                            data-designation-id="{{$employee->member->employee->designation->id ?? '' }}" 
-                            data-designation-name="{{$employee->member->employee->designation->name ?? '' }}" 
+                            data-branch-id="{{$employee->branch->id ?? '' }}" 
+                            data-route="{{ route('employees.update', $employee->id ?? '') }}" 
+                            data-subcaste-id="{{$employee->subcaste->id ?? ''}}" 
+                            data-subcaste-name="{{$employee->subcaste->name ?? ''}}" 
+                            data-department-id="{{$employee->department->id ?? ''}}" 
+                            data-department-name="{{$employee->department->name ?? ''}}" 
+                            data-dob="{{$employee->dob ?? '' }}" 
+                            data-gender="{{$employee->gender ?? '' }}" 
+                            data-age="{{$employee->age ?? '' }}" 
+                            data-date-of-joining="{{$employee->date_of_joining ?? '' }}" 
+                            data-religion="{{$employee->religion ?? '' }}" 
+                            data-category="{{$employee->category->id ?? '' }}" 
+                            data-caste="{{$employee->caste ?? '' }}" 
+                            data-m-reg-no="{{$employee->m_reg_no ?? '' }}" 
+                            data-pan-no="{{$employee->pan_no ?? '' }}" 
+                            data-adhar-no="{{$employee->adhar_no ?? '' }}" 
+                            data-member-branch="{{$employee->member_branch_id ?? '' }}" 
+                            data-designation-id="{{$employee->employee->designation->id ?? '' }}" 
+                            data-designation-name="{{$employee->employee->designation->name ?? '' }}" 
                             data-salary="{{$employee->employee->salary ?? '' }}" 
-                            data-other-allowance="{{$employee->member->employee->other_allowance ?? '' }}" 
-                            data-division-id="{{$employee->member->division_id ?? '' }}" 
-                            data-division-name="{{$employee->member->division->name ?? '' }}" 
-                            data-subdivision-id="{{$employee->member->subdivision_id ?? '' }}" 
-                            data-subdivision-name="{{$employee->member->subdivision->name ?? '' }}" 
-                            data-center-id="{{$employee->member->employee->center_id ?? '' }}" 
-                            data-center-name="{{$employee->member->employee->center->name ?? '' }}" 
-                            data-joining-date="{{$employee->member->employee->joining_date ?? '' }}" 
-                            data-transfer-date="{{$employee->member->employee->transfer_date ?? '' }}" 
-                            data-retirement-date="{{$employee->member->employee->retirement_date ?? '' }}" 
-                            data-gpf-no="{{$employee->member->member->employee->gpf_no ?? '' }}" 
-                            data-hra="{{$employee->member->employee->hra ?? '' }}" 
-                            data-da="{{$employee->member->employee->da ?? '' }}" 
-                            data-address="{{ $employee->member->contact->address ?? '' }}" 
-                            data-marathiAddress="{{$employee->member->contact->marathi_address ?? ''}}" 
-                            data-city="{{$employee->member->contact->city ?? '' }}" 
-                            data-mobile-no="{{$employee->member->contact->mobile_no ?? '' }}" 
-                            data-phone-no="{{$employee->member->contact->phone_no ?? '' }}" 
-                            data-nominee-name="{{$employee->member->nominee->nominee_name ?? '' }}" 
-                            data-nominee-naav="{{$employee->member->nominee->nominee_naav ?? '' }}" 
-                            data-nominee-age="{{$employee->member->nominee->nominee_age ?? '' }}" 
-                            data-nominee-gender="{{$employee->member->nominee->nominee_gender ?? '' }}" 
-                            data-relation="{{$employee->member->nominee->relation ?? '' }}" 
-                            data-nominee-image="{{$employee->member->nominee->nominee_image ?? '' }}" 
-                            data-nominee-address="{{$employee->member->nominee->nominee_address ?? '' }}" 
-                            data-nominee-marathi-address="{{$employee->member->nominee->nominee_marathi_address ?? '' }}" 
-                            data-nominee-adhar-no="{{$employee->member->nominee->nominee_adhar_no ?? '' }}" 
-                            data-bank-name="{{$employee->member->bankdtl->bank_name ?? '' }}" 
-                            data-branch-name="{{$employee->member->bankdtl->branch_name ?? '' }}"
-                            data-member-branch-id="{{$employee->member->member_branch_id ?? '' }}" 
-                            data-bank-account-no="{{$employee->member->bankdtl->bank_account_no ?? '' }}" 
-                            data-ifsc-code="{{$employee->member->bankdtl->ifsc_code ?? '' }}" 
-                            data-proof-1-no="{{$employee->member->bankdtl->proof_1_no ?? '' }}" 
-                            data-proof-1-type="{{$employee->member->bankdtl->proof_1_type ?? '' }}" 
-                            data-proof-2-image="{{$employee->member->bankdtl->proof_2_image ?? '' }}" 
-                            data-proof-2-no="{{$employee->member->bankdtl->proof_2_no ?? '' }}" 
-                            data-proof-2-type="{{$employee->member->bankdtl->proof_2_type ?? '' }}"         
+                            data-other-allowance="{{$employee->employee->other_allowance ?? '' }}" 
+                            data-division-id="{{$employee->division_id ?? '' }}" 
+                            data-division-name="{{$employee->division->name ?? '' }}" 
+                            data-subdivision-id="{{$employee->subdivision_id ?? '' }}" 
+                            data-subdivision-name="{{$employee->subdivision->name ?? '' }}" 
+                            data-center-id="{{$employee->employee->center_id ?? '' }}" 
+                            data-center-name="{{$employee->employee->center->name ?? '' }}" 
+                            data-joining-date="{{$employee->employee->joining_date ?? '' }}" 
+                            data-transfer-date="{{$employee->employee->transfer_date ?? '' }}" 
+                            data-retirement-date="{{$employee->employee->retirement_date ?? '' }}" 
+                            data-gpf-no="{{$employee->employee->gpf_no ?? '' }}" 
+                            data-hra="{{$employee->employee->hra ?? '' }}" 
+                            data-da="{{$employee->employee->da ?? '' }}" 
+                            data-address="{{ $employee->contact->address ?? '' }}" 
+                            data-marathiAddress="{{$employee->contact->marathi_address ?? ''}}" 
+                            data-city="{{$employee->contact->city ?? '' }}" 
+                            data-mobile-no="{{$employee->contact->mobile_no ?? '' }}" 
+                            data-phone-no="{{$employee->contact->phone_no ?? '' }}" 
+                            data-nominee-name="{{$employee->nominee->nominee_name ?? '' }}" 
+                            data-nominee-naav="{{$employee->nominee->nominee_naav ?? '' }}" 
+                            data-nominee-age="{{$employee->nominee->nominee_age ?? '' }}" 
+                            data-nominee-gender="{{$employee->nominee->nominee_gender ?? '' }}" 
+                            data-relation="{{$employee->nominee->relation ?? '' }}" 
+                            data-nominee-image="{{$employee->nominee->nominee_image ?? '' }}" 
+                            data-nominee-address="{{$employee->nominee->nominee_address ?? '' }}" 
+                            data-nominee-marathi-address="{{$employee->nominee->nominee_marathi_address ?? '' }}" 
+                            data-nominee-adhar-no="{{$employee->nominee->nominee_adhar_no ?? '' }}" 
+                            data-bank-name="{{$employee->bankdtl->bank_name ?? '' }}" 
+                            data-branch-name="{{$employee->bankdtl->branch_name ?? '' }}"
+                            data-bank-account-no="{{$employee->bankdtl->bank_account_no ?? '' }}" 
+                            data-ifsc-code="{{$employee->bankdtl->ifsc_code ?? '' }}" 
+                            data-proof-1-no="{{$employee->bankdtl->proof_1_no ?? '' }}" 
+                            data-proof-1-type="{{$employee->bankdtl->proof_1_type ?? '' }}" 
+                            data-proof-2-image="{{$employee->bankdtl->proof_2_image ?? '' }}" 
+                            data-proof-2-no="{{$employee->bankdtl->proof_2_no ?? '' }}" 
+                            data-proof-2-type="{{$employee->bankdtl->proof_2_type ?? '' }}"         
                             class="text-decoration-none me-4 edit-employee-btn" 
                             data-bs-toggle="modal"
                             data-bs-target="#employeeModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" data-id="{{$employee->id}}" data-route="{{ route('employees.destroy', $employee->id) }}" data-name="{{ $employee->member->name ?? '' }}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        {{-- <a href="#" data-id="{{$employee->id}}" data-route="{{ route('employees.destroy', $employee->id) }}" data-name="{{ $employee->name ?? '' }}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
+                        </a> --}}
                     </td>
                 </tr>
                 @php $i++ @endphp
@@ -311,7 +311,7 @@
             let createdBy = this.getAttribute("data-created-by");
             let createdById = this.getAttribute("data-created-by-id");
             let branchId = this.getAttribute("data-branch-id");
-            let memberBranchId = this.getAttribute("data-member-branch-id");
+            let memberBranchId = this.getAttribute("data-member-branch");
             let route = this.getAttribute("data-route");
             // let subcasteId = this.getAttribute("data-subcaste-id");
             // let subcasteName = this.getAttribute("data-subcaste-name");
@@ -344,7 +344,7 @@
             // let joiningDate = this.getAttribute("data-joining-date");
             // let transferDate = this.getAttribute("data-transfer-date");
             // let retirementDate = this.getAttribute("data-retirement-date");
-            let gpfNo = this.getAttribute("data-cpf-no");
+            let gpfNo = this.getAttribute("data-gpf-no");
             // let hra = this.getAttribute("data-hra");
             // let da = this.getAttribute("data-da");          
             

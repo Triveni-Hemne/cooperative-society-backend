@@ -39,7 +39,7 @@
                     <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
                     <th scope="col">ledger</th>
-                    <th scope="col">Image</th>
+                    {{-- <th scope="col">Image</th> --}}
                     <th scope="col">Member Name</th>
                     <th scope="col">Account No.</th>
                     <th scope="col">Deposit Type</th>
@@ -49,7 +49,7 @@
                     <th scope="col">Balance</th>
                     <th scope="col">Closing Flag</th>
                     <th scope="col">Add To Demand</th>
-                    <th scope="col">Agent</th>
+                    {{-- <th scope="col">Agent</th> --}}
                     <th scope="col">Page No.</th>
                     <th scope="col">Intallment Type</th>
                     <th scope="col">Intallment Amount</th>
@@ -58,11 +58,11 @@
                     <th scope="col">Total Installments Paid</th>
                     <th scope="col">Acc. Closing Date</th>
                     <th scope="col">Interest Payable</th>
-                    <th scope="col">Open. Interest</th>
-                    <th scope="col">Nominees dtl</th>
-                    <th scope="col">FD dtl</th>
-                    <th scope="col">RD dtl</th>
-                    <th scope="col">Saving dtl</th>
+                    {{-- <th scope="col">Open. Interest</th> --}}
+                    {{-- <th scope="col">Nominees dtl</th> --}}
+                    {{-- <th scope="col">FD dtl</th> --}}
+                    {{-- <th scope="col">RD dtl</th> --}}
+                    {{-- <th scope="col">Saving dtl</th> --}}
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -97,7 +97,7 @@
                     <td scope="row">{{$account->balance}}</td>
                     <td scope="row">{{$account->closing_flag ?? ''}}</td>
                     <td scope="row">{{$account->add_to_demand ?? ''}}</td>
-                    <td scope="row">{{$account->agent->user->name ?? ''}}</td>
+                    {{-- <td scope="row">{{$account->agent->user->name ?? ''}}</td> --}}
                     <td scope="row">{{$account->page_no ?? ''}}</td>
                     <td scope="row">{{$account->installment_type ?? ''}}</td>
                     <td scope="row">{{$account->installment_amount ?? ''}}</td>
@@ -106,8 +106,8 @@
                     <td scope="row">{{$account->total_installments_paid ?? ''}}</td>
                     <td scope="row">{{$account->acc_closing_date ?? ''}}</td>
                     <td scope="row">{{$account->interest_payable ?? ''}}</td>
-                    <td scope="row">{{$account->open_interest ?? ''}}</td>
-                    <td class="row">
+                    {{-- <td scope="row">{{$account->open_interest ?? ''}}</td> --}}
+                    {{-- <td class="row">
                         @foreach ($account->nominees as $nominee)
                             <ul class="col" style="list-style: none">
                                 <li>Name: {{ $nominee->nominee_name }}</li>
@@ -121,26 +121,26 @@
                                 <li>Adhar No. {{$nominee->nominee_adhar_no ?? ''}}</li>
                             </ul>
                         @endforeach
-                    </td> 
-                    <td>
+                    </td>  --}}
+                    {{-- <td>
                         <ul class="col" style="list-style: none">
                                 <li>FD Term Months: {{$account->fixedDeposit->fd_term_months ?? ''}}</li>
                                 <li>Maturity Amount: {{$account->fixedDeposit->maturity_amount ?? ''}}</li>
                         </ul>
-                    </td> 
-                    <td>
+                    </td>  --}}
+                    {{-- <td>
                         <ul class="col" style="list-style: none">
                                 <li>RD Tem Months: {{$account->recurringDeposit->rd_term_months ?? ''}}</li>
                                 <li>Open Interest:{{$account->recurringDeposit->open_interest ?? ''}}</li>
                                 <li>Maturity Amount: {{$account->recurringDeposit->maturity_amount ?? ''}}</li>
                         </ul>
-                    </td> 
-                    <td>
+                    </td>  --}}
+                    {{-- <td>
                         <ul class="col" style="list-style: none">
                                 <li>Balance: {{$account->saveDeposit->balance ?? ''}}</li>
                                 <li>Interest Rate: {{$account->saveDeposit->interest_rate ?? ''}}</li>
                         </ul>
-                    </td>              
+                    </td>               --}}
                     <td>
                         <a href="#"  data-id="{{$account->id }}" data-member-id="{{$account->member_id ?? ''}}" data-ledger-id="{{$account->ledger_id}}" data-account-id="{{$account->account_id ?? null}}" data-acc-no="{{$account->acc_no ?? ''}}" data-deposit-type="{{$account->deposit_type}}" data-name="{{$account->name ?? ''}}" data-interest-rate="{{$account->interest_rate ?? ''}}" data-ac-start-date="{{$account->ac_start_date ?? ''}}" data-open-balance="{{$account->open_balance ?? ''}}" data-balance="{{$account->balance ?? ''}}"data-closing-flag="{{$account->closing_flag ?? ''}}" data-add-to-demand="{{$account->add_to_demand ?? ''}}" data-agent-id="{{$account->agent_id ?? ''}}" data-page-no="{{$account->page_no ?? ''}}" data-installment-type="{{$account->installment_type ?? ''}}" data-installment-amount="{{$account->installment_amount ?? ''}}"data-total-installments="{{$account->total_installments ?? ''}}" data-total-payable-amount="{{$account->total_payable_amount ?? ''}}" data-total-installments-paid="{{$account->total_installments_paid ?? ''}}" data-acc-closing-date="{{$account->acc_closing_date}}" data-interest-payable="{{$account->interest_payable ?? ''}}" data-open-interest="{{$account->open_interest ?? ''}}" data-route="{{ route('member-depo-accounts.update', $account->id) }}"
                         @php $j = 1; @endphp 
@@ -155,9 +155,9 @@
                         data-bs-target="#depositAccOpeningModal">
                         <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" data-id="{{$account->id }}" data-route="{{ route('member-depo-accounts.destroy', $account->id) }}" data-name="{{$account->name}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        {{-- <a href="#" data-id="{{$account->id }}" data-route="{{ route('member-depo-accounts.destroy', $account->id) }}" data-name="{{$account->name}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
+                        </a> --}}
                     </td>
                 </tr>
                 @php $i++ @endphp

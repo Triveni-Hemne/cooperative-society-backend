@@ -38,7 +38,7 @@ class EmployeeController extends Controller
         } else {
             $branchId = $user->branch_id; // normal user only sees their branch
         }
-       $employees = Employee::with('member','designation','division','subdivision','member.contact', 'member.nominee', 'member.bankdtl')->when($branchId, function ($query) use ($branchId) {
+       $employees = Member::whereNotNull('employee_id')->when($branchId, function ($query) use ($branchId) {
             $query->where(function ($query) use ($branchId) {
                 $query->whereHas('user', function ($q) use ($branchId) {
                     $q->where('branch_id', $branchId);
@@ -138,10 +138,10 @@ class EmployeeController extends Controller
             'nominee_adhar_no' => 'nullable|string|max:50',
 
             // Bank Details Validation
-            'bank_name' => 'required|string|max:255',
-            'branch_name' => 'required|string|max:255',
-            'bank_account_no' => 'required|string|max:50|unique:member_bank_details,bank_account_no',
-            'ifsc_code' => 'required|string|min:5|max:11',
+            'bank_name' => 'nullable|string|max:255',
+            'branch_name' => 'nullable|string|max:255',
+            'bank_account_no' => 'nullable|string|max:50|unique:member_bank_details,bank_account_no',
+            'ifsc_code' => 'nullable|string|min:5|max:11',
             'proof_1_no' => 'nullable|string|unique:member_bank_details,proof_1_no',
             'proof_1_type' => 'nullable|string|max:50',
             'proof_1_image' => 'nullable|image|max:2048',
@@ -150,6 +150,7 @@ class EmployeeController extends Controller
             'proof_2_image' => 'nullable|image|max:2048',
             
         ]);
+
 
         // dd($validatedData);
         if ($request->hasFile('photo')) {
@@ -323,10 +324,10 @@ class EmployeeController extends Controller
         ]);
 
         $bankDetail_validated = $request->validate([
-            'bank_name' => 'required|string|max:255',
-            'branch_name' => 'required|string|max:255',
-            'bank_account_no' => ['required', 'string', 'max:50', Rule::unique('member_bank_details', 'bank_account_no')->ignore($member->id, 'member_id')],
-            'ifsc_code' => 'required|string|min:5|max:11',
+            'bank_name' => 'nullable|string|max:255',
+            'branch_name' => 'nullable|string|max:255',
+            'bank_account_no' => ['nullable', 'string', 'max:50', Rule::unique('member_bank_details', 'bank_account_no')->ignore($member->id, 'member_id')],
+            'ifsc_code' => 'nullable|string|min:5|max:11',
             'proof_1_no' => ['nullable', 'string', Rule::unique('member_bank_details', 'proof_1_no')->ignore($member->id, 'member_id'),
             ],
             'proof_1_type' => 'nullable|string|max:50',

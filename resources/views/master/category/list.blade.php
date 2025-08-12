@@ -9,7 +9,7 @@
 
 @section('content')
 <div class="mb-3">
-    <h3>Categories's</h3>
+    <h3>Categories</h3>
     <div class="row">
         <!-- Search Bar -->
         <div class="col">

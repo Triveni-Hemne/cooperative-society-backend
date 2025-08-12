@@ -28,14 +28,14 @@
                                 class="form-select @error('employee_id') is-invalid @enderror">
                                 <option value="" disabled selected>Select Employee (Optional)</option>
                                 @foreach ($employees as $employee)
-                                @if(optional($employee->member)->name)
-                                <option value="{{ $employee->id }}"
-                                {{ old('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->member->name ?? '' }}
-                                </option>
-                                @endif
-                        @endforeach
-                        </select>
-                        <label for="employee">Employee <span class="text-danger"> *</span></label>
+                                    @if(optional($employee)->name)
+                                    <option value="{{ $employee->employee->id }}"
+                                    {{ old('employee_id') == $employee->employee->id ? 'selected' : '' }}>{{ $employee->name ?? '' }}
+                                    </option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            <label for="employee">Employee</label>
                         @error('employee_id')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

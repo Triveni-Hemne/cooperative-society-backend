@@ -47,57 +47,57 @@
                     <th scope="col">Religion</th>
                     <th scope="col">Category</th>
                     <th scope="col">Caste</th>
-                    <th scope="col">Subcaste</th>
+                    {{-- <th scope="col">Subcaste</th> --}}
                     <th scope="col">M. Reg. No.</th>
                     <th scope="col">Pan No.</th>
                     <th scope="col">Adhar</th>
-                    <th scope="col">Department</th>
+                    {{-- <th scope="col">Department</th> --}}
                     <th scope="col">Branch</th>
                     <th scope="col">Created By</th>
                     <th scope="col">Address</th>
                     <th scope="col">पत्ता</th>
                     <th scope="col">City</th>
                     <th scope="col">Mobile No.</th>
-                    <th scope="col">Employee Code</th>
-                    <th scope="col">Designation</th>
-                    <th scope="col">Salary</th>
-                    <th scope="col">Other Allowance</th>
-                    <th scope="col">Division</th>
-                    <th scope="col">Sub Division</th>
-                    <th scope="col">Center</th>
-                    <th scope="col">Joining Date</th>
-                    <th scope="col">Retirement Date</th>
-                    <th scope="col">GPF No.</th>
-                    <th scope="col">HRA</th>
-                    <th scope="col">DA</th>
-                    <th scope="col">Bank Name</th>
-                    <th scope="col">Branch Name</th>
-                    <th scope="col">Bank Acc. No.</th>
-                    <th scope="col">IFSC Code</th>
-                    <th scope="col">Proof1 No (Type) </th>
-                    <th scope="col">Proof1 Image</th>
-                    <th scope="col">Proof2 No (Type) </th>
-                    <th scope="col">Proof2 Image</th>
-                    <th scope="col">Director</th>
-                    <th scope="col">Share Amount</th>
-                    <th scope="col">Number of Shares</th>
-                    <th scope="col">Welfare Fund</th>
-                    <th scope="col">Page No. </th>
-                    <th scope="col">Current Balance</th>
-                    <th scope="col">Monthly Balance</th>
-                    <th scope="col">Dividend Amount</th>
-                    <th scope="col">Monthly Deposit</th>
-                    <th scope="col">Demand</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Nominee Name</th>
-                    <th scope="col">Nominee Naav</th>
-                    <th scope="col">Nominee Age</th>
-                    <th scope="col">Nominee Gender</th>
-                    <th scope="col">Nominee Relation</th>
-                    <th scope="col">Nominee Image</th>
-                    <th scope="col">Nominee Address</th>
-                    <th scope="col">Nominee Address in Marathi</th>
-                    <th scope="col">Nominee Adhar No. </th>
+                    {{-- <th scope="col">Employee Code</th> --}}
+                    {{-- <th scope="col">Designation</th> --}}
+                    {{-- <th scope="col">Salary</th> --}}
+                    {{-- <th scope="col">Other Allowance</th> --}}
+                    {{-- <th scope="col">Division</th> --}}
+                    {{-- <th scope="col">Sub Division</th> --}}
+                    {{-- <th scope="col">Center</th> --}}
+                    {{-- <th scope="col">Joining Date</th> --}}
+                    {{-- <th scope="col">Retirement Date</th> --}}
+                    {{-- <th scope="col">GPF No.</th> --}}
+                    {{-- <th scope="col">HRA</th> --}}
+                    {{-- <th scope="col">DA</th> --}}
+                    {{-- <th scope="col">Bank Name</th> --}}
+                    {{-- <th scope="col">Branch Name</th> --}}
+                    {{-- <th scope="col">Bank Acc. No.</th> --}}
+                    {{-- <th scope="col">IFSC Code</th> --}}
+                    {{-- <th scope="col">Proof1 No (Type) </th> --}}
+                    {{-- <th scope="col">Proof1 Image</th> --}}
+                    {{-- <th scope="col">Proof2 No (Type) </th> --}}
+                    {{-- <th scope="col">Proof2 Image</th> --}}
+                    {{-- <th scope="col">Director</th> --}}
+                    {{-- <th scope="col">Share Amount</th> --}}
+                    {{-- <th scope="col">Number of Shares</th> --}}
+                    {{-- <th scope="col">Welfare Fund</th> --}}
+                    {{-- <th scope="col">Page No. </th> --}}
+                    {{-- <th scope="col">Current Balance</th> --}}
+                    {{-- <th scope="col">Monthly Balance</th> --}}
+                    {{-- <th scope="col">Dividend Amount</th> --}}
+                    {{-- <th scope="col">Monthly Deposit</th> --}}
+                    {{-- <th scope="col">Demand</th> --}}
+                    {{-- <th scope="col">Type</th> --}}
+                    {{-- <th scope="col">Nominee Name</th> --}}
+                    {{-- <th scope="col">Nominee Naav</th> --}}
+                    {{-- <th scope="col">Nominee Age</th> --}}
+                    {{-- <th scope="col">Nominee Gender</th> --}}
+                    {{-- <th scope="col">Nominee Relation</th> --}}
+                    {{-- <th scope="col">Nominee Image</th> --}}
+                    {{-- <th scope="col">Nominee Address</th> --}}
+                    {{-- <th scope="col">Nominee Address in Marathi</th> --}}
+                    {{-- <th scope="col">Nominee Adhar No. </th> --}}
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -115,75 +115,77 @@
                     <th scope="row">{{$member->age ?? ''}}</th>
                     <th scope="row">{{$member->date_of_joining ?? ''}}</th>
                     <th scope="row">{{$member->religion ?? ''}}</th>
-                    <th scope="row">{{$member->category ?? ''}}</th>
+                    <th scope="row">{{$member->category->name ?? ''}}</th>
                     <th scope="row">{{$member->caste ?? ''}}</th>
-                    <th scope="row">{{$member->subcaste->name ?? ''}}</th>
+                    {{-- <th scope="row">{{$member->subcaste->name ?? ''}}</th> --}}
                     <th scope="row">{{$member->m_reg_no  ?? ''}}</th>
                     <th scope="row">{{$member->pan_no ?? ''}} </th>
                     <th scope="row">{{$member->adhar_no ?? ''}} </th>
-                    <th scope="row">{{optional($member->department)->name  ?? ''}}</th>
+                    {{-- <th scope="row">{{optional($member->department)->name  ?? ''}}</th> --}}
                     <th scope="row">{{optional($member->branch)->name  ?? ''}}</th>
                     <th scope="row">{{$member->user->name ?? ''}}</th>
                     <th scope="row">{{$member->contact->address ?? ''}}</th>
                     <th scope="row">{{$member->contact->marathi_address ?? ''}}</th>
                     <th scope="row">{{$member->contact->city ?? ''}}</th>
                     <th scope="row">{{$member->contact->mobile_no ?? ''}}</th>
-                    <th scope="row">{{optional($member->employee)->emp_code  ?? ''}}</th>
-                    <th scope="row">{{optional($member->employee)->designation->name  ?? ''}}</th>
-                    <th scope="row">{{optional($member->employee)->salary  ?? ''}}</th>
-                    <th scope="row">{{optional($member->employee)->other_allowance  ?? ''}}</th>
-                    <th scope="row">{{optional($member->employee)->division->name  ?? ''}}</th>
-                    <th scope="row">{{optional($member->employee)->subdivision->name  ?? ''}}</th>
-                    <th scope="row">{{optional($member->employee)->center->name  ?? ''}}</th>
-                    <th scope="row">{{optional($member->employee)->joining_date  ?? ''}}</th>
-                    <th scope="row">{{optional($member->employee)->transfer_date  ?? ''}}</th>
-                    <th scope="row">{{optional($member->employee)->retirement_date  ?? ''}}</th>
-                    <th scope="row">{{optional($member->employee)->gpf_no  ?? ''}}</th>
-                    <th scope="row">{{optional($member->employee)->da  ?? ''}}</th>
-                    <th scope="row">{{optional($member->bankdtl)->bank_name  ?? ''}}</th>
-                    <th scope="row">{{optional($member->bankdtl)->branch_name  ?? ''}}</th>
-                    <th scope="row">{{optional($member->bankdtl)->bank_account_no  ?? ''}}</th>
-                    <th scope="row">{{optional($member->bankdtl)->ifsc_code  ?? ''}}</th>
-                    <th scope="row">{{optional($member->bankdtl)->proof_1_no  ?? ''}} {{optional($member->bankdtl)->proof_1_type  ?? ''}}</th>
-                    <th scope="row">@php $imagePath = optional($member->bankdtl)->proof_1_image; @endphp
+                    {{-- <th scope="row">{{optional($member->employee)->emp_code  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->employee)->designation->name  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->employee)->salary  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->employee)->other_allowance  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->employee)->division->name  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->employee)->subdivision->name  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->employee)->center->name  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->employee)->joining_date  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->employee)->transfer_date  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->employee)->retirement_date  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->employee)->gpf_no  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->employee)->da  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->bankdtl)->bank_name  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->bankdtl)->branch_name  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->bankdtl)->bank_account_no  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->bankdtl)->ifsc_code  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->bankdtl)->proof_1_no  ?? ''}} {{optional($member->bankdtl)->proof_1_type  ?? ''}}</th> --}}
+                    {{-- <th scope="row">@php $imagePath = optional($member->bankdtl)->proof_1_image; @endphp
                         @if ($imagePath)
                             <img src="{{ asset('storage/' . $imagePath) }}" alt="Proof 1 Image" style="max-width: 50px; max-height: 50px;">
                         @else
                             No Image
                         @endif
-                    </th>
-                    <th scope="row">{{optional($member->bankdtl)->proof_2_no  ?? ''}} {{optional($member->bankdtl)->proof_2_type  ?? ''}}</th>
-                    <th scope="row">@php $imagePath = optional($member->bankdtl)->proof_2_image; @endphp
+                    </th> --}}
+                    {{-- <th scope="row">{{optional($member->bankdtl)->proof_2_no  ?? ''}} {{optional($member->bankdtl)->proof_2_type  ?? ''}}</th> --}}
+                    {{-- <th scope="row">@php $imagePath = optional($member->bankdtl)->proof_2_image; @endphp
                         @if ($imagePath)
                             <img src="{{ asset('storage/' . $imagePath) }}" alt="Proof 1 Image" style="max-width: 50px; max-height: 50px;">
                         @else
                             No Image
-                        @endif</th>
-                    <th scope="row">{{optional($member->financialdtl)->director->name  ?? ''}}</th>
-                    <th scope="row">{{optional($member->financialdtl)->share_amount  ?? ''}}</th>
-                    <th scope="row">{{optional($member->financialdtl)->number_of_shares  ?? ''}}</th>
-                    <th scope="row">{{optional($member->financialdtl)->welfare_fund  ?? ''}}</th>
-                    <th scope="row">{{optional($member->financialdtl)->page_no  ?? ''}}</th>
-                    <th scope="row">{{optional($member->financialdtl)->current_balance  ?? ''}}</th>
-                    <th scope="row">{{optional($member->financialdtl)->monthly_balance  ?? ''}}</th>
-                    <th scope="row">{{optional($member->financialdtl)->dividend_amount  ?? ''}}</th>
-                    <th scope="row">{{optional($member->financialdtl)->monthly_deposit  ?? ''}}</th>
-                    <th scope="row">{{optional($member->financialdtl)->demand  ?? ''}}</th>
-                    <th scope="row">{{optional($member->financialdtl)->type  ?? ''}}</th>
-                    <th scope="row">{{optional($member->nominee)->nominee_name  ?? ''}}</th>
-                    <th scope="row">{{optional($member->nominee)->nominee_naav  ?? ''}}</th>
-                    <th scope="row">{{optional($member->nominee)->nominee_age  ?? ''}}</th>
-                    <th scope="row">{{optional($member->nominee)->nominee_gender  ?? ''}}</th>
-                    <th scope="row">{{optional($member->nominee)->relation  ?? ''}}</th>
-                    <th scope="row">@php $imagePath = optional($member->nominee)->nominee_image; @endphp
+                        @endif
+                    </th> --}}
+                    {{-- <th scope="row">{{optional($member->financialdtl)->director->name  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->financialdtl)->share_amount  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->financialdtl)->number_of_shares  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->financialdtl)->welfare_fund  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->financialdtl)->page_no  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->financialdtl)->current_balance  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->financialdtl)->monthly_balance  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->financialdtl)->dividend_amount  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->financialdtl)->monthly_deposit  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->financialdtl)->demand  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->financialdtl)->type  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->nominee)->nominee_name  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->nominee)->nominee_naav  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->nominee)->nominee_age  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->nominee)->nominee_gender  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->nominee)->relation  ?? ''}}</th> --}}
+                    {{-- <th scope="row">@php $imagePath = optional($member->nominee)->nominee_image; @endphp
                         @if ($imagePath)
                             <img src="{{ asset('storage/' . $imagePath) }}" alt="Proof 1 Image" style="max-width: 50px; max-height: 50px;">
                         @else
                             No Image
-                        @endif</th>
-                    <th scope="row">{{optional($member->nominee)->nominee_address  ?? ''}}</th>
-                    <th scope="row">{{optional($member->nominee)->nominee_marathi_address  ?? ''}}</th>
-                    <th scope="row">{{optional($member->nominee)->nominee_adhar_no  ?? ''}}</th>
+                        @endif
+                    </th> --}}
+                    {{-- <th scope="row">{{optional($member->nominee)->nominee_address  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->nominee)->nominee_marathi_address  ?? ''}}</th> --}}
+                    {{-- <th scope="row">{{optional($member->nominee)->nominee_adhar_no  ?? ''}}</th> --}}
                     <td>
                        <a href="#" 
                             data-id="{{$member->id}}" data-nominee-id="{{optional($member->nominee)->member_id }}" 
@@ -318,7 +320,7 @@
             let panNo = this.getAttribute("data-pan-no");
             let adharNo = this.getAttribute("data-adhar-no");
             // let empCode = this.getAttribute("data-emp-code");
-            let designationId = this.getAttribute("data-designation-id");
+            //let designationId = this.getAttribute("data-designation-id");
             // let designationName = this.getAttribute("data-designation-name");
             // let salary = this.getAttribute("data-salary");
             // let otherAllowance = this.getAttribute("data-other-allowance");
@@ -406,7 +408,7 @@
 
 
             // document.getElementById("empCode").value = empCode;
-            document.getElementById("designationId").value = designationId;
+            // document.getElementById("designationId").value = designationId;
             // document.getElementById("designationName").value = designationName;
             // document.getElementById("salary").value = salary;
             // document.getElementById("otherAllowance").value = otherAllowance;
@@ -420,7 +422,7 @@
             // document.getElementById("joiningDate").value = joiningDate;
             // document.getElementById("transferDate").value = transferDate;
             // document.getElementById("retirementDate").value = retirementDate;
-            document.getElementById("gpfNo").value = gpfNo;
+            // document.getElementById("gpfNo").value = gpfNo;
             // document.getElementById("hra").value = hra;
             // document.getElementById("da").value = da;
             

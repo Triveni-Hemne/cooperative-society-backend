@@ -17,7 +17,7 @@
                         aria-label="Close"></button>
                 </div>
 
-                <div class="modal-body bg-light p-4">
+                <div class="modal-body bg-light p-4 py-1">
                     <div class="bg-white rounded shadow-sm p-4">
                         <div class="row g-3">
                             @isset($divisions) 
@@ -91,24 +91,24 @@
                                 <option value="" disabled selected>Select Branch</option>
                                 @foreach ($branches as $branch)
                                 <option value="{{ $branch->id }}"
-                        {{ old('branch_id') == $branch->id ? 'selected' : '' }}>
-                        {{ $branch->name }}</option>
-                        @endforeach
-                        </select>
-                        <label for="branchId">Branch <span class="text-danger"> *</span></label>
-                        @error('branch_id')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    @else
-                    <div class="alert alert-warning">
-                        <strong>⚠️ No Branch available.</strong><br>
-                        Please add Branch first.
-                    </div>
-                    @endif
-                    @endisset
-                    @endif
-                    </div>
+                            {{ old('branch_id') == $branch->id ? 'selected' : '' }}>
+                            {{ $branch->name }}</option>
+                            @endforeach
+                            </select>
+                            <label for="branchId">Branch <span class="text-danger"> *</span></label>
+                            @error('branch_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        @else
+                            <div class="alert alert-warning">
+                                <strong>⚠️ No Branch available.</strong><br>
+                                Please add Branch first.
+                            </div>
+                        @endif
+                        @endisset
+                        @endif
+                        </div>
 
                         <div class="col-md-4 ">
                             <div class="form-floating">
@@ -133,7 +133,7 @@
                                     जातील.</p>
                             </div>
                         </div>
-                        </div>
+                    </div>
                     </div>
                     <!-- Tabs -->
                     <div class="bg-secondary warning-tabs border rounded  p-2">
@@ -1028,15 +1028,15 @@
                         </div>
                     </div>
                 </div>
-        </div>
-        <div class="modal-footer bg-white rounded-bottom-4 border-top">
-            <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
-                <i class="bi bi-x-circle me-1"></i>Cancel
-            </button>
-            <button type="submit" class="btn btn-success px-4">
-                <i class="bi bi-check-circle me-1"></i>Submit
-            </button>
-        </div>
+                <div class="modal-footer bg-white rounded-bottom-4 border-top">
+                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i>Cancel
+                    </button>
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="bi bi-check-circle me-1"></i>Submit
+                    </button>
+                </div>
+            </div>
         </form>
     </div>
 </div>

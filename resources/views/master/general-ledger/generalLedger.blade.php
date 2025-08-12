@@ -18,11 +18,11 @@
                         aria-label="Close"></button>
                 </div>
 
-                <div class="modal-body bg-light">
-                    <div class="p-4 bg-white rounded shadow-sm">
+                <div class="modal-body bg-light pt-0">
+                    <div class="px-4 pt-4 bg-white rounded shadow-sm">
                         <div class="row">
                             <div class="col-md-6">
-                                <fieldset class="border p-3 mb-3 rounded position-relative">
+                                <fieldset class="border p-3 pb-1 mb-3 rounded position-relative">
                                     <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Basic Ledger Information</legend>
                                     <div class="row">
                                         <div class="col-md-12 mb-3">
@@ -81,7 +81,7 @@
                                 </fieldset>
                             </div>
                             <div class="col-md-6">
-                                <fieldset class="border p-3 mb-3 rounded position-relative">
+                                <fieldset class="border p-3 pb-1 mb-3 rounded position-relative">
                                     <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Financial Settings</legend>
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
@@ -155,7 +155,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <fieldset class="border p-3 mb-3 rounded position-relative">
+                                <fieldset class="border p-3 pb-1 mb-3 rounded position-relative">
                                     <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Opening Balance Details</legend>
                                         <div class="row ">
                                             <div class="col-md-12 mb-3">
@@ -202,7 +202,7 @@
                                 </fieldset>
                             </div>
                             <div class="col-md-4">
-                                 <fieldset class="border p-3 mb-3 rounded position-relative">
+                                 <fieldset class="border p-3 pb-1 mb-3 rounded position-relative">
                             <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Interest & Rate Information</legend>
                             <div class="row ">
                             <div class="col-md-12 mb-3">
@@ -232,7 +232,7 @@
                                 </fieldset>
                                     </div>
                                     <div class="col-md-4">
-                                        <fieldset class="border p-3 mb-3 rounded position-relative">
+                                        <fieldset class="border p-3 pb-1 mb-3 rounded position-relative">
                                     <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Minimum Balance</legend>
                                     <div class="row ">
                                         <div class="col-md-12 mb-3">
@@ -269,7 +269,7 @@
                         </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <fieldset class="border p-3 mb-3 rounded position-relative">
+                            <fieldset class="border p-3 pb-1 mb-3 rounded position-relative">
                                 <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Institutional Details</legend>
                                 <div class="row ">
                                     <div class="col-md-3 mb-3">
@@ -342,7 +342,7 @@
                             </fieldset>
                         </div>
                         <div class="col-md-6">
-                          <fieldset class="border p-3 mb-3 rounded position-relative">
+                          <fieldset class="border p-3 pb-1 mb-3 rounded position-relative">
                                 <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Classification</legend>
                                 <div class="row">
                                 <div class="col-md-3 mb-3">
@@ -379,7 +379,7 @@
                                             <option value="Share" {{ old('group') == 'Share' ? 'selected' : '' }}>Share
                                             </option>
                                         </select>
-                                        <label for="group" class="form-label">Group</label>
+                                        <label for="group" class="form-label">Group <span class="text-danger"> *</span></label>
                                         @error('group')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror

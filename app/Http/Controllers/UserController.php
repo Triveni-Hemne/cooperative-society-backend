@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Branch;
+use App\Models\Member;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -19,8 +20,7 @@ class UserController extends Controller
     {
          $users = User::latest()->paginate(5);
          $branches = Branch::all();
-         $employees = [];
-         //  $employees = Employee::all();
+         $employees = Member::whereNotNull('employee_id')->get();
          return view('master.user.list', compact('users','branches','employees'));
     }
 
@@ -87,7 +87,7 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'string|max:100',
-            'email' => 'email|max:100|unique:users,email,' . $id,
+            'email' => 'nullable|email|max:100|unique:users,email,' . $id,
             'password' => 'nullable|min:6',
             'role' => 'in:Director,Admin,Employee,Agent,User',
             'employee_id' => 'nullable|exists:employees,id',

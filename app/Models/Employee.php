@@ -30,9 +30,9 @@ class Employee extends Model
         return $this->belongsTo(Subdivision::class);
     }
 
-    public function center() {
-        return $this->belongsTo(Center::class);
-    }
+    // public function center() {
+    //     return $this->belongsTo(Center::class);
+    // }
      public function user()
     {
         return $this->hasOne(User::class, 'employee_id');

@@ -12,8 +12,8 @@ class Member extends Model
 
     protected $fillable = [
         'category_id', 'name','naav', 'dob', 'gender', 'age',
-        'date_of_joining', 'religion', 'caste', 'm_reg_no',
-        'pan_no', 'adhar_no','branch_id', 'created_by','member_branch_id',
+        'date_of_joining', 'religion', 'caste', 'm_reg_no', 'employee_id',
+        'pan_no', 'adhar_no','branch_id', 'created_by','member_branch_id', 
         'images', 'designation_id', 'cpf_no', 'status', 'division_id', 'subdivision_id', 'membership_date'
     ];
 
@@ -45,6 +45,10 @@ class Member extends Model
     public function designation()
     {
         return $this->belongsTo(Designation::class, 'designation_id');
+    }
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'employee_id');
     }
     public function memberBranch()
     {

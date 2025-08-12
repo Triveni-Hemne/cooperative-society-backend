@@ -40,7 +40,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Ledger No.</th>
                     <th scope="col">Ledger Name</th>
-                    <th scope="col">Parent Ledger Name</th>
+                    {{-- <th scope="col">Parent Ledger Name</th> --}}
                     <th scope="col">Balance</th>
                     <th scope="col">Balance Type</th>
                     <th scope="col">Open Balance</th>
@@ -55,7 +55,7 @@
                     <th scope="col">CD Ratio</th>
                     <th scope="col">Group</th>
                     <th scope="col">Type</th>
-                    <th scope="col">Interest Type</th>
+                    {{-- <th scope="col">Interest Type</th> --}}
                     <th scope="col">Subsidiary</th>
                     <th scope="col">Demand</th>
                     <th scope="col">Send SMS</th>
@@ -72,7 +72,7 @@
                     <td>{{$generalLedger->id}}</td>
                     <td>{{$generalLedger->ledger_no}}</td>
                     <td>{{$generalLedger->name}}</td>
-                    <td>{{ optional($generalLedger->parentLedger)->name ?? 'Ledger not found' }}</td>
+                    {{-- <td>{{ optional($generalLedger->parentLedger)->name ?? 'Ledger not found' }}</td> --}}
                     <td>{{$generalLedger->balance}}</td>
                     <td>{{$generalLedger->balance_type}}</td>
                     <td>{{$generalLedger->open_balance}}</td>
@@ -87,7 +87,7 @@
                     <td>{{$generalLedger->cd_ratio ? 'Yes': 'No'}}</td>
                     <td>{{$generalLedger->group}}</td>
                     <td>{{$generalLedger->type}}</td>
-                    <td>{{$generalLedger->interest_type}}</td>
+                    {{-- <td>{{$generalLedger->interest_type}}</td> --}}
                     <td>{{$generalLedger->subsidiary ? 'Yes': 'No'}}</td>
                     <td>{{$generalLedger->demand ? 'Yes': 'No'}}</td>
                     <td>{{$generalLedger->send_sms ? 'Yes': 'No'}}</td>
