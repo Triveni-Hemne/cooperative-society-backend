@@ -26,7 +26,7 @@
                                 <div class="form-floating">
                                     <select id="ledgerId" name="ledger_id"
                                         class="form-select @error('ledger_id') is-invalid @enderror"
-                                        aria-label="Ledger" required>
+                                        aria-label="Ledger" >
                                         <option value="" {{ old('ledger_id') ? '' : 'selected' }}>--- Select Ledger ---</option>
                                         @foreach ($ledgers as $ledger)
                                         <option value="{{ $ledger->id }}"
@@ -144,7 +144,7 @@
                                 <div class="form-floating">
                                     <input name="acc_no" id="accNo"
                                         class="form-control @error('acc_no') is-invalid @enderror"
-                                        value="{{ old('acc_no') }}" type="text" placeholder="Account No." required>
+                                        value="{{ old('acc_no') }}" type="text" placeholder="Account No." >
                                     <label for="accNo" class="form-label">Account No. <span
                                             class="text-danger">*</span></label>
                                     @error('acc_no')
@@ -158,7 +158,7 @@
                             <div class="form-floating">
                                 <input name="name" id="Name"
                                 class="form-control @error('name') is-invalid @enderror"
-                                value="{{ old('name') }}" type="text" placeholder="Name" required>
+                                value="{{ old('name') }}" type="text" placeholder="Name" >
                                 <label for="Name" class="form-label">Name</label>
                                 @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -172,7 +172,7 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <select name="loan_type" id="loanType"
-                                        class="form-select @error('loan_type') is-invalid @enderror" required>
+                                        class="form-select @error('loan_type') is-invalid @enderror" >
                                         <option value="" {{ old('loan_type') ? '' : 'selected' }}>------ Select Loan Type ------</option>
                                         <option value="Personal Loan"
                                             {{ old('loan_type') == 'Personal Loan' ? 'selected' : '' }}>Personal Loan
@@ -206,7 +206,7 @@
                                 <div class="form-floating">
                                     <input id="acStartDate" name="ac_start_date"
                                         class="form-control @error('ac_start_date') is-invalid @enderror"
-                                        value="{{ old('ac_start_date') }}" type="date" placeholder="Acc Start Date" required>
+                                        value="{{ old('ac_start_date') }}" type="date" placeholder="Acc Start Date" >
                                     <label for="acStartDate" class="form-label">Acc Start Date <span
                                             class="text-danger">*</span></label>
                                     @error('ac_start_date')
@@ -218,7 +218,7 @@
                                 <div class="form-floating">
                                     <input name="interest_rate" id="interestRate"
                                         class="form-control @error('interest_rate') is-invalid @enderror"
-                                        value="{{ old('interest_rate') }}" type="number" step="0.01" placeholder="Interest Rate" required>
+                                        value="{{ old('interest_rate') }}" type="number" step="0.01" placeholder="Interest Rate" >
                                     <label for="interestRate" class="form-label">Interest Rate <span
                                             class="text-danger">*</span></label>
                                     @error('interest_rate')
@@ -230,7 +230,7 @@
                                 <div class="form-floating">
                                     <input name="emi_amount" id="emiAmount"
                                         class="form-control @error('emi_amount') is-invalid @enderror"
-                                        value="{{ old('emi_amount') }}" step="0.01" type="number" placeholder="EMI Amount" required>
+                                        value="{{ old('emi_amount') }}" step="0.01" type="number" placeholder="EMI Amount" >
                                     <label for="emiAmount" class="form-label">EMI Amount <span
                                             class="text-danger">*</span></label>
                                     @error('emi_amount')
@@ -254,7 +254,7 @@
                                 <div class="form-floating">
                                     <input name="balance" id="balance"
                                         class="form-control @error('balance') is-invalid @enderror"
-                                        value="{{ old('balance') }}" step="0.01" type="number" placeholder="Balance" required>
+                                        value="{{ old('balance') }}" step="0.01" type="number" placeholder="Balance" >
                                     <label for="balance" class="form-label">Balance <span
                                             class="text-danger">*</span></label>
                                     @error('balance')
@@ -266,7 +266,7 @@
                                 <div class="form-floating">
                                     <input name="loan_amount" id="loanAmount"
                                         class="form-control @error('loan_amount') is-invalid @enderror"
-                                        value="{{ old('loan_amount') }}" step="0.01" type="number" placeholder="Loan Amount" required>
+                                        value="{{ old('loan_amount') }}" step="0.01" type="number" placeholder="Loan Amount" >
                                     <label for="loanAmount" class="form-label">Loan Amount <span
                                             class="text-danger">*</span></label>
                                     @error('loan_amount')
@@ -278,7 +278,7 @@
                                 <div class="form-floating">
                                     <input name="priority" id="priority"
                                         class="form-control @error('priority') is-invalid @enderror"
-                                        value="{{ old('priority') }}" type="number" placeholder="Priority" required>
+                                        value="{{ old('priority') }}" type="number" placeholder="Priority" >
                                     <label for="priority" class="form-label">Priority</label>
                                     @error('priority')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -289,7 +289,7 @@
                                 <div class="form-floating">
                                     <input name="tenure" id="tenure"
                                         class="form-control @error('tenure') is-invalid @enderror"
-                                        value="{{ old('tenure') }}" step="0.01" type="number" placeholder="Tenure" required>
+                                        value="{{ old('tenure') }}" step="0.01" type="number" placeholder="Tenure" >
                                     <label for="tenure" class="form-label">Tenure <span
                                             class="text-danger">*</span></label>
                                     @error('tenure')
@@ -301,7 +301,7 @@
                                 <div class="form-floating">
                                     <input name="start_date" id="startDate"
                                         class="form-control @error('start_date') is-invalid @enderror"
-                                        value="{{ old('start_date') }}" type="date" placeholder="Start Date" required>
+                                        value="{{ old('start_date') }}" type="date" placeholder="Start Date" >
                                     <label for="startDate" class="form-label">Start Date <span
                                             class="text-danger">*</span></label>
                                     @error('start_date')
@@ -313,7 +313,7 @@
                                 <div class="form-floating">
                                     <input name="end_date" id="endDate"
                                         class="form-control @error('end_date') is-invalid @enderror"
-                                        value="{{ old('end_date') }}" type="date" placeholder="End Date" required>
+                                        value="{{ old('end_date') }}" type="date" placeholder="End Date" >
                                     <label for="endDate" class="form-label">End Date <span
                                             class="text-danger">*</span></label>
                                     @error('end_date')
@@ -329,7 +329,7 @@
                             <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <select id="purpose" name="purpose" class="form-select" required>
+                                    <select id="purpose" name="purpose" class="form-select" >
                                         <option value="" {{ old('purpose') ? '' : 'selected' }}>------ Select Loan Purpose ------</option>
                                         <option value="Agriculture"
                                             {{ old('purpose') == 'Agriculture' ? 'selected' : '' }}>Agriculture
@@ -356,7 +356,7 @@
                                     <input name="principal_amount" id="principalAmount"
                                         class="form-control @error('principal_amount') is-invalid @enderror"
                                         value="{{ old('principal_amount') }}" step="0.01" type="number"
-                                        placeholder="Principal Amount" required>
+                                        placeholder="Principal Amount" >
                                     <label for="principalAmount" class="form-label">Principal Amount</label>
                                     @error('principal_amount')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -372,7 +372,7 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-floating">
                                     <select id="collateralType" name="collateral_type"
-                                        class="form-select @error('collateral_type') is-invalid @enderror" required>
+                                        class="form-select @error('collateral_type') is-invalid @enderror" >
                                         <option value="" {{ old('collateral_type') ? '' : 'selected' }}>------ Select Collateral Type ------</option>
                                         <option value="Gold" {{ old('collateral_type') == 'Gold' ? 'selected' : '' }}>
                                             Gold
@@ -602,7 +602,7 @@
                                                 <input name="nominees[0][nominee_name]" id="nominee1Name"
                                                     class="form-control @error('nominees.0.nominee_name') is-invalid @enderror"
                                                     type="text" placeholder="Nominee Name"
-                                                    value="{{ old('nominees.0.nominee_name') }}" required>
+                                                    value="{{ old('nominees.0.nominee_name') }}" >
                                                 <label for="nominee1Name" class="form-label">Name <span
                                             class="text-danger">*</span></label>
                                                 @error('nominees.0.nominee_name')
@@ -614,8 +614,7 @@
                                                     class="form-control @error('nominees.0.nominee_naav') is-invalid @enderror"
                                                     type="text" value="{{ old('nominees.0.nominee_naav') }}"
                                                     placeholder="नाव">
-                                                <label for="marathiNominee1Name" class="form-label">नाव <span
-                                            class="text-danger">*</span></label>
+                                                <label for="marathiNominee1Name" class="form-label">नाव </label>
                                                 @error('nominees.0.nominee_naav')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
@@ -624,7 +623,7 @@
                                                 <input name="nominees[0][nominee_age]" id="nominee1Age"
                                                     class="form-control @error('nominees.0.nominee_age') is-invalid @enderror"
                                                     type="number" placeholder="Age"
-                                                    value="{{ old('nominees.0.nominee_age') }}" required>
+                                                    value="{{ old('nominees.0.nominee_age') }}" >
                                                 <label for="nominee1Age" class="form-label">Age <span
                                             class="text-danger">*</span></label>
                                                 @error('nominees.0.nominee_age')
@@ -633,7 +632,7 @@
                                             </div>
                                             <div class="form-floating col-md-4">
                                                 <select id="nominee1Gender" name="nominees[0][nominee_gender]"
-                                                    class="form-select @error('nominees.0.nominee_gender') is-invalid @enderror" required>
+                                                    class="form-select @error('nominees.0.nominee_gender') is-invalid @enderror" >
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
                                                     <option value="Other">Other</option>
@@ -646,7 +645,7 @@
                                             </div>
                                             <div class="form-floating col-md-4">
                                                 <select id="nominee1Relation" name="nominees[0][relation]"
-                                                    class="form-select @error('nominees.0.relation') is-invalid @enderror" required>
+                                                    class="form-select @error('nominees.0.relation') is-invalid @enderror" >
                                                     <option value="husband">Husband</option>
                                                     <option value="wife">Wife</option>
                                                     <option value="father">Father</option>
@@ -682,7 +681,7 @@
                                                 <input name="nominees[1][nominee_name]" id="nominee2Name"
                                                     class="form-control @error('nominees.1.nominee_name') is-invalid @enderror"
                                                     value="{{ old('nominees.1.nominee_name') }}" type="text"
-                                                    placeholder="Nominee Name" required>
+                                                    placeholder="Nominee Name" >
                                                 <label for="nominee2Name" class="form-label">Name <span
                                             class="text-danger">*</span></label>
                                                 @error('nominees.1.nominee_name')
@@ -694,8 +693,7 @@
                                                     class="form-control @error('nominees.1.nominee_naav') is-invalid @enderror"
                                                     type="text" value="{{ old('nominees.1.nominee_naav') }}"
                                                     placeholder="नाव">
-                                                <label for="marathiNominee2Name" class="form-label">नाव <span
-                                            class="text-danger">*</span></label>
+                                                <label for="marathiNominee2Name" class="form-label">नाव </label>
                                                 @error('nominees.1.nominee_naav')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
@@ -704,7 +702,7 @@
                                                 <input name="nominees[1][nominee_age]" id="nominee2Age"
                                                     class="form-control @error('nominees.1.nominee_age') is-invalid @enderror"
                                                     type="number" placeholder="Age"
-                                                    value="{{ old('nominees.1.nominee_age') }}" required>
+                                                    value="{{ old('nominees.1.nominee_age') }}" >
                                                 <label for="nominee2Age" class="form-label">Age <span
                                             class="text-danger">*</span></label>
                                                 @error('nominees.1.nominee_age')
@@ -713,7 +711,7 @@
                                             </div>
                                             <div class="form-floating col-md-4">
                                                 <select id="nominee2Gender" name="nominees[1][nominee_gender]"
-                                                    class="form-select @error('nominees.1.nominee_gender') is-invalid @enderror" required>
+                                                    class="form-select @error('nominees.1.nominee_gender') is-invalid @enderror" >
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
                                                     <option value="Other">Other</option>
@@ -726,7 +724,7 @@
                                             </div>
                                             <div class="form-floating col-md-4">
                                                 <select id="nominee2Relation" name="nominees[1][relation]"
-                                                    class="form-select @error('nominees.1.relation') is-invalid @enderror" required>
+                                                    class="form-select @error('nominees.1.relation') is-invalid @enderror" >
                                                     <option value="husband">Husband</option>
                                                     <option value="wife">Wife</option>
                                                     <option value="father">Father</option>
@@ -863,7 +861,7 @@
                                         <div class="col-md-3">
                                             <div class="form-floating">
                                                 <select id="grMemberId1" name="garantors[0][gr_member_id]"
-                                                    class="form-select @error('garantors.0.gr_member_id') is-invalid @enderror" required>
+                                                    class="form-select @error('garantors.0.gr_member_id') is-invalid @enderror" >
                                                     <option value="" disabled {{old('garantors.0.gr_member_id') ? '' : 'selected'}}>------ Select Member ------</option>
                                                     @foreach ($members as $member)
                                                     <option value="{{ $member->id }}"
@@ -882,7 +880,7 @@
                                         <div class="col-md-3">
                                             <div class="form-floating">
                                                 <select id="guarantorType1" name="garantors[0][guarantor_type]"
-                                                    class="form-select @error('garantors.0.guarantor_type') is-invalid @enderror" required>
+                                                    class="form-select @error('garantors.0.guarantor_type') is-invalid @enderror" >
                                                     <option value="Primary"
                                                         {{ old('garantors.0.guarantor_type') == 'Primary' ? 'selected' : '' }}>
                                                         Primary
@@ -906,7 +904,7 @@
                                             <div class="form-floating">
                                                 <input name="garantors[0][added_on]" id="addedOn1"
                                                     class="form-control @error('garantors.0.added_on') is-invalid @enderror"
-                                                    value="{{ old('garantors.0.added_on') }}" type="date" placeholder="Added On" required>
+                                                    value="{{ old('garantors.0.added_on') }}" type="date" placeholder="Added On" >
                                                 <label for="addedOn1" class="form-label">Added On</label>
                                                 @error('garantors.0.added_on')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -933,7 +931,7 @@
                                         <div class="col-md-3">
                                             <div class="form-floating">
                                                 <select id="grMemberId2" name="garantors[1][gr_member_id]"
-                                                    class="form-select @error('garantors.1.gr_member_id') is-invalid @enderror" required>
+                                                    class="form-select @error('garantors.1.gr_member_id') is-invalid @enderror" >
                                                     <option value="" disabled {{old('garantors.1.gr_member_id') ? '' : 'selected'}}>------ Select Member ------</option>
                                                     @foreach ($members as $member)
                                                     <option value="{{ $member->id }}"
@@ -952,7 +950,7 @@
                                         <div class="col-md-3">
                                             <div class="form-floating">
                                                 <select id="guarantorType2" name="garantors[1][guarantor_type]"
-                                                    class="form-select @error('garantors.1.guarantor_type') is-invalid @enderror" required>
+                                                    class="form-select @error('garantors.1.guarantor_type') is-invalid @enderror" >
                                                     <option value="Primary"
                                                         {{ old('garantors.1.guarantor_type') == 'Primary' ? 'selected' : '' }}>
                                                         Primary
@@ -976,7 +974,7 @@
                                             <div class="form-floating">
                                                 <input name="garantors[1][added_on]" id="addedOn2"
                                                     class="form-control @error('garantors.1.added_on') is-invalid @enderror"
-                                                    value="{{ old('garantors.1.added_on') }}" type="date" placeholder="Added On" required>
+                                                    value="{{ old('garantors.1.added_on') }}" type="date" placeholder="Added On" >
                                                 <label for="addedOn2" class="form-label">Added On</label>
                                                 @error('garantors.1.added_on')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -1113,7 +1111,7 @@
                                                 <input name="resolution_no" id="resolutionNo"
                                                     class="form-control @error('resolution_no') is-invalid @enderror"
                                                     value="{{ old('resolution_no') }}" type="number"
-                                                    placeholder="Resolution No." required>
+                                                    placeholder="Resolution No." >
                                                 <label for="resolutionNo" class="form-label">Resolution No.</label>
                                                 @error('resolution_no')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -1124,7 +1122,7 @@
                                             <div class="form-floating">
                                                 <input name="resolution_date" id="resolutionDate"
                                                     class="form-control @error('resolution_date') is-invalid @enderror"
-                                                    value="{{ old('resolution_date') }}" type="date" required>
+                                                    value="{{ old('resolution_date') }}" type="date" >
                                                 <label for="resolutionDate" class="form-label">Resolution Date</label>
                                                 @error('resolution_date')
                                                 <div class="invalid-feedback">{{ $message }}</div>

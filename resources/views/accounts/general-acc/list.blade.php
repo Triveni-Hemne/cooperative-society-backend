@@ -40,15 +40,15 @@
                     <th scope="col">Ledger</th>
                     <th scope="col">Member Name</th>
                     <th scope="col">Account No.</th>
-                    <th scope="col">Account Name</th>
-                    <th scope="col">Account Type </th>
+                    {{-- <th scope="col">Account Name</th> --}}
+                    {{-- <th scope="col">Account Type </th> --}}
                     <th scope="col">Interest Rate </th>
                     <th scope="col">Start Date</th>
                     <th scope="col">Opening Balance</th>
                     <th scope="col">Balance</th>
                     <th scope="col">Closing Flag</th>
                     <th scope="col">Add To Demand</th>
-                    <th scope="col">Agent</th>
+                    {{-- <th scope="col">Agent</th> --}}
                     <th scope="col">Installment Type</th>
                     <th scope="col">Installment Amount </th>
                     <th scope="col">Total Installment Paid</th>
@@ -66,15 +66,15 @@
                     <td>{{$account->ledger->name  ?? ''}}</td>
                     <td>{{$account->name  ?? ''}}</td>
                     <td>{{$account->account_no  ?? ''}}</td>
-                    <td>{{$account->account_name  ?? ''}}</td>
-                    <td>{{$account->account_type  ?? ''}}</td>
+                    {{-- <td>{{$account->account_name  ?? ''}}</td> --}}
+                    {{-- <td>{{$account->account_type  ?? ''}}</td> --}}
                     <td>{{$account->interest_rate  ?? ''}}</td>
                     <td>{{$account->start_date  ?? ''}}</td>
                     <td>{{$account->open_balance  ?? ''}}</td>
                     <td>{{$account->balance  ?? ''}}</td>
-                    <td>{{$account->closing_flag  ?? ''}}</td>
-                    <td>{{$account->add_to_demand  ?? ''}}</td>
-                    <td>{{$account->agent->user->name ?? ''}}</td>
+                    <td>{{$account->closing_flag ? "Yes":"No"  ?? ''}}</td>
+                    <td>{{$account->add_to_demand ? "Yes":"No" ?? ''}}</td>
+                    {{-- <td>{{$account->agent->user->name ?? ''}}</td> --}}
                     <td>{{$account->installment_type ?? ''}}</td>
                     <td>{{$account->installment_amount ?? ''}}</td>
                     <td>{{$account->total_installments_paid  ?? ''}}</td>
@@ -84,9 +84,9 @@
                             data-bs-target="#generalAccModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" data-id="{{$account->id }}" data-route="{{ route('accounts.destroy', $account->id) }}" data-name="{{$account->name}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        {{-- <a href="#" data-id="{{$account->id }}" data-route="{{ route('accounts.destroy', $account->id) }}" data-name="{{$account->name}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
+                        </a> --}}
                     </td>
                 </tr>
                 @php $i++ @endphp
@@ -161,16 +161,16 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("ledgerId").value = ledgerId;
             document.getElementById("memberId").value = memberId;
             document.getElementById("accountNo").value = accountNo;
-            document.getElementById("accountName").value = accountName;
-            document.getElementById("Name").value = name;
-            document.getElementById("accountType").value = accountType;
+            //document.getElementById("accountName").value = accountName;
+            // document.getElementById("Name").value = name;
+            // document.getElementById("accountType").value = accountType;
             document.getElementById("interestRate").value = interestRate;
             document.getElementById("startDate").value = startDate;
             document.getElementById("openBalance").value = openBalance;
             document.getElementById("balance").value = balance;
             document.getElementById("closingFlag").checked = closingFlag == 1;
             document.getElementById("addToDemand").checked = addToDemand == 1;
-            document.getElementById("agentId").value = agentId;
+            // document.getElementById("agentId").value = agentId;
             document.getElementById("installmentType").value = installmentType;
             document.getElementById("installmentAmount").value = installmentAmount;
             document.getElementById("totalInstallmentsPaid").value = totalInstallmentsPaid;

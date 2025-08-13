@@ -14,14 +14,14 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <div class="modal-body bg-light p-4">
+                <div class="modal-body bg-light p-4 py-0">
                     @if(Session::has('error'))
                     <div class="alert alert-danger rounded-0 m-0">{{ Session::get('error') }}</div>
                     @endif
                     <div class="bg-white rounded shadow-sm p-4">
-                        <div class="row">
+                        <div class="row g-3 mb-3">
                             @isset($ledgers)
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6">
                                 @if ($ledgers->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="ledgerId" name="ledger_id"
@@ -51,7 +51,7 @@
                             @endisset
 
                             @isset($members)
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6">
                                 @php
                                     $onlyMembers = $members->filter(fn($m) => is_null($m->employee_id));
                                     $onlyEmployees = $members->filter(fn($m) => !is_null($m->employee_id));
@@ -98,13 +98,14 @@
                         </div>
                         <fieldset class="border rounded-3 p-3 mb-3">
                             <legend class="float-none w-auto px-2 small">Account Details</legend>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
+                        <div class="row g-3">
+                            <div class="col-md-4">
                                 <div class="form-floating">
                                     <input name="account_no" id="accountNo"
                                         class="form-control @error('account_no') is-invalid @enderror"
                                         value="{{ old('account_no') }}" type="text" placeholder="Account No." required>
-                                    <label for="accountNo" class="form-label">Account No.</label>
+                                    <label for="accountNo" class="form-label">Account No. <span
+                                            class="text-danger">*</span></label>
                                     @error('account_no')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -121,7 +122,6 @@
                                     @enderror
                                 </div>
                             </div> --}}
-                        </div>
 
                         {{-- <div class="row"> --}}
                             {{-- <div class="col-md-6 mb-3">
@@ -162,9 +162,7 @@
                                 </div>
                             </div> --}}
                         {{-- </div> --}}
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4">
                                 <div class="form-floating">
                                     <input name="interest_rate" id="interestRate"
                                         class="form-control @error('interest_rate') is-invalid @enderror"
@@ -175,43 +173,43 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4">
                                 <div class="form-floating">
                                     <input name="start_date" id="startDate"
                                         class="form-control @error('start_date') is-invalid @enderror"
                                         value="{{ old('start_date') }}" type="date" placeholder="Start Date" required>
-                                    <label for="startDate" class="form-label">Start Date</label>
+                                    <label for="startDate" class="form-label">Start Date <span
+                                            class="text-danger">*</span></label>
                                     @error('start_date')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4">
                                 <div class="form-floating">
                                     <input name="open_balance" id="openBalance"
                                         class="form-control @error('open_balance') is-invalid @enderror"
                                         value="{{ old('open_balance') }}" type="number" placeholder="Opening Balance" required>
-                                    <label for="openBalance" class="form-label">Opening Balance</label>
+                                    <label for="openBalance" class="form-label">Opening Balance <span
+                                            class="text-danger">*</span></label>
                                     @error('open_balance')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4">
                                 <div class="form-floating">
                                     <input name="balance" id="balance"
                                         class="form-control @error('balance') is-invalid @enderror"
                                         value="{{ old('balance') }}" type="number" step="0.01" placeholder="Balance" required>
-                                    <label for="balance" class="form-label">Balance</label>
+                                    <label for="balance" class="form-label">Balance <span
+                                            class="text-danger">*</span></label>
                                     @error('balance')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-                             <div class="col-md-6 mb-3">
+                             <div class="col-md-4">
                                 <div class="form-floating">
                                     <input name="closing_date" id="closingDate"
                                         class="form-control @error('closing_date') is-invalid @enderror"
@@ -226,7 +224,7 @@
                         </fieldset>
                         <fieldset class="border rounded-3 p-3 mb-3">
                             <legend class="float-none w-auto px-2 small">Flags</legend>
-                        <div class="row">
+                        <div class="row g-3">
                             {{-- @isset($agents)
                             <div class="col-md-6 mb-3">
                                 @if ($agents->isNotEmpty())
@@ -275,10 +273,11 @@
                                 </div>
                             </div>
                         </div>
+                        </fieldset>
                         <fieldset class="border rounded-3 p-3 mb-3">
                             <legend class="float-none w-auto px-2 small">Installment Details</legend>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
+                        <div class="row g-3">
+                            <div class="col-md-4">
                                 <div class="form-floating">
                                     <select id="installmentType" name="installment_type"
                                         class="form-select @error('installment_type') is-invalid @enderror"
@@ -301,7 +300,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4">
                                 <div class="form-floating">
                                     <input name="installment_amount" id="installmentAmount"
                                         class="form-control @error('installment_amount') is-invalid @enderror"
@@ -313,17 +312,15 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4">
                                 <div class="form-floating">
                                     <input name="total_installments_paid" id="totalInstallmentsPaid"
                                         class="form-control @error('total_installments_paid') is-invalid @enderror"
                                         value="{{ old('total_installments_paid') }}" type="number"
                                         placeholder="Total Installments Paid" required>
                                     <label for="totalInstallmentsPaid" class="form-label">Total Installments
-                                        Paid</label>
+                                        Paid <span
+                                            class="text-danger">*</span></label>
                                     @error('total_installments_paid')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
