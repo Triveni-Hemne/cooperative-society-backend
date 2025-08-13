@@ -17,11 +17,11 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <div class="modal-body bg-light p-4">
+                <div class="modal-body bg-light p-4 py-0">
                     <div class="bg-white rounded shadow-sm p-4">
-                        <div class="row">
+                        <div class="row g-3 mb-3">
                             @isset($ledgers)
-                            <div class="col-md-12 mb-3">
+                            <div class="col-md-12">
                                 @if ($ledgers->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="ledgerId" name="ledger_id"
@@ -51,11 +51,11 @@
                           @endisset
                         </div>
 
-                    <fieldset class="border p-3 mb-3 rounded position-relative">
+                    <fieldset class="border p-3  rounded position-relative mb-3">
                     <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Member Information</legend> 
-                        <div class="row">
+                        <div class="row g-3">
                             @isset($members)
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4">
                                 @if ($members->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="memberId" name="member_id"
@@ -83,7 +83,7 @@
                                 @endif
                             </div>
                             @endisset
-                       <div class="col-md-6 mb-3">
+                       <div class="col-md-4">
                                 <div class="form-floating">
                                     <input name="photo" id="photoCopy"
                                         class="form-control @error('photo') is-invalid @enderror"
@@ -95,10 +95,7 @@
                                     @enderror
                                 </div>
                             </div>
-
-                            
-
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4">
                                 <div class="form-floating">
                                     <input name="signature" id="signCopy"
                                         class="form-control @error('signature') is-invalid @enderror"
@@ -112,11 +109,11 @@
                             </div>
                         </div>
                         </fieldset>
-                        <fieldset class="border p-3 mb-3 rounded position-relative">
+                        <fieldset class="border p-3  rounded position-relative mb-3">
                             <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Account Information</legend>
-                        <div class="row">
+                        <div class="row g-3">
                             {{-- @isset($accounts)
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 ">
                                 @if ($accounts->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="accountId" name="account_id"
@@ -144,7 +141,7 @@
                             </div>
                             @endisset --}}
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <input name="acc_no" id="accNo"
                                         class="form-control @error('acc_no') is-invalid @enderror"
@@ -155,10 +152,7 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div col="col mb-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <input name="name" id="Name"
                                         class="form-control @error('name') is-invalid @enderror"
@@ -169,10 +163,7 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <input name="interest_rate" id="interestRate"
                                         class="form-control @error('interest_rate') is-invalid @enderror"
@@ -183,7 +174,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <input name="interest_payable" id="interestPayable"
                                         class="form-control @error('interest_payable') is-invalid @enderror"
@@ -195,10 +186,7 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <input name="ac_start_date" id="acStartDate"
                                         class="form-control @error('ac_start_date') is-invalid @enderror"
@@ -209,7 +197,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <input name="acc_closing_date" id="accClosingDate"
                                         class="form-control @error('acc_closing_date') is-invalid @enderror"
@@ -221,10 +209,7 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <input name="open_balance" id="openBalance"
                                         class="form-control @error('open_balance') is-invalid @enderror"
@@ -235,7 +220,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <input name="balance" id="balance"
                                         class="form-control @error('balance') is-invalid @enderror"
@@ -248,11 +233,11 @@
                             </div>
                         </div>
                     </fieldset>
-                        <fieldset class="border p-3 mb-3 rounded position-relative">
+                        <fieldset class="border p-3  rounded position-relative mb-3">
                             <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Other Information</legend>
-                        <div class="row">
-                            @isset($agents)
-                            <div class="col-md-6 mb-3">
+                        <div class="row g-3">
+                            {{-- @isset($agents)
+                            <div class="col-md-3">
                                 @if ($agents->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="agentId" name="agent_id"
@@ -277,8 +262,8 @@
                                 </div>
                                 @endif
                             </div>
-                            @endisset
-                            <div class="col-md-6 mb-3">
+                            @endisset --}}
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <input id="pageNo" name="page_no"
                                         class="form-control @error('page_no') is-invalid @enderror"
@@ -289,10 +274,7 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <select id="depositType" name="deposit_type"
                                         class="form-select @error('deposit_type') is-invalid @enderror">
@@ -314,7 +296,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3 d-flex align-items-center">
+                            <div class="col-md-3  d-flex align-items-center">
                                 <div class="form-check form-switch">
                                     <input id="closingFlag" type="checkbox" name="closing_flag" value="1"
                                         {{ old('closing_flag') ? 'checked' : '' }}
@@ -336,10 +318,10 @@
                             </div>
                         </div>
                         </fieldset>
-                        <fieldset class="border p-3 mb-3 rounded position-relative">
+                        <fieldset class="border p-3  rounded position-relative mb-3">
                             <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Installment Information</legend>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
+                        <div class="row g-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <select id="installmentType" name="installment_type"
                                         class="form-select @error('installment_type') is-invalid @enderror">
@@ -363,7 +345,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <input name="installment_amount" id="installmentAmount"
                                         class="form-control @error('installment_amount') is-invalid @enderror"
@@ -374,10 +356,7 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <input name="total_installments" id="totalInstallments"
                                         class="form-control @error('total_installments') is-invalid @enderror"
@@ -389,7 +368,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <input name="total_payable_amount" id="totalPayableAmount"
                                         class="form-control @error('total_payable_amount') is-invalid @enderror"
@@ -404,7 +383,7 @@
                         </div>
 
                         {{-- <div class="row"> --}}
-                            {{-- <div class="col-md-6 mb-3">
+                            {{-- <div class="col-md-6 ">
                                 <div class="form-floating">
                                     <input name="total_installments_paid" id="installmentsPaid"
                                         class="form-control @error('total_installments_paid') is-invalid @enderror"
@@ -416,7 +395,7 @@
                                     @enderror
                                 </div>
                             </div> --}}
-                            {{-- <div class="col-md-6 mb-3">
+                            {{-- <div class="col-md-6 ">
                                 <div class="form-floating">
                                     <input name="open_interest" id="openInterest"
                                         class="form-control @error('open_interest') is-invalid @enderror" type="number"
@@ -431,7 +410,7 @@
                         </fieldset>
 
                         <!-- Tabs -->
-                        <div class="bg-secondary warning-tabs border rounded mb-3 p-2">
+                        <div class="bg-secondary warning-tabs border rounded  p-2">
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item col" role="presentation">
                                     <button class="nav-link w-100 active text-info fw-bold" id="nominee-tab"
@@ -463,9 +442,10 @@
                                 <div class="tab-pane fade show active p-3" id="nominee-tab-pane" role="tabpanel"
                                     aria-labelledby="nominee-tab" tabindex="0">
                                     <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <h6 class="text-center mb-3">Nominee 1</h6>
-                                            <div class="form-floating mb-3">
+                                        <div class="col-md-6">
+                                            <h6 class="text-center ">Nominee 1</h6>
+                                            <div class="row g-3">
+                                            <div class="form-floating col-md-6">
                                                 <input name="nominees[0][nominee_name]" id="nominee1Name"
                                                     class="form-control @error('nominees.0.nominee_name') is-invalid @enderror"
                                                     type="text" placeholder="Nominee Name"
@@ -475,7 +455,7 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="form-floating mb-3">
+                                            <div class="form-floating col-md-6">
                                                 <input name="nominees[0][nominee_naav]" id="marathiNominee1Name"
                                                     class="form-control @error('nominees.0.nominee_naav') is-invalid @enderror"
                                                     type="text" value="{{ old('nominees.0.nominee_naav') }}"
@@ -485,7 +465,7 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="form-floating mb-3">
+                                            <div class="form-floating col-md-4">
                                                 <input name="nominees[0][nominee_age]" id="nominee1Age"
                                                     class="form-control @error('nominees.0.nominee_age') is-invalid @enderror"
                                                     type="number" placeholder="Age"
@@ -495,7 +475,7 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="form-floating mb-3">
+                                            <div class="form-floating col-md-4">
                                                 <select id="nominee1Gender" name="nominees[0][nominee_gender]"
                                                     class="form-select @error('nominees.0.nominee_gender') is-invalid @enderror">
                                                     <option value="Male">Male</option>
@@ -507,7 +487,7 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="form-floating mb-3">
+                                            <div class="form-floating col-md-4">
                                                 <select id="nominee1Relation" name="nominees[0][relation]"
                                                     class="form-select @error('nominees.0.relation') is-invalid @enderror">
                                                     <option value="husband">Husband</option>
@@ -525,7 +505,7 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="col-md-12">
                                                 <label for="nominee1Photo" class="form-label text-white">Photo</label>
                                                 <input name="nominees[0][nominee_image]" id="nominee1Photo"
                                                     value="{{ old('nominees.0.nominee_image') }}"
@@ -535,10 +515,12 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
-                                            <h6 class="text-center mb-3">Nominee 2</h6>
-                                            <div class="form-floating mb-3">
+                                        <div class="col-md-6">
+                                            <h6 class="text-center ">Nominee 2</h6>
+                                            <div class="row g-3">
+                                            <div class="form-floating col-md-6">
                                                 <input name="nominees[1][nominee_name]" id="nominee2Name"
                                                     class="form-control @error('nominees.1.nominee_name') is-invalid @enderror"
                                                     value="{{ old('nominees.1.nominee_name') }}" type="text"
@@ -548,7 +530,7 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="form-floating mb-3">
+                                            <div class="form-floating col-md-6">
                                                 <input name="nominees[1][nominee_naav]" id="marathiNominee2Name"
                                                     class="form-control @error('nominees.1.nominee_naav') is-invalid @enderror"
                                                     type="text" value="{{ old('nominees.1.nominee_naav') }}"
@@ -558,7 +540,7 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="form-floating mb-3">
+                                            <div class="form-floating col-md-4">
                                                 <input name="nominees[1][nominee_age]" id="nominee2Age"
                                                     class="form-control @error('nominees.1.nominee_age') is-invalid @enderror"
                                                     type="number" placeholder="Age"
@@ -568,7 +550,7 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="form-floating mb-3">
+                                            <div class="form-floating col-md-4">
                                                 <select id="nominee2Gender" name="nominees[1][nominee_gender]"
                                                     class="form-select @error('nominees.1.nominee_gender') is-invalid @enderror">
                                                     <option value="Male">Male</option>
@@ -580,7 +562,7 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="form-floating mb-3">
+                                            <div class="form-floating col-md-4">
                                                 <select id="nominee2Relation" name="nominees[1][relation]"
                                                     class="form-select @error('nominees.1.relation') is-invalid @enderror">
                                                     <option value="husband">Husband</option>
@@ -598,7 +580,7 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="col-md-12">
                                                 <label for="nominee2Photo" class="form-label text-white">Photo</label>
                                                 <input name="nominees[1][nominee_image]" id="nominee2Photo"
                                                     value="{{ old('nominees.1.nominee_image') }}"
@@ -608,14 +590,15 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="tab-pane fade p-3" id="rd-tab-pane" role="tabpanel" aria-labelledby="rd-tab"
                                     tabindex="0">
-                                    <div class="row">
-                                        {{-- <div class="col-md-6 mb-3">
+                                    <div class="row g-3">
+                                        {{-- <div class="col-md-6 ">
                                             <div class="form-floating">
                                                 <input name="open_interest_rd" id="openingInterest"
                                                     class="form-control @error('open_interest_rd') is-invalid @enderror"
@@ -628,7 +611,7 @@
                                                 @enderror
                                             </div>
                                         </div> --}}
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-6">
                                             <div class="form-floating">
                                                 <input name="rd_term_months" id="rdTermMonths"
                                                     class="form-control @error('rd_term_months') is-invalid @enderror"
@@ -640,9 +623,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-6">
                                             <div class="form-floating">
                                                 <input name="maturity_amount_rd" id="rdMaturityAmount"
                                                     class="form-control @error('maturity_amount_rd') is-invalid @enderror"
@@ -659,8 +640,8 @@
 
                                 <div class="tab-pane fade p-3" id="fd-tab-pane" role="tabpanel" aria-labelledby="fd-tab"
                                     tabindex="0">
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
                                             <div class="form-floating">
                                                 <input name="maturity_amount_fd" id="fdMaturityAmount"
                                                     class="form-control @error('maturity_amount_fd') is-invalid @enderror"
@@ -673,7 +654,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4">
                                             <div class="form-floating">
                                                 <input name="fd_term_months" id="fdTermMonths"
                                                     class="form-control @error('fd_term_months') is-invalid @enderror"
@@ -685,7 +666,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-4">
                                             <div class="form-floating">
                                                 <input name="slip_no" id="slipNo"
                                                     class="form-control @error('slip_no') is-invalid @enderror"
@@ -702,8 +683,8 @@
 
                                 <div class="tab-pane fade p-3" id="saving-tab-pane" role="tabpanel"
                                     aria-labelledby="saving-tab" tabindex="0">
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
                                             <div class="form-floating">
                                                 <input name="balance_sv" id="svBalance"
                                                     class="form-control @error('balance_sv') is-invalid @enderror"
@@ -714,7 +695,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-6">
                                             <div class="form-floating">
                                                 <input name="interest_rate_sv" id="svInterestRate"
                                                     class="form-control @error('interest_rate_sv') is-invalid @enderror"

@@ -12,7 +12,7 @@
    <div class="row mb-4">
       <div class="col-8 mb-3 col-md-6">
          <!-- Greeting -->
-         <h3 class="">Welcome back, {{ Auth::user()->name }} 👋</h3>
+         <h3 class="bg-danger">Welcome back, {{ Auth::user()->name }} 👋</h3>
          <h3> 
             @if(!(Auth::user()->name === 'Admin'))
             Branch: {{ Auth::user()->branch->name ?? 'N/A' }}

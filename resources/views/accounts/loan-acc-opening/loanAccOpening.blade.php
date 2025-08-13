@@ -17,9 +17,9 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <div class="modal-body bg-light p-4">
+                <div class="modal-body bg-light p-4 py-0">
                     <div class="bg-white rounded shadow-sm p-4">
-                        <div class="row ">
+                        <div class="row g-3">
                             @isset($ledgers)
                             <div class="col-md-12 mb-3">
                                 @if ($ledgers->isNotEmpty())
@@ -50,11 +50,11 @@
                             </div>
                             @endisset
                         </div>
-                        <fieldset class="border p-3 mb-3 rounded position-relative">
+                        <fieldset class="border p-3 mb-3 rounded position-relative mb-3">
                             <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Member Information</legend>
-                        <div class="row ">
+                        <div class="row g-3">
                              @isset($members)
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4">
                                 @if ($members->isNotEmpty())
                                 <div class="form-floating">
                                     <select id="memberId" name="member_id"
@@ -82,7 +82,7 @@
                                 @endif
                             </div>
                             @endisset
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4">
                                 <div class="form-floating">
                                     <input name="photo" id="photoCopy"
                                         class="form-control @error('photo') is-invalid @enderror"
@@ -94,7 +94,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4">
                                 <div class="form-floating">
                                     <input name="signature" id="signCopy"
                                         class="form-control @error('signature') is-invalid @enderror"
@@ -110,7 +110,7 @@
                         </fieldset>
                         <fieldset class="border p-3 mb-3 rounded position-relative">
                             <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Account Information</legend>
-                        <div class="row ">
+                        <div class="row g-3">
                             {{-- @isset($accounts)
                             <div class="col-md-6 mb-3">
                                 @if ($accounts->isNotEmpty())

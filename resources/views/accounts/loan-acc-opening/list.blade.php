@@ -38,7 +38,7 @@
                     <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
                     <th scope="col">Ledger</th>
-                    <th scope="col">Image</th>
+                    {{-- <th scope="col">Image</th> --}}
                     <th scope="col">Member Name</th>
                     <th scope="col">Account No. </th>
                     {{-- <th scope="col">Loan Type</th> --}}
@@ -78,7 +78,7 @@
                     <th scope="row">{{$i}}</th>
                     <td>{{$account->id}}</td>
                     <td>{{$account->ledger->name}}</td>
-                    <td>
+                    {{-- <td>
                         @php
                         $images = json_decode($account->images, true);
                         @endphp
@@ -91,10 +91,10 @@
                             <p>Signature: </p>
                             <img src="{{ asset('storage/' . $images['signature']) }}" alt="Signature" style="max-width: 50px;">
                         @endif
-                    </td>
+                    </td> --}}
                     <td>{{$account->name ?? ''}}</td>
                     <td>{{$account->acc_no}}</td>
-                    <td>{{$account->loan_type}}</td>
+                    {{-- <td>{{$account->loan_type}}</td> --}}
                     <td>{{$account->ac_start_date}}</td>
                     <td>{{$account->open_balance ?? ''}}</td>
                     <td>{{$account->purpose ?? ''}}</td>
@@ -119,7 +119,7 @@
                     {{-- <td>{{$account->open_interest ?? ''}}</td> --}}
                     <td>{{$account->penal_interest ?? ''}}</td>
                     {{-- <td>{{$account->notice_fee ?? ''}}</td> --}}
-                    <td>{{$account->insurance_date ?? ''}}</td>
+                    {{-- <td>{{$account->insurance_date ?? ''}}</td> --}}
                     <td>
                         <a href="#" data-id="{{$account->id }}" data-ledger-id="{{$account->ledger_id ?? ''}}" data-member-id="{{$account->member_id ?? ''}}" data-account-id="{{$account->account_id ?? ''}}" data-acc-no="{{$account->acc_no ?? ''}}" data-loan-type="{{$account->loan_type ?? ''}}" data-name="{{$account->name ?? ''}}"data-ac-start-date="{{$account->ac_start_date ?? ''}}" data-open-balance="{{$account->open_balance ?? ''}}" data-purpose="{{$account->purpose ?? ''}}" data-principal-amount="{{$account->principal_amount ?? ''}}" data-interest-rate="{{$account->interest_rate ?? ''}}" data-tenure="{{$account->tenure ?? ''}}" data-emi-amount="{{$account->emi_amount ?? ''}}" data-start-date="{{$account->start_date ?? ''}}" data-end-date="{{$account->end_date ?? ''}}" data-balance="{{$account->balance ?? ''}}" data-priority="{{$account->priority ?? ''}}" data-loan-amount="{{$account->loan_amount ?? ''}}" data-collateral-type="{{$account->collateral_type ?? ''}}" data-collateral-value="{{$account->collateral_value ?? ''}}" data-status="{{$account->status ?? ''}}" data-add-to-demand="{{$account->add_to_demand ?? ''}}" data-is-loss-asset="{{$account->is_loss_asset ?? ''}}" data-case-flag="{{$account->case_flag ?? ''}}" data-page-no="{{$account->page_no ?? ''}}" data-interest="{{$account->interest ?? ''}}" data-postage="{{$account->postage ?? ''}}" data-insurance="{{$account->insurance ?? ''}}" data-open-interest="{{$account->open_interest ?? ''}}" data-penal-interest="{{$account->penal_interest ?? ''}}" data-notice-fee="{{$account->notice_fee ?? ''}}" data-insurance-date="{{$account->insurance_date ?? ''}}" 
 
@@ -146,9 +146,9 @@
                             data-bs-target="#loanAccOpeningModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" data-id="{{$account->id }}" data-route="{{ route('member-loan-accounts.destroy', $account->id) }}" data-name="{{$account->name}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        {{-- <a href="#" data-id="{{$account->id }}" data-route="{{ route('member-loan-accounts.destroy', $account->id) }}" data-name="{{$account->name}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
+                        </a> --}}
                     </td>
                 </tr>
                 @php $i++ @endphp

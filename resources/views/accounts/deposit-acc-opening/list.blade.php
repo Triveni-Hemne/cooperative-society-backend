@@ -39,7 +39,7 @@
                     <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
                     <th scope="col">ledger</th>
-                    {{-- <th scope="col">Image</th> --}}
+                    {{-- <th scope="col">Photo & Sign</th> --}}
                     <th scope="col">Member Name</th>
                     <th scope="col">Account No.</th>
                     <th scope="col">Deposit Type</th>
@@ -74,7 +74,7 @@
                     <td scope="row">{{$i}}</td>
                     <td scope="row">{{$account->id}}</td>
                     <td scope="row">{{$account->ledger->name}}</td>
-                    <td scope="row">
+                    {{-- <td scope="row">
                         @php
                         $images = json_decode($account->images, true);
                         @endphp
@@ -87,7 +87,7 @@
                             <p>Signature: </p>
                             <img src="{{ asset('storage/' . $images['signature']) }}" alt="Signature" style="max-width: 50px;">
                         @endif
-                    </td>
+                    </td> --}}
                     <td scope="row">{{$account->member->name}}</td>
                     <td scope="row">{{$account->acc_no}}</td>
                     <td scope="row">{{$account->deposit_type}}</td>
@@ -103,7 +103,7 @@
                     <td scope="row">{{$account->installment_amount ?? ''}}</td>
                     <td scope="row">{{$account->total_installments ?? ''}}</td>
                     <td scope="row">{{$account->total_payable_amount ?? ''}}</td>
-                    <td scope="row">{{$account->total_installments_paid ?? ''}}</td>
+                    <td scope="row">{{$account->total_installments_paid ?? 0}}</td>
                     <td scope="row">{{$account->acc_closing_date ?? ''}}</td>
                     <td scope="row">{{$account->interest_payable ?? ''}}</td>
                     {{-- <td scope="row">{{$account->open_interest ?? ''}}</td> --}}
@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let balance = this.getAttribute("data-balance");
             let closingFlag = this.getAttribute("data-closing-flag");
             let addToDemand = this.getAttribute("data-add-to-demand");
-            let agentId = this.getAttribute("data-agent-id");
+            // let agentId = this.getAttribute("data-agent-id");
             let pageNo = this.getAttribute("data-page-no");
             let installmentType = this.getAttribute("data-installment-type");
             let installmentAmount = this.getAttribute("data-installment-amount");
@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("depositAccOpeningModalLabel").textContent = "Edit Deposite Account";
 
             // Populate form fields
-            document.getElementById("agentId").value = id;
+            // document.getElementById("agentId").value = id;
             document.getElementById("memberId").value = memberId;
             document.getElementById("ledgerId").value = ledgerId;
             let accountInput = document.getElementById("accountId");
@@ -275,7 +275,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("closingFlag").checked = closingFlag == 1;
             document.getElementById("addToDemand").checked = addToDemand == 1;
             document.getElementById("pageNo").value = pageNo;
-            document.getElementById("agentId").value = agentId;
+            // document.getElementById("agentId").value = agentId;
             document.getElementById("installmentType").value = installmentType;
             document.getElementById("installmentAmount").value = installmentAmount;
             document.getElementById("totalInstallments").value = totalInstallments;
