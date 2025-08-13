@@ -109,9 +109,9 @@
                     <td>{{$account->loan_amount ?? ''}}</td>
                     {{-- <td>{{$account->collateral_type ?? ''}}</td> --}}
                     {{-- <td>{{$account->collateral_value ?? ''}}</td> --}}
-                    <td>{{$account->add_to_demand ?? ''}}</td>
-                    <td>{{$account->is_loss_asset ?? ''}}</td>
-                    <td>{{$account->case_flag ?? ''}}</td>
+                    <td>{{$account->add_to_demand ? 'Yes' : 'No' ?? ' '}}</td>
+                    <td>{{$account->is_loss_asset ? 'Yes' : 'No' ?? ''}}</td>
+                    <td>{{$account->case_flag ? 'Yes' : 'No' ?? ''}}</td>
                     <td>{{$account->page_no ?? ''}}</td>
                     <td>{{$account->interest ?? ''}}</td>
                     {{-- <td>{{$account->postage ?? ''}}</td> --}}

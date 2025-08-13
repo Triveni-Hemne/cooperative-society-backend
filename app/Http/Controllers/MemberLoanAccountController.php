@@ -84,7 +84,7 @@ class MemberLoanAccountController extends Controller
     {
         $validatedData = $request->validate([
             'ledger_id' => 'required|exists:general_ledgers,id',
-            'member_id' => 'nullable|exists:members,id',
+            'member_id' => 'required|exists:members,id',
             // 'account_id' => 'nullable|exists:accounts,id',
             'acc_no' => 'required|string|max:50|unique:member_loan_accounts,acc_no',
             // 'loan_type' => 'required|in:Personal Loan,Home Loan,Auto Loan,Business Loan,Gold Loan',

@@ -145,7 +145,8 @@
                                     <input name="acc_no" id="accNo"
                                         class="form-control @error('acc_no') is-invalid @enderror"
                                         value="{{ old('acc_no') }}" type="text" placeholder="Account No." required>
-                                    <label for="accNo" class="form-label">Account No.</label>
+                                    <label for="accNo" class="form-label">Account No. <span
+                                            class="text-danger">*</span></label>
                                     @error('acc_no')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -200,74 +201,74 @@
                             </div>
                         </div> --}}
 
-                        <div class="row ">
-                            <div class="col-md-6 mb-3">
+                        <div class="row g-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <input id="acStartDate" name="ac_start_date"
                                         class="form-control @error('ac_start_date') is-invalid @enderror"
                                         value="{{ old('ac_start_date') }}" type="date" placeholder="Acc Start Date" required>
-                                    <label for="acStartDate" class="form-label">Acc Start Date</label>
+                                    <label for="acStartDate" class="form-label">Acc Start Date <span
+                                            class="text-danger">*</span></label>
                                     @error('ac_start_date')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <input name="interest_rate" id="interestRate"
                                         class="form-control @error('interest_rate') is-invalid @enderror"
                                         value="{{ old('interest_rate') }}" type="number" step="0.01" placeholder="Interest Rate" required>
-                                    <label for="interestRate" class="form-label">Interest Rate</label>
+                                    <label for="interestRate" class="form-label">Interest Rate <span
+                                            class="text-danger">*</span></label>
                                     @error('interest_rate')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row ">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <input name="emi_amount" id="emiAmount"
                                         class="form-control @error('emi_amount') is-invalid @enderror"
                                         value="{{ old('emi_amount') }}" step="0.01" type="number" placeholder="EMI Amount" required>
-                                    <label for="emiAmount" class="form-label">EMI Amount</label>
+                                    <label for="emiAmount" class="form-label">EMI Amount <span
+                                            class="text-danger">*</span></label>
                                     @error('emi_amount')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <input name="open_balance" id="openBalance"
                                         class="form-control @error('open_balance') is-invalid @enderror"
                                         value="{{ old('open_balance') }}" step="0.01" type="number" placeholder="Open Balance ">
-                                    <label for="openBalance" class="form-label">Open Balance</label>
+                                    <label for="openBalance" class="form-label">Open Balance <span
+                                            class="text-danger">*</span></label>
                                     @error('open_balance')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row ">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <input name="balance" id="balance"
                                         class="form-control @error('balance') is-invalid @enderror"
                                         value="{{ old('balance') }}" step="0.01" type="number" placeholder="Balance" required>
-                                    <label for="balance" class="form-label">Balance</label>
+                                    <label for="balance" class="form-label">Balance <span
+                                            class="text-danger">*</span></label>
                                     @error('balance')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-                             <div class="col-md-6 mb-3">
+                             <div class="col-md-3">
                                 <div class="form-floating">
                                     <input name="loan_amount" id="loanAmount"
                                         class="form-control @error('loan_amount') is-invalid @enderror"
                                         value="{{ old('loan_amount') }}" step="0.01" type="number" placeholder="Loan Amount" required>
-                                    <label for="loanAmount" class="form-label">Loan Amount</label>
+                                    <label for="loanAmount" class="form-label">Loan Amount <span
+                                            class="text-danger">*</span></label>
                                     @error('loan_amount')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -284,35 +285,37 @@
                                     @enderror
                                 </div>
                             </div> --}}
-                               <div class="col-md-6 mb-3">
+                               <div class="col-md-3">
                                 <div class="form-floating">
                                     <input name="tenure" id="tenure"
                                         class="form-control @error('tenure') is-invalid @enderror"
                                         value="{{ old('tenure') }}" step="0.01" type="number" placeholder="Tenure" required>
-                                    <label for="tenure" class="form-label">Tenure</label>
+                                    <label for="tenure" class="form-label">Tenure <span
+                                            class="text-danger">*</span></label>
                                     @error('tenure')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <input name="start_date" id="startDate"
                                         class="form-control @error('start_date') is-invalid @enderror"
                                         value="{{ old('start_date') }}" type="date" placeholder="Start Date" required>
-                                    <label for="startDate" class="form-label">Start Date</label>
+                                    <label for="startDate" class="form-label">Start Date <span
+                                            class="text-danger">*</span></label>
                                     @error('start_date')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-                  
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3">
                                 <div class="form-floating">
                                     <input name="end_date" id="endDate"
                                         class="form-control @error('end_date') is-invalid @enderror"
                                         value="{{ old('end_date') }}" type="date" placeholder="End Date" required>
-                                    <label for="endDate" class="form-label">End Date</label>
+                                    <label for="endDate" class="form-label">End Date <span
+                                            class="text-danger">*</span></label>
                                     @error('end_date')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -323,8 +326,8 @@
                             <fieldset class="border p-3 mb-3 rounded position-relative">
                                 <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Loan Account
                                     Loan Purpose</legend>
-                            <div class="row ">
-                            <div class="col-md-6 mb-3">
+                            <div class="row g-3">
+                            <div class="col-md-6">
                                 <div class="form-floating">
                                     <select id="purpose" name="purpose" class="form-select" required>
                                         <option value="" {{ old('purpose') ? '' : 'selected' }}>------ Select Loan Purpose ------</option>
@@ -343,7 +346,8 @@
                                         <option value="Dairy" {{ old('purpose') == 'Dairy' ? 'selected' : '' }}>Dairy
                                         </option>
                                     </select>
-                                    <label for="purpose" class="form-label">Purpose</label>
+                                    <label for="purpose" class="form-label">Purpose <span
+                                            class="text-danger">*</span></label>
                                 </div>
                             </div>
 
@@ -406,19 +410,19 @@
                         <fieldset class="border p-3 mb-3 rounded position-relative">
                             <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Loan Account
                                 Classification</legend>
-                        <div class="row ">
-                            <div class="col-md-6 mb-3">
+                        <div class="row g-3">
+                            <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="page_no" id="pageNo"
                                         class="form-control @error('page_no') is-invalid @enderror"
                                         value="{{ old('page_no') }}" type="text" placeholder="Page No.">
-                                    <label for="pageNo" class="form-label">Page No.</label>
+                                    <label for="pageNo" class="form-label">Page No. </label>
                                     @error('page_no')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3 d-flex align-items-center">
+                            <div class="col-md-6 d-flex align-items-center">
                                 <div class="form-check form-switch">
                                     <input name="is_loss_asset"
                                         class="form-check-input @error('is_loss_asset') is-invalid @enderror"
@@ -454,19 +458,20 @@
                         </fieldset>
                         <fieldset class="border p-3 mb-3 rounded position-relative">
                             <legend class="fw-semibold fs-6 px-2 w-auto position-absolute">Interest Detail</legend>
-                        <div class="row ">
-                            <div class="col-md-4 mb-3" >
+                        <div class="row g-3">
+                            <div class="col-md-3" >
                                 <div class="form-floating">
                                     <input name="interest" id="interest"
                                         class="form-control @error('interest') is-invalid @enderror"
                                         value="{{ old('interest') }}" step="0.01" type="number" placeholder="Interest">
-                                    <label for="interest" class="form-label">Interest</label>
+                                    <label for="interest" class="form-label">Interest <span
+                                            class="text-danger">*</span></label>
                                     @error('interest')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-4 mb-3" >
+                            <div class="col-md-3" >
                                 <div class="form-floating">
                                     <input name="penal_interest" id="penalInterest"
                                         class="form-control @error('penal_interest') is-invalid @enderror"
@@ -589,52 +594,57 @@
                                 <div class="tab-pane fade show active p-3" id="nominee-tab-pane" role="tabpanel"
                                     aria-labelledby="nominee-tab" tabindex="0">
 
-                                    <div class="row">
+                                    <div class="row g-3">
                                         <div class="col-md-6 mb-3">
                                             <h6 class="text-center mb-3">Nominee 1</h6>
-                                            <div class="form-floating mb-3">
+                                            <div class="row g-3">
+                                            <div class="form-floating col-md-12">
                                                 <input name="nominees[0][nominee_name]" id="nominee1Name"
                                                     class="form-control @error('nominees.0.nominee_name') is-invalid @enderror"
                                                     type="text" placeholder="Nominee Name"
                                                     value="{{ old('nominees.0.nominee_name') }}" required>
-                                                <label for="nominee1Name" class="form-label">Name</label>
+                                                <label for="nominee1Name" class="form-label">Name <span
+                                            class="text-danger">*</span></label>
                                                 @error('nominees.0.nominee_name')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="form-floating mb-3">
+                                            <div class="form-floating col-md-12">
                                                 <input name="nominees[0][nominee_naav]" id="marathiNominee1Name"
                                                     class="form-control @error('nominees.0.nominee_naav') is-invalid @enderror"
                                                     type="text" value="{{ old('nominees.0.nominee_naav') }}"
                                                     placeholder="नाव">
-                                                <label for="marathiNominee1Name" class="form-label">नाव</label>
+                                                <label for="marathiNominee1Name" class="form-label">नाव <span
+                                            class="text-danger">*</span></label>
                                                 @error('nominees.0.nominee_naav')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="form-floating mb-3">
+                                            <div class="form-floating col-md-4">
                                                 <input name="nominees[0][nominee_age]" id="nominee1Age"
                                                     class="form-control @error('nominees.0.nominee_age') is-invalid @enderror"
                                                     type="number" placeholder="Age"
                                                     value="{{ old('nominees.0.nominee_age') }}" required>
-                                                <label for="nominee1Age" class="form-label">Age</label>
+                                                <label for="nominee1Age" class="form-label">Age <span
+                                            class="text-danger">*</span></label>
                                                 @error('nominees.0.nominee_age')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="form-floating mb-3">
+                                            <div class="form-floating col-md-4">
                                                 <select id="nominee1Gender" name="nominees[0][nominee_gender]"
                                                     class="form-select @error('nominees.0.nominee_gender') is-invalid @enderror" required>
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
                                                     <option value="Other">Other</option>
                                                 </select>
-                                                <label for="nominee1Gender" class="form-label">Gender</label>
+                                                <label for="nominee1Gender" class="form-label">Gender <span
+                                            class="text-danger">*</span></label>
                                                 @error('nominees.0.nominee_gender')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="form-floating mb-3">
+                                            <div class="form-floating col-md-4">
                                                 <select id="nominee1Relation" name="nominees[0][relation]"
                                                     class="form-select @error('nominees.0.relation') is-invalid @enderror" required>
                                                     <option value="husband">Husband</option>
@@ -647,12 +657,13 @@
                                                     <option value="daughter">Daughter</option>
                                                     <option value="other">Other</option>
                                                 </select>
-                                                <label for="nominee1Relation" class="form-label">Relation</label>
+                                                <label for="nominee1Relation" class="form-label">Relation <span
+                                            class="text-danger">*</span></label>
                                                 @error('nominees.0.relation')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="col-md-12">
                                                 <label for="nominee1Photo" class="form-label text-white">Photo</label>
                                                 <input name="nominees[0][nominee_image]" id="nominee1Photo"
                                                     value="{{ old('nominees.0.nominee_image') }}"
@@ -662,52 +673,58 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
+                                            </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <h6 class="text-center mb-3">Nominee 2</h6>
-                                            <div class="form-floating mb-3">
+                                            <div class="row g-3">
+                                            <div class="form-floating col-md-12">
                                                 <input name="nominees[1][nominee_name]" id="nominee2Name"
                                                     class="form-control @error('nominees.1.nominee_name') is-invalid @enderror"
                                                     value="{{ old('nominees.1.nominee_name') }}" type="text"
                                                     placeholder="Nominee Name" required>
-                                                <label for="nominee2Name" class="form-label">Name</label>
+                                                <label for="nominee2Name" class="form-label">Name <span
+                                            class="text-danger">*</span></label>
                                                 @error('nominees.1.nominee_name')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="form-floating mb-3">
+                                            <div class="form-floating col-md-12">
                                                 <input name="nominees[1][nominee_naav]" id="marathiNominee2Name"
                                                     class="form-control @error('nominees.1.nominee_naav') is-invalid @enderror"
                                                     type="text" value="{{ old('nominees.1.nominee_naav') }}"
                                                     placeholder="नाव">
-                                                <label for="marathiNominee2Name" class="form-label">नाव</label>
+                                                <label for="marathiNominee2Name" class="form-label">नाव <span
+                                            class="text-danger">*</span></label>
                                                 @error('nominees.1.nominee_naav')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="form-floating mb-3">
+                                            <div class="form-floating col-md-4">
                                                 <input name="nominees[1][nominee_age]" id="nominee2Age"
                                                     class="form-control @error('nominees.1.nominee_age') is-invalid @enderror"
                                                     type="number" placeholder="Age"
                                                     value="{{ old('nominees.1.nominee_age') }}" required>
-                                                <label for="nominee2Age" class="form-label">Age</label>
+                                                <label for="nominee2Age" class="form-label">Age <span
+                                            class="text-danger">*</span></label>
                                                 @error('nominees.1.nominee_age')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="form-floating mb-3">
+                                            <div class="form-floating col-md-4">
                                                 <select id="nominee2Gender" name="nominees[1][nominee_gender]"
                                                     class="form-select @error('nominees.1.nominee_gender') is-invalid @enderror" required>
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
                                                     <option value="Other">Other</option>
                                                 </select>
-                                                <label for="nominee2Gender" class="form-label">Gender</label>
+                                                <label for="nominee2Gender" class="form-label">Gender <span
+                                            class="text-danger">*</span></label>
                                                 @error('nominees.1.nominee_gender')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="form-floating mb-3">
+                                            <div class="form-floating col-md-4">
                                                 <select id="nominee2Relation" name="nominees[1][relation]"
                                                     class="form-select @error('nominees.1.relation') is-invalid @enderror" required>
                                                     <option value="husband">Husband</option>
@@ -720,12 +737,13 @@
                                                     <option value="daughter">Daughter</option>
                                                     <option value="other">Other</option>
                                                 </select>
-                                                <label for="nominee2Relation" class="form-label">Relation</label>
+                                                <label for="nominee2Relation" class="form-label">Relation <span
+                                            class="text-danger">*</span></label>
                                                 @error('nominees.1.relation')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="col-md-12">
                                                 <label for="nominee2Photo" class="form-label text-white">Photo</label>
                                                 <input name="nominees[1][nominee_image]" id="nominee2Photo"
                                                     value="{{ old('nominees.1.nominee_image') }}"
@@ -735,6 +753,7 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
@@ -839,9 +858,9 @@
                                 <div class="tab-pane fade p-3" id="guarantors-tab-pane" role="tabpanel"
                                     aria-labelledby="guarantors-tab" tabindex="0">
                                     <h6 class="text-center">Guarantor 1</h6>
-                                    <div class="row ">
+                                    <div class="row g-3 mb-3">
                                         @isset($members)
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-3">
                                             <div class="form-floating">
                                                 <select id="grMemberId1" name="garantors[0][gr_member_id]"
                                                     class="form-select @error('garantors.0.gr_member_id') is-invalid @enderror" required>
@@ -860,7 +879,7 @@
                                             </div>
                                         </div>
                                         @endisset
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-3">
                                             <div class="form-floating">
                                                 <select id="guarantorType1" name="garantors[0][guarantor_type]"
                                                     class="form-select @error('garantors.0.guarantor_type') is-invalid @enderror" required>
@@ -883,9 +902,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row ">
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-3">
                                             <div class="form-floating">
                                                 <input name="garantors[0][added_on]" id="addedOn1"
                                                     class="form-control @error('garantors.0.added_on') is-invalid @enderror"
@@ -896,7 +913,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-3">
                                             <div class="form-floating">
                                                 <input name="garantors[0][released_on]" id="releasedOn1"
                                                     class="form-control @error('garantors.0.released_on') is-invalid @enderror"
@@ -911,9 +928,9 @@
                                     </div>
 
                                     <h6 class="text-center">Guarantor 2</h6>
-                                    <div class="row ">
+                                    <div class="row g-3">
                                         @isset($members)
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-3">
                                             <div class="form-floating">
                                                 <select id="grMemberId2" name="garantors[1][gr_member_id]"
                                                     class="form-select @error('garantors.1.gr_member_id') is-invalid @enderror" required>
@@ -932,7 +949,7 @@
                                             </div>
                                         </div>
                                         @endisset
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-3">
                                             <div class="form-floating">
                                                 <select id="guarantorType2" name="garantors[1][guarantor_type]"
                                                     class="form-select @error('garantors.1.guarantor_type') is-invalid @enderror" required>
@@ -955,9 +972,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row ">
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-3">
                                             <div class="form-floating">
                                                 <input name="garantors[1][added_on]" id="addedOn2"
                                                     class="form-control @error('garantors.1.added_on') is-invalid @enderror"
@@ -968,7 +983,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-3">
                                             <div class="form-floating">
                                                 <input name="garantors[1][released_on]" id="releasedOn2"
                                                     class="form-control @error('garantors.1.released_on') is-invalid @enderror"
@@ -985,8 +1000,8 @@
                                 </div>
                                 <div class="tab-pane fade p-3" id="installments-tab-pane" role="tabpanel"
                                     aria-labelledby="installments-tab" tabindex="0">
-                                    <div class="row ">
-                                        <div class="col-md-6 mb-3">
+                                    <div class="row g-3">
+                                        <div class="col-md-3">
                                             <div class="form-floating">
                                                 <select id="installmentType" name="installment_type"
                                                     class="form-select @error('installment_type') is-invalid @enderror" >
@@ -1004,13 +1019,14 @@
                                                         Yearly
                                                     </option>
                                                 </select>
-                                                <label for="installmentType" class="form-label">Installment Type</label>
+                                                <label for="installmentType" class="form-label">Installment Type <span
+                                            class="text-danger">*</span></label>
                                                 @error('installment_type')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-3">
                                             <div class="form-floating">
                                                 <input id="matureDate" name="mature_date"
                                                     class="form-control @error('mature_date') is-invalid @enderror"
@@ -1022,9 +1038,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row ">
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-3">
                                             <div class="form-floating">
                                                 <input id="firstInstallmentDate" name="first_installment_date"
                                                     class="form-control @error('first_installment_date') is-invalid @enderror"
@@ -1037,7 +1051,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-3">
                                             <div class="form-floating">
                                                 <input name="total_installments" id="totalInstallments"
                                                     class="form-control @error('total_installments') is-invalid @enderror"
@@ -1050,9 +1064,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row ">
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-3">
                                             <div class="form-floating">
                                                 <input id="installmentAmount" name="installment_amount"
                                                     class="form-control @error('installment_amount') is-invalid @enderror"
@@ -1065,7 +1077,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-3">
                                             <div class="form-floating">
                                                 <input name="installment_with_interest" id="installmentWithInterest"
                                                     class="form-control @error('installment_with_interest') is-invalid @enderror"
@@ -1078,9 +1090,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row ">
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-3">
                                             <div class="form-floating">
                                                 <input id="installmentsPaid" name="total_installments_paid"
                                                     class="form-control @error('total_installments_paid') is-invalid @enderror"
