@@ -18,7 +18,9 @@
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body bg-light">
-                    <div class="p-4 bg-white rounded shadow-sm">
+                    <div class="p-4 py-0 bg-white rounded shadow-sm">
+                        <div class="row g-3">
+                            <div class="col-md-3">
                         {{-- Created By --}}
                         <div class="form-floating mb-3">
                            <input id="createdBy" class="form-control" value="{{$user->name}}" type="text" @readonly(true) required>
@@ -28,9 +30,11 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                    </div>
 
                     {{-- Deposit Account --}}
                     @isset($memberDepoAccounts)
+                            <div class="col-md-3">
                     <div class="form-floating mb-3">
                         @if ($memberDepoAccounts->isNotEmpty())
                         <select id="depositAccountId" name="deposit_account_id"
@@ -39,7 +43,7 @@
                             @foreach ($memberDepoAccounts as $account)
                             <option value="{{ $account->id }}"
                                 {{ old('deposit_account_id') == $account->id ? 'selected' : '' }}>
-                                {{ $account->name }}
+                                {{ $account->name }}  [ID: {{$account->id}}]
                             </option>
                             @endforeach
                         </select>
@@ -54,9 +58,11 @@
                         </div>
                         @endif
                     </div>
+                    </div>
                     @endisset
 
                     {{-- Installment Number --}}
+                            <div class="col-md-3">
                     <div class="form-floating mb-3">
                         <input name="installment_no" id="installmentNumber" type="text"
                             class="form-control @error('installment_no') is-invalid @enderror"
@@ -66,8 +72,10 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                    </div>
 
                     {{-- Amount Paid --}}
+                            <div class="col-md-3">
                     <div class="form-floating mb-3">
                         <input name="amount_paid" id="amountPaid" type="number" step="0.01"
                             class="form-control @error('amount_paid') is-invalid @enderror" placeholder="Amount Paid"
@@ -77,8 +85,10 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                    </div>
 
                     {{-- Payment Date --}}
+                            <div class="col-md-3">
                     <div class="form-floating mb-3">
                         <input name="payment_date" id="paymentDate" type="date"
                             class="form-control @error('payment_date') is-invalid @enderror" placeholder="Payment Date"
@@ -88,8 +98,10 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                    </div>
 
                     {{-- Interest Earned --}}
+                            <div class="col-md-3">
                     <div class="form-floating mb-3">
                         <input name="interest_earned" id="interestEarned" type="text"
                             class="form-control @error('interest_earned') is-invalid @enderror"
@@ -99,8 +111,10 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                    </div>
 
                     {{-- Total Balance --}}
+                            <div class="col-md-3">
                     <div class="form-floating mb-3">
                         <input name="total_balance" id="totalBalance" type="number" step="0.01"
                             class="form-control @error('total_balance') is-invalid @enderror"
@@ -110,7 +124,9 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                    </div>
 
+                </div>
                 </div>
         </div>
 

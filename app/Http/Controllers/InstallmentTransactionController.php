@@ -97,17 +97,17 @@ class InstallmentTransactionController extends Controller
     public function update(Request $request, string $id)
     {
        $transaction = InstallmentTransaction::findOrFail($id);
-
-        $request->validate([
-            'deposit_account_id' => 'sometimes|exists:member_depo_accounts,id',
-            'installment_no' => 'sometimes|integer|min:1',
-            'amount_paid' => 'sometimes|numeric|min:0',
-            'payment_date' => 'sometimes|date',
-            'interest_earned' => 'nullable|numeric|min:0',
-            'total_balance' => 'sometimes|numeric|min:0',
-            'created_by' => 'nullable|exists:users:id',
+       
+       $request->validate([
+           'deposit_account_id' => 'sometimes|exists:member_depo_accounts,id',
+           'installment_no' => 'sometimes|integer|min:1',
+           'amount_paid' => 'sometimes|numeric|min:0',
+           'payment_date' => 'sometimes|date',
+           'interest_earned' => 'nullable|numeric|min:0',
+           'total_balance' => 'sometimes|numeric|min:0',
+           'created_by' => 'nullable|exists:users,id',
         ]);
-
+        
         $transaction->update($request->all());
         return redirect()->back()->with('success','Installment Transaction Updated Successfully');
     }

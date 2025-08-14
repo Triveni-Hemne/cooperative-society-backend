@@ -67,9 +67,9 @@
                             data-bs-target="#installmentTransactionModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" data-id="{{$transaction->id }}" data-route="{{ route('installment-transactions.destroy', $transaction->id) }}" data-name="{{$transaction->installment_no}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        {{-- <a href="#" data-id="{{$transaction->id }}" data-route="{{ route('installment-transactions.destroy', $transaction->id) }}" data-name="{{$transaction->installment_no}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
+                        </a> --}}
                     </td>
                 </tr>
                 @php $i++ @endphp
