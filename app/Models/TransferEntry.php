@@ -50,6 +50,6 @@ class TransferEntry extends Model
 
     // public function enteredBy()
     // {
-    //     return $this->belongsTo(User::class, 'entered_by');
+    //     return $this->belongsTo(User::class, 'cte_by');
     // }
 }

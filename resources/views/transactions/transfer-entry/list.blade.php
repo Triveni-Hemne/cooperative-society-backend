@@ -46,7 +46,7 @@
                     <th scope="col">Amount</th>
                     <th scope="col">Opening Balance</th>
                     <th scope="col">Current Balance</th>
-                    <th scope="col">Approved By</th>
+                    {{-- <th scope="col">Approved By</th> --}}
                     <th scope="col">Entered By</th>
                     <th scope="col">Branch</th>
                     <th scope="col">Naration</th>
@@ -78,8 +78,8 @@
                     <td>{{$entry->amount ?? '' }}</td>
                     <td>{{$entry->opening_balance ?? '' }}</td>
                     <td>{{$entry->current_balance ?? '' }}</td>
-                    <td>{{$entry->approvedBy->name ?? '' }}</td>
-                    <td>{{$entry->enteredBy->name ?? '' }}</td>
+                    {{-- <td>{{$entry->approvedBy->name ?? '' }}</td> --}}
+                    <td>{{$entry->user->name ?? '' }}</td>
                     <td>{{$entry->branch->name ?? '' }}</td>
                     <td>{{$entry->narration  ?? ''}}</td>
                     <td>{{$entry->m_narration ?? '' }}</td>

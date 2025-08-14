@@ -297,8 +297,8 @@
                                 <div class="form-floating">
                                      <input id="enteredBy" name="" class="form-control" value="{{Auth::user()->name}}" readonly required>
                                      <label for="enteredBy">Entered By</label>
-                                     <input id="enteredById" hidden name="entered_by" value="{{Auth::user()->id}}" class="form-control"  required>
-                                    @error('entered_by')
+                                     <input id="enteredById" hidden name="created_by" value="{{Auth::user()->id}}" class="form-control"  required>
+                                    @error('created_by')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
