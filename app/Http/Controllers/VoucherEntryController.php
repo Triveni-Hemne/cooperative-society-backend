@@ -176,7 +176,7 @@ class VoucherEntryController extends Controller
                 : ['nullable', Rule::exists('branches', 'id')],
 
             'member_id' => 'nullable|exists:members,id',
-            'cheque_no' => 'nullable|numeric',
+            'cheque_no' => 'nullable',
             'balance' => 'nullable|numeric',  
             'interest' => 'nullable|numeric',  
             'penal' => 'nullable|numeric',  
@@ -273,7 +273,7 @@ class VoucherEntryController extends Controller
                 : ['nullable', Rule::exists('branches', 'id')],
             
             'member_id' => 'nullable|exists:members,id',
-            'cheque_no' => 'nullable|numeric',
+            'cheque_no' => 'nullable',
             'balance' => 'nullable|numeric',  
             'interest' => 'nullable|numeric',  
             'penal' => 'nullable|numeric',  

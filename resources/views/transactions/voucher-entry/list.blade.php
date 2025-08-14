@@ -212,7 +212,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 
                 // ✅ Safe to set values after dynamic fields exist
                 const chequeNoInput = document.getElementById("cheque_no");
-                console.log("chequeNo" + chequeNoInput);
                 if(chequeNoInput){
                     document.getElementById("cheque_no").value = chequeNo;
                 }
@@ -270,7 +269,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 
                 } catch (error) {
-                console.error('Error fetching accounts:', error);
             } finally {
                 document.getElementById('loadingSpinner').classList.add('d-none');
             }
