@@ -16,7 +16,7 @@ class TransferEntry extends Model
         'opening_balance', 'current_balance', 'transaction_mode', 'payment_mode',
         'reference_number', 'is_reversed', 'approved_by', 'approved_at',
         'branch_id', 'to_date', 'from_date', 'narration', 'm_narration', 'status','member_id',
-        'cheque_no','balance','interest','penal','post_court','insurance','notice_fee',
+        'cheque_no','balance','interest','penal','post_court','insurance','notice_fee','int_paid',  
         'other','trans_chargs','int_payable','penal_interest','total_amount'
     ];
 

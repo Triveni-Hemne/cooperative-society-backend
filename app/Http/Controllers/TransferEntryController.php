@@ -117,7 +117,7 @@ class TransferEntryController extends Controller
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],
             'member_id' => 'nullable|exists:members,id',
-            'cheque_no' => 'nullable|numeric',
+            'cheque_no' => 'nullable',
             'balance' => 'nullable|numeric',  
             'interest' => 'nullable|numeric',  
             'penal' => 'nullable|numeric',  
@@ -127,6 +127,7 @@ class TransferEntryController extends Controller
             'other' => 'nullable|string',  
             'trans_chargs' => 'nullable|numeric',  
             'int_payable' => 'nullable|numeric',  
+            'int_paid' => 'nullable|numeric',  
             'penal_interest' => 'nullable|numeric',  
             'total_amount' => 'nullable|numeric',
         ]);
@@ -196,7 +197,7 @@ class TransferEntryController extends Controller
             'amount' => 'nullable|numeric|min:0',
             // 'approved_by' => 'nullable|exists:users,id',
              'member_id' => 'nullable|exists:members,id',
-            'cheque_no' => 'nullable|numeric',
+            'cheque_no' => 'nullable',
             'balance' => 'nullable|numeric',  
             'interest' => 'nullable|numeric',  
             'penal' => 'nullable|numeric',  
@@ -206,6 +207,7 @@ class TransferEntryController extends Controller
             'other' => 'nullable|numeric',  
             'trans_chargs' => 'nullable|numeric',  
             'int_payable' => 'nullable|numeric',  
+            'int_paid' => 'nullable|numeric',  
             'penal_interest' => 'nullable|numeric',  
             'total_amount' => 'nullable|numeric',
 

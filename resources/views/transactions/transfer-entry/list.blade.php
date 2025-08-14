@@ -210,7 +210,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 
                 // ✅ Safe to set values after dynamic fields exist
                 const chequeNoInput = document.getElementById("cheque_no");
-                console.log("chequeNo" + chequeNoInput);
                 if(chequeNoInput){
                     document.getElementById("cheque_no").value = chequeNo;
                 }
