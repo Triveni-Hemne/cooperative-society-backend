@@ -30,6 +30,6 @@ class DayBegin extends Model
     // day beginner
      public function users()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Member::class, 'user_id');
     } 
 }

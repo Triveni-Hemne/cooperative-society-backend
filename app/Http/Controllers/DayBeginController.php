@@ -62,7 +62,7 @@ class DayBeginController extends Controller
             'branch_id' => auth()->user()->role === 'Admin'
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],
-            'user_id' => 'nullable|exists:users,id',
+            'user_id' => 'nullable|exists:members,id',
             // 'status' => 'required|in:Open,Closed',
             'opening_cash_balance' => 'required|numeric',
             'remarks' => 'nullable|string',
@@ -104,7 +104,7 @@ class DayBeginController extends Controller
             'branch_id' => auth()->user()->role === 'Admin'
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],
-            'user_id' => 'nullable|exists:users,id',
+            'user_id' => 'nullable|exists:members,id',
             // 'status' => 'in:Open,Closed',
             'opening_cash_balance' => 'required|numeric',
             'created_by' => 'nullable|exists:users,id',
