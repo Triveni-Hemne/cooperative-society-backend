@@ -36,7 +36,7 @@
                                     <input name="branch_code" id="branchCode"
                                         class="form-control @error('branch_code') is-invalid @enderror"
                                         value="{{ old('branch_code') }}" type="text" placeholder="Branch Code">
-                                    <label for="branchCode">Branch Code</label>
+                                    <label for="branchCode">Branch Code </label>
                                     @error('branch_code')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -61,7 +61,7 @@
                                         </option>
                                     @endforeach
                             </select>
-                            <label for="branchId">Branch</label>
+                            <label for="branchId">Branch <span class="text-danger"> *</span></label>
                             @error('branch_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -112,7 +112,7 @@
                             <input name="open_date" id="openDate"
                                 class="form-control @error('open_date') is-invalid @enderror"
                                 value="{{ old('open_date') }}" type="date">
-                            <label for="openDate">Open Date</label>
+                            <label for="openDate">Open Date <span class="text-danger"> *</span></label>
                             @error('open_date')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -125,7 +125,7 @@
                             <input name="open_balance" id="openBalance"
                                 class="form-control @error('open_balance') is-invalid @enderror"
                                 value="{{ old('open_balance') }}" type="number" step="0.01" placeholder="Open Balance">
-                            <label for="openBalance">Open Balance</label>
+                            <label for="openBalance">Open Balance <span class="text-danger"> *</span></label>
                             @error('open_balance')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -140,7 +140,7 @@
                             <input name="balance" id="balance"
                                 class="form-control @error('balance') is-invalid @enderror" value="{{ old('balance') }}"
                                 type="number" step="0.01" placeholder="Balance">
-                            <label for="balance">Balance</label>
+                            <label for="balance">Balance <span class="text-danger"> *</span></label>
                             @error('balance')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -158,7 +158,7 @@
                                 <option value="Debit" {{ old('balance_type') == 'Debit' ? 'selected' : '' }}>
                                     Debit</option>
                             </select>
-                            <label for="balanceType">Balance Type</label>
+                            <label for="balanceType">Balance Type <span class="text-danger"> *</span></label>
                             @error('balance_type')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -182,7 +182,7 @@
                                 <option value="Expense" {{ old('item_type') == 'Expense' ? 'selected' : '' }}>
                                     Expense</option>
                             </select>
-                            <label for="itemType">Item Type</label>
+                            <label for="itemType">Item Type </label>
                             @error('item_type')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

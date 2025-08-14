@@ -71,9 +71,9 @@
                             data-bs-target="#branchLedgerModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" data-id="{{$ledger->id }}" data-route="{{ route('branch-ledger.destroy', $ledger->id) }}" data-name="{{$ledger->branch_code}}" class="text-decoration-none edit-btn" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        {{-- <a href="#" data-id="{{$ledger->id }}" data-route="{{ route('branch-ledger.destroy', $ledger->id) }}" data-name="{{$ledger->branch_code}}" class="text-decoration-none edit-btn" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
+                        </a> --}}
                     </td>
                 </tr>
                 @php $i++ @endphp

@@ -55,7 +55,7 @@ class BranchLedgerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'branch_code' => 'required|string|max:20',
+            'branch_code' => 'nullable|string|max:20',
             'branch_id' => auth()->user()->role === 'Admin'
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],
@@ -64,7 +64,7 @@ class BranchLedgerController extends Controller
             'open_balance' => 'required|numeric',
             'balance' => 'required|numeric',
             'balance_type' => 'required|in:Credit,Debit',
-            'item_type' => 'required|in:Asset,Liability,Income,Expense',
+            'item_type' => 'nullable|in:Asset,Liability,Income,Expense',
             'created_by' => 'nullable|exists:users,id',
         ]);
         
@@ -100,7 +100,7 @@ class BranchLedgerController extends Controller
         if (!$branchLedger) return response()->json(['message' => 'Branch ledger not found'], 404);
 
         $request->validate([
-            'branch_code' => 'string|max:20',
+            'branch_code' => 'nullable|string|max:20',
             'branch_id' => auth()->user()->role === 'Admin'
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],
@@ -109,7 +109,7 @@ class BranchLedgerController extends Controller
             'open_balance' => 'numeric',
             'balance' => 'numeric',
             'balance_type' => 'in:Credit,Debit',
-            'item_type' => 'in:Asset,Liability,Income,Expense',
+            'item_type' => 'nullable|in:Asset,Liability,Income,Expense',
              'created_by' => 'nullable|exists:users,id',
 
         ]);
