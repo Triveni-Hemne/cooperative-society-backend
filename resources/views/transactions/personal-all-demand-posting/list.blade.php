@@ -75,10 +75,10 @@
                     <td>{{$posting->ledger->name ?? ''}}</td>  
                     <td>{{$posting->account->name ?? ''}}</td>  
                     <td>{{$posting->posting_type ?? ''}}</td>  
-                    <td>{{$posting->check_no ?? ''}}</td>  
+                    <td>{{$posting->cheque_no ?? ''}}</td>  
                     <td>{{$posting->narration ?? ''}}</td>  
                     <td>
-                        <a href="#" data-id="{{$posting->id }}" data-member="{{$posting->member_id}}" data-created-by="{{$posting->created_by ?? ''}}" data-branch="{{$posting->branch_id ?? ''}}"  data-month="{{$posting->month ?? ''}}"  data-year="{{$posting->year ?? ''}}"  data-from-date="{{$posting->from_date ?? ''}}" data-to-date="{{$posting->to_date ?? ''}}"  data-posting-date="{{$posting->posting_date ?? ''}}" data-is-transferred="{{$posting->is_transferred ?? ''}}" data-total-amount="{{$posting->total_amount ?? ''}}" data-ledger="{{$posting->ledger_id ?? ''}}" data-account="{{$posting->account_id ?? ''}}" data-posting-type="{{$posting->posting_type ?? ''}}" data-check-no="{{$posting->check_no ?? ''}}" data-narration="{{$posting->narration ?? ''}}" data-route="{{ route('demand-posting.update', $posting->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
+                        <a href="#" data-id="{{$posting->id }}" data-member="{{$posting->member_id}}" data-created-by-id="{{$posting->created_by ?? ''}}" data-created-by="{{$posting->creator->name ?? ''}}" data-branch="{{$posting->branch_id ?? ''}}"  data-month="{{$posting->month ?? ''}}"  data-year="{{$posting->year ?? ''}}"  data-from-date="{{$posting->from_date ?? ''}}" data-to-date="{{$posting->to_date ?? ''}}"  data-posting-date="{{$posting->posting_date ?? ''}}" data-is-transferred="{{$posting->is_transferred ?? ''}}" data-total-amount="{{$posting->total_amount ?? ''}}" data-ledger="{{$posting->ledger_id ?? ''}}" data-account="{{$posting->account_id ?? ''}}" data-posting-type="{{$posting->posting_type ?? ''}}" data-check-no="{{$posting->cheque_no ?? ''}}" data-narration="{{$posting->narration ?? ''}}" data-route="{{ route('demand-posting.update', $posting->id) }}" class="text-decoration-none me-4 edit-btn" data-bs-toggle="modal"
                             data-bs-target="#personalDemandPostModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
@@ -131,6 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let id = this.getAttribute("data-id");
             let member = this.getAttribute("data-member");
             let createdBy = this.getAttribute("data-created-by");
+            let createdById = this.getAttribute("data-created-by-id");
             let branch = this.getAttribute("data-branch");
             let month = this.getAttribute("data-month");
             let year = this.getAttribute("data-year");
@@ -155,9 +156,10 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("personalDemandId").value = id;
             document.getElementById("member").value = member;
             document.getElementById("createdBy").value = createdBy;
+            document.getElementById("createdById").value = createdById;
             document.getElementById("branch").value = branch;
             document.getElementById("month").value = month;
-            document.getElementById("year").value = year;
+            // document.getElementById("year").value = year;
             if (fromDate && !isNaN(new Date(fromDate))) {
                 document.getElementById("fromDate").value = new Date(fromDate).toISOString().split('T')[0];
             }

@@ -18,26 +18,26 @@
                 </div>
 
                 <div class="modal-body bg-light">
-                    <div class="p-4 bg-white rounded shadow-sm">
-                        <div class="row">
-                        <div class="col-md-6">
+                    <div class="p-4 bg-white rounded shadow-sm py-0">
+                        <div class="row g-3 pb-3">
+                        <div class="col-md-3">
                         {{-- Created By --}}
-                        <div class="form-floating mb-3">
-                            <input id="createdBy" class="form-control" value="{{ Auth::user()->name }}" type="text"
+                        <div class="form-floating ">
+                            <input id="createdBy" class="form-control" value="{{ $user->name }}" type="text"
                                     readonly >
-                            <label for="createdBy" class="form-label">Created By</label>
-                            <input name="created_by" id="createdById" class="form-control" value="{{ Auth::user()->id }}" type="text"
+                            <label for="createdBy" class="form-label required">Created By</label>
+                            <input name="created_by" id="createdById" class="form-control" value="{{ $user->id }}" type="text"
                                     hidden >
                             @error('created_by')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                          </div>
                         </div>
-                         <div class="col-md-6">
+                         <div class="col-md-3">
                          <!-- Branch -->
                          @if(Auth::user()->role === 'Admin')
                             @if ($branches->isNotEmpty())
-                                    <div class="form-floating mb-3">
+                                    <div class="form-floating ">
                                         <select name="branch_id" id="branch"
                                             class="form-select @error('branch_id') is-invalid @enderror" >
                                             <option value="" disabled selected>Select Branch</option>
@@ -49,7 +49,7 @@
                                             </option>
                                         @endforeach
                             </select>
-                            <label for="branch">Branch</label>
+                            <label for="branch">Branch <span class="text-danger"> *</span></label>
                             @error('branch_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -64,11 +64,11 @@
                         @endif
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         {{-- User Dropdown --}}
                         @isset($members)
                         @if ($members->isNotEmpty())
-                        <div class="form-floating mb-3">
+                        <div class="form-floating ">
                             <select name="member_id" id="member"
                                 class="form-select @error('member_id') is-invalid @enderror" >
                                 <option value=""   {{ old('member_id') ? '' : 'selected' }}>---------- Member Select ----------</option>
@@ -91,8 +91,8 @@
                         @endisset
                     </div>
                         
-                        <div class="col-md-6">
-                        <div class="form-floating mb-3">
+                        <div class="col-md-3">
+                        <div class="form-floating ">
                             <div class="form-floating">
                             <input name="month" id="month"
                                         class="form-control @error('month') is-invalid @enderror"
@@ -106,8 +106,8 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
+                    <div class="col-md-3">
+                        <div class="form-floating ">
                             <div class="form-floating">
                             <input name="from_date" id="fromDate"
                                         class="form-control @error('from_date') is-invalid @enderror"
@@ -121,8 +121,8 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
+                    <div class="col-md-3">
+                        <div class="form-floating ">
                             <div class="form-floating">
                             <input name="to_date" id="toDate"
                                         class="form-control @error('to_date') is-invalid @enderror"
@@ -136,7 +136,7 @@
                         </div>
                     </div>
                         {{-- <div class="col-md-6">
-                        <div class="form-floating mb-3">
+                        <div class="form-floating ">
                             <div class="form-floating">
                             <input name="year" id="year"
                                         class="form-control @error('year') is-invalid @enderror"
@@ -150,8 +150,8 @@
                         </div>
                     </div> --}}
 
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
+                    <div class="col-md-3">
+                        <div class="form-floating ">
                             <div class="form-floating">
                             <input name="posting_date" id="postingDate"
                                         class="form-control @error('posting_date') is-invalid @enderror"
@@ -165,10 +165,10 @@
                         </div>
                     </div>
                         
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                         @isset($ledgers)
                             @if ($ledgers->isNotEmpty())
-                            <div class="form-floating mb-3">
+                            <div class="form-floating ">
                                 <select name="ledger_id" id="ledger"
                                     class="form-select @error('user_id') is-invalid @enderror" >
                                     <option value="" disabled  {{ old('ledger_id') ? '' : 'selected' }}>---------- Ledger Select ----------</option>
@@ -191,10 +191,10 @@
                         @endisset
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         @isset($accounts)
                             @if ($accounts->isNotEmpty())
-                            <div class="form-floating mb-3">
+                            <div class="form-floating ">
                                 <select name="account_id" id="account"
                                     class="form-select @error('account_id') is-invalid @enderror">
                                     <option value="" disabled  {{ old('account_id') ? '' : 'selected' }}>---------- General Account Select ----------</option>
@@ -203,7 +203,7 @@
                                         {{ $account->name }}</option>
                                     @endforeach
                                 </select>
-                                <label for="account">Account</label>
+                                <label for="account">Account <span class="text-danger"> *</span></label>
                                 @error('account_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -217,8 +217,8 @@
                         @endisset
                     </div>
 
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
+                    <div class="col-md-3">
+                        <div class="form-floating ">
                             <div class="form-floating">
                             <select name="posting_type" id="postingType"
                                         class="form-control @error('posting_type') is-invalid @enderror"
@@ -237,8 +237,8 @@
                         </div>
                     </div>
 
-                        <div class="col-md-6">
-                        <div class="form-floating mb-3">
+                        <div class="col-md-3">
+                        <div class="form-floating ">
                             <div class="form-floating">
                             <input name="cheque_no" id="chequeNo"
                                         class="form-control @error('cheque_no') is-invalid @enderror"
@@ -253,7 +253,7 @@
                     </div>
 
                     {{-- <div class="col-md-6">
-                        <div class="form-floating mb-3">
+                        <div class="form-floating ">
                             <div class="form-floating">
                             <select name="acc_type" id="acc_type"
                                         class="form-control @error('acc_type') is-invalid @enderror"
@@ -274,8 +274,8 @@
                         </div>
                     </div> --}}
 
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
+                    <div class="col-md-3">
+                        <div class="form-floating ">
                             <div class="form-floating">
                             <input name="total_amount" id="totalAmount"
                                         class="form-control @error('total_amount') is-invalid @enderror"
@@ -290,7 +290,7 @@
                     </div>
 
                     <div class="col-md-2">
-                        <div class="form-floating mb-3">
+                        <div class="form-floating ">
                             <div class="form-check form-switch">
                                 <input id="isTransferred" type="checkbox" name="is_transferred" value="1"
                                     {{ old('is_transferred') ? 'checked' : '' }}
@@ -304,7 +304,7 @@
                     </div>
                     <div class="col-md-12">
                         <!-- Remark -->
-                        <div class="form-floating mb-3">
+                        <div class="form-floating ">
                             <textarea class="form-control @error('narration') is-invalid @enderror" placeholder="Narration" id="narration"
                             name="narration" style="height: 100px">{{ old('narration') }}</textarea>
                             <label for="narration">Narration</label>
@@ -316,26 +316,6 @@
                 </div>
             </div>
                 </div>
-                
-
-                     <!-- TABLE -->
-                    <div class="table-responsive mb-4">
-                        <table class="table table-bordered">
-                        <thead class="table-light">
-                            <tr>
-                            <th>ID</th>
-                            <th>Ledger</th>
-                            <th>GL Name</th>
-                            <th>Account</th>
-                            <th>Amount</th>
-                            <th>Balance</th>
-                            </tr>
-                        </thead>
-                        <tbody id="demand-entry-body">
-                            <!-- Dynamically populate rows using JS or backend -->
-                        </tbody>
-                        </table>
-                    </div>
 
     <div class="modal-footer bg-white rounded-bottom-4 border-top">
         <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">

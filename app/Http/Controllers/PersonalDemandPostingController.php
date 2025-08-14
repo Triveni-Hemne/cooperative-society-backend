@@ -69,7 +69,7 @@ class PersonalDemandPostingController extends Controller
        
         $branches = $user->role === 'Admin' ? Branch::all() : null;
 
-        return view('transactions.personal-all-demand-posting.list', compact('postings','ledgers','members','branches', 'accounts'));
+        return view('transactions.personal-all-demand-posting.list', compact('postings','ledgers','members','branches', 'accounts', 'user'));
     }
 
     /**
@@ -99,7 +99,7 @@ class PersonalDemandPostingController extends Controller
             'ledger_id' => 'nullable|integer|exists:general_ledgers,id',
             'account_id'    => 'required|string',
             'posting_type' => 'nullable|string',
-            'acc_type'    => 'nullable|string',
+            // 'acc_type'    => 'nullable|string',
             'created_by' => 'required|integer|exists:users,id',
             'cheque_no'     => 'nullable|string',
             'narration'     => 'nullable|string',
@@ -118,10 +118,10 @@ class PersonalDemandPostingController extends Controller
                 // 'department_id'  => $validated['department_id'],
                 'member_id'      => $validated['member_id'],
                 'month'          => $validated['month'] ?? null,
-                'acc_type'      => $validated['acc_type'] ,
+                // 'acc_type'      => $validated['acc_type'] ,
                 'from_date'      => $validated['from_date'] ?? null,
                 'to_date'        => $validated['to_date'] ?? null,
-                'year'           => $validated['year']?? null,
+                // 'year'           => $validated['year']?? null,
                 'posting_date'   => $validated['posting_date'],
                 'ledger_id'      => $validated['ledger_id'],
                 'account_id'     => $validated['account_id'],
@@ -181,7 +181,7 @@ class PersonalDemandPostingController extends Controller
             'month'         => 'nullable|string',
             'from_date'     => 'nullable|date',
             'to_date'       => 'nullable|date|after_or_equal:from_date',
-            'year'          => 'nullable|digits:4',
+            // 'year'          => 'nullable|digits:4',
             'posting_date'  => 'nullable|date',
             'branch_id' => auth()->user()->role === 'Admin'
                 ? ['required', Rule::exists('branches', 'id')]
@@ -189,7 +189,7 @@ class PersonalDemandPostingController extends Controller
             'ledger_id' => 'nullable|integer|exists:general_ledgers,id',
             'account_id'    => 'required|string',
             'posting_type' => 'nullable|string',
-            'acc_type'    => 'nullable|string',
+            // 'acc_type'    => 'nullable|string',
             'created_by' => 'required|integer|exists:users,id',
             'cheque_no'     => 'nullable|string',
             'narration'     => 'nullable|string',
