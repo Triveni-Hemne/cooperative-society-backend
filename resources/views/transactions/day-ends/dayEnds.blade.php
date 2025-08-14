@@ -111,7 +111,7 @@
                                     class="form-control @error('closing_cash_balance') is-invalid @enderror"
                                     value="{{ old('closing_cash_balance') }}" type="number" step="0.01" required
                             placeholder="Closing Cash Balance">
-                            <label for="ClosingCashBalance" class="form-label required">Closing Cash Balance <span class="text-danger"> *</span></label>
+                            <label for="ClosingCashBalance" class="form-label required">Closing Cash Balance</span></label>
                             @error('closing_cash_balance')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
