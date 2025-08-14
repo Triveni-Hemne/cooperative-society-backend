@@ -61,7 +61,7 @@ class DayEndController extends Controller
             'branch_id' => auth()->user()->role === 'Admin'
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],
-            'user_id' => 'required|exists:users,id',
+            // 'user_id' => 'required|exists:users,id',
             'closing_cash_balance' => 'required|numeric',
             'total_receipts' => 'required|numeric',
             'total_payments' => 'required|numeric',
@@ -73,7 +73,7 @@ class DayEndController extends Controller
             'total_credit_chalans' => 'nullable|integer',
             'total_debit_rs' => 'required|numeric',
             'total_debit_challans' => 'nullable|integer',
-            'remarks' => 'required|string',
+            'remarks' => 'nullable|string',
             'created_by' => 'nullable|exists:users,id',
         ]);
 
@@ -112,7 +112,7 @@ class DayEndController extends Controller
             'branch_id' => auth()->user()->role === 'Admin'
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],
-            'user_id' => 'required|exists:users,id',
+            // 'user_id' => 'required|exists:users,id',
             'closing_cash_balance' => 'required|numeric',
             'total_receipts' => 'required|numeric',
             'total_payments' => 'required|numeric',

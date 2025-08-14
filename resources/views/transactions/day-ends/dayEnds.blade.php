@@ -19,12 +19,13 @@
                 </div>
 
                 <div class="modal-body bg-light">
-                    <div class="p-4 bg-white rounded shadow-sm">
-                        <div class="row g-3 mb-3">
-                             @isset($users) 
+                    <div class="p-4 bg-white rounded shadow-sm py-0">
+                        <div class="row g-3">
+                             {{-- @isset($users) 
+                            <div class="col-md-3">
                             <div class="form-floating">
                                 @if ($users->isNotEmpty())
-                                 <select name="user_id" id="userId"  class="form-select @error('user_id') is-invalid @enderror" required>
+                                 <select name="user_id" id="userId"  class="form-select @error('user_id') is-invalid @enderror" required> --}}
                                     {{-- <option value="" disabled {{old('user_id') ? '' : 'selected'}}>---------- Select ----------</option> --}}
                                     {{-- @foreach ($users as $u) --}}
                                         {{-- <option value="{{ $u->id }}"  
@@ -32,13 +33,13 @@
                                         >
                                         {{ $u->name }}
                                         </option> --}}
-                                        <option value="{{ Auth::user()->id }}"  
+                                        {{-- <option value="{{ Auth::user()->id }}"  
                                             {{ old('user_id') == Auth::user()->id ? 'selected' : '' }}
                                             >
                                             {{ Auth::user()->name }}
-                                            </option>
+                                            </option> --}}
                                     {{-- @endforeach --}}
-                                </select>
+                                {{-- </select>
                                 <label for="userId" class="ms-2">User</label>
                                 @error('user_id')
                                     <div class="invalid-feedback">{{$message}}</div>
@@ -50,10 +51,9 @@
                                     <small class="text-danger">⚠️ You must add users before submitting the form.</small>
                                 @endif
                             </div>
-                        @endisset
-                        </div>
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
+                            </div>
+                        @endisset --}}
+                            <div class="col-md-3">
                                 {{-- Created By --}}
                                 <div class="form-floating">
                                     <input  id="createdBy" class="form-control" value="{{$user->name}}" type="text" @readonly(true) required>
@@ -66,7 +66,7 @@
                             </div>
                              @if(Auth::user()->role === 'Admin')
                              @isset($branches)
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 @if ($branches->isNotEmpty())
                                 <div class="form-floating">
                                     <select name="branch_id" id="branchId"
@@ -78,7 +78,7 @@
                                 {{ $branch->name }}</option>
                                 @endforeach
                                 </select>
-                                <label for="branchId">Branch</label>
+                                <label for="branchId">Branch <span class="text-danger"> *</span></label>
                                 @error('branch_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -90,17 +90,14 @@
                             </div>
                             @endif
                         </div>
-                    </div>
                     @endisset
                     @endif
-
-                    <div class="row g-3 mb-3">
                         {{-- Date --}}
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-floating">
                                 <input name="date" id="date" class="form-control @error('date') is-invalid @enderror"
                                     value="{{ old('date') }}" type="date" required>
-                                <label for="date" class="form-label required">Date</label>
+                                <label for="date" class="form-label">Date <span class="text-danger"> *</span></label>
                                 @error('date')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -108,23 +105,20 @@
                         </div>
 
                         {{-- Closing Cash Balance --}}
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-floating">
                                 <input name="closing_cash_balance" id="ClosingCashBalance"
                                     class="form-control @error('closing_cash_balance') is-invalid @enderror"
                                     value="{{ old('closing_cash_balance') }}" type="number" step="0.01" required
                             placeholder="Closing Cash Balance">
-                            <label for="ClosingCashBalance" class="form-label required">Closing Cash Balance</label>
+                            <label for="ClosingCashBalance" class="form-label required">Closing Cash Balance <span class="text-danger"> *</span></label>
                             @error('closing_cash_balance')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
-                </div>
-
-                <div class="row g-3 mb-3">
                     {{-- Total Receipt --}}
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <div class="form-floating">
                             <input name="total_receipts" id="totalReceipts"
                                 class="form-control @error('total_receipts') is-invalid @enderror"
@@ -137,21 +131,19 @@
                         @enderror
                     </div>
                 </div>
-
                 {{-- Total Payment --}}
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="form-floating">
                             <input name="total_payments" id="totalPayments"
                                 class="form-control @error('total_payments') is-invalid @enderror"
                                 value="{{ old('total_payments') }}" type="number" required placeholder="Total
                     Payments" required>
-                    <label for="TotalPayments" class="form-label required">Total Payments</label>
+                    <label for="TotalPayments" class="form-label required">Total Payments </label>
                     @error('total_payments')
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
         </div>
-    </div>
 
     {{-- <div class="row g-3 mb-3"> --}}
         {{-- System Closing Balance --}}
@@ -184,15 +176,14 @@
 </div> --}}
 {{-- </div> --}}
 
-<div class="row g-3 mb-3">
     {{-- Is Day Closed --}}
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div class="form-floating">
             <select name="is_day_closed" id="isDayClosed" class="form-select @error('is_day_closed') is-invalid @enderror" required>
                 <option value="1" {{ old('is_day_closed') == '1' ? 'selected' : '' }}>Yes</option>
                 <option value="0" {{ old('is_day_closed') == '0' ? 'selected' : '' }}>No</option>
             </select>
-        <label for="IsDayClosed" class="form-label required">Is Day Closed</label>
+        <label for="IsDayClosed" class="form-label required">Is Day Closed <span class="text-danger"> *</span></label>
         @error('is_day_closed')
         <div class="invalid-feedback">{{ $message }}</div>
         @enderror
@@ -210,11 +201,9 @@
         @enderror
     </div>
 </div> --}}
-</div>
 
-<div class="row g-3 mb-3">
     {{-- Total Credit RS --}}
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div class="form-floating">
             <input name="total_credit_rs" id="totalCreditRs"
                 class="form-control @error('total_credit_rs') is-invalid @enderror" value="{{ old('total_credit_rs') }}"
@@ -227,7 +216,7 @@
     </div>
 
     {{-- Total Credit Challans --}}
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div class="form-floating">
             <input name="total_credit_chalans" id="totalCreditChalans"
                 class="form-control @error('total_credit_chalans') is-invalid @enderror"
@@ -238,11 +227,8 @@
             @enderror
         </div>
     </div>
-</div>
-
-<div class="row g-3 mb-3">
     {{-- Total Debit RS --}}
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div class="form-floating">
             <input name="total_debit_rs" id="totalDebitRs"
                 class="form-control @error('total_debit_rs') is-invalid @enderror" value="{{ old('total_debit_rs') }}"
@@ -255,7 +241,7 @@
     </div>
 
     {{-- Total Debit Challans --}}
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div class="form-floating">
             <input name="total_debit_challans" id="totalDebitChallans"
                 class="form-control @error('total_debit_challans') is-invalid @enderror"
@@ -266,10 +252,10 @@
             @enderror
         </div>
     </div>
-</div>
 
 <!-- Remark -->
-<div class="form-floating mb-3">
+    <div class="col-md-12">
+<div class="form-floating ">
     <textarea class="form-control @error('remarks') is-invalid @enderror" placeholder="Remarks" id="remarks"
         name="remarks" style="height: 100px" required>{{ old('remarks') }}</textarea>
 <label for="remarks">Remarks</label>
@@ -277,8 +263,7 @@
 <div class="invalid-feedback">{{ $message }}</div>
 @enderror
 </div>
-
-
+</div>
 </div>
 </div>
 

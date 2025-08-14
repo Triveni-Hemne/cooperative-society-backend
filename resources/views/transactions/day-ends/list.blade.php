@@ -39,14 +39,14 @@
                     <th scope="col">Sr.No.</th>
                     <th scope="col">#</th>
                     <th scope="col">Date</th>
-                    <th scope="col">User</th>
+                    {{-- <th scope="col">User</th> --}}
                     <th scope="col">Created By</th>
                     <th scope="col">Branch</th>
                     <th scope="col">Closing Cash Balance</th>
                     <th scope="col">Total Receipt</th>
                     <th scope="col">Total Payments</th>
-                    <th scope="col">System Closing Balance</th>
-                    <th scope="col">Difference Amount</th>
+                    {{-- <th scope="col">System Closing Balance</th> --}}
+                    {{-- <th scope="col">Difference Amount</th> --}}
                     <th scope="col">Is Day Closed</th>
                     <th scope="col">Total Credit Rs.</th>
                     <th scope="col">Total Credit Chalans</th>
@@ -64,15 +64,16 @@
                     <th scope="row">{{$i}}</th>
                     <td>{{$dayEnd->id}}</td>
                     <td>{{$dayEnd->date ?? ''}}</td>
+                    {{-- <td>{{$dayEnd->user->name ?? ''}}</td> --}}
                     <td>{{$dayEnd->user->name ?? ''}}</td>
                     <td>{{$dayEnd->branch->name ?? ''}}</td>
                     <td>{{$dayEnd->closing_cash_balance ?? ''}}</td>
                     <td>{{$dayEnd->total_receipts ?? ''}}</td>
                     <td>{{$dayEnd->total_payments ?? ''}}</td>
-                    <td>{{$dayEnd->system_closing_balance ?? ''}}</td>
-                    <td>{{$dayEnd->difference_amount ?? ''}}</td>
+                    {{-- <td>{{$dayEnd->system_closing_balance ?? ''}}</td> --}}
+                    {{-- <td>{{$dayEnd->difference_amount ?? ''}}</td> --}}
                     <td>{{$dayEnd->is_day_closed ?? ''}}</td>
-                    <td>{{$dayEnd->opening_cash ?? ''}}</td>
+                    {{-- <td>{{$dayEnd->opening_cash ?? ''}}</td> --}}
                     <td>{{$dayEnd->total_credit_rs ?? ''}}</td>
                     <td>{{$dayEnd->total_credit_chalans}}</td>
                     <td>{{$dayEnd->total_debit_rs ?? ''}}</td>
@@ -97,9 +98,9 @@
                             data-bs-target="#dayEndsModal">
                             <i class="fa fa-edit text-primary" style="font-size:20px"></i>
                         </a>
-                        <a href="#" data-id="{{$dayEnd->id }}" data-route="{{ route('day-end.destroy', $dayEnd->id)}}" data-name="{{$dayEnd->id}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        {{-- <a href="#" data-id="{{$dayEnd->id }}" data-route="{{ route('day-end.destroy', $dayEnd->id)}}" data-name="{{$dayEnd->id}}" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class=" fa fa-trash-o text-danger" style="font-size:20px"></i>
-                        </a>
+                        </a> --}}
                     </td>
                 </tr>
                 @php $i++ @endphp
@@ -171,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Populate form fields
             document.getElementById("dayEndsId").value = id;
             document.getElementById("date").value = date;
-            document.getElementById("userId").value = userId;
+            // document.getElementById("userId").value = userId;
             
             document.getElementById("createdBy").value = createdBy;
             document.getElementById("createdById").value = createdById;
@@ -179,8 +180,8 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("ClosingCashBalance").value = closingCashBalance;
             document.getElementById("totalReceipts").value = totalReceipts;
             document.getElementById("totalPayments").value = totalPayments;
-            document.getElementById("systemClosingBalance").value = systemClosingBalance;
-            document.getElementById("differenceAmount").value = differenceAmount;
+            // document.getElementById("systemClosingBalance").value = systemClosingBalance;
+            // document.getElementById("differenceAmount").value = differenceAmount;
             document.getElementById("isDayClosed").value = isDayClosed;
             document.getElementById("remarks").value = remarks;
             // document.getElementById("openingCash").value = openingCash;
