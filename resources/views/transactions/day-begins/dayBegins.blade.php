@@ -37,7 +37,7 @@
                         <div class="col-md-4">
                         <div class="form-floating">
                             <input name="date" id="date" class="form-control @error('date') is-invalid @enderror"
-                                value="{{ old('date') }}" type="date" placeholder="Date" required>
+                                value="{{ old('date', \Carbon\Carbon::today()->format('Y-m-d')) }}" type="date" placeholder="Date" required>
                             <label for="date" class="form-label required">Date</label>
                             @error('date')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -53,7 +53,14 @@
                                 class="form-select @error('user_id') is-invalid @enderror" required>
                                 <option value="" disabled  {{ old('user_id') ? '' : 'selected' }}>---------- Select ----------</option>
                                 @foreach ($users as $user)
-                                <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                <option value="{{ $user->id }}"
+                                    {{-- Preselect logic --}}
+                                    @if (old('user_id') == $user->id)
+                                        selected
+                                    @elseif (!old('user_id') && $user->id == auth()->id())
+                                        selected
+                                    @endif
+                                >
                                     {{ $user->name }}</option>
                                 @endforeach
                             </select>
@@ -106,7 +113,7 @@
                         <div class="form-floating">
                                 <input name="opening_cash_balance" id="openingCashBalance"
                                     class="form-control @error('opening_cash_balance') is-invalid @enderror"
-                                    value="{{ old('opening_cash_balance') }}" type="number" step="0.01" required
+                                    value="{{ old('opening_cash_balance', $openingCashBalance) }}" type="number" step="0.01" required
                         placeholder="Opening Cash Balance">
                         <label for="openingCashBalance" class="form-label required">Opening Cash Balance</label>
                         @error('opening_cash_balance')

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\DayBegin;
 use App\Models\Member;
 use App\Models\User;
+use App\Models\DayEnd;
 use Illuminate\Validation\Rule;
 use App\Models\Branch;
 use Illuminate\Support\Facades\Auth;
@@ -16,21 +17,18 @@ class DayBeginController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+   public function index(Request $request)
     {
         $user = Auth::user();
-        // $users = User::all();
-        $users = Member::whereNotNull('employee_id')->get();
-        $branchId = null;
+        $users = User::all();
+
         // Determine branch filter based on role
-        if ($user->role === 'Admin') {
-            $branchId = $request->branch_id; // admin can filter via dropdown
-        } else {
-            $branchId = $user->branch_id; // normal user only sees their branch
-        }
+        $branchId = $user->role === 'Admin'
+            ? $request->branch_id
+            : $user->branch_id;
 
         $dayBegins = DayBegin::with('user')
-        ->when($branchId, function ($query) use ($branchId) {
+            ->when($branchId, function ($query) use ($branchId) {
                 $query->where(function ($query) use ($branchId) {
                     $query->whereHas('user', function ($q) use ($branchId) {
                         $q->where('branch_id', $branchId);
@@ -38,10 +36,43 @@ class DayBeginController extends Controller
                         $q->where('id', $branchId);
                     });
                 });
-            })->latest()->paginate(5);
-        $user = Auth::user();
+            })
+            ->latest()
+            ->paginate(5);
+
+        // ✅ use helper method instead of JsonResponse
+        $openingCashBalance = $this->fetchOpeningBalance($branchId);
+
         $branches = $user->role === 'Admin' ? Branch::all() : null;
-        return view('transactions.day-begins.list', compact('users','dayBegins','user','branches'));
+
+        return view('transactions.day-begins.list', compact(
+            'users', 'dayBegins', 'user', 'branches', 'openingCashBalance'
+        ));
+    }
+
+    public function getOpeningBalance(Request $request)
+    {   
+        $branchId = $request->branch_id ??Auth::user()->branch_id;
+        $userId   = $request->user_id ?? Auth::id();
+        $openingBalance = $this->fetchOpeningBalance($branchId, $userId);
+         
+        return response()->json(['opening_cash_balance' => $openingBalance]);
+    }
+
+    // 🔹 Shared private helper
+    private function fetchOpeningBalance($branchId = null, $userId = null)
+    {  
+        $query = DayEnd::query();
+        if ($branchId) {
+            $query->where('branch_id', $branchId);
+        }
+        if ($userId) {
+            $query->where('user_id', $userId);
+        }
+
+        $lastDayEnd = $query->latest('date')->first();
+
+        return $lastDayEnd ? $lastDayEnd->closing_cash_balance : 0.00;
     }
 
     /**

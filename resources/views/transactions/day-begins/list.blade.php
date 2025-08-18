@@ -107,6 +107,9 @@
         });
     </script>
 @endif --}}
+
+<script src="{{asset('assets\js\autofill-content-day-begin.js')}}"></script>
+
 {{-- Script to send data to the edit modal --}}
 <script>
 document.addEventListener("DOMContentLoaded", function () {

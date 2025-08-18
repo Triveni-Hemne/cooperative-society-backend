@@ -135,11 +135,11 @@
                                                 <div class="form-floating">
                                                     <select name="add_interest_to_balance" id="addInterestToBalance"
                                                         class="form-select @error('add_interest_to_balance') is-invalid @enderror">
-                                                        <option value="1" {{ old('add_interest_to_balance') == '1' ? 'selected' : '' }}>
-                                                            Yes
-                                                        </option>
                                                         <option value="0" {{ old('add_interest_to_balance') == '0' ? 'selected' : '' }}>
                                                             No
+                                                        </option>
+                                                        <option value="1" {{ old('add_interest_to_balance') == '1' ? 'selected' : '' }}>
+                                                            Yes
                                                         </option>
                                                     </select>
                                                     <label for="addInterestToBalance" class="form-label">Add Interest to
@@ -316,8 +316,8 @@
                                         <div class="form-floating">
                                             <select name="demand" id="demand"
                                                 class="form-select @error('demand') is-invalid @enderror">
-                                                <option value="1" {{ old('demand') == '1' ? 'selected' : '' }}>Yes</option>
                                                 <option value="0" {{ old('demand') == '0' ? 'selected' : '' }}>No</option>
+                                                <option value="1" {{ old('demand') == '1' ? 'selected' : '' }}>Yes</option>
                                             </select>
                                             <label for="demand" class="form-label">Demand</label>
                                             @error('demand')
@@ -329,8 +329,8 @@
                                         <div class="form-floating">
                                                 <select name="cd_ratio" id="cdRatio"
                                                 class="form-select @error('cd_ratio') is-invalid @enderror">
-                                                <option value="1" {{ old('cd_ratio') == '1' ? 'selected' : '' }}>Yes</option>
                                                 <option value="0" {{ old('cd_ratio') == '0' ? 'selected' : '' }}>No</option>
+                                                <option value="1" {{ old('cd_ratio') == '1' ? 'selected' : '' }}>Yes</option>
                                             </select>
                                             <label for="cdRatio" class="form-label">CD Ratio</label>
                                             @error('cd_ratio')
@@ -389,8 +389,8 @@
                                     <div class="form-floating">
                                         <select name="subsidiary" id="subsidiary" required
                                             class="form-select @error('subsidiary') is-invalid @enderror">
-                                            <option value="1" {{ old('subsidiary') == '1' ? 'selected' : '' }}>Yes</option>
                                             <option value="0" {{ old('subsidiary') == '0' ? 'selected' : '' }}>No</option>
+                                            <option value="1" {{ old('subsidiary') == '1' ? 'selected' : '' }}>Yes</option>
                                         </select>
                                         <label for="subsidiary" class="form-label">Subsidiary <span class="text-danger"> *</span></label>
                                         @error('subsidiary')
@@ -398,19 +398,19 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-3 mb-3">
+                                {{-- <div class="col-md-3 mb-3">
                                     <div class="form-floating">
                                         <select name="send_sms" id="sendSMS"
                                             class="form-select @error('send_sms') is-invalid @enderror" required>
-                                            <option value="1" {{ old('send_sms') == '1' ? 'selected' : '' }}>Yes</option>
                                             <option value="0" {{ old('send_sms') == '0' ? 'selected' : '' }}>No</option>
+                                            <option value="1" {{ old('send_sms') == '1' ? 'selected' : '' }}>Yes</option>
                                         </select>
                                         <label for="sendSMS" class="form-label">Send SMS <span class="text-danger"> *</span></label>
                                         @error('send_sms')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                             </fieldset>  
                         </div>
