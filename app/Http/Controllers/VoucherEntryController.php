@@ -84,7 +84,68 @@ class VoucherEntryController extends Controller
         return view('transactions.voucher-entry.list', compact('voucherEntries', 'ledgers','accounts','depoAccounts','loanAccounts','users','branches','user','members'));
     }
 
-    public function getAccountsByLedger($ledgerId)
+public function getLastTransactionNo(Request $request)
+{
+    $type = $request->query('type');
+
+    if ($type === 'Receipt') {
+        $last = VoucherEntry::where('transaction_type', 'Receipt')->max('receipt_id');
+        $prefix = "RCPT";
+    } elseif ($type === 'Payment') {
+        $last = VoucherEntry::where('transaction_type', 'Payment')->max('payment_id');
+        $prefix = "PMT";
+    } else {
+        return response()->json(['error' => 'Invalid transaction type'], 400);
+    }
+
+    // If no record exists yet, start with 1
+    if (!$last) {
+        $nextNo = $prefix . "001";
+    } else {
+        // Extract number part (remove prefix, handle cases like R20240510 too)
+        preg_match('/(\d+)$/', $last, $matches);
+        $number = isset($matches[1]) ? (int)$matches[1] : 0;
+        $nextNo = $prefix . str_pad($number + 1, 3, '0', STR_PAD_LEFT);
+    }
+
+    return response()->json(['next_no' => $nextNo]);
+}
+
+
+public function getAccountBalances(Request $request)
+{
+     $ledgerId  = $request->ledger_id;
+        $accountId = $request->account_id;
+        $date      = $request->date ?? now()->toDateString();
+
+        // 1️⃣ Opening Balance = last balance *before* the given date
+        $lastBefore = VoucherEntry::where('ledger_id', $ledgerId)
+            ->where('account_id', $accountId)
+            ->where('date', '<', $date)
+            ->orderBy('date', 'desc')
+            ->orderBy('id', 'desc')
+            ->first();
+
+        $openingBalance = $lastBefore ? $lastBefore->current_balance : 0;
+
+        // 2️⃣ Current Balance = last balance *up to* the given date
+        $lastTillNow = VoucherEntry::where('ledger_id', $ledgerId)
+            ->where('account_id', $accountId)
+            ->where('date', '<=', $date)
+            ->orderBy('date', 'desc')
+            ->orderBy('id', 'desc')
+            ->first();
+
+        $currentBalance = $lastTillNow ? $lastTillNow->current_balance : $openingBalance;
+
+        return response()->json([
+            'opening_balance' => $openingBalance,
+            'current_balance' => $currentBalance,
+        ]);
+}
+
+
+public function getAccountsByLedger($ledgerId)
     {
         $ledger = GeneralLedger::findOrFail($ledgerId);
         // Replace these with actual relationships or queries based on your structure

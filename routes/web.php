@@ -96,6 +96,8 @@ Route::get('/csrf-token', function () {
         Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
         Route::resource('personal-all-demand-posting', PersonalDemandPostingController::class)->names('demand-posting');
         Route::get('/opening-balance', [DayBeginController::class, 'getOpeningBalance']);
+        Route::get('/transactions/next-no', [VoucherEntryController::class, 'getLastTransactionNo']);
+        Route::get('/account-balances', [VoucherEntryController::class, 'getAccountBalances']);
     });
 
     

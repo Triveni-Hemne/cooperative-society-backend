@@ -209,7 +209,6 @@ function appendCustomField(detailBox, detailBoxId, labelText, type, customClass 
     const finalFieldKey = name || labelText.toLowerCase().replace(/\s+/g, '_');
     input.name = `${name}`;
     input.id = `${name.toLowerCase().replace(/\s+/g, '-')}`;
-    console.log(input.id);
 
     input.value = oldValues?.[finalFieldKey] ?? value ?? '';
     if (validationErrors && validationErrors[name]) {

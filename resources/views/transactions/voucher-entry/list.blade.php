@@ -341,6 +341,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const loanAccountsData = @json($loanAccounts);
     const depoAccountsData = @json($depoAccounts);
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script src="{{asset('assets\js\autofil-content-voucherEntry.js')}}"></script>
 <script>
     const oldValues = @json(old());

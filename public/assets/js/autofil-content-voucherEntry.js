@@ -1,55 +1,92 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const accountSelect = document.getElementById("accountId");
-    const depoAccountIdSelect = document.getElementById("memberDepoAccountId");
-    const memberLoanAccountIdSelect = document.getElementById(
-        "memberLoanAccountId"
-    );
 
-    if (typeof accountsData !== "undefined") {
-        const accountMap = {};
-        accountsData.forEach((account) => {
-            accountMap[account.id] = account;
-        });
-        accountSelect.addEventListener("change", function () {
-            const selectedId = this.value;
-            const account = accountMap[selectedId];
+    const transactionType = document.getElementById("transactionType");
+    const receiptNo = document.getElementById("receiptId");
+    const paymentNo = document.getElementById("paymentId");
 
-            if (account) {
-                depoAccountIdSelect.selectedIndex = 0; // Reset to first option
-                memberLoanAccountIdSelect.selectedIndex = 0; // Reset to first option
-            }
-        });
-    }
+    document.addEventListener("change", function (e) {
+        if (e.target.id === "accountId") {
+            $('#memberDepoAccountId').val('').trigger('change.select2');
+            $('#memberLoanAccountId').val('').trigger('change.select2');
+        }
+        if (e.target.id === "memberLoanAccountId") {
+            $('#memberDepoAccountId').val('').trigger('change.select2');
+            $('#accountId').val('').trigger('change.select2');
+        }
+        if (e.target.id === "memberDepoAccountId") {
+            $('#memberLoanAccountId').val('').trigger('change.select2');
+            $('#accountId').val('').trigger('change.select2');
+        }
+    });
 
-    if (typeof loanAccountsData !== "undefined") {
-        const loanAccountMap = {};
-        loanAccountsData.forEach((account) => {
-            loanAccountMap[account.id] = account;
-        });
-        memberLoanAccountIdSelect.addEventListener("change", function () {
-            const selectedId = this.value;
-            const account = loanAccountMap[selectedId];
+    function fetchBalances(accountId) {
+        let ledgerId = $('#ledgerId').val(); // or #ledgerSelect if that's your real ID
+        let date = $('#date').val();     // or #voucherDate if that's your real ID
 
-            if (account) {
-                depoAccountIdSelect.selectedIndex = 0; // Reset to first option
-                accountSelect.selectedIndex = 0; // Reset to first option
-            }
+        if (!ledgerId || !accountId) return;
+
+        $.get(`/account-balances?ledger_id=${ledgerId}&account_id=${accountId}&date=${date}`, function (data) {
+            $('#openingBalance').val(data.opening_balance);
+            $('#currentBalance').val(data.current_balance);
         });
     }
 
-    if (typeof depoAccountsData !== "undefined") {
-        const depoAccountMap = {};
-        depoAccountsData.forEach((account) => {
-            depoAccountMap[account.id] = account;
-        });
-        depoAccountIdSelect.addEventListener("change", function () {
-            const selectedId = this.value;
-            const account = depoAccountMap[selectedId];
+    // Delegated event listener works with Select2
+    $(document).on("change", "#accountId, #memberDepoAccountId, #memberLoanAccountId", function () {
+        let accountId = $(this).val();
+        console.log("Selected Account ID:", accountId);
 
-            if (account) {
-                memberLoanAccountIdSelect.selectedIndex = 0; // Reset to first option
-                accountSelect.selectedIndex = 0; // Reset to first option
-            }
-        });
+        fetchBalances(accountId);
+    });
+
+
+    function toggleTransactionFields() {
+        const type = transactionType.value;
+
+        if (type == 'Receipt') {
+            receiptNo.disabled = false;
+            paymentNo.disabled = true;
+            paymentNo.value = "";
+            fetchNextNo("Receipt");  // 👈 auto-generate receipt no
+        }
+        else if (type == 'Payment') {
+            receiptNo.disabled = true;
+            paymentNo.disabled = false;
+            receiptNo.value = "";
+            fetchNextNo("Payment");  // 👈 auto-generate receipt no
+        }
+        else {
+            receiptNo.disabled = true;
+            paymentNo.disabled = true;
+            paymentNo.value = "";
+            receiptNo.value = "";
+        }
     }
+
+    // 🔹 Fetch next number from backend
+    function fetchNextNo(type) {
+        fetch(`/transactions/next-no?type=${type}`)
+            .then(response => response.json())
+            .then(data => {
+                if (type === "Receipt") {
+                    receiptNo.value = data.next_no ?? "";
+                } else if (type === "Payment") {
+                    paymentNo.value = data.next_no ?? "";
+                }
+            })
+            .catch(err => console.error("Error fetching next no:", err));
+    }
+
+    toggleTransactionFields();
+
+    // Run when transaction type changes
+    transactionType.addEventListener("change", toggleTransactionFields);
+
 });
+
+
+
+
+
+
+
