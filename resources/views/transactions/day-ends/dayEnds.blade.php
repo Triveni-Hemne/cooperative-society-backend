@@ -96,7 +96,7 @@
                         <div class="col-md-3">
                             <div class="form-floating">
                                 <input name="date" id="date" class="form-control @error('date') is-invalid @enderror"
-                                    value="{{ old('date') }}" type="date" required>
+                                    value="{{ old('date', \Carbon\Carbon::today()->format('Y-m-d')) }}" type="date" required>
                                 <label for="date" class="form-label">Date <span class="text-danger"> *</span></label>
                                 @error('date')
                                 <div class="invalid-feedback">{{ $message }}</div>

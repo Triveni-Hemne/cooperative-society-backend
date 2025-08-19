@@ -100,6 +100,7 @@ Route::get('/csrf-token', function () {
         Route::get('/account-balances', [VoucherEntryController::class, 'getAccountBalances']);
         Route::get('/transfer-transactions/next-no', [TransferEntryController::class, 'getLastTransactionNo']);
         Route::get('/transfer-account-balances', [TransferEntryController::class, 'getAccountBalances']);
+        Route::get('/dayend/calculate', [DayEndController::class, 'calculateClosingCash']);
     });
 
     
