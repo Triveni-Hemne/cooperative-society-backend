@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!ledgerId || !accountId) return;
 
-        $.get(`/account-balances?ledger_id=${ledgerId}&account_id=${accountId}&account_type=${accountType}&date=${date}`, function (data) {
+        $.get(`/transfer-account-balances?ledger_id=${ledgerId}&account_id=${accountId}&account_type=${accountType}&date=${date}`, function (data) {
             $('#openingBalance').val(data.opening_balance);
             $('#currentBalance').val(data.current_balance);
         });
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 🔹 Fetch next number from backend
     function fetchNextNo(type) {
-        fetch(`/transactions/next-no?type=${type}`)
+        fetch(`/transfer-transactions/next-no?type=${type}`)
             .then(response => response.json())
             .then(data => {
                 if (type === "Receipt") {
