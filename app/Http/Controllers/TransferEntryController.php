@@ -83,6 +83,74 @@ class TransferEntryController extends Controller
         return view('transactions.transfer-entry.list', compact('transferEntries','ledgers','accounts','depoAccounts','loanAccounts','user','branches','members'));
     }
 
+    public function getLastTransactionNo(Request $request)
+{
+    $type = $request->query('type');
+
+    if ($type === 'Receipt') {
+        $last = TransferEntry::where('transaction_type', 'Receipt')->max('receipt_id');
+        $prefix = "RCPT";
+    } elseif ($type === 'Payment') {
+        $last = TransferEntry::where('transaction_type', 'Payment')->max('payment_id');
+        $prefix = "PMT";
+    } else {
+        return response()->json(['error' => 'Invalid transaction type'], 400);
+    }
+
+    // If no record exists yet, start with 1
+    if (!$last) {
+        $nextNo = $prefix . "001";
+    } else {
+        // Extract number part (remove prefix, handle cases like R20240510 too)
+        preg_match('/(\d+)$/', $last, $matches);
+        $number = isset($matches[1]) ? (int)$matches[1] : 0;
+        $nextNo = $prefix . str_pad($number + 1, 3, '0', STR_PAD_LEFT);
+    }
+
+    return response()->json(['next_no' => $nextNo]);
+}
+
+public function getAccountBalances(Request $request)
+{
+     $ledgerId  = $request->ledger_id;
+        $accountId = $request->account_id;
+        $date      = $request->date ?? now()->toDateString();
+        $accountType = $request->account_type;
+
+        // 1️⃣ Opening Balance = last balance *before* the given date
+        $query = TransferEntry::where('ledger_id', $ledgerId);
+
+        if ($accountType === 'general') {
+            $query->where('account_id', $accountId);
+        } elseif ($accountType === 'deposit') {
+            $query->where('member_depo_account_id', $accountId);
+        } elseif ($accountType === 'loan') {
+            $query->where('member_loan_account_id', $accountId);
+        }
+
+        $lastBefore = (clone $query)
+            ->where('date', '<', $date)
+            ->orderBy('date', 'desc')
+            ->orderBy('id', 'desc')
+            ->first();
+
+        $openingBalance = $lastBefore?->current_balance ?? 0;
+
+        $transactions = (clone $query)
+            ->where('date', '>=', $date)
+            ->get();
+
+        $currentBalance = $openingBalance;
+        foreach ($transactions as $t) {
+            $currentBalance += ($t->debit_amount - $t->credit_amount);
+        }
+
+        return response()->json([
+            'opening_balance' => $openingBalance,
+            'current_balance' => $currentBalance,
+        ]);
+}
+
     /**
      * Show the form for creating a new resource.
      */

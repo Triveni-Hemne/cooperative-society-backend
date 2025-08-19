@@ -39,7 +39,7 @@
                                 <div class="form-floating">
                                     <input name="date" id="date" type="date"
                                         class="form-control @error('date') is-invalid @enderror"
-                                        value="{{ old('date') }}" placeholder="Date">
+                                        value="{{ old('date', \Carbon\Carbon::today()->format('Y-m-d')) }}" placeholder="Date">
                                     <label for="date">Date <span class="text-danger">*</span></label>
                                     @error('date')
                                     <div class="invalid-feedback">{{ $message }}</div>

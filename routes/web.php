@@ -98,6 +98,8 @@ Route::get('/csrf-token', function () {
         Route::get('/opening-balance', [DayBeginController::class, 'getOpeningBalance']);
         Route::get('/transactions/next-no', [VoucherEntryController::class, 'getLastTransactionNo']);
         Route::get('/account-balances', [VoucherEntryController::class, 'getAccountBalances']);
+        Route::get('/transactions/next-no', [TransferEntryController::class, 'getLastTransactionNo']);
+        Route::get('/account-balances', [TransferEntryController::class, 'getAccountBalances']);
     });
 
     

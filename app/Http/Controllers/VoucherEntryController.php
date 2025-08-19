@@ -111,7 +111,6 @@ public function getLastTransactionNo(Request $request)
     return response()->json(['next_no' => $nextNo]);
 }
 
-
 public function getAccountBalances(Request $request)
 {
      $ledgerId  = $request->ledger_id;
