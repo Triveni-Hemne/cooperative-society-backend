@@ -117,26 +117,35 @@ public function getAccountBalances(Request $request)
      $ledgerId  = $request->ledger_id;
         $accountId = $request->account_id;
         $date      = $request->date ?? now()->toDateString();
+        $accountType = $request->account_type;
 
         // 1️⃣ Opening Balance = last balance *before* the given date
-        $lastBefore = VoucherEntry::where('ledger_id', $ledgerId)
-            ->where('account_id', $accountId)
+        $query = VoucherEntry::where('ledger_id', $ledgerId);
+
+        if ($accountType === 'general') {
+            $query->where('account_id', $accountId);
+        } elseif ($accountType === 'deposit') {
+            $query->where('member_depo_account_id', $accountId);
+        } elseif ($accountType === 'loan') {
+            $query->where('member_loan_account_id', $accountId);
+        }
+
+        $lastBefore = (clone $query)
             ->where('date', '<', $date)
             ->orderBy('date', 'desc')
             ->orderBy('id', 'desc')
             ->first();
 
-        $openingBalance = $lastBefore ? $lastBefore->current_balance : 0;
+        $openingBalance = $lastBefore?->current_balance ?? 0;
 
-        // 2️⃣ Current Balance = last balance *up to* the given date
-        $lastTillNow = VoucherEntry::where('ledger_id', $ledgerId)
-            ->where('account_id', $accountId)
-            ->where('date', '<=', $date)
-            ->orderBy('date', 'desc')
-            ->orderBy('id', 'desc')
-            ->first();
+        $transactions = (clone $query)
+            ->where('date', '>=', $date)
+            ->get();
 
-        $currentBalance = $lastTillNow ? $lastTillNow->current_balance : $openingBalance;
+        $currentBalance = $openingBalance;
+        foreach ($transactions as $t) {
+            $currentBalance += ($t->debit_amount - $t->credit_amount);
+        }
 
         return response()->json([
             'opening_balance' => $openingBalance,

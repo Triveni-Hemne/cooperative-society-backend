@@ -19,24 +19,36 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    function fetchBalances(accountId) {
-        let ledgerId = $('#ledgerId').val(); // or #ledgerSelect if that's your real ID
-        let date = $('#date').val();     // or #voucherDate if that's your real ID
+    function fetchBalances(accountId, accountType) {
+        let ledgerId = $('#ledgerId').val();
+        let date = $('#date').val();
 
         if (!ledgerId || !accountId) return;
 
-        $.get(`/account-balances?ledger_id=${ledgerId}&account_id=${accountId}&date=${date}`, function (data) {
+        $.get(`/account-balances?ledger_id=${ledgerId}&account_id=${accountId}&account_type=${accountType}&date=${date}`, function (data) {
             $('#openingBalance').val(data.opening_balance);
             $('#currentBalance').val(data.current_balance);
         });
     }
 
     // Delegated event listener works with Select2
-    $(document).on("change", "#accountId, #memberDepoAccountId, #memberLoanAccountId", function () {
+    $(document).on("change", "#accountId", function () {
         let accountId = $(this).val();
         console.log("Selected Account ID:", accountId);
 
-        fetchBalances(accountId);
+        fetchBalances(accountId, 'general');
+    });
+    $(document).on("change", "#memberDepoAccountId", function () {
+        let accountId = $(this).val();
+        console.log("Selected Account ID:", accountId);
+
+        fetchBalances(accountId, 'deposit');
+    });
+    $(document).on("change", "#memberLoanAccountId", function () {
+        let accountId = $(this).val();
+        console.log("Selected Account ID:", accountId);
+
+        fetchBalances(accountId, 'loan');
     });
 
 
