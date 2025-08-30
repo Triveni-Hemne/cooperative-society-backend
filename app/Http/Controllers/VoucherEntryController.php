@@ -279,7 +279,23 @@ public function getAccountsByLedger($ledgerId)
         }
         
         $voucherEntry = VoucherEntry::create($request->all());
+
+        $amount = $request->amount ?? $request->total_amount ?? 0;
+        $this->updateBalance($request->ledger_id, $request->transaction_type, $amount);
+
         return redirect()->back()->with('success', 'Voucher Entry created successfully');
+    }
+
+    public function updateBalance($ledgerId, $transactionType, $amount) {
+        $ledger = GeneralLedger::find($ledgerId);
+
+        if ($transactionType === 'Receipt') {
+            $ledger->balance += $amount;
+        } elseif ($transactionType === 'Payment') {
+            $ledger->balance -= $amount;
+        }
+
+        $ledger->save();
     }
 
     /**

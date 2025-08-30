@@ -29,7 +29,7 @@
                                             <div class="form-floating">
                                                 <input name="ledger_no" id="ledgerNo" type="text"
                                                     class="form-control @error('ledger_no') is-invalid @enderror"
-                                                    value="{{ old('ledger_no') }}" placeholder="Ledger No." required>
+                                                    value="{{ old('ledger_no', $nextLedgerNo) }}" placeholder="Ledger No." required>
                                                 <label for="ledgerNo" class="form-label">Ledger No. <span class="text-danger"> *</span></label>
                                                 @error('ledger_no')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -190,7 +190,7 @@
                                                 <div class="form-floating">
                                                     <input name="open_date" id="openDate" type="date"
                                                         class="form-control @error('open_date') is-invalid @enderror"
-                                                        value="{{ old('open_date') }}" placeholder="Open Date" required>
+                                                        value="{{ old('open_date', \Carbon\Carbon::today()->format('Y-m-d')) }}" placeholder="Open Date" required>
                                                     <label for="openDate" class="form-label required">Open Date <span class="text-danger"> *</span></label>
                                                     @error('open_date')
                                                     <div class="invalid-feedback">{{ $message }}</div>

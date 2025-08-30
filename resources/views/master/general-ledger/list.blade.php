@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let interestType = this.getAttribute("data-interest-type");  
             let subsidiary = this.getAttribute("data-subsidiary");  
             let demand = this.getAttribute("data-demand");  
-            let sendSMS = this.getAttribute("data-send-sms");  
+            // let sendSMS = this.getAttribute("data-send-sms");  
             let itemOf = this.getAttribute("data-item-of");  
             let route = this.getAttribute("data-route");  
 
@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("interestType").value = interestType;
             document.getElementById("subsidiary").value = subsidiary;
             document.getElementById("demand").value = demand;
-            document.getElementById("sendSMS").value = sendSMS;
+            // document.getElementById("sendSMS").value = sendSMS;
             document.getElementById("itemOf").value = itemOf;
 
             // Change form action to update route and set PUT method
@@ -220,7 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let itemOfSelect = document.getElementById("itemOf");
             let groupSelect = document.getElementById("group");
             let subsidiarySelect = document.getElementById("subsidiary");
-            let sendSMSSelect = document.getElementById("sendSMS");
+            // let sendSMSSelect = document.getElementById("sendSMS");
             let typeSelect = document.getElementById("type");
             let demandSelect = document.getElementById("demand");
         });
