@@ -515,6 +515,5 @@
     });
 });
 </script>
-<script src="{{asset('assets/js/autofill-calc-employee-from.js')}}"></script>
 <script src="{{asset('assets\js\autofil-content-employee.js')}}"></script>
 @endsection

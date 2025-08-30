@@ -270,7 +270,7 @@
                                             <input name="date_of_joining" id="dateOfJoining"
                                                 class="form-control @error('date_of_joining') is-invalid @enderror"
                                                 type="date" placeholder="Date of Joining"
-                                                value="{{ old('date_of_joining') }}">
+                                                value="{{ old('date_of_joining',\Carbon\Carbon::today()->format('Y-m-d')) }}">
                                             <label for="dateOfJoining" class="form-label">Date of Joining <span class="text-danger"> *</span></label>
                                             @error('date_of_joining')
                                             <div class="invalid-feedback">{{ $message }}</div>
