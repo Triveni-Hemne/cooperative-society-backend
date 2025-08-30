@@ -326,9 +326,9 @@ public function getAccountsByLedger($ledgerId)
 
          $request->validate([
             'transaction_type' => 'required|in:Receipt,Payment,Journal,Deposit,Withdrawal,Loan Payment,Fund Transfer',
-            'voucher_num' => 'nullable|string|max:50|unique:voucher_entries,voucher_num,' . $voucherEntry->id,
-            'token_number' => 'nullable|string|max:50|unique:voucher_entries,token_number,' . $voucherEntry->id,
-            'serial_no' => 'nullable|string|max:50|unique:voucher_entries,serial_no,' . $voucherEntry->id,
+            // 'voucher_num' => 'nullable|string|max:50|unique:voucher_entries,voucher_num,' . $voucherEntry->id,
+            // 'token_number' => 'nullable|string|max:50|unique:voucher_entries,token_number,' . $voucherEntry->id,
+            // 'serial_no' => 'nullable|string|max:50|unique:voucher_entries,serial_no,' . $voucherEntry->id,
             'date' => 'required|date',
             'receipt_id' => 'nullable|string|max:50|unique:voucher_entries,receipt_id,' . $voucherEntry->id,
             'payment_id' => 'nullable|string|max:50|unique:voucher_entries,payment_id,' . $voucherEntry->id,
@@ -338,21 +338,21 @@ public function getAccountsByLedger($ledgerId)
             'member_depo_account_id' => 'nullable|exists:member_depo_accounts,id',
             'member_loan_account_id' => 'nullable|exists:member_loan_accounts,id',
             
-            'from_date' => 'nullable|date',
-            'to_date' => 'nullable|date',
+            // 'from_date' => 'nullable|date',
+            // 'to_date' =  > 'nullable|date',
             'opening_balance' => 'nullable|numeric',
             'current_balance' => 'nullable|numeric',
             'narration' => 'nullable|string',
             'm_narration' => 'nullable|string',
             'amount' => 'nullable|numeric|min:0',
-            'debit_amount' => 'nullable|numeric|min:0',
-            'credit_amount' => 'nullable|numeric|min:0',
-            'transaction_mode' => 'nullable|in:Cash,Bank,Online,Cheque',
-            'payment_mode' => 'nullable|in:NEFT,IMPS,UPI,RTGS,Cheque,Cash,Bank Transfer',
-            'reference_number' => 'nullable|string|max:100',
-            'is_reversed' => 'nullable|boolean',
+            // 'debit_amount' => 'nullable|numeric|min:0',
+            // 'credit_amount' => 'nullable|numeric|min:0',
+            // 'transaction_mode' => 'nullable|in:Cash,Bank,Online,Cheque',
+            // 'payment_mode' => 'nullable|in:NEFT,IMPS,UPI,RTGS,Cheque,Cash,Bank Transfer',
+            // 'reference_number' => 'nullable|string|max:100',
+            // 'is_reversed' => 'nullable|boolean',
             'approved_by' => 'nullable|exists:users,id',
-            'approved_at' => 'nullable|date',
+            // 'approved_at' => 'nullable|date',
             'entered_by' => 'nullable|exists:users,id',
             'branch_id' => auth()->user()->role === 'Admin'
                 ? ['required', Rule::exists('branches', 'id')]
@@ -380,6 +380,7 @@ public function getAccountsByLedger($ledgerId)
         if (!empty($request->member_depo_account_id)) $selectedCount++;
         if (!empty($request->member_loan_account_id)) $selectedCount++;
         if (!empty($request->member_id)) $selectedCount++;
+        // dd($selectedCount);
 
         if ($selectedCount !== 1) {
             return back()->withErrors([
@@ -390,6 +391,10 @@ public function getAccountsByLedger($ledgerId)
             ])->withInput();
         }
         $voucherEntry->update($request->all());
+
+        $amount = $request->amount ?? $request->total_amount ?? 0;
+        $this->updateBalance($request->ledger_id, $request->transaction_type, $amount);
+        
         return redirect()->back()->with('success', 'Voucher Entry updated successfully');
     }
 

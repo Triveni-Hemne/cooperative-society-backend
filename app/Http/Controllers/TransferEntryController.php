@@ -173,14 +173,13 @@ public function getAccountBalances(Request $request)
             'account_id' => 'nullable|exists:accounts,id',
             'member_depo_account_id' => 'nullable|exists:member_depo_accounts,id',
             'member_loan_account_id' => 'nullable|exists:member_loan_accounts,id',
-            'branch_id' => 'nullable|exists:branches,id',
             'opening_balance' => 'nullable|numeric',
             'current_balance' => 'nullable|numeric',
             'narration' => 'nullable|string',
             'm_narration' => 'nullable|string',
             'amount' => 'nullable|numeric',
             // 'approved_by' => 'nullable|exists:users,id',
-            // 'created_by' => 'nullable|exists:users,id',
+            'created_by' => 'nullable|exists:users,id',
             'branch_id' => auth()->user()->role === 'Admin'
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],
@@ -216,7 +215,23 @@ public function getAccountBalances(Request $request)
         }
 
         $transferEntry = TransferEntry::create($request->all());
+
+        $amount = $request->amount ?? $request->total_amount ?? 0;
+        $this->updateBalance($request->ledger_id, $request->transaction_type, $amount);
+
         return redirect()->back()->with('success', 'Transfer Entry Created Successfully');
+    }
+
+    public function updateBalance($ledgerId, $transactionType, $amount) {
+        $ledger = GeneralLedger::find($ledgerId);
+
+        if ($transactionType === 'Receipt') {
+            $ledger->balance += $amount;
+        } elseif ($transactionType === 'Payment') {
+            $ledger->balance -= $amount;
+        }
+
+        $ledger->save();
     }
 
     /**
@@ -255,7 +270,7 @@ public function getAccountBalances(Request $request)
             'current_balance' => 'nullable|numeric',
             'narration' => 'nullable|string',
             'm_narration' => 'nullable|string',
-            // 'created_by' => 'required|exists:users,id',
+            'created_by' => 'required|exists:users,id',
             'branch_id' => auth()->user()->role === 'Admin'
                 ? ['required', Rule::exists('branches', 'id')]
                 : ['nullable', Rule::exists('branches', 'id')],
@@ -298,6 +313,10 @@ public function getAccountBalances(Request $request)
             ])->withInput();
         }
         $transferEntry->update($request->all());
+        
+        $amount = $request->amount ?? $request->total_amount ?? 0;
+        $this->updateBalance($request->ledger_id, $request->transaction_type, $amount);
+
         return redirect()->back()->with('success', 'Transfer Entry Updated Successfully');
     }
 
