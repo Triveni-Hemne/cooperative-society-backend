@@ -57,45 +57,53 @@ class DayEndController extends Controller
 
         // 2️⃣ Get Total Receipts (cash IN)
         $totalVoucherReceiptsRs = VoucherEntry::where('branch_id', $branchId)
-            ->whereDate('date', $date)
-            ->where('transaction_type', 'Receipt') // or debit side
+            ->where('date', '<', $date)
+            ->where('transaction_type', 'Receipt') 
+            ->orderBy('date', 'desc')
             ->sum('amount');
 
         $totalVoucherReceipts = VoucherEntry::where('branch_id', $branchId)
-            ->whereDate('date', $date)
+            ->where('date', '<', $date)
             ->where('transaction_type', 'Receipt') // or debit side
+            ->orderBy('date', 'desc')
             ->count();
 
         // 3️⃣ Get Total Payments (cash OUT)
         $totalVoucherPaymentsRs = VoucherEntry::where('branch_id', $branchId)
-            ->whereDate('date', $date)
+            ->where('date', '<', $date)
             ->where('transaction_type', 'Payment') // or credit side
+            ->orderBy('date', 'desc')
             ->sum('amount');
 
         $totalVoucherPayments = VoucherEntry::where('branch_id', $branchId)
-            ->whereDate('date', $date)
+            ->where('date', '<', $date)
             ->where('transaction_type', 'Payment') // or credit side
+            ->orderBy('date', 'desc')
             ->count();
 
         // 4️⃣ Include transfer entries if applicable
         $transferInRs = TransferEntry::where('branch_id', $branchId)
-            ->whereDate('date', $date)
+            ->where('date', '<', $date)
             ->where('transaction_type', 'Receipt') // or debit side
+            ->orderBy('date', 'desc')
             ->sum('amount');
 
          $transferIn = TransferEntry::where('branch_id', $branchId)
-            ->whereDate('date', $date)
+            ->where('date', '<', $date)
             ->where('transaction_type', 'Receipt') // or debit side
+            ->orderBy('date', 'desc')
             ->count();
 
         $transferOutRs = TransferEntry::where('branch_id', $branchId)
-            ->whereDate('date', $date)
+            ->where('date', '<', $date)
             ->where('transaction_type', 'Payment') // or credit side
+            ->orderBy('date', 'desc')
             ->sum('amount');
         
         $transferOut = TransferEntry::where('branch_id', $branchId)
-            ->whereDate('date', $date)
+            ->where('date', '<', $date)
             ->where('transaction_type', 'Payment') // or credit side
+            ->orderBy('date', 'desc')
             ->count();
             
         $totalReceiptsRs = $totalVoucherReceiptsRs + $transferInRs;
