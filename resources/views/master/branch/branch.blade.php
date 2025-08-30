@@ -55,7 +55,7 @@
                         <div class="form-floating mb-3">
                             <input name="branch_code" id="branchCode"
                                 class="form-control @error('branch_code') is-invalid @enderror"
-                                value="{{ old('branch_code') }}" type="text" placeholder="Branch Code" required>
+                                value="{{ old('branch_code', $nextBranchNo) }}" type="text" placeholder="Branch Code" required>
                             <label for="branchCode" class="form-label required">Branch Code</label>
                             @error('branch_code')
                             <div class="invalid-feedback">{{ $message }}</div>

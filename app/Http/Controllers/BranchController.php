@@ -16,7 +16,26 @@ class BranchController extends Controller
     {
         $branches = Branch::latest()->paginate(5);
         $employees = Employee::all();
-        return view('master.branch.list', compact('branches','employees'));
+        $nextBranchNo = $this->getLastBranchNo();
+        return view('master.branch.list', compact('branches','employees','nextBranchNo'));
+    }
+
+
+    public function getLastBranchNo()
+    {
+            $last = Branch::max('branch_code');
+            $prefix = "BN";
+        // If no record exists yet, start with 1
+        if (!$last) {
+            $nextNo = $prefix . "01";
+        } else {
+            // Extract number part (remove prefix, handle cases like R20240510 too)
+            preg_match('/(\d+)$/', $last, $matches);
+            $number = isset($matches[1]) ? (int)$matches[1] : 0;
+            $nextNo = $prefix . str_pad($number + 1, 3, '0', STR_PAD_LEFT);
+        }
+
+        return $nextNo;
     }
 
     /**
