@@ -272,7 +272,7 @@
                                             <input name="date_of_joining" id="dateOfJoining"
                                                 class="form-control @error('date_of_joining') is-invalid @enderror"
                                                 type="date" placeholder="Date of Joining"
-                                                value="{{ old('date_of_joining') }}">
+                                                value="{{ old('date_of_joining', \Carbon\Carbon::today()->format('Y-m-d')) }}">
                                             <label for="dateOfJoining" class="form-label">Date of Joining <span class="text-danger"> *</span></label>
                                             @error('date_of_joining')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -283,7 +283,7 @@
                                         <div class="form-floating ">
                                             <input name="m_reg_no" id="MRegNo"
                                                 class="form-control @error('m_reg_no') is-invalid @enderror"
-                                                value="{{ old('m_reg_no') }}" type="number" placeholder="M. Reg. No.">
+                                                value="{{ old('m_reg_no', $newMemRegNo) }}" type="text" placeholder="M. Reg. No.">
                                             <label for="MRegNo" class="form-label ">M. Reg. No.</label>
                                             @error('m_reg_no')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -383,7 +383,7 @@
                                         <div class="form-floating">
                                             <input name="membership_date" id="membershipDate"
                                                 class="form-control @error('membership_date') is-invalid @enderror"
-                                                value="{{ old('membership_date') }}" type="date" placeholder="GPF No." >
+                                                value="{{ old('membership_date', \Carbon\Carbon::today()->format('Y-m-d')) }}" type="date" placeholder="GPF No." >
                                             <label for="membershipDate" class="form-label ">Membership Date <span class="text-danger"> *</span></label>
                                             @error('membership_date')
                                             <div class="invalid-feedback">{{ $message }}</div>
