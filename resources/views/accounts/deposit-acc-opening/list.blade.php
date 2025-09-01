@@ -338,7 +338,7 @@ document.addEventListener("DOMContentLoaded", function () {
 {{-- <script src="{{asset('assets/js/autofill-calc-deposit-acc-form.js')}}"></script> --}}
 <script>
     const memberData = @json($members);
-    const generalAccData = @json($accounts);
+    // const generalAccData = @json($accounts);
 </script>
-{{-- <script src="{{asset('assets\js\autofil-content-depositAcc.js')}}"></script> --}}
+<script src="{{asset('assets\js\autofil-content-depositAcc.js')}}"></script>
 @endsection

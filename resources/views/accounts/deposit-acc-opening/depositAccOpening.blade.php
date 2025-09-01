@@ -145,7 +145,7 @@
                                 <div class="form-floating">
                                     <input name="acc_no" id="accNo"
                                         class="form-control @error('acc_no') is-invalid @enderror"
-                                        value="{{ old('acc_no') }}" type="text" placeholder="Account No.">
+                                        value="{{ old('acc_no', $nextAccNo) }}" type="text" placeholder="Account No.">
                                     <label for="accNo" class="form-label">Account No.</label>
                                     @error('acc_no')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -190,7 +190,7 @@
                                 <div class="form-floating">
                                     <input name="ac_start_date" id="acStartDate"
                                         class="form-control @error('ac_start_date') is-invalid @enderror"
-                                        value="{{ old('ac_start_date') }}" type="date" placeholder="Account Start Date">
+                                        value="{{ old('ac_start_date',\Carbon\Carbon::today()->format('Y-m-d')) }}" type="date" placeholder="Account Start Date">
                                     <label for="acStartDate" class="form-label">Account Start Date</label>
                                     @error('ac_start_date')
                                     <div class="invalid-feedback">{{ $message }}</div>

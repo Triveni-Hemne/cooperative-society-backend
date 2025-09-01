@@ -75,9 +75,27 @@ class MemberDepoAccountController extends Controller
         })->get();
 
         $branches = $user->role === 'Admin' ? Branch::all() : null;
+        $nextAccNo = $this->getLastDepoAccNo();
 
-        return view('accounts.deposit-acc-opening.list',compact('depo_accounts','ledgers','members','accounts','agents','branches'));
+        return view('accounts.deposit-acc-opening.list',compact('depo_accounts','ledgers','members','accounts','agents','branches', 'nextAccNo'));
 
+    }
+
+     public function getLastDepoAccNo()
+    {
+            $last = MemberDepoAccount::max('acc_no');
+            $prefix = "BN";
+        // If no record exists yet, start with 1
+        if (!$last) {
+            $nextNo = $prefix . "01";
+        } else {
+            // Extract number part (remove prefix, handle cases like R20240510 too)
+            preg_match('/(\d+)$/', $last, $matches);
+            $number = isset($matches[1]) ? (int)$matches[1] : 0;
+            $nextNo = $prefix . str_pad($number + 1, 3, '0', STR_PAD_LEFT);
+        }
+
+        return $nextNo;
     }
 
     /**
