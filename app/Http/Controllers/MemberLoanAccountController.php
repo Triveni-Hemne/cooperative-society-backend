@@ -64,7 +64,26 @@ class MemberLoanAccountController extends Controller
                 });
             });
         })->get();
-        return view('accounts.loan-acc-opening.list', compact('loanAccounts','ledgers','members','accounts','branches'));
+        $nextAccNo = $this->getLastLoanAccNo();
+
+        return view('accounts.loan-acc-opening.list', compact('loanAccounts','ledgers','members','accounts','branches','nextAccNo'));
+    }
+
+     public function getLastLoanAccNo()
+    {
+            $last = MemberLoanAccount::max('acc_no');
+            $prefix = "MLA";
+        // If no record exists yet, start with 1
+        if (!$last) {
+            $nextNo = $prefix . "01";
+        } else {
+            // Extract number part (remove prefix, handle cases like R20240510 too)
+            preg_match('/(\d+)$/', $last, $matches);
+            $number = isset($matches[1]) ? (int)$matches[1] : 0;
+            $nextNo = $prefix . str_pad($number + 1, 3, '0', STR_PAD_LEFT);
+        }
+
+        return $nextNo;
     }
 
     /**

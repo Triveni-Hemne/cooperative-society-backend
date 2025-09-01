@@ -144,7 +144,7 @@
                                 <div class="form-floating">
                                     <input name="acc_no" id="accNo"
                                         class="form-control @error('acc_no') is-invalid @enderror"
-                                        value="{{ old('acc_no') }}" type="text" placeholder="Account No." >
+                                        value="{{ old('acc_no', $nextAccNo) }}" type="text" placeholder="Account No." >
                                     <label for="accNo" class="form-label">Account No. <span
                                             class="text-danger">*</span></label>
                                     @error('acc_no')
@@ -206,7 +206,7 @@
                                 <div class="form-floating">
                                     <input id="acStartDate" name="ac_start_date"
                                         class="form-control @error('ac_start_date') is-invalid @enderror"
-                                        value="{{ old('ac_start_date') }}" type="date" placeholder="Acc Start Date" >
+                                        value="{{ old('ac_start_date',\Carbon\Carbon::today()->format('Y-m-d')) }}" type="date" placeholder="Acc Start Date" >
                                     <label for="acStartDate" class="form-label">Acc Start Date <span
                                             class="text-danger">*</span></label>
                                     @error('ac_start_date')
@@ -301,7 +301,7 @@
                                 <div class="form-floating">
                                     <input name="start_date" id="startDate"
                                         class="form-control @error('start_date') is-invalid @enderror"
-                                        value="{{ old('start_date') }}" type="date" placeholder="Start Date" >
+                                        value="{{ old('start_date',\Carbon\Carbon::today()->format('Y-m-d')) }}" type="date" placeholder="Start Date" >
                                     <label for="startDate" class="form-label">Start Date <span
                                             class="text-danger">*</span></label>
                                     @error('start_date')
