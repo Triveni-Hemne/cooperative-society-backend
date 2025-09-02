@@ -9,8 +9,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(to right, #e0f7fa, #ffffff);
-            min-height: 90vh;
+            /* background: linear-gradient(to right, #e0f7fa, #ffffff); */
+            background-image: url("{{asset('/assets/images/background1.jpg')}}");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: difference   ;
+        }
+
+        .login-container{
+            min-height: 100vh;
+            --bs-bg-opacity: .6
         }
         
         .login-card {
@@ -18,12 +27,13 @@
             width: 100%;
             border-radius: 16px;
             background-color: #fff;
+            opacity: .8;
         }
     </style>
 </head>
 
-<body class="d-flex justify-content-center align-items-center position-relative">
-    <!-- Login Card -->
+<body class="">
+    <div class="container-fluid d-flex justify-content-center align-items-center position-relative login-container bg-white">
     <div class="login-card card shadow p-4">
         <div class="text-center mb-4">
             <img src="{{asset('/assets/images/logo.png')}}" class="company-logo mb-2 card-img-top" alt="Logo" style="width: 100px">
@@ -74,6 +84,7 @@
             </div>
         </form>
     </div>
+</div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
