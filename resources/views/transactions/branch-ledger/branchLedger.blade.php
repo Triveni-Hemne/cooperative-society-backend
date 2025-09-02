@@ -35,7 +35,7 @@
                                 <div class="form-floating">
                                     <input name="branch_code" id="branchCode"
                                         class="form-control @error('branch_code') is-invalid @enderror"
-                                        value="{{ old('branch_code') }}" type="text" placeholder="Branch Code">
+                                        value="{{ old('branch_code', $nextBranchLGNo) }}" type="text" placeholder="Branch Code">
                                     <label for="branchCode">Branch Code </label>
                                     @error('branch_code')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -111,7 +111,7 @@
                         <div class="form-floating">
                             <input name="open_date" id="openDate"
                                 class="form-control @error('open_date') is-invalid @enderror"
-                                value="{{ old('open_date') }}" type="date">
+                                value="{{ old('open_date',\Carbon\Carbon::today()->format('Y-m-d')) }}" type="date">
                             <label for="openDate">Open Date <span class="text-danger"> *</span></label>
                             @error('open_date')
                             <div class="invalid-feedback">{{ $message }}</div>

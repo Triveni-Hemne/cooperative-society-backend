@@ -38,7 +38,25 @@ class BranchLedgerController extends Controller
         $ledgers = GeneralLedger::all();        
         $user = Auth::user();
         $branches = $user->role === 'Admin' ? Branch::all() : null;
-        return view('transactions.branch-ledger.list', compact('branchLedgers','ledgers','user','branches'));
+        $nextBranchLGNo = $this->getLastBranchLGNo();
+        return view('transactions.branch-ledger.list', compact('branchLedgers','ledgers','user','branches','nextBranchLGNo'));
+    }
+
+    public function getLastBranchLGNo()
+    {
+            $last = BranchLedger::max('branch_code');
+            $prefix = "BLG";
+        // If no record exists yet, start with 1
+        if (!$last) {
+            $nextNo = $prefix . "01";
+        } else {
+            // Extract number part (remove prefix, handle cases like R20240510 too)
+            preg_match('/(\d+)$/', $last, $matches);
+            $number = isset($matches[1]) ? (int)$matches[1] : 0;
+            $nextNo = $prefix . str_pad($number + 1, 3, '0', STR_PAD_LEFT);
+        }
+
+        return $nextNo;
     }
 
     /**
