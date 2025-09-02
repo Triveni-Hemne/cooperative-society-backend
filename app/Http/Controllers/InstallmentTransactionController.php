@@ -44,9 +44,25 @@ class InstallmentTransactionController extends Controller
             });
         })->get();
         $branches = $user->role === 'Admin' ? Branch::all() : null;
-        return view('transactions.installment-transaction.list', compact('transactions', 'memberDepoAccounts','user','branches'));
+        $nextInstTrnNo = $this->getLastInsTransNo();
+        return view('transactions.installment-transaction.list', compact('transactions', 'memberDepoAccounts','user','branches', 'nextInstTrnNo'));
     }
+    public function getLastInsTransNo()
+        {
+                $last = InstallmentTransaction::max('installment_no');
+                $prefix = "TRN";
+            // If no record exists yet, start with 1
+            if (!$last) {
+                $nextNo = $prefix . "01";
+            } else {
+                // Extract number part (remove prefix, handle cases like R20240510 too)
+                preg_match('/(\d+)$/', $last, $matches);
+                $number = isset($matches[1]) ? (int)$matches[1] : 0;
+            $nextNo = $prefix . str_pad($number + 1, 3, '0', STR_PAD_LEFT);
+        }
 
+        return $nextNo;
+    }
     /**
      * Show the form for creating a new resource.
      */

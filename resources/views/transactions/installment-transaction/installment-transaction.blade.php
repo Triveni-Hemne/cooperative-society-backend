@@ -66,7 +66,7 @@
                     <div class="form-floating mb-3">
                         <input name="installment_no" id="installmentNumber" type="text"
                             class="form-control @error('installment_no') is-invalid @enderror"
-                            placeholder="Transaction No." value="{{ old('installment_no') }}" required>
+                            placeholder="Transaction No." value="{{ old('installment_no', $nextInstTrnNo) }}" required>
                         <label for="installmentNumber" class="form-label required">Installment Transaction No.</label>
                         @error('installment_no')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -92,7 +92,7 @@
                     <div class="form-floating mb-3">
                         <input name="payment_date" id="paymentDate" type="date"
                             class="form-control @error('payment_date') is-invalid @enderror" placeholder="Payment Date"
-                            value="{{ old('payment_date') }}" required>
+                            value="{{ old('payment_date',\Carbon\Carbon::today()->format('Y-m-d')) }}" required>
                         <label for="paymentDate" class="form-label required">Payment Date</label>
                         @error('payment_date')
                         <div class="invalid-feedback">{{ $message }}</div>
